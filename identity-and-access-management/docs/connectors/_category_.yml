@@ -1,0 +1,5 @@
+label: Connectors
+position: 9
+customProps:
+  editions: self-hosted
+  icon: octicons/beaker-16

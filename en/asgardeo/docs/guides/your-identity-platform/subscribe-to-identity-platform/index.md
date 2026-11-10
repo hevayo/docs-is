@@ -1,8 +1,0 @@
-# Subscribe to WSO2 Identity Platform
-
-WSO2 Identity Platform is free to use for anyone who wants to integrate powerful identity and access management capabilities in their applications and continue to use it for free if it fits their requirements.
-
-If you wish to subscribe to a higher-tier plan, follow the guides below.
-
-- [Subscribe via the billing portal]({{base_path}}/guides/your-identity-platform/subscribe-to-identity-platform/subscribe-via-billing-portal/)
-- [Subscribe via Azure Marketplace]({{base_path}}/guides/your-identity-platform/subscribe-to-identity-platform/subscribe-via-azure-marketplace/)
