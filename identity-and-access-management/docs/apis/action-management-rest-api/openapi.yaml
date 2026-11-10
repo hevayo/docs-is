@@ -1,16 +1,23 @@
 openapi: 3.0.0
 info:
   version: v1
-  title: WSO2 Identity Platform - Action Management Rest API
+  title: WSO2 Identity Server - Action Management Rest API
   description: >
     The Action Management REST API provides a comprehensive interface to manage actions
-    within the WSO2 Identity Platform. Actions enable the extension of product functionality
+    within the WSO2 Identity Server. Actions enable the extension of product functionality
     across various workflows, such as access token issuance, password updates, and profile updates.
     This API helps developers and administrators to define and manage actions to meet specific
     business needs.
 servers:
-  - url: 'https://api.asgardeo.io/t/{organization-name}/api/server/v1'
+  - url: 'https://{server-url}/t/{tenant-domain}/api/server/v1'
+    variables:
+      server-url:
+        default: "localhost:9443"
+      tenant-domain:
+        default: carbon.super
+
 security:
+  - BasicAuth: []
   - OAuth2: []
 paths:
   /actions/types:
@@ -57,8 +64,8 @@ paths:
       x-codeSamples:
         - lang: Curl
           source: |
-            curl --location 'https://api.asgardeo.io/t/{organization-name}/api/server/v1/actions/types' \
-            -H 'Authorization: Bearer {bearer_token}'
+            curl --location 'https://localhost:9443/api/server/v1/actions/types' \
+            -H 'Authorization: Basic YWRtaW46YWRtaW4='
 
   /actions/{actionType}:
     post:
@@ -319,12 +326,12 @@ paths:
       x-codeSamples:
         - lang: Curl - preIssueAccessToken
           source: |
-            curl --location 'https://api.asgardeo.io/t/{organization-name}/api/server/v1/actions/preIssueAccessToken' \
-            -H 'Authorization: Bearer {bearer_token}' \
+            curl --location 'https://localhost:9443/api/server/v1/actions/preIssueAccessToken' \
+            -H 'Authorization: Basic YWRtaW46YWRtaW4=' \
             -H 'Content-Type: application/json' \
             -d '{
                 "name": "Pre Issue Access Token",
-                "description": "This action invokes before issuing an access token.",
+                "description": "This is the configuration of pre-action for issuing access token.",
                 "endpoint": {
                     "uri": "https://myextension.com/token",
                     "authentication": {
@@ -340,8 +347,8 @@ paths:
             }'
         - lang: Curl - preUpdatePassword
           source: |
-            curl --location 'https://api.asgardeo.io/t/{organization-name}/api/server/v1/actions/preUpdatePassword' \
-            -H 'Authorization: Bearer {bearer_token}' \
+            curl --location 'https://localhost:9443/api/server/v1/actions/preUpdatePassword' \
+            -H 'Authorization: Basic YWRtaW46YWRtaW4=' \
             -H 'Content-Type: application/json' \
             -d '{
                 "name": "Password Update Action",
@@ -363,8 +370,8 @@ paths:
             }'
         - lang: Curl - preUpdateProfile
           source: |
-            curl --location 'https://api.asgardeo.io/t/{organization-name}/api/server/v1/actions/preUpdateProfile' \
-            -H 'Authorization: Bearer {bearer_token}' \
+            curl --location 'https://localhost:9443/api/server/v1/actions/preUpdateProfile' \
+            -H 'Authorization: Basic YWRtaW46YWRtaW4=' \
             -H 'Content-Type: application/json' \
             -d '{
                 "name": "Profile Update Action",
@@ -482,8 +489,8 @@ paths:
       x-codeSamples:
         - lang: Curl
           source: |
-            curl --location 'https://api.asgardeo.io/t/{organization-name}/api/server/v1/actions/{actionType}' \
-            -H 'Authorization: Bearer {bearer_token}'
+            curl --location 'https://localhost:9443/api/server/v1/actions/{actionType}' \
+            -H 'Authorization: Basic YWRtaW46YWRtaW4='
 
   /actions/{actionType}/{actionId}:
     get:
@@ -653,11 +660,11 @@ paths:
       x-codeSamples:
         - lang: Curl
           source: |
-            curl --location 'https://api.asgardeo.io/t/{organization-name}/api/server/v1/actions/{actionType}/{actionId}' \
-            -H 'Authorization: Bearer {bearer_token}'
+            curl --location 'https://localhost:9443/api/server/v1/actions/{actionType}/{actionId}' \
+            -H 'Authorization: Basic YWRtaW46YWRtaW4='
     patch:
       tags:
-         - Actions
+        - Actions
       summary: Update Action
       description: "This API updates an action and return the updated action. \n\n
         <b>Scope (Permission) required:</b> ``internal_action_mgt_update``\n\n"
@@ -886,10 +893,10 @@ paths:
       x-codeSamples:
         - lang: Curl - preIssueAccessToken
           source: |
-            curl --location --request PATCH 'https://api.asgardeo.io/t/{organization-name}/api/server/v1/actions/preIssueAccessToken/{actionId}' \
+            curl --location --request PATCH 'https://localhost:9443/api/server/v1/actions/{actionType}/{actionId}' \
             -H 'Content-Type: application/json' \
             -H 'Accept: application/json' \
-            -H 'Authorization: Bearer {bearer_token}' \
+            -H 'Authorization: Basic YWRtaW46YWRtaW4=' \
             -d '{
                 "name": "Pre Issue Access Token action",
                 "description": "This is the configuration of pre-action for issuing access token from myextensions.com.",
@@ -908,10 +915,10 @@ paths:
             }'
         - lang: Curl - preUpdatePassword
           source: |
-            curl --location --request PATCH 'https://api.asgardeo.io/t/{organization-name}/api/server/v1/actions/preUpdatePassword/{actionId}' \
+            curl --location --request PATCH 'https://localhost:9443/api/server/v1/actions/preUpdatePassword/{actionId}' \
             -H 'Content-Type: application/json' \
             -H 'Accept: application/json' \
-            -H 'Authorization: Bearer {bearer_token}' \
+            -H 'Authorization: Basic YWRtaW46YWRtaW4=' \
             -d '{
                 "name": "Updated Password Update Action",
                 "description": "This is the configuration of pre-action for updating password",
@@ -929,10 +936,10 @@ paths:
             }'
         - lang: Curl - preUpdateProfile
           source: |
-            curl --location --request PATCH 'https://api.asgardeo.io/t/{organization-name}/api/server/v1/actions/preUpdateProfile/{actionId}' \
+            curl --location --request PATCH 'https://localhost:9443/api/server/v1/actions/preUpdateProfile/{actionId}' \
             -H 'Content-Type: application/json' \
             -H 'Accept: application/json' \
-            -H 'Authorization: Bearer {bearer_token}' \
+            -H 'Authorization: Basic YWRtaW46YWRtaW4=' \
             -d '{
                 "name": "Updated Profile Update Action",
                 "description": "This is the configuration of pre-action for updating profile",
@@ -999,8 +1006,8 @@ paths:
       x-codeSamples:
         - lang: Curl
           source: |
-            curl --location --request DELETE 'https://api.asgardeo.io/t/{organization-name}/api/server/v1/actions/{actionType}/{actionId}' \
-            -H 'Authorization: Bearer {bearer_token}'
+            curl --location --request DELETE 'https://localhost:9443/api/server/v1/actions/{actionType}/{actionId}' \
+            -H 'Authorization: Basic YWRtaW46YWRtaW4='
 
   /actions/{actionType}/{actionId}/activate:
     post:
@@ -1108,8 +1115,8 @@ paths:
       x-codeSamples:
         - lang: Curl
           source: |
-            curl --location --request POST 'https://api.asgardeo.io/t/{organization-name}/api/server/v1/actions/{actionType}/{actionId}/activate' \
-            -H 'Authorization: Bearer {bearer_token}'
+            curl --location --request POST 'https://localhost:9443/api/server/v1/actions/{actionType}/{actionId}/activate' \
+            -H 'Authorization: Basic YWRtaW46YWRtaW4='
 
   /actions/{actionType}/{actionId}/deactivate:
     post:
@@ -1217,8 +1224,8 @@ paths:
       x-codeSamples:
         - lang: Curl
           source: |
-            curl --location --request POST 'https://api.asgardeo.io/t/{organization-name}/api/server/v1/actions/{actionType}/{actionId}/deactivate' \
-            -H 'Authorization: Bearer {bearer_token}'
+            curl --location --request POST 'https://localhost:9443/api/server/v1/actions/{actionType}/{actionId}/deactivate' \
+            -H 'Authorization: Basic YWRtaW46YWRtaW4='
 
 components:
   securitySchemes:
@@ -1229,8 +1236,8 @@ components:
       type: oauth2
       flows:
         authorizationCode:
-          authorizationUrl: 'https://api.asgardeo.io/t/{org-name}/oauth2/authorize'
-          tokenUrl: 'https://api.asgardeo.io/t/{org-name}/oauth2/token'
+          authorizationUrl: 'https://localhost:9443/oauth2/authorize'
+          tokenUrl: 'http://localhost:9443/oauth2/token'
           scopes: 
             read: internal_action_mgt_view
             write: internal_action_mgt_create
@@ -1376,7 +1383,7 @@ components:
           minLength: 1
           maxLength: 255
           description: Name of the action.
-          example: Pre Issue Access Token Action
+          example: Pre Issue Access Token
         description:
           type: string
           maxLength: 255
@@ -1419,7 +1426,7 @@ components:
         rel:
           type: string
           description: Relation to the resource.
-          
+
     ActionResponseList:
       type: array
       items:
@@ -1456,12 +1463,12 @@ components:
       type: object
       description: >
             The type of authentication required by the action's endpoint. The following options are supported:
-
+            
             - NONE: No authentication is required. <br>
               ``{
                 "type": "NONE"
               }``
-
+              
             - BASIC: Basic authentication with a username and password.<br>
               ``{
                 "type": "BASIC",
@@ -1470,7 +1477,7 @@ components:
                   "password": "auth_password"
                 }
               }``
-
+              
             - API_KEY: API key-based authentication, where the key is provided in an HTTP header.<br>
               ``{
                 "type": "API_KEY",
@@ -1479,36 +1486,12 @@ components:
                   "value": "12345-abcde-67890"
                 }
               }``
-
+            
             - BEARER: Bearer token-based authentication.<br/>
               ``{
                 "type": "BEARER",
                 "properties": {
                   "accessToken": "0d6fed02-eac0-332b-8998-213a543139a0"
-                }
-              }``
-
-            - CLIENT_CREDENTIAL: OAuth2 client credentials grant based authentication.<br/>
-              ``{
-                "type": "CLIENT_CREDENTIAL",
-                "properties": {
-                  "clientId": "3e172dd2-901b-43a9-a26a-728466795f01",
-                  "clientSecret": "83cdc120-ccf6-4163-a4a8-c1ba3e872daa",
-                  "tokenEndpoint": "https://custom.idp.com/oauth2/token",
-                  "scopes": "send_scope"
-                }
-              }``
-
-            - PASSWORD_CREDENTIAL: OAuth2 resource owner password credentials grant based authentication.<br/>
-              ``{
-                "type": "PASSWORD_CREDENTIAL",
-                "properties": {
-                  "username": "alice",
-                  "password": "p@ssw0rd!",
-                  "clientId": "3e172dd2-901b-43a9-a26a-728466795f01",
-                  "clientSecret": "83cdc120-ccf6-4163-a4a8-c1ba3e872daa",
-                  "tokenEndpoint": "https://custom.idp.com/oauth2/token",
-                  "scopes": "send_scope"
                 }
               }``
       required:
@@ -1521,8 +1504,6 @@ components:
             - BEARER
             - API_KEY
             - BASIC
-            - CLIENT_CREDENTIAL
-            - PASSWORD_CREDENTIAL
           example: BASIC
         properties:
           type: object
@@ -1547,18 +1528,8 @@ components:
             - BEARER
             - API_KEY
             - BASIC
-            - CLIENT_CREDENTIAL
-            - PASSWORD_CREDENTIAL
           description: Type of the authentication.
           example: BASIC
-        properties:
-          type: object
-          description: Authentication properties (without secrets) specific to the selected type.
-          additionalProperties: true
-      example:
-        type: BASIC
-        properties:
-          username: "auth_username"
 
     ActionUpdateModel:
       type: object
@@ -1587,7 +1558,7 @@ components:
           type: string
           pattern: '^https?://.+'
           description: Updating HTTPS URI of the endpoint.
-          example: https://myextension.com/token 
+          example: https://myextension.com/token
         authentication:
           $ref: '#/components/schemas/AuthenticationType'
         allowedHeaders:
@@ -1716,4 +1687,3 @@ components:
         traceId:
           type: string
           example: e0fbcfeb-3617-43c4-8dd0-7b7d38e13047
-          

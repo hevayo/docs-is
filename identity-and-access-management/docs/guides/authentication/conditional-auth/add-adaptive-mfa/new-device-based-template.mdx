@@ -3,12 +3,9 @@ title: Add MFA based on user device
 description: You can apply the New-Device-Based conditional authentication template to your application to enable a more secure login flow for users who log in from a…  # generated from the first paragraph; a writer should improve it
 type: how-to
 sidebar_label: MFA based on user device
-sidebar_position: 4
+sidebar_position: 7
 slug: "/guides/authentication/conditional-auth/new-device-based-template"
 ---
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 
 You can apply the **New-Device-Based** conditional authentication template to your application to enable a more secure login flow for users who log in from a previously unused device.
 
@@ -25,7 +22,7 @@ An email should also be sent to the user with details of the login attempt.
 
 ## Prerequisites
 
-You need to [register an application with {edition.productName}](../../../applications/index.mdx). You can register your own application or use one of the [sample applications](../../../../quick-starts/try-samples/index.mdx) provided.
+You need to [register an application with {edition.productName}](../../../applications/index.mdx). You can register your own application or use one of the [sample applications](../../../../get-started/try-samples/index.mdx) provided.
 
 ## Configure the login flow
 
@@ -34,47 +31,6 @@ To enable conditional authentication:
 1. On the {edition.productName} Console, click **Applications**.
 
 2. Select the relevant application and go to it's **Login Flow** tab.
-
-<Edition only="cloud">
-
-3. Add New-Device-based adaptive MFA as follows:
-
-    <Tabs groupId="tabs">
-    <TabItem value="classic-editor" label="Classic Editor">
-
-    To add New-Device-based adaptive MFA using the classic editor:
-
-    1. Click **Start with default configuration** to define the login flow starting with the `username and password` login.
-
-    2. Turn on **Conditional Authentication** by switching the toggle on.
-
-    3. Select the **Request > Device-Based** template.
-
-    </TabItem>
-    <TabItem value="visual-editor" label="Visual Editor">
-
-    To add New-Device-based adaptive MFA using the visual editor:
-
-    1. Switch to the **Visual Editor** tab, and expand **Predefined Flows** > **Conditional Login Flows** > **Adaptive MFA**.
-
-    2. Click **+ ADD** next to **New-Device-Based** to add the New-Device-based adaptive MFA script.
-
-        <img src={require("../../../../../assets/cloud/img/guides/conditional-auth/new-device-based-adaptive-mfa-with-visual-editor.png").default} alt="New-device-based access control with visual editor" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
-
-    3. Click **Confirm** to replace any existing script with the selected predefined script.
-
-    </TabItem>
-    </Tabs>
-
-    ---
-
-    :::warning[Important]
-    As a security measure, WSO2 Identity Platform does not allow the usage of two consecutive periods (`..`) in authentication scripts.
-    :::
-
-</Edition>
-
-<Edition only="self-hosted">
 
 3. Add New-Device-based adaptive MFA as follows:
 
@@ -85,8 +41,6 @@ To enable conditional authentication:
     3. Click **Confirm** to replace any existing script with the selected predefined script.
 
         {/*![New-device-based access control with visual editor]({{base_path}}/assets/img/guides/conditional-auth/new-device-based-adaptive-mfa-with-visual-editor.png){: style="display: block; margin: 0; border: 0.3px solid lightgrey;"}*/}
-
-</Edition>
 
 4. Verify that the login flow is now updated with the following two authentication steps:
 

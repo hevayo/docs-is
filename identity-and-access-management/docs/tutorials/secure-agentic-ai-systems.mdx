@@ -1,9 +1,8 @@
 ---
-title: Secure Agentic AI Systems with {edition.productName}
-description: This tutorial guides you through setting up and running a sample application that demonstrates how to secure an agentic AI systems using WSO2 Identity Platform.  # generated from the first paragraph; a writer should improve it
+title: Secure Agentic AI Systems with WSO2 Identity Server
+description: This tutorial guides you through setting up and running a sample application that demonstrates how to secure an agentic AI systems using WSO2 Identity Server.  # generated from the first paragraph; a writer should improve it
 type: reference
-sidebar_label: Secure Agentic AI Systems with WSO2 Identity Platform
-sidebar_position: 8
+sidebar_position: 7
 ---
 
 # Secure Agentic AI Systems with {edition.productName}
@@ -33,29 +32,15 @@ The system consists of four main components:
 3. **Staff Management Agent:** An autonomous AI agent with its own distinct identity. It performs background administrative tasks (like assigning a contact person to a booking) independently and without user interaction.
 4. **Hotel Management API:** The core business logic for all hotel operations. The API is protected by {edition.productName}, and every request requires a valid access token with the proper scopes.
 
-      <Edition only="cloud"><img src={require("../../assets/cloud/img/tutorials/secure-agentic-ai-systems/system-overview.png").default} alt="System Overview" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../assets/self-hosted/img/tutorials/secure-agentic-ai-systems/system-overview.png").default} alt="System Overview" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+      <img src={require("../../assets/img/tutorials/secure-agentic-ai-systems/system-overview.png").default} alt="System Overview" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 ## What you'll need
-
-<Edition only="cloud">
-
-* An [**WSO2 Identity Platform account**](../quick-starts/create-identity-platform-account.mdx)
-* **Gemini API key** (free from [Google AI Studio](https://aistudio.google.com/))
-* **Python 3.10+**
-* **Node.js 16+**
-* A basic understanding of AI agents and OAuth 2.0 concepts.
-
-</Edition>
-
-<Edition only="self-hosted">
 
 * An [**Identity Server**](https://wso2.com/identity-server/)
 * **Gemini API key** (free from [Google AI Studio](https://aistudio.google.com/))
 * **Python 3.10+**
 * **Node.js 16+**
 * A basic understanding of AI agents and OAuth 2.0 concepts.
-
-</Edition>
 
 -----
 
@@ -177,12 +162,12 @@ Interact with the application to see the security flows in action. This scenario
 5. **Authenticate with {edition.productName}**
     After clicking "Approve," you will be redirected to the {edition.productName} login and consent page. This is the **On-Behalf-Of (OBO) flow** in action. Sign in with your test user's credentials to securely grant the agent permission to act for you.
 
-    <Edition only="cloud"><img src={require("../../assets/img/tutorials/secure-agentic-ai-systems/flow-4.png").default} alt="Authenticate with WSO2 Identity Platform" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../assets/img/tutorials/secure-agentic-ai-systems/flow-4.png").default} alt="Authenticate with WSO2 Identity Server" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+    <img src={require("../../assets/img/tutorials/secure-agentic-ai-systems/flow-4.png").default} alt="Authenticate with WSO2 Identity Server" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 6. **Verify the completed booking**
     After successful authentication, you'll be redirected back to the chat UI, where you will see a confirmation message that your booking is complete.
 
-    <Edition only="cloud"><img src={require("../../assets/img/tutorials/secure-agentic-ai-systems/flow-5.png").default} alt="Authenticate with WSO2 Identity Platform" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../assets/img/tutorials/secure-agentic-ai-systems/flow-5.png").default} alt="Authenticate with WSO2 Identity Server" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+    <img src={require("../../assets/img/tutorials/secure-agentic-ai-systems/flow-5.png").default} alt="Authenticate with WSO2 Identity Server" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 7. **Observe the autonomous agent**
     The booking has now triggered the autonomous **Staff Management Agent** in the background. Using its own secure identity, this agent analyzes your profile, checks staff availability, and assigns the most suitable contact person for your stay. You can now see the assigned contact person in your booking details.

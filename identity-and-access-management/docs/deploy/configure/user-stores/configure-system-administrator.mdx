@@ -3,7 +3,6 @@ title: Configure the System Administrator
 description: This documentation explains the main settings relevant to the system administrator.  # generated from the first paragraph; a writer should improve it
 type: reference
 sidebar_position: 5
-editions: self-hosted
 ---
 
 This documentation explains the main settings relevant to the system
@@ -95,7 +94,7 @@ Note the following regarding the configuration above.
         Do NOT put the password here but leave the default value. If the user store is read-only, this element and its value are ignored. This password is used only if the user store is read-write and the ` create_admin_account ` value is set to ` true `.
 
         :::note
-        Note that the password in the `deployment.toml` file is written to the primary user store when the server starts for the first time. Thereafter, the password will be validated from the primary user store and not from the `deployment.toml` file. Therefore, if you need to change the admin password stored in the user store, you cannot simply change the value in the `deployment.toml` file. To change the admin password, you must use the **Change Password** option from the My Account Portal. See [change password](../../../guides/user-self-service/self-service-portal/change-password.mdx) for instructions.
+        Note that the password in the `deployment.toml` file is written to the primary user store when the server starts for the first time. Thereafter, the password will be validated from the primary user store and not from the `deployment.toml` file. Therefore, if you need to change the admin password stored in the user store, you cannot simply change the value in the `deployment.toml` file. To change the admin password, you must use the **Change Password** option from the My Account Portal. See [change password](../../../guides/user-self-service/my-account-portal/explore-self-service-features/change-password.mdx) for instructions.
         :::
 
       </td>

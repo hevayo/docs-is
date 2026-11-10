@@ -1,9 +1,9 @@
 ---
-title: Localization in {edition.productName}
-description: WSO2 Identity Platform lets you pick the language for the following interfaces exposed to business users.  # generated from the first paragraph; a writer should improve it
+title: Localization in WSO2 Identity Server
+description: WSO2 Identity Server lets you pick the language for the following interfaces exposed to business users.  # generated from the first paragraph; a writer should improve it
 type: how-to
-sidebar_label: Localization in WSO2 Identity Platform
-sidebar_position: 8
+sidebar_label: Localization support
+sidebar_position: 7
 slug: "/guides/branding/localization"
 ---
 
@@ -26,8 +26,6 @@ These interfaces support i18n, allowing {edition.productName} to load text conte
 
 {edition.productName} provides i18n-supported user interfaces in the following languages.
 
-<Edition selfHostedFrom="next">
-
 | Language | Code |
 | --- | --- |
 | English | `en_US` |
@@ -39,9 +37,6 @@ These interfaces support i18n, allowing {edition.productName} to load text conte
 | Chinese | `zh-CN` |
 | Japanese | `ja-JP` |
 | Sinhalese | `si-LK` |
-| Dutch | `nl-NL` |
-
-</Edition>
 
 ## Configure language settings
 
@@ -119,8 +114,6 @@ The following examples show how to set the `ui_locales` parameter in your applic
 :::note[Translation of privacy policy and terms of conditions]
 {edition.productName} attaches the `ui_locales={ locales list }` parameter to the privacy policy and terms of condition URLs set in the [branding configurations](./configure-ui-branding.mdx#advanced-preferences). This allows you to show users the translated content.
 :::
-
-<Edition only="self-hosted">
 
 ## Add or remove locales
 
@@ -461,6 +454,3 @@ To configure text direction for languages in My Account:
     ```
 
 3. Save the file and restart the server for changes to take effect.
-
-</Edition>
-

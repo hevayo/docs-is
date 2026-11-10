@@ -1,9 +1,9 @@
 ---
-title: Integrating {edition.productName} with WSO2 AI Gateway for Agent Identity Management
-description: In this tutorial, we explore how enterprises can securely scale multi-agent AI systems using WSO2 Identity Platform and the WSO2 AI Gateway.  # generated from the first paragraph; a writer should improve it
+title: Integrating WSO2 Identity Server with WSO2 AI Gateway for Agent Identity Management
+description: In this tutorial, we explore how enterprises can securely scale multi-agent AI systems using WSO2 Identity Server and the WSO2 AI Gateway.  # generated from the first paragraph; a writer should improve it
 type: reference
-sidebar_label: Integrating WSO2 Identity Platform With WSO2 AI Gateway for Agent Identity-Aware Access Control
-sidebar_position: 12
+sidebar_label: Integrating WSO2 Identity Server With WSO2 AI Gateway for Agent Identity-Aware Access Control
+sidebar_position: 9
 ---
 
 # Integrating {edition.productName} with WSO2 AI Gateway for Agent Identity Management
@@ -124,20 +124,7 @@ Make sure you configure them and Deploy both proxies to development and Producti
 
 Go to the **Organization level** and in the left navigation menu, click **Admin > Settings**.
 
-<Edition only="cloud"><img src={require("../../assets/img/tutorials/wso2-ai-gateway-with-agent-identity-aware-access-control/add-an-external-idp.png").default} alt="Add_WSO2 Identity Platform_as_an_external_IdP" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../assets/img/tutorials/wso2-ai-gateway-with-agent-identity-aware-access-control/add-an-external-idp.png").default} alt="Add_WSO2 Identity Server_as_an_external_IdP" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
-
-<Edition only="cloud">
-
-1. Click the **Key Managers** tab.
-2. To add an identity provider, click **+ Key Manager**.
-3. Select WSO2 Identity Platform.
-4. In the dialog that opens, specify:
-     * **Name** and **Description** for the IdP.
-     * **Well-Known URL**: Paste the well-known URL from your {edition.productName} instance.
-
-</Edition>
-
-<Edition only="self-hosted">
+<img src={require("../../assets/img/tutorials/wso2-ai-gateway-with-agent-identity-aware-access-control/add-an-external-idp.png").default} alt="Add_WSO2 Identity Server_as_an_external_IdP" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 1. Click the **Key Managers** tab.
 2. To add an identity provider, click **+ Key Manager**.
@@ -146,19 +133,7 @@ Go to the **Organization level** and in the left navigation menu, click **Admin 
      * **Name** and **Description** for the IdP.
      * **Well-Known URL**: Paste the well-known URL from your {edition.productName} instance.
 
-</Edition>
-
-<Edition only="cloud">
-
-<img src={require("../../assets/cloud/img/tutorials/wso2-ai-gateway-with-agent-identity-aware-access-control/asgardeo-instance-well-known-url.png").default} alt="WSO2 Identity Platform_instance_Well-Known_URL" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
-
-</Edition>
-
-<Edition only="self-hosted">
-
-<img src={require("../../assets/self-hosted/img/tutorials/wso2-ai-gateway-with-agent-identity-aware-access-control/identity-server-instance-well-known-url.png").default} alt="WSO2 Identity Server_instance_Well-Known_URL" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
-
-</Edition>
+<img src={require("../../assets/img/tutorials/wso2-ai-gateway-with-agent-identity-aware-access-control/identity-server-instance-well-known-url.png").default} alt="WSO2 Identity Server_instance_Well-Known_URL" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 Leave the **Apply to all environments** checkbox selected. This allows you to use the tokens generated via this IdP to invoke APIs across all environments. Then click **Next** and **Add**.
 

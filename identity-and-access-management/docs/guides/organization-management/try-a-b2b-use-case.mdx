@@ -1,8 +1,8 @@
 ---
 title: Try a B2B use case
-description: The following guide is a complete end-to-end use case on how to manage B2B (Business-to-Business) applications in WSO2 Identity Platform.  # generated from the first paragraph; a writer should improve it
+description: The following guide is a complete end-to-end use case on how to manage B2B (Business-to-Business) applications in WSO2 Identity Server.  # generated from the first paragraph; a writer should improve it
 type: how-to
-sidebar_position: 15
+sidebar_position: 11
 ---
 
 The following guide is a complete end-to-end use case on how to manage B2B (Business-to-Business) applications in {edition.productName}.
@@ -21,14 +21,6 @@ The following guide is a complete end-to-end use case on how to manage B2B (Busi
     <img src={require("../../../assets/img/guides/organization/manage-organizations/pet-care-organization-scenario.png").default} alt="Organization login scenario" width="500" style={{display: "block", margin: "0"}} />
 
 As an administrator of **Pet Care**, you are tasked with implementing this scenario. The following guides explain how you can use {edition.productName} to achieve this.
-
-<Edition only="cloud">
-
-## Prerequisites
-
-You should [create a root organization](../your-identity-platform/index.mdx). For this example, we have created a root organization named `Pet Care`.
-
-</Edition>
 
 ## Onboard the organization
 
@@ -481,30 +473,12 @@ To set up the frontend application,
 
 2. Create a `.env` file and add the following environment variables to it:
 
-    <Edition only="cloud">
-
     ```bash
     NEXTAUTH_URL=http://localhost:3002
     BASE_URL=https://localhost:9443
-    BASE_ORG_URL=https://localhost:9443/t/<PRIMARY_ORG_NAME>
-    CHANNELLING_SERVICE_URL=http://localhost:9091
-    PET_MANAGEMENT_SERVICE_URL=http://localhost:9092
-    PERSONALIZATION_SERVICE_URL=http://localhost:9093
-    HOSTED_URL=http://localhost:3002
-    SHARED_APP_NAME="Pet Care App"
-    CLIENT_ID=<CLIENT_ID_OF_PET_CARE_APP>
-    CLIENT_SECRET=<CLIENT_SECRET_OF_PET_CARE_APP>
-    NODE_TLS_REJECT_UNAUTHORIZED=0
-    ```
 
-    </Edition>
-
-    <Edition only="self-hosted">
-
-    ```bash
-    NEXTAUTH_URL=http://localhost:3002
-    BASE_URL=https://localhost:9443
     BASE_ORG_URL=https://localhost:9443/t/<PRIMARY_ORG_HANDLE>
+
     CHANNELLING_SERVICE_URL=http://localhost:9091
     PET_MANAGEMENT_SERVICE_URL=http://localhost:9092
     PERSONALIZATION_SERVICE_URL=http://localhost:9093
@@ -514,8 +488,6 @@ To set up the frontend application,
     CLIENT_SECRET=<CLIENT_SECRET_OF_PET_CARE_APP>
     NODE_TLS_REJECT_UNAUTHORIZED=0
     ```
-
-    </Edition>
 
 ### Step 4: Start the Application
 
@@ -556,19 +528,9 @@ Follow the steps below to see how organization login works for a user in the **H
 
 3. Click **Sign In with SSO** to specify the organization to which you are signing in.
 
-<Edition only="self-hosted">
-
 4. Enter the **Organization Handle** of the organization and click **Submit**.
 
-</Edition>
-
-<Edition only="cloud">
-
-4. Enter **Happy Tails** as the organization name and click **Submit**.
-
-</Edition>
-
-    <Edition only="cloud"><img src={require("../../../assets/cloud/img/guides/organization/manage-organizations/sign-in-with-sso.png").default} alt="Sign in with SSO" width="400" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../assets/self-hosted/img/guides/organization/manage-organizations/sign-in-with-sso.png").default} alt="Sign in with SSO" width="400" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+    <img src={require("../../../assets/img/guides/organization/manage-organizations/sign-in-with-sso.png").default} alt="Sign in with SSO" width="400" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 5. Enter the username and password of a user onboarded to Happy Tails (e.g., `admin@cityvet.com` or a doctor/pet owner you created).
 

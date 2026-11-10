@@ -1,8 +1,14 @@
 openapi: 3.0.1
 info:
   title: API contract for pre-issue access token action
-  description: This API defines the REST API contract for a service that implements logic to extend the access token issuance flow of WSO2 Identity Platform.
+  description: This API defines the REST API contract for a service that implements logic to extend the access token issuance flow of WSO2 Identity Server.
   version: v1.1
+  contact:
+    name: WSO2
+    url: 'https://wso2.com/identity-server/'
+  license:
+    name: Apache 2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
 security:
 - BasicAuth: []
 - BearerAuth: []
@@ -123,7 +129,7 @@ components:
         additionalHeaders:
           type: array
           description: Any additional HTTP headers included in the access token request. These may contain custom information or metadata that the client has sent.
-            All headers in request are not incorporated specially sensitive headers like ‘Authorization’, ‘Cookie’, etc.
+            If no allowed headers are configured for the action, all headers in the request are forwarded, including sensitive headers like ‘Authorization’ and ‘Cookie’. Use the excluded headers server configuration to stop specific headers from being forwarded.
           items:
             $ref: '#/components/schemas/RequestHeaders'
         additionalParams:
@@ -131,7 +137,7 @@ components:
           items:
             $ref: '#/components/schemas/RequestParams'
       description: Any additional parameters included in the access token request. These may be custom parameters defined by the client or necessary for specific flows.
-        All request parameters are not incorporated, specially sensitive parameters like client secret, username and password, etc..
+        If no allowed parameters are configured for the action, all parameters in the request are forwarded, including sensitive parameters like client secret, username, and password. Use the excluded parameters server configuration to stop specific parameters from being forwarded.
     Tenant:
       type: object
       required:
@@ -219,7 +225,7 @@ components:
             Standard claims:
             
             - **sub**: The subject identifier for the token, typically representing the user. In M2M apps that use client credentials this represents the application.
-            - **iss**: The issuer of the token, which is the tenant of WSO2 Identity Platform that acts as the authorization server.
+            - **iss**: The issuer of the token, which is the tenant of WSO2 Identity Server that acts as the authorization server.
             - **aud**: The audience for the token.
             - **client_id**: The identifier of the client (application) that requested the token.
             - **aut**: The authorized user type associated with the token.
@@ -398,11 +404,11 @@ components:
       properties:
         flowId:
           type: string
-          description: A unique identifier that associates with the token issuing flow in WSO2 Identity Platform.
+          description: A unique identifier that associates with the token issuing flow in WSO2 Identity Server.
           example: Ec1wMjmiG8
         requestId:
           type: string
-          description: A unique correlation identifier that associates with the token request received by WSO2 Identity Platform.
+          description: A unique correlation identifier that associates with the token request received by WSO2 Identity Server.
           example: 6783a180f817075313ea3fb01d79c221
         actionType:
           type: string

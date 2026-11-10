@@ -170,45 +170,6 @@ SessionId parameter based SSO is useful if the implementation does not maintain 
 
 Given below is a sample authorization request using the `isk` value as the `sessionId`
 
-<Edition only="cloud">
-
-<Tabs groupId="tabs">
-<TabItem value="sample-request" label="Sample request">
-
-```bash
-curl --location 'https://api.asgardeo.io/t/{organization_name}/oauth2/authorize/'
---header 'Accept: application/json'
---header 'Content-Type: application/x-www-form-urlencoded'
---data-urlencode 'client_id=<client_id>'
---data-urlencode 'response_type=code'
---data-urlencode 'redirect_uri=<redirect_uri>'
---data-urlencode 'scope=<scope>'
---data-urlencode 'response_mode=direct'
---data-urlencode 'sessionId=<isk claim obtained from the id_token>'
-```
-
-</TabItem>
-<TabItem value="example" label="Example">
-
-```bash
-curl --location 'https://api.asgardeo.io/t/bifrost/oauth2/authorize/'
---header 'Accept: application/json'
---header 'Content-Type: application/x-www-form-urlencoded'
---data-urlencode 'client_id=XWRkRNkJDeTiR5MwHdXROGiJka'
---data-urlencode 'response_type=code'
---data-urlencode 'redirect_uri=https://example.com/home'
---data-urlencode 'scope=openid profile'
---data-urlencode 'response_mode=direct'
---data-urlencode 'sessionId=77961448dd65199ec519fee4685553fe153e9d7bb80e26e41cb5cedc89a2b731'
-```
-
-</TabItem>
-</Tabs>
-
-</Edition>
-
-<Edition only="self-hosted">
-
 <Tabs groupId="tabs">
 <TabItem value="sample-request" label="Sample request">
 
@@ -241,8 +202,6 @@ curl --location 'https://localhost:9443/oauth2/authorize/'
 
 </TabItem>
 </Tabs>
-
-</Edition>
 
 :::note
 If both cookie-based SSO and SessionId-based SSO are used, cookie-based SSO takes precedence.
@@ -261,5 +220,5 @@ To enable device authorization flow:
 For more information, see [device authorization grant](../../../references/iam-concepts/grant-types.mdx#device-authorization-grant).
 
 :::tip
-Refer to the [sample scenario](../../../references/iam-concepts/app-native-authentication.mdx#scenario-8-device-authorization-flow) to see it in action.
+Refer to the [sample scenario](../../../references/iam-concepts/app-native-authentication.mdx) to see it in action.
 :::

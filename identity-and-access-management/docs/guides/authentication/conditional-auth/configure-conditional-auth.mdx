@@ -14,18 +14,7 @@ Given below are the high-level steps for enabling conditional authentication in 
 :::note
 - **ECMAScript Compliance**: Adaptive scripts currently comply with ECMAScript 2022 (ES13). 
 
-<Edition only="cloud">
-
-- **Limitations**: Adaptive scripts do not support loops, `Log.warn` logs, or stringifying Java objects using `JSON.stringify()`.
-
-</Edition>
-
-<Edition only="self-hosted">
-
 - **Limitations**: Adaptive scripts do not support `Log.warn` logs or stringifying Java objects using `JSON.stringify()`.
-
-</Edition>
-
 :::
 
 ## Prerequisites
@@ -42,7 +31,7 @@ Follow the steps given below.
 3. Click **Start with default configuration** to define the login flow starting with the `username and password` login.
 4. Turn on **Conditional Authentication** by switching the toggle on. You can define your conditional authentication script in the editor.
 
-    <Edition only="cloud">![Enable conditional auth](../../../../assets/cloud/img/guides/conditional-auth/enable-conditional-auth.png)</Edition><Edition only="self-hosted">![Enable conditional auth](../../../../assets/self-hosted/img/guides/conditional-auth/enable-conditional-auth.png)</Edition>
+    ![Enable conditional auth](../../../../assets/img/guides/conditional-auth/enable-conditional-auth.png)
 
     :::warning
     As a security measure, {edition.productName} does not allow the usage of two consecutive periods (`..`) in authentication scripts.
@@ -80,14 +69,14 @@ To add a new secret:
 
     Enable conditional authentication and click the key icon above the script to create a new secret.
 
-    <Edition only="cloud"><img src={require("../../../../assets/cloud/img/guides/secret/add-secret-to-script.png").default} alt="Add secret to script" style={{display: "block", margin: "0"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/self-hosted/img/guides/secret/add-secret-to-script.png").default} alt="Add secret to script" style={{display: "block", margin: "0"}} /></Edition>
+    <img src={require("../../../../assets/img/guides/secret/add-secret-to-script.png").default} alt="Add secret to script" style={{display: "block", margin: "0"}} />
 
     </TabItem>
     <TabItem value="visual-editor" label="Visual Editor">
 
     Switch to the **Visual Editor** tab, expand the **Script Editor** and click **Add Secret**.
 
-    <Edition only="cloud"><img src={require("../../../../assets/cloud/img/guides/secret/add-secret-to-script-using-visual-editor.png").default} alt="Add secret to script using the visual editor" width="600" style={{display: "block", margin: "0"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/self-hosted/img/guides/secret/add-secret-to-script-using-visual-editor.png").default} alt="Add secret to script using the visual editor" width="600" style={{display: "block", margin: "0"}} /></Edition>
+    <img src={require("../../../../assets/img/guides/secret/add-secret-to-script-using-visual-editor.png").default} alt="Add secret to script using the visual editor" width="600" style={{display: "block", margin: "0"}} />
 
     </TabItem>
     </Tabs>
@@ -98,7 +87,7 @@ To add a new secret:
 
 5. Enter the following details:
 
-    <Edition only="cloud"><img src={require("../../../../assets/img/guides/secret/create-a-secret.png").default} alt="Create secret in WSO2 Identity Platform" width="450" style={{display: "block", margin: "0"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/img/guides/secret/create-a-secret.png").default} alt="Create secret in WSO2 Identity Server" width="450" style={{display: "block", margin: "0"}} /></Edition>
+    <img src={require("../../../../assets/img/guides/secret/create-a-secret.png").default} alt="Create secret in WSO2 Identity Server" width="450" style={{display: "block", margin: "0"}} />
 
     | Parameter | Description |
     | --- | --- |
@@ -134,14 +123,14 @@ To delete an existing secret:
 
     Enable conditional authentication and click the key icon above the script to delete a secret.
 
-    <Edition only="cloud">![Add secret to script](../../../../assets/cloud/img/guides/secret/add-secret-to-script.png)</Edition><Edition only="self-hosted">![Add secret to script](../../../../assets/self-hosted/img/guides/secret/add-secret-to-script.png)</Edition>
+    ![Add secret to script](../../../../assets/img/guides/secret/add-secret-to-script.png)
 
     </TabItem>
     <TabItem value="visual-editor" label="Visual Editor">
 
     Switch to the **Visual Editor** tab, expand the **Script Editor** and click **Add Secret**.
 
-    <Edition only="cloud"><img src={require("../../../../assets/cloud/img/guides/secret/add-secret-to-script-using-visual-editor.png").default} alt="Add secret to script using the visual editor" width="600" style={{display: "block", margin: "0"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/self-hosted/img/guides/secret/add-secret-to-script-using-visual-editor.png").default} alt="Add secret to script using the visual editor" width="600" style={{display: "block", margin: "0"}} /></Edition>
+    <img src={require("../../../../assets/img/guides/secret/add-secret-to-script-using-visual-editor.png").default} alt="Add secret to script using the visual editor" width="600" style={{display: "block", margin: "0"}} />
 
     </TabItem>
     </Tabs>

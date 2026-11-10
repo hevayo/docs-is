@@ -1,4 +1,4 @@
-label: SDKs
+label: SDK Documentation
 position: 7
 customProps:
-  icon: octicons/package-16
+  hidden: true

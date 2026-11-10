@@ -3,7 +3,7 @@ title: Configure a custom connector
 description: You can add login to your applications using a custom connector in WSO2 Identity Server and enable users to log in with the configured connector.  # generated from the first paragraph; a writer should improve it
 type: how-to
 sidebar_position: 6
-editions: self-hosted
+slug: "/guides/authentication/configure-custom-connector"
 ---
 
 You can add login to your applications using a custom connector in {edition.productName} and enable users to log in with the configured connector. This custom connector can be any identity provider such as Facebook, Twitter, Google, Yahoo or a [custom federated authenticator](../../../references/extend/federation/write-a-custom-federated-authenticator.mdx).
@@ -31,7 +31,7 @@ You can add multiple authenticators to the custom connector and select one authe
 ## Enable login using the custom connector
 
 :::note[Before you begin]
-You need to [register an application with {edition.productName}](../../applications/index.mdx). You can register your own application or use one of the [sample applications](../../../quick-starts/try-samples/index.mdx) provided.
+You need to [register an application with {edition.productName}](../../applications/index.mdx). You can register your own application or use one of the [sample applications](../../../get-started/try-samples/index.mdx) provided.
 :::
 
 1. On the WSO2 Identity Server console, go to **Applications**.
@@ -44,7 +44,7 @@ You need to [register an application with {edition.productName}](../../applicati
 
     3. Click **Confirm** to add login with the custom connection to the sign-in flow.
 
-        <img src={require("../../../../assets/self-hosted/img/guides/idp/custom-connector/add-custom-federation-with-visual-editor.png").default} alt="Configuring login with a custom connector in WSO2 Identity Server using the Visual Editor" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+        <img src={require("../../../../assets/img/guides/idp/custom-connector/add-custom-federation-with-visual-editor.png").default} alt="Configuring login with a custom connector in WSO2 Identity Server using the Visual Editor" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
     :::note[Recommendations]
     It is recommended to add your social and enterprise connections to the first authentication step as they are used for identifying the user.
@@ -60,7 +60,7 @@ You need to [register an application with {edition.productName}](../../applicati
 
 3. On the {edition.productName} login page, select the sign in option configured.
 
-    <img src={require("../../../../assets/self-hosted/img/guides/idp/custom-connector/sign-in-with-custom-connector.png").default} alt="Login with custom connector" width="300" style={{border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../assets/img/guides/idp/custom-connector/sign-in-with-custom-connector.png").default} alt="Login with custom connector" width="300" style={{border: "0.3px solid lightgrey"}} />
 
 4. Log in using an existing account in the authenticator selected (e.g. Google, Facebook, custom federated authenticator etc.)
 
@@ -101,11 +101,11 @@ When provisioning users from an external identity provider (IdP), you may want t
 3. Under **Provisioning Attributes Selection**, click **Add Attribute**.
 4. Move the attributes that you want to include in the provisioned user's profile and click **Save**.
 
-    <img src={require("../../../../assets/self-hosted/img/guides/idp/add-required-attributes-for-provisioning.png").default} alt="Add required attributes for provisioning" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../assets/img/guides/idp/add-required-attributes-for-provisioning.png").default} alt="Add required attributes for provisioning" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 5. Add a default value to the attribute. If the federated user lacks data for it, the system adds the default to the provisioned user’s profile.
 
-    <img src={require("../../../../assets/self-hosted/img/guides/idp/add-default-value-for-required-attributes.png").default} alt="Add default value for required attributes" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../assets/img/guides/idp/add-default-value-for-required-attributes.png").default} alt="Add default value for required attributes" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
     :::note
     To add default values to the provisioned user’s profile when the federated user has no value, configure the following in the `<IS_HOME>/repository/conf/deployment.toml` file.

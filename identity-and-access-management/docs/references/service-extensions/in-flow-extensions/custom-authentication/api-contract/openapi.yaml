@@ -1,8 +1,14 @@
 openapi: 3.0.0
 info:
   title: API contract for custom authentication action
-  description: This API defines the REST contract for a service that extends the authentication flow of WSO2 Identity Platform with a custom authenticator.
+  description: This API defines the REST contract for a service that extends the authentication flow of WSO2 Identity Server with a custom authenticator.
   version: v1
+  contact:
+    name: WSO2
+    url: 'https://wso2.com/products/identity-server/'
+  license:
+    name: Apache 2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
 security:
 - BasicAuth: []
 - BearerAuth: []
@@ -185,7 +191,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/RequestParams'
-          description: Request parameters of the authentication request being processed together with the parameters of the original authorization request, limited to the parameter names listed as allowed parameters in the custom authenticator configuration. The field is omitted when no parameter matches. Parameters taken from the original authorization request are URL-encoded using form encoding rather than copied from the query string, and are sent as separate entries, so the same parameter name can appear more than once.
+          description: Request parameters of the authentication request being processed, limited to the parameter names listed as allowed parameters in the custom authenticator configuration. The field is omitted when no parameter matches. An authenticator that is the only option in the first authentication step receives the parameters of the original authorization request on its first invocation. When the step offers several login options, that invocation carries the parameters of the request that selected the authenticator. Later invocations receive the parameters of the request that returned the user from the external service.
       description: Details of the incoming authentication request.
       
     Tenant:
@@ -274,7 +280,7 @@ components:
           example: 66af2e98-3c51-44da-8fc6-aa09283ff528
         requestId:
           type: string
-          description: A unique correlation identifier that associates with each request in the login flow received by WSO2 Identity Platform.
+          description: A unique correlation identifier that associates with each request in the login flow received by WSO2 Identity Server.
           example: c29a5e35-935a-4992-8f1b-a4680789493b
         actionType:
           type: string
@@ -404,7 +410,7 @@ components:
       properties:
         id:
           type: string
-          description: Unique identifier of the user. If the authenticator is of 'Internal User Authentication' type there should be a user identity managed for this defined identifier in WSO2 Identity Platform.
+          description: Unique identifier of the user. If the authenticator is of 'Internal User Authentication' type there should be a user identity managed for this defined identifier in WSO2 Identity Server.
         claims:
           type: array
           items:
@@ -430,7 +436,7 @@ components:
           description: Claim uri defined in the 'http://wso2.org/claims' dialect
         value:
           type: object
-          description: Claim value. If the claim is multi-valued, it should be a list of strings (Note the ',' is not allowed in claim values as it is used internally to process data). Otherwise, it should be a single string.
+          description: Claim value. If the claim is multi-valued, it should be a list of strings (Note that the value configured for 'MultiAttributeSeparator' is not allowed in claim values). Otherwise, it should be a single string.
       description: User claims retrieved during authentication.
       
     UserStoreInUserData:

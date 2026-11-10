@@ -1,6 +1,6 @@
 ---
 title: Disable or delete an organization
-description: When you no longer need an organization—or need to temporarily restrict access to it—you can disable or permanently delete it from the WSO2 Identity…  # generated from the first paragraph; a writer should improve it
+description: When you no longer need an organization—or need to temporarily restrict access to it—you can disable or permanently delete it from the WSO2 Identity Server…  # generated from the first paragraph; a writer should improve it
 type: how-to
 sidebar_position: 1
 slug: "/guides/organization-management/disable-delete-organizations"
@@ -19,7 +19,7 @@ To disable an organization:
 3. Select the organization you want to disable.
 4. In the **Danger Zone**, turn the **Disable Organization** toggle on to disable the organization. Turn it off to re-enable the organization.
 
-    <Edition only="cloud"><img src={require("../../../../assets/cloud/img/guides/organization/manage-organizations/disable-organization.png").default} alt="Disable an organization" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/self-hosted/img/guides/organization/manage-organizations/disable-organization.png").default} alt="Disable an organization" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+    <img src={require("../../../../assets/img/guides/organization/manage-organizations/disable-organization.png").default} alt="Disable an organization" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 :::note
 - If the organization you want to disable has active child organizations, you must disable those child organizations first.
@@ -36,17 +36,12 @@ To delete an organization:
 2. Go to **Organizations** to view the list of organizations.
 3. Click the delete icon next to the organization you want to delete.
 
-    <Edition only="cloud"><img src={require("../../../../assets/cloud/img/guides/organization/manage-organizations/delete-organization.png").default} alt="Delete an organization" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/self-hosted/img/guides/organization/manage-organizations/delete-organization.png").default} alt="Delete an organization" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+    <img src={require("../../../../assets/img/guides/organization/manage-organizations/delete-organization.png").default} alt="Delete an organization" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 4. Select the checkbox and confirm your action.
 
 :::note
 - If the organization you want to delete has child organizations, you must delete those child organizations first.
 
-<Edition only="self-hosted">
-
 - Deleting an organization removes it from the {edition.productName} Console and blocks access to its resources. The associated data remains in the database. To permanently remove this data, run the cleanup scripts provided by WSO2. See [Clean up deleted organization resources](./cleanup-organization-resources.mdx) for more information.
-
-</Edition>
-
 :::

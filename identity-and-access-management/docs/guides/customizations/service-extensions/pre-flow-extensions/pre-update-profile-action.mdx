@@ -1,9 +1,9 @@
 ---
 title: Pre-update profile action
-description: The pre-update profile action in WSO2 Identity Platform lets you verify user attributes during profile update processes.  # generated from the first paragraph; a writer should improve it
+description: The pre-update profile action in WSO2 Identity Server lets you verify user attributes during profile update processes.  # generated from the first paragraph; a writer should improve it
 type: how-to
 sidebar_label: Pre update profile action
-sidebar_position: 5
+sidebar_position: 4
 slug: "/guides/service-extensions/pre-flow-extensions/pre-update-profile-action"
 ---
 
@@ -33,18 +33,6 @@ The following API contracts defines the request and response structures that you
 ### Request from {edition.productName}
 
 The request from {edition.productName} includes following in the JSON request payload:
-
-<Edition only="cloud">
-
-| Property | Description |
-| --- | --- |
-| requestId | A unique correlation identifier that associates with the profile update request received by {edition.productName}. |
-| actionType | Triggers the action, which in this case is `PRE_UPDATE_PROFILE`. |
-| event | Contains context information relevant to profile update flow. Refer [event](#event) section for details. |
-
-</Edition>
-
-<Edition only="self-hosted">
 
 <table>
   <thead>
@@ -82,8 +70,6 @@ The request from {edition.productName} includes following in the JSON request pa
     </tr>
   </tbody>
 </table>
-
-</Edition>
 
 #### event
 
@@ -456,7 +442,7 @@ You can specify exact values for each field, such as an Admin initiated profile 
 
 Combine rules using logical AND/OR operators. This approach gives you flexible and precise control over when a pre-update profile action triggers.
 
-<Edition only="cloud"><img src={require("../../../../../assets/cloud/img/guides/actions/pre-update-profile-rule-configuration-in-ui.png").default} alt="pre-update-profile-rule-configuration" width="650" style={{display: "block", margin: "0", border: "0px"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../../assets/self-hosted/img/guides/actions/pre-update-profile-rule-configuration-in-ui.png").default} alt="pre-update-profile-rule-configuration" width="650" style={{display: "block", margin: "0", border: "0px"}} /></Edition>
+<img src={require("../../../../../assets/img/guides/actions/pre-update-profile-rule-configuration-in-ui.png").default} alt="pre-update-profile-rule-configuration" width="650" style={{display: "block", margin: "0", border: "0px"}} />
 
 The above rule configuration translates logically to:
 
