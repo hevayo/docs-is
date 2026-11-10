@@ -18,49 +18,17 @@ You may implement the hybrid flow using {edition.productName} by following the s
 
 - To get started, you need to have an application registered in {edition.productName}. If you don't already have one, [register an OIDC application](../../../applications/register-oidc-web-app.mdx#register-the-app).
 
-- Go to the **Protocol** section of the created application and take note of the generated `Client ID` and the `Client secret`.
+- Go to the **Protocol** section of the created application and do the following:
 
-## Enable the hybrid flow
+    - Take note of the **Client ID** and the **Client secret** generated for the application.
 
-Follow the steps below to enable the hybrid flow for your application.
-
-1. On the {edition.productName} Console, go to **Applications**.
-2. Select your application and go to its **Protocol** tab.
-3. Under **Allowed grant types**, select **Code**.
-4. Under **Hybrid Flow**, select **Enable Hybrid Flow** and select the preferred response type.
-
-    <img src={require("../../../../../assets/img/guides/authentication/enable-hybrid-flow.png").default} alt="Enable hybrid flow" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
-
-    :::tip
-    Learn more about the response types in [Implement the hybrid flow](#implement-the-hybrid-flow)
-    :::
-
-    :::warning
-    It is not recommended to use `code token` and `code id_token token` response types, as obtaining the access token directly from the authorization endpoint without client authentication introduces potential security vulnerabilities, including the risk of account takeover attacks.
-    :::
-
-5. Click **Update** to save the changes.
+    - Under **Allowed grant types**, select **Code** and click **Update** to save the changes.
 
 ## Implement the hybrid flow
 
-Now that you have [enabled the hybrid flow](#enable-the-hybrid-flow) for your application, let's take a look at how you may implement the hybrid flow for your application.
+Let's take a look at how you may implement the hybrid flow for your application.
 
 The initial authorization request is similar to that of the [authorization code flow](./implement-auth-code.mdx), with the exception of setting the `response_type` parameter to one of [code token](#code-token), [code id_token](#code-id_token), or [code id_token token](#code-id_token-token).
-
-<Edition only="cloud">
-
-```bash
-https://api.asgardeo.io/t/{organization_name}/oauth2/authorize?
-response_type={response_type}
-&client_id={client_ID}
-&nonce={random_value_generated_by_client}
-&redirect_uri={url_to_redirect_after_login}
-```
-The following sections explain the reponse types available with the OIDC Hybrid Flow.
-
-</Edition>
-
-<Edition only="self-hosted">
 
 :::warning
 It is not recommended to use `code token` and `code id_token token` response types, as obtaining the access token directly from the authorization endpoint without client authentication introduces potential security vulnerabilities, including the risk of account takeover attacks.
@@ -75,8 +43,6 @@ response_type={response_type}
 ```
 The following sections explain the reponse types available with the OIDC Hybrid Flow.
 
-</Edition>
-
 ### code token
 
 :::warning
@@ -85,51 +51,6 @@ It is not recommended to use `code token` response type as it does not adhere to
 
 Hybrid flow intiated with the `code token` response type requests for an authorization code and an access token from the authorization endpoint.
 
-<Edition only="cloud">
-
-<Tabs groupId="tabs">
-<TabItem value="request-format-code-token" label="request format (`code token`)">
-
-```bash
-https://api.asgardeo.io/t/{organization_name}/oauth2/authorize?
-response_type=code%20token
-&client_id={client_id}
-&nonce={random_value_generated_by_client}
-&redirect_uri={url_to_redirect_after_login}
-&scope={scopes}
-```
-
-</TabItem>
-<TabItem value="sample-request-code-token" label="sample request (`code token`)">
-
-```bash
-https://api.asgardeo.io/t/{organization_name}/oauth2/authorize?
-response_type=code%20token
-&client_id=SkpwV3lG88X0BU1msAoRRA0zrWEa
-&nonce=asd
-&redirect_uri=http://localhost:8080/playground2/oauth2client
-&scope=openid
-```
-
-</TabItem>
-<TabItem value="sample-response-code-token" label="sample response (`code token`)">
-
-```bash
-http://localhost:8080/playground2/oauth2client#
-access_token=1940a308-d492-3660-a9f8-46723cc582e9
-&code=99b34587-5483-374d-8b25-50485498e761
-&token_type=Bearer
-&expires_in=299999
-&session_state=baae9a71cdabe38b4643b9d59bd9f65ffaf5a9b8c453f4256c085e5a1c57e624.-EA3ZqPzLvsk25CKmt56YA
-```
-
-</TabItem>
-</Tabs>
-
-</Edition>
-
-<Edition only="self-hosted">
-
 <Tabs groupId="tabs">
 <TabItem value="request-format-code-token" label="request format (`code token`)">
 
@@ -168,50 +89,9 @@ access_token=1940a308-d492-3660-a9f8-46723cc582e9
 
 </TabItem>
 </Tabs>
-
-</Edition>
 
 The token received in the response may be immediately used to invoke APIs authorized for it. The authorization code can be exchanged to receive other tokens such as access tokens, refresh tokens and the ID token as follows.
 
-<Edition only="cloud">
-
-<Tabs groupId="tabs">
-<TabItem value="request-format" label="request format">
-
-```bash
-curl -k -v 'https://api.asgardeo.io/t/{organization_name}/oauth2/token' \
--u '{client_ID}:{client_secret}' \
--d 'grant_type=authorization_code&code={authorization_code}&redirect_uri={url_to_redirect_after_login}'
-```
-
-</TabItem>
-<TabItem value="sample-request" label="sample request">
-
-```bash
-curl -k -v 'https://api.asgardeo.io/t/{organization_name}/oauth2/token' \
--u 'SkpwV3lG88X0BU1msAoRRA0zrWEa:0XVfmHcThOWpBN0iJf_4679Ir0Qe_fPMJCXSREW4bM4a' \
--d 'grant_type=authorization_code&code=99b34587-5483-374d-8b25-50485498e761&redirect_uri=http://localhost:8080/playground2/oauth2client'
-```
-
-</TabItem>
-<TabItem value="sample-response" label="sample response">
-
-```bash
-{“access_token”:”1940a308-d492–3660-a9f8–46723cc582e9",
-”refresh_token”:”6b96cc3a-00da-3d7d-acd1–5aaf76dcd9d4",
-”scope”:”openid”,
-”id_token”:”eyJ4NXQiOiJOVEF4Wm1NeE5ETXlaRGczTVRVMVpHTTBNekV6T0RKaFpXSTRORE5sWkRVMU9HRmtOakZpTVEiLCJraWQiOiJOVEF4Wm1NeE5ETXlaRGczTVRVMVpHTTBNekV6T0RKaFpXSTRORE5sWkRVMU9HRmtOakZpTVEiLCJhbGciOiJSUzI1NiJ9.eyJhdF9oYXNoIjoiSnJaWTlNdFlWRUlJSlV4LUREQm13dyIsInN1YiI6ImFkbWluIiwiYXVkIjpbIm5jemJnNW01eHh0NnRQNFVNWndCNlB0UW9Rb2EiXSwiYXpwIjoibmN6Ymc1bTV4eHQ2dFA0VU1ad0I2UHRRb1FvYSIsImlzcyI6Imh0dHBzOlwvXC9sb2NhbGhvc3Q6OTQ0M1wvb2F1dGgyXC90b2tlbiIsImV4cCI6MTUxMDgzMTAxMCwibm9uY2UiOiJhc2QiLCJpYXQiOjE1MTA4MzEwMDd9.XKV0ioEvflR4MHGthO3cwXwC88msNgqR4l1O83mfhxOMtO1PG3ABWB5E4aFXFpR9t-8zJs09slhLsDTDhmC33KE8Die61UK9_Vb5aNA4XCkawyJt8dCX6clc6UUbTEO5N1ubXA18QFgwAEWpvoTz1hKx8XLnvOSehbdEKsoPunoHDmXpYJe_9hBg5V3kN-VHxdKdGOtl9u-Aml42s5p45cZY0mlFVcKjatBAf7hqWNPlUebyujDWG1Iyk_-AXNQ2wYi0F77uG7_HstP_tp0sOctu0TYCK8bwBTXEJYMPt1CqOqcae05m8N8hb0zs6Yxvyx_udCJPG-8n2zRB-T-kcg”,
-”token_type”:”Bearer”,
-”expires_in”:299494}
-```
-
-</TabItem>
-</Tabs>
-
-</Edition>
-
-<Edition only="self-hosted">
-
 <Tabs groupId="tabs">
 <TabItem value="request-format" label="request format">
 
@@ -244,8 +124,6 @@ curl -k -v 'https://localhost:9443/oauth2/token' \
 
 </TabItem>
 </Tabs>
-
-</Edition>
 
 :::note
 There may be instances where the access token received from the `/authorize` endpoint and the one received from the `/token` endpoint are not the same.
@@ -255,49 +133,6 @@ There may be instances where the access token received from the `/authorize` end
 
 Hybrid flow intiated with the `code id_token` response type requests for an authorization code and an ID token from the authorization endpoint.
 
-<Edition only="cloud">
-
-<Tabs groupId="tabs">
-<TabItem value="request-format-code-id-token" label="request format (`code id_token`)">
-
-```bash
-https://api.asgardeo.io/t/{organization_name}/oauth2/authorize?
-response_type=code%20id_token
-&client_id={client_id}
-&nonce={random_value_generated_by_client}
-&redirect_uri={url_to_redirect_after_login}
-&scope={scopes}
-```
-
-</TabItem>
-<TabItem value="sample-request-code-id-token" label="sample request (`code id_token`)">
-
-```bash
-https://api.asgardeo.io/t/{organization_name}/oauth2/authorize?
-response_type=code%20id_token
-&client_id=SkpwV3lG88X0BU1msAoRRA0zrWEa
-&nonce=asd
-&redirect_uri=http://localhost:8080/playground2/oauth2client
-&scope=openid
-```
-
-</TabItem>
-<TabItem value="sample-response-code-id-token" label="sample response (`code id_token`)">
-
-```bash
-http://localhost:8080/playground2/oauth2client#
-id_token=eyJ4NXQiOiJOVEF4Wm1NeE5ETXlaRGczTVRVMVpHTTBNekV6T0RKaFpXSTRORE5sWkRVMU9HRmtOakZpTVEiLCJraWQiOiJOVEF4Wm1NeE5ETXlaRGczTVRVMVpHTTBNekV6T0RKaFpXSTRORE5sWkRVMU9HRmtOakZpTVEiLCJhbGciOiJSUzI1NiJ9.eyJhdF9oYXNoIjoiSnJaWTlNdFlWRUlJSlV4LUREQm13dyIsInN1YiI6ImFkbWluIiwiYXVkIjpbIm5jemJnNW01eHh0NnRQNFVNWndCNlB0UW9Rb2EiXSwiYXpwIjoibmN6Ymc1bTV4eHQ2dFA0VU1ad0I2UHRRb1FvYSIsImlzcyI6Imh0dHBzOlwvXC9sb2NhbGhvc3Q6OTQ0M1wvb2F1dGgyXC90b2tlbiIsImV4cCI6MTUxMDgzMTAxMCwibm9uY2UiOiJhc2QiLCJpYXQiOjE1MTA4MzEwMDd9.XKV0ioEvflR4MHGthO3cwXwC88msNgqR4l1O83mfhxOMtO1PG3ABWB5E4aFXFpR9t-8zJs09slhLsDTDhmC33KE8Die61UK9_Vb5aNA4XCkawyJt8dCX6clc6UUbTEO5N1ubXA18QFgwAEWpvoTz1hKx8XLnvOSehbdEKsoPunoHDmXpYJe_9hBg5V3kN-VHxdKdGOtl9u-Aml42s5p45cZY0mlFVcKjatBAf7hqWNPlUebyujDWG1Iyk_-AXNQ2wYi0F77uG7_HstP_tp0sOctu0TYCK8bwBTXEJYMPt1CqOqcae05m8N8hb0zs6Yxvyx_udCJPG-8n2zRB-T-kcg
-&code=16fd899f-5f0c-3114-875e-2547b629cd05
-&session_state=d96bad64e37e82196898a824082aafbdd945c922e7d40cb4e0013d9fad6d68c8.o0_m4GJ1YJvNUUqg8k3LrQ
-```
-
-</TabItem>
-</Tabs>
-
-</Edition>
-
-<Edition only="self-hosted">
-
 <Tabs groupId="tabs">
 <TabItem value="request-format-code-id-token" label="request format (`code id_token`)">
 
@@ -334,38 +169,9 @@ id_token=eyJ4NXQiOiJOVEF4Wm1NeE5ETXlaRGczTVRVMVpHTTBNekV6T0RKaFpXSTRORE5sWkRVMU9
 
 </TabItem>
 </Tabs>
-
-</Edition>
 
 The authorization code can be exchanged to receive other tokens such as access tokens, refresh tokens and the ID token as follows.
 
-<Edition only="cloud">
-
-<Tabs groupId="tabs">
-<TabItem value="request-format" label="request format">
-
-```bash
-curl -k -v 'https://api.asgardeo.io/t/{organization_name}/oauth2/token' \
--u '{client_ID}:{client_secret}' \
--d 'grant_type=authorization_code&code={authorization_code}&redirect_uri={url_to_redirect_after_login}'
-```
-
-</TabItem>
-<TabItem value="sample-request" label="sample request">
-
-```bash
-curl -k -v 'https://api.asgardeo.io/t/{organization_name}/oauth2/token' \
--u 'SkpwV3lG88X0BU1msAoRRA0zrWEa:0XVfmHcThOWpBN0iJf_4679Ir0Qe_fPMJCXSREW4bM4a' \
--d 'grant_type=authorization_code&code=16fd899f-5f0c-3114-875e-2547b629cd05&redirect_uri=http://localhost:8080/playground2/oauth2client'
-```
-
-</TabItem>
-</Tabs>
-
-</Edition>
-
-<Edition only="self-hosted">
-
 <Tabs groupId="tabs">
 <TabItem value="request-format" label="request format">
 
@@ -385,11 +191,6 @@ curl -k -v 'https://localhost:9443/oauth2/token' \
 ```
 
 </TabItem>
-</Tabs>
-
-</Edition>
-
-<Tabs groupId="tabs">
 <TabItem value="sample-response" label="sample response">
 
 ```java
@@ -412,52 +213,6 @@ It is not recommended to use `code id_token token` response type as it does not 
 
 Hybrid flow intiated with the `code id_token token` response type requests for an authorization code, an access token and an ID token from the authorization endpoint.
 
-<Edition only="cloud">
-
-<Tabs groupId="tabs">
-<TabItem value="request-format-code-id-token-token" label="request format (`code id_token token`)">
-
-```bash
-https://api.asgardeo.io/t/{organization_name}/oauth2/authorize?
-response_type=code%20id_token%20token
-&client_id={client_id}
-&nonce={random_value_generated_by_client}
-&redirect_uri={url_to_redirect_after_login}
-&scope={scopes}
-```
-
-</TabItem>
-<TabItem value="sample-request-code-id-token-token" label="sample request (`code id_token token`)">
-
-```bash
-https://api.asgardeo.io/t/{organization_name}/oauth2/authorize?
-response_type=code%20id_token%20token
-&client_id=SkpwV3lG88X0BU1msAoRRA0zrWEa
-&nonce=asd
-&redirect_uri=http://localhost:8080/playground2/oauth2client
-&scope=openid
-```
-
-</TabItem>
-<TabItem value="sample-response-code-id-token-token" label="sample response (`code id_token token`)">
-
-```bash
-http://localhost:8080/playground2/oauth2client#
-id_token=eyJ4NXQiOiJOVEF4Wm1NeE5ETXlaRGczTVRVMVpHTTBNekV6T0RKaFpXSTRORE5sWkRVMU9HRmtOakZpTVEiLCJraWQiOiJOVEF4Wm1NeE5ETXlaRGczTVRVMVpHTTBNekV6T0RKaFpXSTRORE5sWkRVMU9HRmtOakZpTVEiLCJhbGciOiJSUzI1NiJ9.eyJhdF9oYXNoIjoiSnJaWTlNdFlWRUlJSlV4LUREQm13dyIsImNfaGFzaCI6IlhDUnVTMmhFT0JfM0hkeG9FM0pxT2ciLCJzdWIiOiJhZG1pbiIsImF1ZCI6WyJuY3piZzVtNXh4dDZ0UDRVTVp3QjZQdFFvUW9hIl0sImF6cCI6Im5jemJnNW01eHh0NnRQNFVNWndCNlB0UW9Rb2EiLCJpc3MiOiJodHRwczpcL1wvbG9jYWxob3N0Ojk0NDNcL29hdXRoMlwvdG9rZW4iLCJleHAiOjE1MTA4MzMxNjQsIm5vbmNlIjoiYXNkIiwiaWF0IjoxNTEwODMzMTYwfQ.WgpDf07dDVqrJRBbe_EqLYAfuRQQ1GkBJzgxaIczLTU_e-HasS6e24l75P0Csv0i2gUXk_H9d8zyJ6zalp2geBUmJ1wXLJtELrp-wvVaHVj-_aLHXM_8bsjL-BTj_f-OUEpGiDsPh19GxcMWw6hOubM0JKMh6ZWbF_A7-7RWwlh3vvRSjHhzhWypfjfP1NGTByjICJWF31AbGgfBy7OUUDhOIURYZM0m5u0fmvvD4O8qah1zjTxUL6mLaalOZ7QNppPU7SmPgeSQnfNsxy5KCA_N1vYyNLxzs3NitcCZAOQ88XU2AF-W4Sykay0tp1qiI35mqHg2cYinNPEdrnCYyQ
-&access_token=1940a308-d492-3660-a9f8-46723cc582e9
-&code=55aa698d-ac3b-30ec-b4ca-f5e803590a4b  
-&token_type=Bearer
-&expires_in=297341
-&session_state=872ac70304690624d4b3e2c705b5f452043be5f758ddd2487aa193730d9ef809.IwoAA6ua4m5CRth0erWuxA
-```
-
-</TabItem>
-</Tabs>
-
-</Edition>
-
-<Edition only="self-hosted">
-
 <Tabs groupId="tabs">
 <TabItem value="request-format-code-id-token-token" label="request format (`code id_token token`)">
 
@@ -497,38 +252,9 @@ id_token=eyJ4NXQiOiJOVEF4Wm1NeE5ETXlaRGczTVRVMVpHTTBNekV6T0RKaFpXSTRORE5sWkRVMU9
 
 </TabItem>
 </Tabs>
-
-</Edition>
 
 The authorization code can be exchanged to receive other tokens such as access tokens, refresh tokens and the ID token as follows.
 
-<Edition only="cloud">
-
-<Tabs groupId="tabs">
-<TabItem value="request-format" label="request format">
-
-```bash
-curl -k -v 'https://api.asgardeo.io/t/{organization_name}/oauth2/token' \
--u '{client_ID}:{client_secret}' \
--d 'grant_type=authorization_code&code={authorization_code}&redirect_uri={url_to_redirect_after_login}'
-```
-
-</TabItem>
-<TabItem value="sample-request" label="sample request">
-
-```bash
-curl -k -v 'https://api.asgardeo.io/t/{organization_name}/oauth2/token' \
--u 'SkpwV3lG88X0BU1msAoRRA0zrWEa:0XVfmHcThOWpBN0iJf_4679Ir0Qe_fPMJCXSREW4bM4a' \
--d 'grant_type=authorization_code&code=55aa698d-ac3b-30ec-b4ca-f5e803590a4b&redirect_uri=http://localhost:8080/playground2/oauth2client'
-```
-
-</TabItem>
-</Tabs>
-
-</Edition>
-
-<Edition only="self-hosted">
-
 <Tabs groupId="tabs">
 <TabItem value="request-format" label="request format">
 
@@ -548,11 +274,6 @@ curl -k -v 'https://localhost:9443/oauth2/token' \
 ```
 
 </TabItem>
-</Tabs>
-
-</Edition>
-
-<Tabs groupId="tabs">
 <TabItem value="sample-response" label="sample response">
 
 ```java

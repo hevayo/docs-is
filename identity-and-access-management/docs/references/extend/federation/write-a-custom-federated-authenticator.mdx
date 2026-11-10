@@ -4,7 +4,6 @@ description: A custom federated authenticator can be written to authenticate a u
 type: reference
 sidebar_label: Write a custom federated authenticator
 sidebar_position: 1
-editions: self-hosted
 ---
 
 import Tabs from '@theme/Tabs';
@@ -14,7 +13,7 @@ A custom federated authenticator can be written to authenticate a user with an e
 The external system can be any identity provider such as Facebook, Twitter, Google, Yahoo, etc.
 You can use the extension points available in WSO2 Identity Server to create custom federated authenticators.
 
-<img src={require("../../../../assets/self-hosted/img/references/extend/federated-authentication-diagram.png").default} alt="Federated authentication diagram" width="1000" style={{display: "block", margin: "0"}} />
+<img src={require("../../../../assets/img/references/extend/federated-authentication-diagram.png").default} alt="Federated authentication diagram" width="1000" style={{display: "block", margin: "0"}} />
 
 ---
 
@@ -227,7 +226,7 @@ To register and configure the application on the partner IS:
 On the partner identity server:
 
 - Download the [sample](https://github.com/asgardeo/asgardeo-tomcat-oidc-agent/releases/latest/download/oidc-sample-app.war) application.
-- [Configure the sample OIDC](../../../quick-starts/try-samples/web-apps/qsg-oidc-webapp-java-ee.mdx#configure-the-sample) application on the partner identity server.
+- [Configure the sample OIDC](../../../get-started/try-samples/web-apps/qsg-oidc-webapp-java-ee.mdx#configure-the-sample) application on the partner identity server.
 :::
 
 ### Add a new user
@@ -253,7 +252,7 @@ To add a new user:
 This section guides you on how to configure the identity server to use the custom federated authenticator.
 
 ### Prerequisites
-- You need to [set up the sample](../../../quick-starts/try-samples/web-apps/qsg-oidc-webapp-java-ee.mdx) application.
+- You need to [set up the sample](../../../get-started/try-samples/web-apps/qsg-oidc-webapp-java-ee.mdx) application.
 
 ### Configure federated authenticator
 
@@ -274,7 +273,7 @@ To configure the custom federated authenticator:
     | **Authorization Endpoint URL**    | `https://localhost:9444/oauth2/authorize/`    |
     | **Token Endpoint URL**    | `https://localhost:9444/oauth2/token/`    |
 
-    <img src={require("../../../../assets/self-hosted/img/references/extend/federated-authenticator.png").default} alt="Federated Authenticator" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../assets/img/references/extend/federated-authenticator.png").default} alt="Federated Authenticator" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 5. Click **Finish** to save the configurations.
 
@@ -296,7 +295,7 @@ To configure the custom federated authenticator for the application:
 
     2. Click **Add Authentication** on the step, select your custom federated authenticator, and click **Add**.
 
-        <img src={require("../../../../assets/self-hosted/img/guides/idp/custom-connector/add-custom-federation-with-basic.png").default} alt="Add custom federated authenticator" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+        <img src={require("../../../../assets/img/guides/idp/custom-connector/add-custom-federation-with-basic.png").default} alt="Add custom federated authenticator" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
     </TabItem>
     <TabItem value="visual-editor" label="Visual Editor">
@@ -307,7 +306,7 @@ To configure the custom federated authenticator for the application:
 
     2. Click on `+ Add Sign In Option` to add a new authenticator to the same step and select your custom federated authenticator.
 
-        <img src={require("../../../../assets/self-hosted/img/guides/idp/custom-connector/add-custom-federation-with-visual-editor.png").default} alt="Add custom federated authenticator using the Visual Editor" width="500" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+        <img src={require("../../../../assets/img/guides/idp/custom-connector/add-custom-federation-with-visual-editor.png").default} alt="Add custom federated authenticator using the Visual Editor" width="500" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
     </TabItem>
     </Tabs>

@@ -3,7 +3,6 @@ title: Change to Oracle
 description: By default, WSO2 Identity Server uses the embedded H2 database as the database for storing user management and registry data.  # generated from the first paragraph; a writer should improve it
 type: reference
 sidebar_position: 6
-editions: self-hosted
 ---
 
 By default, WSO2 Identity Server uses the embedded H2 database as the database
@@ -218,7 +217,7 @@ When the database owner is not the user used to connect to the database, specify
     parentSchema = "<parent_schema_name>"
     ```
 
-:::note[Database user privileges]
+:::note[Database user priviledges]
 When a custom database user is created, please note that the following privildges should be granted according to the purpose of the user.
 
 - Execute the below permissions on the database to perform DDL operations.
@@ -237,7 +236,6 @@ Please refer the offcial [oracle documentation](https://docs.oracle.com/en/datab
 :::
 
 ---
-
 ## Configure the connection pool behavior on return
 
 By default, when a database connection is returned to the pool, the product rolls back the pending transactions if `defaultAutoCommit=true`. 

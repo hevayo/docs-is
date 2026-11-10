@@ -10,8 +10,6 @@ Financial-Grade API (FAPI) specification extends the OAuth and OIDC frameworks a
 
 This guide walks you through creating and configuring a FAPI-compliant application in {edition.productName}.
 
-<Edition only="self-hosted">
-
 ## Configure {edition.productName} for FAPI compliance
 
 {edition.productName} supports both FAPI 1.0 Advanced and FAPI 2.0 specifications.
@@ -53,8 +51,6 @@ To configure {edition.productName} to issue FAPI-compliant tokens, open the `<IS
      client_certificate_header = "x-wso2-mtls-cert"
     ```
 
-</Edition>
-
 ## Create a FAPI-compliant application
 
 Follow the guides below to create a FAPI-compliant application either using the Console or using Dynamic Client Registration (DCR).
@@ -79,35 +75,11 @@ If you wish to register your application manually using the Console, follow the 
 
 5. Click **Register** to complete the registration.
 
-6. [Enable the application](./index.mdx#enabledisable-an-application) when it is ready for users to log in.
+6. [Enable the application](./index.mdx) when it is ready for users to log in.
 
 ### Use Dynamic Client Registration (DCR)
 
 If you have applications that need to dynamically register with {edition.productName} during runtime, follow the steps below to make them FAPI-compliant.
-
-<Edition only="cloud">
-
-1. Configure DCR properties in {edition.productName}. To do so,
-
-    1. On the {edition.productName} Console, go to **Applications**.
-
-    2. Click the gear icon at the top to open **Dynamic Client Registration** settings.
-
-    3. Configure the following properties:
-
-        <img src={require("../../../assets/cloud/img/guides/applications/fapi-compliant-apps/fapi-dcr-settings.png").default} alt="DCR settings" width="600px" />
-
-        -   **Require Authentication** is enabled by default. You may deselect the option to not require authentication to create an application with DCR.
-        - Select **Mandate SSA Validation** to require a valid Software Statement Assertion (SSA) during creation. Provide the necessary JWKS to validate the SSA. If authentication is not required by the endpoint, this is made mandatory.
-        - Select **Enforce FAPI Conformance** to make the created application FAPI compliant.
-
-    4. Click **Update** to save the changes.
-
-2. Refer to the [Dynamic Client Registration (DCR) API](../../apis/dynamic-client-registration-rest-api/index.mdx) documentation to learn how to register an application with DCR.
-
-</Edition>
-
-<Edition only="self-hosted">
 
 1. Open the `deployment.toml` file found in the `<IS_HOME>/repository/conf/` directory, add the following configuration and restart WSO2 Identity Server.
 
@@ -121,8 +93,6 @@ If you have applications that need to dynamically register with {edition.product
     :::
 
 2. Refer to the [Dynamic Client Registration (DCR) API](../../apis/dynamic-client-registration-rest-api/index.mdx) documentation to learn how to register an application with DCR.
-
-</Edition>
 
 ## What's next?
 

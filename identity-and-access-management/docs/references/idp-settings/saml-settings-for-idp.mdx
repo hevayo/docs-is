@@ -112,7 +112,7 @@ Here {edition.productName} sends the fixed query param (e.g: `login_hint`) to th
 
     `login_hint=none`
 
-    <Edition only="cloud"><img src={require("../../../assets/cloud/img/guides/idp/saml-enterprise-idp/queryparam/fixed-query-param.png").default} alt="Add fixed query param in enterprise IDP config" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../assets/self-hosted/img/guides/idp/saml-enterprise-idp/queryparam/fixed-query-param.png").default} alt="Add fixed query param in enterprise IDP config" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+    <img src={require("../../../assets/img/guides/idp/saml-enterprise-idp/queryparam/fixed-query-param.png").default} alt="Add fixed query param in enterprise IDP config" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 #### Dynamic query params
 
@@ -123,7 +123,7 @@ Here {edition.productName} sends the fixed query param (e.g: `login_hint`) to th
         `login_hint={login_hint_value}`
         <br />
 
-        <Edition only="cloud"><img src={require("../../../assets/cloud/img/guides/idp/saml-enterprise-idp/queryparam/dynamic_query_param.png").default} alt="Add dynamic query param in enterprise IDP config" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../assets/self-hosted/img/guides/idp/saml-enterprise-idp/queryparam/dynamic_query_param.png").default} alt="Add dynamic query param in enterprise IDP config" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+        <img src={require("../../../assets/img/guides/idp/saml-enterprise-idp/queryparam/dynamic_query_param.png").default} alt="Add dynamic query param in enterprise IDP config" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
     - If the application does not send the query param `login_hint_value` in the login request, the particular parameterized query param  will not be sent to the external SAML identity provider.
 
@@ -133,7 +133,7 @@ Here {edition.productName} sends the fixed query param (e.g: `login_hint`) to th
 
         `login_hint=$authparam{login_hint_value}`
 
-        <Edition only="cloud"><img src={require("../../../assets/cloud/img/guides/idp/saml-enterprise-idp/queryparam/dynamic_query_param_from_conditional_auth.png").default} alt="Add dynamic query param in enterprise IDP config" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../assets/self-hosted/img/guides/idp/saml-enterprise-idp/queryparam/dynamic_query_param_from_conditional_auth.png").default} alt="Add dynamic query param in enterprise IDP config" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+        <img src={require("../../../assets/img/guides/idp/saml-enterprise-idp/queryparam/dynamic_query_param_from_conditional_auth.png").default} alt="Add dynamic query param in enterprise IDP config" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
         Here _login_hint_value_ needs to be resolved from the conditional auth script.
     <br />  

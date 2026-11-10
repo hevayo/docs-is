@@ -3,7 +3,7 @@ title: Backup and Recovery Recommendations
 description: WSO2 Identity Server does not persist data in the file systems or retain or generate artifacts.  # generated from the first paragraph; a writer should improve it
 type: reference
 sidebar_position: 1
-editions: self-hosted
+slug: "/deploy/backup-and-recovery-recommendations"
 ---
 
 WSO2 Identity Server does not persist data in the file systems or retain or generate artifacts. By default, it only stores log files in the file system and data and artifacts in the databases and the repository.
@@ -25,7 +25,7 @@ WSO2 Identity server recommends you to back up the following:
 
 We recommend that you use a proper artifact management system such as [Puppet](https://puppet.com/) to back up and manage your artifacts before deploying them in the WSO2 Carbon runtime. Also, use the [WSO2 Update Manager(WUM)](../../get-started/get-wso2-updates.mdx) tool, which is a command-line utility that allows you to get the latest updates (bug fixes and security fixes) of a particular product release. The following diagram depicts how you can manage your artifacts using a configuration management system.
 
-![Managing artifacts](../../../../assets/self-hosted/img/setup/deploy/puppet.png)
+![Managing artifacts](../../../../assets/img/setup/deploy/puppet.png)
 
 ## Recovery recommendations
 
@@ -48,4 +48,4 @@ The following steps include how to recover your setup using the backups:
 
 1. Recover the hot-deployment artifacts by replacing the `<IS_HOME>/repository` directory with the backed up copy.
 2. Recover the WSO2 Identity Server entirely by directly replacing the existing WSO2 server directory in its production setup with the backup server directory. This will ensure that all the files, logs, and configurations made to the product do not need to be redone.
-3. To recover the databases, follow the recovery strategy recommended by the databases you are using. For information on supported and tested databases, see [Tested Database Management Systems](../deployment-overview/product-compatibility.mdx#tested-dbmss).
+3. To recover the databases, follow the recovery strategy recommended by the databases you are using. For information on supported and tested databases, see [Tested Database Management Systems](../../environment-compatibility.mdx#tested-dbmss).

@@ -3,12 +3,9 @@ title: Add concurrent sessions based access control
 description: You can effectively control the number of concurrent user sessions for an application by implementing the Session-Based conditional authentication template.  # generated from the first paragraph; a writer should improve it
 type: how-to
 sidebar_label: Concurrent session-based access
-sidebar_position: 4
+sidebar_position: 3
 slug: "/guides/authentication/conditional-auth/concurrent-session-based-template"
 ---
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 
 You can effectively control the number of concurrent user sessions for an application by implementing the **Session-Based** conditional authentication template. Users are redirected to a dedicated page where they can manage their existing sessions or cancel the current authentication request if they exceed the number of allowed concurrent sessions.
 
@@ -22,7 +19,7 @@ one active session at a time. If they try to initiate a second session, they wil
 
 ## Prerequisites
 
-- You need to [register an application with {edition.productName}](../../../applications/index.mdx). You can register your own application or use one of the [sample applications](../../../../quick-starts/try-samples/index.mdx) provided.
+- You need to [register an application with {edition.productName}](../../../applications/index.mdx). You can register your own application or use one of the [sample applications](../../../../get-started/try-samples/index.mdx) provided.
 
 - Create two roles named `admin` and `manager` in application audience selecting the created application or create roles in organization audience and associate to the created application.
 
@@ -30,51 +27,12 @@ one active session at a time. If they try to initiate a second session, they wil
 
 - Assign user accounts to the created roles. For instructions, see the following:
 
-      - [Managing users](../../../users/users/manage-users.mdx#onboard-users)
+      - [Managing users](../../../users/manage-users.mdx#onboard-users)
       - [Assigning users to roles](../../../users/manage-roles.mdx#assign-users-to-a-role)
 
 ## Configure the login flow
 
 To configure the login flow with concurrent session-based access control:
-
-<Edition only="cloud">
-
-1. On the {edition.productName} Console, click **Applications**.
-2. Select the relevant application and go to its **Login Flow** tab.
-3. Add concurrent session-based access control as follows.
-
-    <Tabs groupId="tabs">
-    <TabItem value="classic-editor" label="Classic Editor">
-
-    To add concurrent session management-based access control using the classic editor:
-
-    1. Click **Start with default configuration** to define the login flow starting with the `username and password` login.
-
-    2. Turn on **Conditional Authentication** by switching the toggle on.
-
-    3. Select the **User** > **Concurrent Session Management Template** template.
-
-    </TabItem>
-    <TabItem value="visual-editor" label="Visual Editor">
-
-    To add concurrent session management-based access control using the visual editor:
-
-    1. Switch to the **Visual Editor** tab, and expand **Predefined Flows** > **Conditional Login Flows** > **User**.
-
-    2. Click **+ ADD** next to **Concurrent Session Management Template** to add the user-age-based access control script.
-
-        <img src={require("../../../../../assets/cloud/img/guides/conditional-auth/session-based-access-control.png").default} alt="Session-based access control with visual editor" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
-
-    3. Click **Confirm** to replace any existing script with the selected predefined script.
-
-    </TabItem>
-    </Tabs>
-
-    ---
-
-</Edition>
-
-<Edition only="self-hosted">
 
 1. On the {edition.productName} Console, click **Applications**.
 2. Select the relevant application and go to its **Login Flow** tab.
@@ -87,8 +45,6 @@ To configure the login flow with concurrent session-based access control:
         {/*![Session-based access control with visual editor]({{base_path}}/assets/img/guides/conditional-auth/session-based-access-control.png){: style="display: block; margin: 0; border: 0.3px solid lightgrey;"}*/}
 
     3. Click **Confirm** to replace any existing script with the selected predefined script.
-
-</Edition>
 
 4. Update the following parameter in the script.
 

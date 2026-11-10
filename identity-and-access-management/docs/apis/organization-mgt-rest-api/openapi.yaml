@@ -78,15 +78,11 @@ paths:
       description: |
         This API is used to search and retrieve organizations created for this tenant.
         
-        Organizations can be filtered by id, name, description, created, lastModified, status, parentId, and meta attributes. 
+        Organizations can be filtered by id, name, description, created, lastModified, status, and parentId attributes. 
         
         Supported operators: "eq"(equals), "co"(contains), "sw"(starts with), "ew"(ends with), "ge"(greater than or equals), "le"(less than or equals), "gt"(greater than), "lt"(less than)
         
-        Multiple attributes can be combined using the "and" operator.
-
-        Examples:
-          - filter=name+eq+ABC Builders
-          - filter=attributes.Country+eq+Sri Lanka
+        example: filter=name+eq+ABC Builders
         
         <b>Scope(Permission) required:</b> `internal_organization_view`
       summary:
@@ -254,7 +250,6 @@ paths:
                     "id": "10084a8d-113f-4211-a0d5-efe36b082211",
                     "ref": "/api/server/v1/organizations/10084a8d-113f-4211-a0d5-efe36b082211"
                   },
-                  "hasChildren": false,
                   "attributes": [
                     {
                       "key": "Country",
@@ -322,7 +317,6 @@ paths:
                   "name": "ABCD Builders",
                   "description": "Building constructions company",
                   "status": "ACTIVE",
-                  "version": "v1.0.0",
                   "created": "2021-10-25T12:31:53.406Z",
                   "lastModified": "2021-10-25T12:31:53.406Z",
                   "type": "TENANT",
@@ -330,7 +324,6 @@ paths:
                     "id": "10084a8d-113f-4211-a0d5-efe36b082211",
                     "ref": "/api/server/v1/organizations/10084a8d-113f-4211-a0d5-efe36b082211"
                   },
-                  "hasChildren": false,
                   "attributes": [
                     {
                       "key": "Country",
@@ -405,81 +398,6 @@ paths:
             curl --location --request DELETE 'https://localhost:9443/api/server/v1/organizations/{organization-id}' \
             -H 'Accept: application/json' \
             -H 'Authorization: Basic YWRtaW46YWRtaW4='
-  /organizations/self:
-    get:
-      tags:
-        - Organization
-      description: |
-        This API retrieves the organization information associated with the currently accessing organization.
-        
-        <b>Scopes (Permissions) required:</b> `internal_organization_view`
-      summary: Get organization details of the currently accessing organization.
-      operationId: getSelfOrganization
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OrganizationResponse'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '500':
-          $ref: '#/components/responses/ServerError'
-      x-codeSamples:
-        - lang: Curl
-          source: |
-            curl --location --request GET 'https://localhost:9443/api/server/v1/organizations/self' \
-            -H 'Accept: application/json' \
-            -H 'Authorization: Basic YWRtaW46YWRtaW4='
-    patch:
-      tags:
-        - Organization
-      description: |
-        This API updates the editable fields of the organization associated with the currently accessing organization.
-        Currently only the organization name and version can be updated using this API.
-        
-        <b>Scopes (Permissions) required:</b> `internal_organization_update`
-      summary: Update organization details of the currently accessing organization.
-      operationId: patchSelfOrganization
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/OrganizationPatchRequest'
-        description: Partial update payload for the organization.
-        required: true
-      responses:
-        '200':
-          description: Successfully updated organization.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OrganizationResponse'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '500':
-          $ref: '#/components/responses/ServerError'
-      x-codeSamples:
-        - lang: Curl
-          source: |
-            curl --location --request PATCH 'https://localhost:9443/api/server/v1/organizations/self' \
-            -H 'Accept: application/json' \
-            -H 'Authorization: Basic YWRtaW46YWRtaW4=' \
-            -H 'Content-Type: application/json' \
-            -d '[
-              {
-                "operation": "REPLACE",
-                "path": "/name",
-                "value": "ABCD Builders"
-              }
-            ]'
   /organizations/metadata:
     get:
       tags:
@@ -508,51 +426,6 @@ paths:
         - lang: Curl
           source: |
             curl --location 'https://localhost:9443/api/server/v1/organizations/metadata' \
-            -H 'Accept: application/json' \
-            -H 'Authorization: Basic YWRtaW46YWRtaW4='
-  /organizations/meta-attributes:
-    get:
-      tags:
-        - Organization Meta Attributes
-      description: |
-        This API facilitates the retrieval of organization meta attributes which matches the defined search criteria, if any.
-        
-        Supported operators: "eq"(equals), "co"(contains), "sw"(starts with), "ew"(ends with), "ge"(greater than or equals), "le"(less than or equals), "gt"(greater than), "lt"(less than)
-        
-        Multiple filters can be combined using the "and" operator.
-        
-        Example: filter=attributes+eq+Country
-        
-        <b>Scope(Permission) required:</b> `internal_organization_view`
-      summary: Get meta attributes of organizations with filter capabilities.
-      operationId: organizationsMetaAttributesGet
-      parameters:
-        - $ref: '#/components/parameters/filterQueryParam'
-        - $ref: '#/components/parameters/limitQueryParam'
-        - $ref: '#/components/parameters/afterQueryParam'
-        - $ref: '#/components/parameters/beforeQueryParam'
-        - $ref: '#/components/parameters/recursiveQueryParam'
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MetaAttributesResponse'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '500':
-          $ref: '#/components/responses/ServerError'
-        '501':
-          $ref: '#/components/responses/NotImplemented'
-      x-codeSamples:
-        - lang: Curl
-          source: |
-            curl --location 'https://localhost:9443/api/server/v1/organizations/meta-attributes' \
             -H 'Accept: application/json' \
             -H 'Authorization: Basic YWRtaW46YWRtaW4='
 components:
@@ -604,9 +477,8 @@ components:
       in: query
       name: recursive
       required: false
-      description: |
+      description:
         Determines whether a recursive search should happen.
-        If set to true, will include organizations in all levels of the hierarchy; If set to false, includes only organizations in the next level of the hierarchy.
       schema:
         type: boolean
         default: false
@@ -661,9 +533,6 @@ components:
         name:
           type: string
           example: "ABC Builders"
-        orgHandle:
-          type: string
-          example: "abcbuilders"
         description:
           type: string
           example: "Building constructions"
@@ -694,9 +563,6 @@ components:
         name:
           type: string
           example: "ABCD Builders"
-        orgHandle:
-          type: string
-          example: "abcbuilders"
         description:
           type: string
           example: "Building constructions company"
@@ -704,9 +570,6 @@ components:
           type: string
           enum: [ACTIVE, DISABLED]
           example: ACTIVE
-        version:
-          type: string
-          example: "v1.0.0"
         attributes:
           type: array
           items:
@@ -772,9 +635,7 @@ components:
       required:
         - id
         - name
-        - orgHandle
         - status
-        - version
         - ref
       properties:
         id:
@@ -783,34 +644,19 @@ components:
         name:
           type: string
           example: 'ABC Builders'
-        orgHandle:
-          type: string
-          example: 'abcbuilders'
         status:
           type: string
           enum: [ ACTIVE, DISABLED ]
           example: ACTIVE
-        version:
-          type: string
-          example: 'v1.0.0'
-        hasChildren:
-          type: boolean
-          example: false
         ref:
           type: string
           example: '/api/server/v1/organizations/06c1f4e2-3339-44e4-a825-96585e3653b1'
-        attributes:
-          type: array
-          items:
-            $ref: '#/components/schemas/Attribute'
     OrganizationResponse:
       type: object
       required:
         - id
         - name
-        - orgHandle
         - status
-        - version
         - created
         - lastModified
         - type
@@ -821,9 +667,6 @@ components:
         name:
           type: string
           example: 'ABC Builders'
-        orgHandle:
-          type: string
-          example: 'abcbuilders'
         description:
           type: string
           example: 'Building constructions'
@@ -831,9 +674,6 @@ components:
           type: string
           enum: [ACTIVE, DISABLED]
           example: ACTIVE
-        version:
-          type: string
-          example: 'v1.0.0'
         created:
           type: string
           example: '2021-10-25T12:31:53.406Z'
@@ -847,9 +687,6 @@ components:
             - TENANT
         parent:
           $ref: '#/components/schemas/ParentOrganization'
-        hasChildren:
-          type: boolean
-          example: false
         attributes:
           type: array
           items:
@@ -859,9 +696,7 @@ components:
       required:
         - id
         - name
-        - orgHandle
         - status
-        - version
         - created
         - lastModified
         - type
@@ -872,9 +707,6 @@ components:
         name:
           type: string
           example: 'ABC Builders'
-        orgHandle:
-          type: string
-          example: 'abcbuilders'
         description:
           type: string
           example: 'Building constructions'
@@ -882,18 +714,12 @@ components:
           type: string
           enum: [ACTIVE, DISABLED]
           example: ACTIVE
-        version:
-          type: string
-          example: 'v1.0.0'
         created:
           type: string
           example: '2021-10-25T12:31:53.406Z'
         lastModified:
           type: string
           example: '2021-10-25T12:31:53.406Z'
-        hasChildren:
-          type: boolean
-          example: false
         type:
           type: string
           example: "TENANT"
@@ -909,50 +735,6 @@ components:
           type: array
           items:
             type: string
-        ancestorPath:
-          type: array
-          description: 'Ancestors up to the request initiated organization'
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-              name:
-                type: string
-              depth:
-                type: integer
-          example:
-            [
-              {
-                "id": "10084a8d-113f-4211-a0d5-efe36b082211",
-                "name": "Global Holding Corp",
-                "depth": 0
-              }
-            ]
-    MetaAttributesResponse:
-      type: object
-      properties:
-        links:
-          type: array
-          items:
-            $ref: '#/components/schemas/Link'
-          example:
-            [
-              {
-                "href": "/api/server/v1/organizations/meta-attributes?limit=10&recursive=false&filter=attributes+co+C&after=MjAyMS0xMi0yMSAwNToxODozMS4wMDQzNDg=",
-                "rel": "next",
-              },  {
-                "href": "/api/server/v1/organizations/meta-attributes?limit=10&recursive=false&filter=attributes+co+C&before=MjAyMS0xMi0yMSAwNToxODozMS4wMDQzNDg=",
-                "rel": "previous",
-              }
-            ]
-        attributes:
-          type: array
-          items:
-            type: string
-            example:
-              - "Country"
-              - "Region"
     #-----------------------------------------------------
     # Organization Parent Object
     #-----------------------------------------------------
@@ -1017,9 +799,7 @@ components:
       required:
         - id
         - name
-        - orgHandle
         - status
-        - version
         - created
         - lastModified
         - type
@@ -1030,9 +810,6 @@ components:
         name:
           type: string
           example: 'ABC Builders'
-        orgHandle:
-          type: string
-          example: 'abcbuilders'
         description:
           type: string
           example: 'Building constructions'
@@ -1040,9 +817,6 @@ components:
           type: string
           enum: [ACTIVE, DISABLED]
           example: ACTIVE
-        version:
-          type: string
-          example: 'v1.0.0'
         created:
           type: string
           example: '2021-10-25T12:31:53.406Z'

@@ -1,39 +1,38 @@
 ---
 title: Configure unique attributes
-description: Attributes are pieces of user information.  # generated from the first paragraph; a writer should improve it
+description: WSO2 Identity Server can be configured to retain the uniqueness of user attributes.  # generated from the first paragraph; a writer should improve it
 type: how-to
-sidebar_position: 6
+sidebar_position: 7
 ---
 
-Attributes are pieces of user information. While users can have the same value for a given user attribute (e.g. Country), there can be attributes (e.g. employee ID) for which users must have unique values. This guide explains how you can set a uniqueness check for attributes to prevent duplicate values.
+{edition.productName} can be configured to retain the uniqueness of user attributes. This allows you to keep a user attribute value as a unique value within or across all userstores.
 
-Follow the steps below to set the uniqueness for a user attribute:
+Follow the steps below to configure:
 
-1. On the {edition.productName} Console, go to **User Attributes & Stores** > **Attributes**.
-2. Under **Manage Attributes**, click **Attributes** to see the list of attributes.
-3. Click the **Edit** icon corresponding to the attribute you want to update.
-4. In the **General** tab of the attribute, select one of the following scopes from the **Uniqueness Validation** dropdown. 
+1.  Open the `deployment.toml` file in the `<IS_HOME>/repository/conf` folder and add the following configurations.
 
-    - **None**: No validation is applied. Users can have duplicate values for the selected attribute.
-    - **Within User Store**: Users within the same user store cannot have duplicate values for the selected attribute. However, users in other user stores may have duplicates.
-    - **Across User Stores**: Attribute values are unique across all user stores preventing duplicates throughout the organization.
+    ```toml
+    [identity_mgt.user_claim_update.uniqueness]
+    enable = true
+    scope_within_userstore = false # Optional.
+    ```
 
-    <Edition only="cloud"><img src={require("../../../../assets/cloud/img/guides/users/configure-attribute-uniqueness-validation.png").default} alt="additional-properties" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/self-hosted/img/guides/users/configure-attribute-uniqueness-validation.png").default} alt="additional-properties" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+    :::note
+    To keep the uniqueness within a userstore, set `scope_within_userstore` as `true`.
+    :::
 
-5. Click **Update** to save the changes.
+2.  Restart the {edition.productName}.
+3. On the {edition.productName} Console, go to **User Attributes & Stores** > **Attributes**.
+2. Click **Attributes** to see the list of attributes.
+3. Click **Edit** for the attribute you want to update.
+4. Go to the **Additional Properties** tab and add the following property to configure the attribute's uniqueness.
+
+    | Property Name | Property Value |
+    | --- | --- |
+    | isUnique | true |
+
+    <img src={require("../../../../assets/img/guides/users/additional-properties.png").default} alt="additional-properties" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+
+6.  Finally, click `+` button and `Update` to save the additional property.
 
 You can now verify the functionality by attempting to add users with an existing attribute value or updating the user attribute value of an existing user.
-
-<Edition only="self-hosted">
-
-:::note[Disable uniqueness validation]
-To disable the uniqueness check for user attributes, add the following configuration to the `<IS_HOME>/repository/conf/deployment.toml` file and restart {edition.productName}.
-
-```toml
-[identity_mgt.user_claim_update.uniqueness]
-enable = false
-```
-:::
-
-</Edition>
-

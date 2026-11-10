@@ -21,8 +21,6 @@ When you register an application, you can customize the login flow.
 
 - Enforce [conditional authentication](./conditional-auth/index.mdx) to dynamically change the login flow of a user based on the user's devices, networks, locations, or usage contexts.
 
-- Add [SSO integrations](./sso-integrations/index.mdx) using {edition.productName} to log in to applications such as [Google](./sso-integrations/add-google-workspace-template.mdx), [Salesforce](./sso-integrations/add-salesforce-template.mdx), [Microsoft](./sso-integrations/add-microsoft-365-template.mdx), [Zoom](./sso-integrations/add-zoom-template.mdx), and [Slack](./sso-integrations/add-slack-template.mdx).
-
 ## Manage user attributes
 
 Manage the user attributes you want to share with your application:
@@ -73,8 +71,6 @@ Follow the steps below to map attributes of {edition.productName} with that of a
 
     <img src={require("../../../assets/img/guides/idp/group-mapping/submit-attribute-mappings.png").default} alt="Submit attribute mappings" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
-<Edition only="self-hosted">
-
 ### Add required attributes for provisioning
 
 When provisioning users from an external identity provider (IdP), you may want to include specific attributes in the user’s profile. Follow the steps below to define the required attributes and assign default values.
@@ -84,11 +80,11 @@ When provisioning users from an external identity provider (IdP), you may want t
 3. Under **Provisioning Attributes Selection**, click **Add Attribute**.
 4. Move the attributes that you want to include in the provisioned user's profile and click **Save**.
 
-    <img src={require("../../../assets/self-hosted/img/guides/idp/add-required-attributes-for-provisioning.png").default} alt="Add required attributes for provisioning" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../assets/img/guides/idp/add-required-attributes-for-provisioning.png").default} alt="Add required attributes for provisioning" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 5. Add a default value to the attribute. If the federated user lacks data for it, the system adds the default to the provisioned user’s profile.
 
-    <img src={require("../../../assets/self-hosted/img/guides/idp/add-default-value-for-required-attributes.png").default} alt="Add default value for required attributes" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../assets/img/guides/idp/add-default-value-for-required-attributes.png").default} alt="Add default value for required attributes" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
     :::note
     To add default values to the provisioned user’s profile when the federated user has no value, configure the following in the `<IS_HOME>/repository/conf/deployment.toml` file.
@@ -98,8 +94,6 @@ When provisioning users from an external identity provider (IdP), you may want t
     enable_merging_custom_claim_mappings_with_default = true
     ```
     :::
-
-</Edition>
 
 ### Add groups to connections
 

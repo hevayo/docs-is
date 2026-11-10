@@ -3,12 +3,8 @@ title: Configure X509 Certificate Authenticator
 description: This page guides you through configuring the X509 certificate authenticator with WSO2 Identity Server.  # generated from the first paragraph; a writer should improve it
 type: how-to
 sidebar_label: Add x509 login
-sidebar_position: 8
-editions: self-hosted
+sidebar_position: 7
 ---
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 
 This page guides you through configuring the X509 certificate authenticator with {edition.productName}.
 
@@ -232,33 +228,31 @@ Follow the steps below to disable certificate validation if your {edition.produc
 
 ### Disable certificate validation in an already-started {edition.productName} pack
 
-If {edition.productName} is already started, use the [Certificate Validation Management API](../../../apis/certificate-validation-management-rest-api/index.mdx) to disable certificate validation as shown below.
+Follow the steps below to disable certificate validation if {edition.productName} was started before.
 
-<Tabs groupId="tabs">
-<TabItem value="sample-request" label="Sample request">
+1. Log in to the {edition.productName} Management Console (`https://<IS_HOST>:<PORT>/carbon`) using administrator credentials (`admin:admin`).
 
-```text
-curl -k -X PUT https://localhost:9443/t/{tenant-domain}/api/server/v1/certificate-validation/revocation-validators/{validator-name}\
--H "accept: application/json" \
--H 'Content-Type: application/json' \
--H 'Authorization: Basic YWRtaW46YWRtaW4=' \
--d '{"enable": false, "priority": 1, "fullChainValidation": true, "retryCount": 2}'
-```
+2.  Click **Main > Registry > Browse**.  
+    <img src={require("../../../../assets/img/guides/authentication/mfa/registry.png").default} alt="registry" width="300" height="500" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
-</TabItem>
-<TabItem value="sample-response" label="Sample response">
+3.  Disable CRL certificate validation.
 
-```text
-{
-    "enable": false,
-    "priority": 1,
-    "fullChainValidation": true,
-    "retryCount": 2
-}
-```
+    1.  Locate the CRL parameter by entering
+            `_system/governance/repository/security/certificate/validator/crlvalidator`
+            in the **Location** search box.  
+            <img src={require("../../../../assets/img/guides/authentication/mfa/browse-registry-location.png").default} alt="location" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
-</TabItem>
-</Tabs>
+    2.  Expand **Properties**.  
+        <img src={require("../../../../assets/img/guides/authentication/mfa/crlvalidator-properties.png").default} alt="crlvalidator-properties" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+
+    3.  Click **Edit** pertaining to the **Enable** property.  
+        <img src={require("../../../../assets/img/guides/authentication/mfa/crlvalidator-enable-property.png").default} alt="crlvalidator-enable-property" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+
+    4. Change the value to `false`, click **Save**.  
+        <img src={require("../../../../assets/img/guides/authentication/mfa/save-crlvalidator-disable.png").default} alt="save-crlvalidator-disable" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+
+    5. Similarly, disable OCSP certificate validation in the `_system/governance/repository/security/certificate/validator/ocspvalidator`
+        registry parameter.
 
 ## Configure the Authentication Endpoint
 
@@ -327,7 +321,7 @@ and use the following details for the claim addition.
 - Attribute name : userCertificate
 - Attribute Display Name : User Certificate
 ```
-<img src={require("../../../../assets/self-hosted/img/guides/authentication/mfa/add-user-certificate-attribute.png").default} alt="add-user-certificate-attribute" width="600" style={{display: "block", border: "0.3px solid lightgrey"}} />
+<img src={require("../../../../assets/img/guides/authentication/mfa/add-user-certificate-attribute.png").default} alt="add-user-certificate-attribute" width="600" style={{display: "block", border: "0.3px solid lightgrey"}} />
 
 This will create the **OpenID Connect** and **SCIM 2.0** protocol mappings as well. When storing the certificate in a user attribute, you will 
 need to update the column size of the `VALUE` column of the `UM_USER_ATTRIBUTES` table to a suitable value.
@@ -337,28 +331,28 @@ need to update the column size of the `VALUE` column of the `UM_USER_ATTRIBUTES`
 -   **Chrome**
     1.  In your browser, go to **Settings** > **Privacy and security** > **Manage certificates** > **Your certificates**.
 
-        <img src={require("../../../../assets/self-hosted/img/guides/authentication/mfa/manage-certificates-chrome.png").default} alt="manage-cert-chrome" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+        <img src={require("../../../../assets/img/guides/authentication/mfa/manage-certificates-chrome.png").default} alt="manage-cert-chrome" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
     2.  Click on **Import,** select the **localhost.p12** file, and then
     click **Open**. Note that you may have to enter the password that
     you used to generate the p12 file, (browserpwd) to open it.
 
-        <img src={require("../../../../assets/self-hosted/img/guides/authentication/mfa/import-certificate-chrome.png").default} alt="import-cert-chrome" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+        <img src={require("../../../../assets/img/guides/authentication/mfa/import-certificate-chrome.png").default} alt="import-cert-chrome" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 -   **Firefox**
     1.  Click on the menu option on the right of the screen and select
         **Settings**.  
 
-        <img src={require("../../../../assets/self-hosted/img/guides/authentication/mfa/settings-firefox.png").default} alt="settings-firefox" width="300" height="500" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+        <img src={require("../../../../assets/img/guides/authentication/mfa/settings-firefox.png").default} alt="settings-firefox" width="300" height="500" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
     2.  Click **Privacy & Security** in the left navigation and scroll down to
         the **Certificates** section. Click **View Certificates**.  
 
-        <img src={require("../../../../assets/self-hosted/img/guides/authentication/mfa/view-certificates-firefox.png").default} alt="view-certificates" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+        <img src={require("../../../../assets/img/guides/authentication/mfa/view-certificates-firefox.png").default} alt="view-certificates" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
     3.  Go to **Your Certificates** in the window that appears, click **Import**.  
 
-        <img src={require("../../../../assets/self-hosted/img/guides/authentication/mfa/import-certificated-firefox.png").default} alt="import-firefox" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+        <img src={require("../../../../assets/img/guides/authentication/mfa/import-certificated-firefox.png").default} alt="import-firefox" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
     4.  Select the **localhost.p12** file, and then click **Open**. Note
         that you may have to enter the password that you used to generate
@@ -372,11 +366,11 @@ The next step is to configure the application.
 
 2. Go to **Login Flow** of the created app, select **Start with default configuration** option.
 
-    <img src={require("../../../../assets/self-hosted/img/guides/authentication/mfa/app-login-flow.png").default} alt="app-login-flow" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../assets/img/guides/authentication/mfa/app-login-flow.png").default} alt="app-login-flow" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 3. Remove the default **Username & Password** authenticator, add **X509 Certificate** and **Update**.
 
-    <img src={require("../../../../assets/self-hosted/img/guides/authentication/mfa/add-x509-authenticator.png").default} alt="add-x509-authenticator" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../assets/img/guides/authentication/mfa/add-x509-authenticator.png").default} alt="add-x509-authenticator" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 4. Finally, click on **Update** to finish the application configurations.
 
@@ -389,6 +383,6 @@ in Onboard single user to onboard a user with the username `wso2is.com` (This is
 
 Try to login to the application you have configured. You will be prompted to send the certificate.
 
-<img src={require("../../../../assets/self-hosted/img/guides/authentication/mfa/certificate-send.png").default} alt="send-certificate" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+<img src={require("../../../../assets/img/guides/authentication/mfa/certificate-send.png").default} alt="send-certificate" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 Once the authentication is successful, you will be redirected to the configured callback location of the application.

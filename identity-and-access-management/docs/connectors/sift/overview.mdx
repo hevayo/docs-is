@@ -5,7 +5,6 @@ type: reference
 layout: connector
 sidebar_label: Overview
 sidebar_position: 1
-editions: self-hosted
 ---
 
 [Sift](https://sift.com/) helps businesses prevent fraud, abuse, and account takeovers by analyzing user behavior and contextual data in real time. By combining signals like device fingerprinting, IP reputation, and behavioral patterns, Sift creates a dynamic risk score that helps businesses make smarter decisions and reduce false positives.
@@ -13,7 +12,9 @@ editions: self-hosted
 You can integrate {edition.productName} with Sift to assess the risk level of login attempts. During authentication, {edition.productName} sends relevant contextual data to Sift. Sift then evaluates the request and returns either a risk score or a decision ID. Based on this response, you can decide to:
 
 - Allow the login.
+
 - Deny the login.
+
 - Trigger additional verification (e.g., MFA).
 
 The following sections describe two common use cases for integrating {edition.productName} with Sift.
@@ -24,7 +25,7 @@ Based on the login context data sent to Sift, it calculates a risk score, where 
 
 You can configure {edition.productName} to deny or step up authentication when the risk score of a login request exceeds a defined threshold.
 
-<img src={require("../../../assets/self-hosted/img/connectors/sift/sift-use-case-1.png").default} alt="Sift use case 1" width="600px" />
+<img src={require("../../../assets/img/connectors/sift/sift-use-case-1.png").default} alt="Sift use case 1" width="600px" />
 
 How it works,
 
@@ -35,8 +36,10 @@ How it works,
 - Sift returns this value to {edition.productName}.
 
 - Based on the configured threshold, {edition.productName} executes a predefined action:
-  - Allow login if the score is within acceptable limits.
-  - Deny login or enforce additional MFA if the score exceeds the threshold.
+
+      - Allow login if the score is within acceptable limits.
+
+      - Deny login or enforce additional MFA if the score exceeds the threshold.
 
 ## Decide based on decision ID
 
@@ -46,13 +49,18 @@ Based on the login context data sent to Sift, it returns a decision ID instead o
 
 By using decision IDs, organizations can offload complex risk logic to Sift, keeping {edition.productName} policies cleaner and more maintainable. This approach also allows real-time policy adjustments in the Sift console without redeploying configurations in {edition.productName}.
 
-<img src={require("../../../assets/self-hosted/img/connectors/sift/sift-use-case-2.png").default} alt="Sift use case 2" width="600px" />
+<img src={require("../../../assets/img/connectors/sift/sift-use-case-2.png").default} alt="Sift use case 2" width="600px" />
 
 How it works,
 
 - When a user attempts to log in, {edition.productName} sends the relevant contextual data such as IP address, device details, geolocation, to Sift.
+
 - Sift analyzes these attributes along with its own data and returns a decision ID to {edition.productName}.
+
 - Based on the decision ID received, {edition.productName} executes the corresponding action:
-  - Allow login if the decision is `allow`.
-  - Deny login if the decision is `deny`.
-  - Enforce additional MFA if the decision is `challenge`.
+
+      - Allow login if the decision is `allow`.
+
+      - Deny login if the decision is `deny`.
+
+      - Enforce additional MFA if the decision is `challenge`.

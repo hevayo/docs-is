@@ -3,7 +3,6 @@ title: Change to PostgreSQL
 description: By default, WSO2 Identity Server uses the embedded H2 database as the database for storing user management and registry data.  # generated from the first paragraph; a writer should improve it
 type: reference
 sidebar_position: 8
-editions: self-hosted
 ---
 
 By default, WSO2 Identity Server uses the embedded H2 database as the database
@@ -64,10 +63,6 @@ A sample configuration is given below.
 
         - `<IS_HOME>/dbscripts/identity/postgresql.sql`
         - `<IS_HOME>/dbscripts/consent/postgresql.sql`
-
-        :::info
-        For stored procedures, use the scripts in the `<IS_HOME>/dbscripts/identity/stored-procedures/postgresql/postgre-11x` folder. The supported PostgreSQL versions (15.10, 16.6, 17.4) are compatible with the 11x stored procedures.
-        :::
 
 2. `WSO2_SHARED_DB`
 

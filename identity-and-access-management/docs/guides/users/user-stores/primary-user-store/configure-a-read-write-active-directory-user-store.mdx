@@ -4,7 +4,6 @@ description: Refer Properties for a read-write Active Directory user store to fi
 type: how-to
 sidebar_label: Configure a read-write Active Directory user store
 sidebar_position: 4
-editions: self-hosted
 ---
 
 :::tip
@@ -42,11 +41,11 @@ WSO2 Identity Server’s client trust store. To perform this, you need to naviga
 client-truststore of WSO2 Identity Server.
 
 ```text
-keytool -import -alias certalias -file <certificate>.pem -keystore client-truststore.p12 -storetype PKCS12 -storepass wso2carbon
+keytool -import -alias certalias -file <certificate>.pem -keystore client-truststore.jks -storetype JKS -storepass wso2carbon
 ```
 
 :::note
-`wso2carbon` is the keystore password of the default client-truststore.p12 file of WSO2 Identity Server.
+`wso2carbon` is the keystore password of the default client-truststore.jks file of WSO2 Identity Server.
 :::
 
 Furthermore, please make sure to follow the steps mentioned in [Configure Active Directory User stores for SCIM 2.0 based Inbound Provisioning](../configure-active-directory-user-stores-for-scim2.mdx) 
@@ -64,11 +63,6 @@ Following are some of the mandatory claims that you need to map with the user st
   - `http://wso2.org/claims/userid`
   - `http://wso2.org/claims/created`
   - `http://wso2.org/claims/modified`
-
-  - `http://wso2.org/claims/emailAddresses`
-  - `http://wso2.org/claims/verifiedAddresses`
-  - `http://wso2.org/claims/mobileNumbers`
-  - `http://wso2.org/claims/verifiedMobileNumbers`
 
 For `created` and `modified` claims, it is recommended to use the `whenCreated` and `whenChanged` 
 operational attributes.
@@ -95,18 +89,11 @@ Following are some of the mandatory claims that you need to map with the user st
   - `http://wso2.org/claims/created`
   - `http://wso2.org/claims/modified`
 
-  - `http://wso2.org/claims/emailAddresses`
-  - `http://wso2.org/claims/verifiedAddresses`
-  - `http://wso2.org/claims/mobileNumbers`
-  - `http://wso2.org/claims/verifiedMobileNumbers`
-
 Refer to the [Update Attributes](../../attributes/user-attributes/manage-attributes.mdx) 
 to learn more on updating attribute mappings.  For `created` and `modified` claims, it is recommended to use the 
 `whenCreated` and `whenChanged` operational attributes.
 
 For `username` and `userid` claims, the `Username Attribute` and `User ID Attribute` properties configured in the User Store configuration should be used to ensure proper user authentication.
-
-Ensure that multiple email addresses and mobile numbers attributes are properly configured by following the instructions in the [Assign multiple email addresses and mobile numbers to a user](../../attributes/user-attributes/manage-attributes.mdx) section.
 
 :::warning
 If you have more than one tenant, you need to change the claim mappings for each tenant before adding the 

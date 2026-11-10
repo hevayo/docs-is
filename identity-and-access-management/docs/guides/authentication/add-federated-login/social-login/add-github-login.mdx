@@ -1,13 +1,10 @@
 ---
 title: Add GitHub login
-description: You can add GitHub login to your applications using WSO2 Identity Platform and enable users to log in with their GitHub accounts.  # generated from the first paragraph; a writer should improve it
+description: You can add GitHub login to your applications using WSO2 Identity Server and enable users to log in with their GitHub accounts.  # generated from the first paragraph; a writer should improve it
 type: how-to
-sidebar_position: 3
+sidebar_position: 4
 slug: "/guides/authentication/social-login/add-github-login"
 ---
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 
 You can add GitHub login to your applications using {edition.productName} and enable users to log in with their GitHub accounts.
 
@@ -52,7 +49,7 @@ Now, let's register the GitHub IdP in {edition.productName}.
 2. Click **New Connections** and select **GitHub**.
 3. Enter the following details and click **Finish**:
 
-    <Edition only="cloud"><img src={require("../../../../../assets/cloud/img/guides/idp/github-idp/add-github-idp.png").default} alt="Add GitHub IDP in WSO2 Identity Platform" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../../assets/self-hosted/img/guides/idp/github-idp/add-github-idp.png").default} alt="Add GitHub IDP in WSO2 Identity Server" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+    <img src={require("../../../../../assets/img/guides/idp/github-idp/add-github-idp.png").default} alt="Add GitHub IDP in WSO2 Identity Server" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
     | Parameter | Description |
     | --- | --- |
@@ -72,48 +69,8 @@ Now, let's register the GitHub IdP in {edition.productName}.
 ## Enable GitHub login
 
 :::note[Before you begin]
-You need to [register an application with {edition.productName}](../../../applications/index.mdx). You can register your own application or use one of the [sample applications](../../../../quick-starts/try-samples/index.mdx) provided.
+You need to [register an application with {edition.productName}](../../../applications/index.mdx). You can register your own application or use one of the [sample applications](../../../../get-started/try-samples/index.mdx) provided.
 :::
-
-<Edition only="cloud">
-
-1. On the {edition.productName} Console, go to **Applications**.
-2. Select your application, go to the **Login Flow** tab and add GitHub login from your preferred editor:
-
-    <Tabs groupId="tabs">
-    <TabItem value="classic-editor" label="Classic Editor">
-
-    To add GitHub login using the Classic Editor:
-
-    1. If you haven't already defined a sign-in flow, click **Start with Default configuration** to get started.
-
-    2. Click **Add Authentication** on the step, select your GitHub identity provider, and click **Add**.
-
-        <img src={require("../../../../../assets/cloud/img/guides/idp/github-idp/add-github-federation-with-basic.png").default} alt="Add GitHub login in WSO2 Identity Platform" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
-
-    </TabItem>
-    <TabItem value="visual-editor" label="Visual Editor">
-
-    To add GitHub login using the Visual Editor:
-
-    1. Switch to the **Visual Editor** tab, by default the `Username & Password` login flow will be added onto the Visual Editor's workspace.
-
-    2. Click on `+ Add Sign In Option` to add a new authenticator to the same step and select your GitHub connection.
-
-        <img src={require("../../../../../assets/img/guides/idp/github-idp/add-github-login-with-visual-editor.png").default} alt="Add GitHub login in WSO2 Identity Platform using the Visual Editor" width="500" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
-
-    </TabItem>
-    </Tabs>
-
-    ---
-
-    :::note[Recommendations]
-    It is recommended to add your social and enterprise connections to the first authentication step as they are used for identifying the user.
-    :::
-
-</Edition>
-
-<Edition only="self-hosted">
 
 1. On the {edition.productName} Console, go to **Applications**.
 2. Select your application, go to the **Login Flow** tab and add GitHub login from your preferred editor:
@@ -130,8 +87,6 @@ You need to [register an application with {edition.productName}](../../../applic
     It is recommended to add your social and enterprise connections to the first authentication step as they are used for identifying the user.
     :::
 
-</Edition>
-
 3. Click **Update** to save your changes.
 
 ## Try it out
@@ -144,7 +99,7 @@ Follow the steps given below.
 
 3. On the {edition.productName} login page, **Sign in with GitHub**.
 
-    <Edition only="cloud"><img src={require("../../../../../assets/cloud/img/guides/idp/github-idp/sign-in-with-github.png").default} alt="Login with GitHub" width="300" style={{border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../../assets/self-hosted/img/guides/idp/github-idp/sign-in-with-github.png").default} alt="Login with GitHub" width="300" style={{border: "0.3px solid lightgrey"}} /></Edition>
+    <img src={require("../../../../../assets/img/guides/idp/github-idp/sign-in-with-github.png").default} alt="Login with GitHub" width="300" style={{border: "0.3px solid lightgrey"}} />
 
 4. Log in to GitHub with an existing user account.
 

@@ -1,5 +1,4 @@
 label: Setup
-position: 5
+position: 4
 customProps:
-  editions: self-hosted
   icon: octicons/gear-16

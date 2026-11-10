@@ -4,7 +4,7 @@ description: This section provides the list of product-level security guidelines
 type: reference
 sidebar_label: Product-level
 sidebar_position: 2
-editions: self-hosted
+slug: "/deploy/security/security-guidelines/product-level-security-guidelines"
 ---
 
 This section provides the list of product-level security guidelines that are recommended for your production environment.
@@ -24,8 +24,6 @@ Follow these guidelines:
 - Use three distinct keystores: **primary** (for token signing), **internal** (for encrypting configuration passwords), and **TLS** (for HTTPS connections).
 - Select a key size of at least 2048 bits.
 - Use a SHA256 certificate.
-
-- For the internal keystore, use a **symmetric AES key** (PKCS12 format) for resilience against post-quantum threats.
 
 - For the TLS keystore, use a CA-signed certificate.
 - Remove the default `wso2carbon` certificate from the truststore in production.
@@ -50,7 +48,7 @@ For instructions on changing default ports, see [Change the default port offset]
 
 To have strong transport-level security, use **TLS 1.3** (recommended) or at minimum **TLS 1.2**, and disable SSL, TLS 1.0, and 1.1.
 
-A set of secure cipher suites is enabled by default. If you need to customize them, use the [Mozilla SSL Configuration Generator](https://ssl-config.mozilla.org/#server=tomcat&version=9.0.58&config=intermediate&guideline=5.6) to select a suitable list for your environment.
+Use the [Mozilla SSL Configuration Generator](https://ssl-config.mozilla.org/#server=tomcat&version=9.0.58&config=intermediate&guideline=5.6) to get an up-to-date list of recommended cipher suites for Tomcat.
 
 :::note
 When deciding on TLS protocol and ciphers, consider compatibility with existing client applications. Imposing maximum security might cause functional problems with older clients.
@@ -120,7 +118,7 @@ As all permissions are generally granted to the root user, do not use the root u
 
 ### Admin credentials
 
-[Update the default password](../../../guides/user-self-service/self-service-portal/change-password.mdx) of the administrator account. By default, WSO2 Identity Server has the Administrator account configured.
+[Update the default password](../../../guides/user-self-service/my-account-portal/explore-self-service-features/change-password.mdx) of the administrator account. By default, WSO2 Identity Server has the Administrator account configured.
 
 {/* TODO !!! info
     For more information, see <a href="{{base_path}}/guides/password-mgt/forced-password-reset/">Forced Password Reset</a>. */}
@@ -204,16 +202,20 @@ Once enabled, any user with administrative privileges can deploy arbitrary web a
 
 ### Sensitive data in query parameters
 
-{edition.productName} rejects `username`, `password`, and `client_secret` parameters passed in the request URL query string. This enforcement applies to token endpoints and other relevant APIs, preventing this sensitive data from appearing in server access logs.
+By default, {edition.productName} accepts sensitive user credentials (such as `username`, `password`, `client_secret`) as form parameters in the request body when calling token endpoints. However, a misconfigured application can send these sensitive parameters as part of the URL's query string and expose this data in server access logs.
 
-You can override this default behavior and configure a custom list of parameters that {edition.productName} rejects when clients send them as query parameters. To do so, open the `<IS_HOME>/repository/conf/deployment.toml` file and under `[oauth]`, configure the `restricted_query_parameters` property.
-
-For example, the following configuration prevents requests that include `client_secret` as a query parameter and allows all other parameters.
+To mitigate this security risk, configure {edition.productName} to reject requests that contain sensitive data in query parameters. To do so, add the following configuration to the `<IS_HOME>/repository/conf/deployment.toml` file:
 
 ```toml
-[oauth]
-restricted_query_parameters=["client_secret"]
+[request_parameters]
+allow_sensitive_data_in_url=false
 ```
+
+When set to `false`, the server will reject such requests with an HTTP 400 Bad Request error.
+
+:::info
+This feature is available from **7.0.0.50** onwards. See the instructions on [updating WSO2 products](https://updates.docs.wso2.com/en/latest/). It is recommended to apply this configuration as part of your secure production deployment.
+:::
 
 ## Logging and monitoring
 

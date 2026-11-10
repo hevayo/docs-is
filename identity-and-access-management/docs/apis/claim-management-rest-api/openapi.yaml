@@ -52,28 +52,6 @@ paths:
           description: Define the order by which the retrieved records should be sorted. <br><b> This option is not yet supported. </b>
           schema:
             type: string
-        - name: profile
-          in: query
-          description: |
-            The claims belong to the given profile. This is used to filter claims based on the profile.
-            <br>Available profiles:
-            <ul>
-              <li>console</li>
-              <li>endUser</li>
-              <li>selfRegistration</li>
-            </ul>
-          schema:
-            type: string
-        - name: exclude-identity-claims
-          in: query
-          description: Exclude identity claims when listing local claims.
-          schema:
-            type: boolean
-        - name: exclude-hidden-claims
-          in: query
-          description: Exclude hidden claims when listing local claims.
-          schema:
-            type: boolean
       responses:
         '200':
           description: Local claims.
@@ -317,7 +295,7 @@ paths:
       tags:
         - management
       summary: Delete a local claim
-      description: Delete a claim by claim ID. Only custom claims can be deleted. <br> <br> <b>Scope(Permission) required:</b> `internal_claim_meta_delete`
+      description: Delete a claim by claim ID. <br> <br> <b>Scope(Permission) required:</b> `internal_claim_meta_delete`
       operationId: deleteLocalClaim
       parameters:
         - name: claim-id
@@ -584,7 +562,7 @@ paths:
       tags:
         - management
       summary: Delete a claim dialect
-      description: Delete a claim dialect by claim ID. Only custom claim dialects can be deleted. <br> <br><b>Scope(Permission) required:</b> `internal_claim_meta_delete`
+      description: Delete a claim dialect by claim ID. <br> <br><b>Scope(Permission) required:</b> `internal_claim_meta_delete`
       operationId: deleteClaimDialect
       parameters:
         - name: dialect-id
@@ -1003,7 +981,7 @@ paths:
       tags:
         - management
       summary: Delete an external claim
-      description: Delete a claim by dialect ID and claim ID. Only custom claims can be deleted. <br> <br>  <b>Scope(Permission) required:</b> `internal_claim_meta_delete`
+      description: Delete a claim by dialect ID and claim ID. <br> <br>  <b>Scope(Permission) required:</b> `internal_claim_meta_delete`
       operationId: deleteExternalClaim
       parameters:
         - name: dialect-id
@@ -1089,52 +1067,6 @@ components:
           type: boolean
           description: Specifies if the claim will be prompted during user registration and displayed on the user profile.
           example: true
-        dataType:
-          type: string
-          description: The data type of the attribute.
-          enum:
-            - string
-            - boolean
-            - date_time
-            - integer
-            - complex
-            - decimal
-          example: string
-        subAttributes:
-          type: array
-          description: The sub attributes of the complex attribute.
-          items:
-            type: string
-          example:
-            - http://wso2.org/claims/manager.role
-            - http://wso2.org/claims/manager.department
-        canonicalValues:
-          type: array
-          description: The possible values for the attribute.
-          items:
-            $ref: '#/components/schemas/LabelValue'
-        multiValued:
-          type: boolean
-          description: Specifies if the claim can hold multiple values.
-          example: false
-        inputFormat:
-          $ref: '#/components/schemas/InputFormat'
-        uniquenessScope:
-          type: string
-          description: Specifies the scope of uniqueness validation for the claim value.
-          enum:
-            - NONE
-            - WITHIN_USERSTORE
-            - ACROSS_USERSTORES
-          example: NONE
-        sharedProfileValueResolvingMethod:
-          type: string
-          description: Specifies claim value resolving method for shared user profile.
-          enum:
-            - FromOrigin
-            - FromSharedProfile
-            - FromFirstFoundInHierarchy
-          example: FromOrigin
         attributeMapping:
           type: array
           description: Userstore attribute mappings.
@@ -1189,50 +1121,6 @@ components:
           type: boolean
           description: Specifies if the claim will be prompted during user registration and displayed on the user profile.
           example: true
-        dataType:
-          type: string
-          description: The data type of the attribute.
-          enum:
-            - string
-            - boolean
-            - date_time
-            - integer
-            - complex
-            - decimal
-          example: string
-        subAttributes:
-          type: array
-          description: The sub attributes of the complex attribute.
-          items:
-            type: string
-          example:
-            - http://wso2.org/claims/manager.role
-            - http://wso2.org/claims/manager.department
-        canonicalValues:
-          type: array
-          description: The possible values for the attribute.
-          items:
-            $ref: '#/components/schemas/LabelValue'
-        multiValued:
-          type: boolean
-          description: Specifies if the claim can hold multiple values.
-          example: false
-        uniquenessScope:
-          type: string
-          description: Specifies the scope of uniqueness validation for the claim value.
-          enum:
-            - NONE
-            - WITHIN_USERSTORE
-            - ACROSS_USERSTORES
-          example: NONE
-        sharedProfileValueResolvingMethod:
-          type: string
-          description: Specifies claim value resolving method for shared user profile.
-          enum:
-            - FromOrigin
-            - FromSharedProfile
-            - FromFirstFoundInHierarchy
-          example: FromOrigin
         attributeMapping:
           type: array
           description: Userstore attribute mappings.
@@ -1317,11 +1205,6 @@ components:
           type: string
           description: The local claim URI to map with the external claim.
           example: http://wso2.org/claims/username
-        properties:
-          type: array
-          description: Define any additional properties if required.
-          items:
-            $ref: '#/components/schemas/Property'
       description: External claim response.
     Property:
       required:
@@ -1344,33 +1227,6 @@ components:
           type: string
           description: Describes how the current context is related to the target resource.
           example: claims
-    LabelValue:
-      type: object
-      required:
-        - label
-        - value
-      properties:
-        label:
-          type: string
-          description: The display name shown to the user.
-          example: Work Account
-        value:
-          type: string
-          description: The internal value used in processing.
-          example: WorkAccount
-      example:
-        label: Work Account
-        value: WorkAccount
-    InputFormat:
-      type: object
-      description: The input formatting of the attribute.
-      properties:
-        inputType:
-          type: string
-          description: Type of the input format (e.g., dropdown, checkbox, etc.)
-          example: dropdown
-      example:
-        inputType: dropdown
     Error:
       required:
         - code
