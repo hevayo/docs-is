@@ -3,8 +3,8 @@ title: Mitigate Authorization Code Interception Attacks
 description: The following sections describe the impact of the code interception attack and the approaches you can use to mitigate it.  # generated from the first paragraph; a writer should improve it
 type: reference
 sidebar_label: Authorization Code Interception attacks
-sidebar_position: 3
-editions: self-hosted
+sidebar_position: 2
+slug: "/deploy/mitigate-attacks/mitigate-authorization-code-interception-attacks"
 ---
 
 The following sections describe the impact of the code interception attack and the approaches you can use to mitigate it. You may need to mitigate these kinds of attacks when creating an OAuth application that uses the [Authorization Code Grant](../../../references/iam-concepts/grant-types.mdx#authorization-code-grant) type for authentication.
@@ -41,7 +41,7 @@ The flow of this attack is illustrated in the following diagram.
 In some operating systems such as Android, in step 5 of the flow, the user is prompted to select the application to handle the redirect URI before it is parsed using a "Complete Action Using" activity. This may prevent a malicious application from handling it, as the user can identify and select the legitimate application. However, some operating systems (such as iOS) do not have any such scheme.
 :::
 
-<img src={require("../../../../assets/self-hosted/img/setup/secure/mitigate-auth-code-interception.png").default} alt="Authorization code grant type flow" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+<img src={require("../../../../assets/img/setup/secure/mitigate-auth-code-interception.png").default} alt="Authorization code grant type flow" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 ## Mitigate code interception attacks using PKCE
 

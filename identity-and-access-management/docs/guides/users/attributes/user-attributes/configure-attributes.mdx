@@ -13,135 +13,106 @@ To configure attributes,
 2. Under **Manage Attributes**, click **Attributes** to view the list of all attributes.
 3. Click **Edit** for the attribute you want to update.
 
- <Edition only="cloud"><img src={require("../../../../../assets/cloud/img/guides/organization/attributes/edit-attributes-general.png").default} alt="Edit attributes" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../../assets/self-hosted/img/guides/organization/attributes/edit-attributes-general.png").default} alt="Edit attributes" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+    <img src={require("../../../../../assets/img/guides/organization/attributes/edit-attributes-general.png").default} alt="Edit attributes" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
-## General settings
+    :::note
+    The **Attribute** field specifies the unique identifier of the attribute. It always starts with `http://wso2.org/claims`. This can't be edited.
+    :::
 
-Use the following settings to change details and behavior of an attribute. To configure them, go to the **General** tab of the attribute.
+4. In the **General** tab, update the following values.
 
-:::note
-The **Attribute** field specifies the unique identifier of the attribute. It always starts with `http://wso2.org/claims` and not editable.
-:::
+    <table>
+      <tbody>
+        <tr>
+          <td>**Attribute Display Name**</td>
+          <td>Update the display name of the attribute that will show in user profiles.</td>
+        </tr>
+        <tr>
+          <td>**Description**</td>
+          <td>Update the description for the attribute.</td>
+        </tr>
+        <tr>
+          <td>**Regular expression**</td>
+          <td>The attribute value will be validated against the regex pattern specified here.</td>
+        </tr>
+        <tr>
+          <td>**Select Source for Attribute Value of Shared Users**</td>
+          <td>
 
-<table>
-  <tbody>
-    <tr>
-      <td>**Attribute Display Name**</td>
-      <td>Update the display name of the attribute that will show in user profiles.</td>
-    </tr>
-    <tr>
-      <td>**Description**</td>
-      <td>Update the description for the attribute.</td>
-    </tr>
-    <tr>
-      <td>**Data Type**</td>
-      <td>Refers to the kind of value it holds. Refer to [reference](./attribute-configurations-reference.mdx) for more details.</td>
-    </tr>
-    <tr>
-      <td>**Allow multiple values for this attribute**</td>
-      <td>Specify whether to support multiple values for this attribute.</td>
-    </tr>
-    <tr>
-      <td>**Input Format**</td>
-      <td>Specify the kind of input it supports. Refer to [reference](./attribute-configurations-reference.mdx) for more details.</td>
-    </tr>
-    <tr>
-      <td>**Regular expression**</td>
-      <td>The attribute value will be validated against the regex pattern specified here.</td>
-    </tr>
-    <tr>
-      <td>**Select Source for Attribute Value of Shared Users**</td>
-      <td>
+            When a user's profile is shared across multiple organizations, the value of this attribute will be taken from the selected source.<br />
 
-        When a user's profile is shared across multiple organizations, the value of this attribute will be taken from the selected source.<br />
+            - **From Origin:** The attribute value is inherited from the original organization which manages the user's profile.
+            - **From Shared Profile:** The attribute value is taken from the shared user profile in the respective organization.
+            - **From First Found in Hierarchy:** The attribute value is retrieved from the first organization in the hierarchy that has assigned a non-null value to the attribute.
 
-        - **From Origin:** The attribute value is inherited from the original organization which manages the user's profile.
-        - **From Shared Profile:** The attribute value is taken from the shared user profile in the respective organization.
-        - **From First Found in Hierarchy:** The attribute value is retrieved from the first organization in the hierarchy that has assigned a non-null value to the attribute.
+            At the moment, you can only configure this option for custom attributes.
 
-        You can only configure this option for custom attributes.
+          </td>
+        </tr>
+        <tr>
+          <td>**Uniqueness Validation**</td>
+          <td>
 
-      </td>
-    </tr>
-    <tr>
-      <td>**Uniqueness Validation**</td>
-      <td>
+            Select one of the following scopes to validate attribute uniqueness:
 
-        Select one of the following scopes to validate attribute uniqueness:
+            - **None:** No validation is applied. Users can have duplicate values for the selected attribute.
+            - **Within User Store:** Users within the same user store can't have duplicate values for the selected attribute. However, users in other user stores may have duplicates.
+            - **Across User Stores:** Attribute values are unique across all user stores preventing duplicates throughout the organization.
 
-        - **None:** No validation is applied. Users can have duplicate values for the selected attribute.
-        - **Within User Store:** Users within the same user store can't have duplicate values for the selected attribute. However, users in other user stores may have duplicates.
-        - **Across User Stores:** Attribute values are unique across all user stores preventing duplicates throughout the organization.
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
-      </td>
-    </tr>
-  </tbody>
-</table>
+5. Under **Attribute Configurations**, use the table to configure how attributes are handled for each entity.
 
-## Display settings
+    <img src={require("../../../../../assets/img/guides/organization/attributes/configure-attribute-profiles.png").default} alt="Edit attributes" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
-These settings control where an attribute appears in the {edition.productName} Console, and whether the attribute is required or read-only.
+    The table contains the following entities:
 
-To update these settings, open the **General** tab of your attribute and use the table in the **Attribute Configurations** section.
+    - Administrator Console: User profiles as seen from the administrator's Console.
+    - End-User Profile: User profiles as seen from the users' My Account portal.
+    - Self-Registration: The form presented to users during self-registration.
 
-<img src={require("../../../../../assets/img/guides/organization/attributes/configure-attribute-profiles.png").default} alt="Edit attributes" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    For each of these entities, you can configure the following properties:
 
-The table manages these settings across the following user interfaces:
+    <table>
+      <tbody>
+        <tr>
+          <td>**Display**</td>
+          <td>If selected, the entity displays the attribute.</td>
+        </tr>
+        <tr>
+          <td>**Required**</td>
+          <td>If selected, the entity must contain a value for this attribute.</td>
+        </tr>
+        <tr>
+          <td>**Read-only**</td>
+          <td>If selected, the value will be read-only for the entity and can't be modified.</td>
+        </tr>
+      </tbody>
+    </table>
 
-- Administrator Console: User profiles as seen from the administrator's Console.
-- End-User Profile: User profiles as seen from the users' My Account portal.
-- Self-Registration: The form presented to users during self-registration.
+    :::danger[Warning]
+    These settings only control how the attributes behave in WSO2-managed UIs (Administrator Console, End-User Profile (i.e. My Account), Self-Registration). They **do not** affect backend or API validation.
+    :::
 
-<table>
-  <tbody>
-    <tr>
-      <td>**Display**</td>
-      <td>If selected, the attribute is displayed in the entity.</td>
-    </tr>
-    <tr>
-      <td>**Required**</td>
-      <td>If selected, the entity must contain a value for this attribute.</td>
-    </tr>
-    <tr>
-      <td>**Read-only**</td>
-      <td>If selected, the value will be read-only for the entity and can't be modified.</td>
-    </tr>
-  </tbody>
-</table>
+    If you create a custom end-user profile UI, you can reference these configurations to apply the same rules (Display, Required, Read-only) in your own forms.
 
-:::danger[Only for display purposes]
-These settings only control how the attributes behave in WSO2-managed user interfaces. They **do not** affect backend or API validation.
-:::
+    :::note
+    Using the attribute configurations, you can also configure which attributes are displayed in the user creation form when
+    [onboarding users](../../manage-users.mdx) in the console.
+    :::
 
-:::tip[Refer these settings from your own end-user UI]
-If you create a custom end-user profile UI, you can reference these configurations to apply the same rules (Display, Required, Read-only) in your own forms.
-:::
+    To display an attribute in the user creation form, select the **both** **Display** and **Required** checkboxes for the **Administrator Console** entity.
 
-:::tip[Display attributes in the user creation form]
-You can control whether to display this attribute when [onboarding users](../../users/manage-users.mdx) from the Console. To do so, select both  **Display** and **Required** for **Administrator Console**.
-:::
+6. Go to the **Attribute Mappings** tab and enter the attribute from each user store that you need to map.
 
-## Additional settings
+    <img src={require("../../../../../assets/img/guides/organization/attributes/edit-attribute-mappings.png").default} alt="Edit attribute mappings" width="500" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
-Apart from the properties in the **General** tab, you can configure the following additional settings for an attributes.
+7. Optionally, you may use the **Additional Properties** tab to add additional properties that can be used when writing an extension.
 
-### Attribute mappings
-
-The **Attribute Mappings** tab lets you map attributes from each connected user store to the user attribute in {edition.productName}. This makes sure the attribute is stored and updated in the correct user store field.
-
-<Edition only="cloud"><img src={require("../../../../../assets/cloud/img/guides/organization/attributes/edit-attribute-mappings.png").default} alt="Edit attribute mappings" width="500" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../../assets/self-hosted/img/guides/organization/attributes/edit-attribute-mappings.png").default} alt="Edit attribute mappings" width="500" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
-
-<Edition only="self-hosted">
-
-### Addition properties
-
-You can use the **Additional Properties** tab to add any extra properties you need when writing an extension.
-
-<img src={require("../../../../../assets/self-hosted/img/guides/organization/attributes/edit-attributes-additional-properties.png").default} alt="Edit additional properties" width="500" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
-
-</Edition>
-
-<Edition only="self-hosted">
+    <img src={require("../../../../../assets/img/guides/organization/attributes/edit-attributes-additional-properties.png").default} alt="Edit additional properties" width="500" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 ## Configure the storage location of attributes
 
@@ -178,9 +149,12 @@ By default, {edition.productName} stores identity attributes internally in the u
 
     - `http://wso2.org/claims/identity/failedLoginAttempts`: Tracks the number of consecutive failed login attempts. Account locking happens based on this value.
 
-</Edition>
-
 ### Select storage location for selected attributes
+
+:::note
+The selective configuration of storage location for attributes is available in WSO2 IS 7.1.0 from update level 42 onwards.
+ See how to [Upgrade the WSO2 Identity Server](../../../../deploy/upgrade-wso2-is.mdx).
+:::
 
 {edition.productName}, by default, stores identity attributes internally and user attributes in the connected user stores. If you want to store and manage an identity attribute in your user stores or a user attribute in the identity store, you can do so by following the steps below.
 
@@ -227,27 +201,3 @@ By default, {edition.productName} stores identity attributes internally in the u
     :::
 
 6. Click **Update** to save the changes.
-
-<Edition only="self-hosted">
-
-## Configure hidden attributes
-
-WSO2 Identity Server includes hidden identity attributes that support internal functionality but don't appear in the Console UI by default. These attributes typically don't require mapping with Service Providers (SPs) or Identity Providers (IdPs).
-
-You can customize the set of hidden identity attributes by adding the following configuration to the `<IS_HOME>/repository/conf/deployment.toml` file:
-
-```toml
-[identity_mgt.claims]
-hidden_claims = [
-    "<attribute_uri_1>",
-    "<attribute_uri_2>",
-    ...
-]
-```
-
-- To add new attributes to the hidden list, include their URIs in the hidden_claims array.
-
-- To unhide default hidden attributes, override the configuration with an empty list or remove the relevant URIs.
-
-</Edition>
-

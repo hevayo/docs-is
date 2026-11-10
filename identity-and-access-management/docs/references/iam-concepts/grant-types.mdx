@@ -22,20 +22,14 @@ Grant types in OAuth 2.0 are defined as the methods used by a client to obtain a
 - [Token exchange grant](#token-exchange-grant)
 - [CIBA grant](#ciba-grant)
 
-<Edition only="self-hosted">
-
 - [JWT Bearer Grant](#jwt-bearer-grant)
 - [SAML 2.0 bearer grant](#saml-20-bearer-grant)
-
-</Edition>
 
 ### {edition.productName}'s custom grants
 
 - [Organization switch grant](#organization-switch-grant)
 
 The following sections explore each grant type in further detail.
-
-<Edition only="self-hosted">
 
 :::note
 WSO2 Identity Server provides more control over issuing id tokens and user claims for client-credential grant type.
@@ -54,7 +48,7 @@ the `openid` scope. By configuring it to false, you can stop issuing ID tokens.
 **Note:** You can not turn off the process of issuing ID tokens for the `authorization_code` grant type.
 
 By configuring the `<IsRefreshTokenAllowed>` property to `true` or `false` along with the above configuration, 
-you can turn on or turn off the process of issuing refresh tokens. By default, `IsRefreshTokenAllowed` is set to 
+you can turn on or turn on the process of issuing refresh tokens. By default, `IsRefreshTokenAllowed` is set to 
 `true`, and you can allow it to issue refresh tokens for all grant types. By configuring it to `false`, you can stop 
 issuing refresh tokens.  
 **Note:** By default, issuing ID token for `client_credentials` grant type is disabled as it is logically invalid.
@@ -66,49 +60,13 @@ grant type in public clients.
 **Note:** By default, using `client_credentials` grant type for public clients is disabled as it is logically invalid.
 :::
 
-</Edition>
-
 ## Authorization code grant
 
 The Authorization code flow is a secure method for clients to obtain an access token by exchanging an authorization code received through the front channel. As the access token is directly transmitted to the client via a secure back channel, it is not exposed to the user's user agent (e.g. web browser) reducing its risk of being intercepted by a malicious party.
 
 The following diagram shows how the authorization code flow works.
 
-<Edition only="cloud">![How the authorization code grant works](../../../assets/cloud/img/references/grants/authorization-code.png)</Edition><Edition only="self-hosted">![How the authorization code grant works](../../../assets/self-hosted/img/references/grants/authorization-code.png)</Edition>
-
-<Edition only="cloud">
-
-1. The user visits the client application and requests for login through {edition.productName}.
-2. The client application redirects the authorization code request to {edition.productName} (front channel).
-
-    <Tabs groupId="tabs">
-    <TabItem value="request-format-authorize" label="Request format (/authorize)">
-
-    ```bash
-    https://api.asgardeo.io/t/<organization_name>/oauth2/authorize
-    ?response_type=code
-    &client_id=<client_id>
-    &redirect_uri=<redirect_uri>
-    &scope=<scopes>
-    ```
-
-    </TabItem>
-    <TabItem value="sample-request-authorize" label="Sample request (/authorize)">
-
-    ```bash
-    https://api.asgardeo.io/t/bifrost/oauth2/authorize
-    ?response_type=code
-    &client_id=cHuGSLCm77ApRFcsdyh_4sdFU2XYa
-    &redirect_uri=https://localhost:3000
-    &scope=internal_application_mgt_view internal_user_mgt_list
-    ```
-
-    </TabItem>
-    </Tabs>
-
-</Edition>
-
-<Edition only="self-hosted">
+![How the authorization code grant works](../../../assets/img/references/grants/authorization-code.png)
 
 1. The user visits the client application and requests for login through {edition.productName}.
 2. The client application redirects the authorization code request to {edition.productName} (front channel).
@@ -137,8 +95,6 @@ The following diagram shows how the authorization code flow works.
 
     </TabItem>
     </Tabs>
-
-</Edition>
 
 3. {edition.productName} prompts the user for login.
 4. The user logs in.
@@ -148,41 +104,6 @@ The following diagram shows how the authorization code flow works.
     https://localhost:3000?code=9142d4cad58c66d0a5edfad8952192
     ```
 
-<Edition only="cloud">
-
-6. The client application uses this authorization code to request an access token from {edition.productName} (back channel).
-
-    <Tabs groupId="tabs">
-    <TabItem value="request-format-token" label="Request format (/token)">
-
-    ```bash
-    curl -v -X POST https://api.asgardeo.io/t/<organization_name>/oauth2/token \ 
-    --basic -u <client_id>:<client_secret> \
-    --header "Content-Type:application/x-www-form-urlencoded;charset=UTF-8" -k \
-    --data-urlencode "grant_type=authorization_code" \
-    --data-urlencode "code=<authorization_code>" \
-    --data-urlencode "redirect_uri=<redirect_uri>"
-    ```
-
-    </TabItem>
-    <TabItem value="sample-request-token" label="Sample request (/token)">
-
-    ```bash
-    curl -v -X POST https://api.asgardeo.io/t/bifrost/oauth2/token \ 
-    --basic -u Ei0Wf9bzfsdvdd0lfwSvTPje8kcEa:HFI2S2HR9kdfg543f5xMpuIAjgJxnZQUT1_e52ga \
-    --header "Content-Type:application/x-www-form-urlencoded;charset=UTF-8" -k \
-    --data-urlencode "grant_type=authorization_code" \
-    --data-urlencode "code=9142d4cad58c66d0a5edfad8952192" \
-    --data-urlencode "redirect_uri=https://localhost:3000"
-    ```
-
-    </TabItem>
-    </Tabs>
-
-</Edition>
-
-<Edition only="self-hosted">
-
 6. The client application uses this authorization code to request an access token from {edition.productName} (back channel).
 
     <Tabs groupId="tabs">
@@ -211,8 +132,6 @@ The following diagram shows how the authorization code flow works.
 
     </TabItem>
     </Tabs>
-
-</Edition>
 
 7. {edition.productName} responds with the access token and other tokens to the client application.
 
@@ -240,42 +159,7 @@ When an access token expires, clients may use the refresh token grant to obtain 
 
 The following diagram shows how the refresh token flow works.
 
-<Edition only="cloud">![How the refresh token grant works](../../../assets/cloud/img/references/grants/refresh-token.png)</Edition><Edition only="self-hosted">![How the refresh token grant works](../../../assets/self-hosted/img/references/grants/refresh-token.png)</Edition>
-
-<Edition only="cloud">
-
-1. The client application requests user information from the resource server by providing the access token.
-2. As the access token is expired, the resource server returns an error message.
-3. By sending the refresh token, the client application requests a new access token from {edition.productName}.
-
-    <Tabs groupId="tabs">
-    <TabItem value="request-format-token" label="Request format (/token)">
-
-    ```bash
-    curl -k https://api.asgardeo.io/t/<organization_name>/oauth2/token \
-    --header "Content-Type: application/x-www-form-urlencoded" \
-    --header "Authorization: Basic <Base64Encoded(CLIENT_ID:CLIENT_SECRET)>" \
-    --data-urlencode "grant_type=refresh_token" \
-    --data-urlencode "refresh_token=<REFRESH_TOKEN>"
-    ```
-
-    </TabItem>
-    <TabItem value="sample-request-token" label="Sample request (/token)">
-
-    ```bash
-    curl -k https://api.asgardeo.io/t/bifrost/oauth2/token \
-    --header "Content-Type: application/x-www-form-urlencoded" \
-    --header "Authorization: Basic RWkwV2Y5YnpmTXE0UTBsZndTdlRQamU4a2NFYTpIRvvyUzJIUjlrZE9YMjBXTG9JNmY1eE1wdUlBamdKeG5aUVVUMV9lNTJnYQ==" \
-    --data-urlencode "grant_type=refresh_token" \
-    --data-urlencode "refresh_token=96a6dsd97-0120-3bec-86be-21b58f600a07"
-    ```
-
-    </TabItem>
-    </Tabs>
-
-</Edition>
-
-<Edition only="self-hosted">
+![How the refresh token grant works](../../../assets/img/references/grants/refresh-token.png)
 
 1. The client application requests user information from the resource server by providing the access token.
 2. As the access token is expired, the resource server returns an error message.
@@ -305,8 +189,6 @@ The following diagram shows how the refresh token flow works.
 
     </TabItem>
     </Tabs>
-
-</Edition>
 
 4. {edition.productName} sends a new access token and a new refresh token.
 
@@ -327,40 +209,7 @@ If you wish to implement this grant type, it is important to ensure that the cli
 
 The following diagram shows how the client credentials grant flow works.
 
-<Edition only="cloud">![How the client credentials grant works](../../../assets/cloud/img/references/grants/client-credentials.png)</Edition><Edition only="self-hosted">![How the client credentials grant works](../../../assets/self-hosted/img/references/grants/client-credentials.png)</Edition>
-
-<Edition only="cloud">
-
-1. The client application sends its credentials (`client_id` and `client_secret`) to {edition.productName} and requests an access token.
-
-    <Tabs groupId="tabs">
-    <TabItem value="request-format-token" label="Request format (/token)">
-
-    ```bash
-    curl -v -k -X POST https://api.asgardeo.io/t/<organization_name>/oauth2/token \
-    --header "Authorization: Basic <Base64Encoded(CLIENT_ID:CLIENT_SECRET)>" \
-    --header "Content-Type:application/x-www-form-urlencoded" \
-    --data-urlencode "grant_type=client_credentials" \
-    --data-urlencode "scope=<scopes>"
-    ```
-
-    </TabItem>
-    <TabItem value="sample-request-token" label="Sample request (/token)">
-
-    ```bash
-    curl -v -k -X POST https://api.asgardeo.io/t/bifrost/oauth2/token \
-    --header "Authorization: Basic RWkwV2Y5YnpmTXE0UTBsZndTdlRQamU4a2NFYTpIRvvyUzJIUjlrZE9YMjBXTG9JNmY1eE1wdUlBamdKeG5aUVVUMV9lNTJnYQ==" \
-    --header "Content-Type:application/x-www-form-urlencoded" \
-    --data-urlencode "grant_type=client_credentials" \
-    --data-urlencode "scope=internal_idp_view internal_idp_create internal_organization_view"
-    ```
-
-    </TabItem>
-    </Tabs>
-
-</Edition>
-
-<Edition only="self-hosted">
+![How the client credentials grant works](../../../assets/img/references/grants/client-credentials.png)
 
 1. The client application sends its credentials (`client_id` and `client_secret`) to {edition.productName} and requests an access token.
 
@@ -388,8 +237,6 @@ The following diagram shows how the client credentials grant flow works.
 
     </TabItem>
     </Tabs>
-
-</Edition>
 
 2. {edition.productName} sends the access token to the client application.
 
@@ -418,39 +265,7 @@ However, it is important to note that the access token is exposed in the browser
 
 The following diagram shows how the implicit grant flow works.
 
-<Edition only="cloud">![How the implicit grant works](../../../assets/cloud/img/references/grants/implicit-grant.png)</Edition><Edition only="self-hosted">![How the implicit grant works](../../../assets/self-hosted/img/references/grants/implicit-grant.png)</Edition>
-
-<Edition only="cloud">
-
-1. The user visits the client application and requests for login through {edition.productName}.
-2. The client application redirects the authorization request to {edition.productName}.
-
-    <Tabs groupId="tabs">
-    <TabItem value="request-format-authorize" label="Request format (/authorize)">
-
-    ```bash
-    https://api.asgardeo.io/t/<organization_name>/oauth2/authorize
-    ?response_type=token
-    &client_id=<client_id>
-    &redirect_uri=<redirect_uri>
-    ```
-
-    </TabItem>
-    <TabItem value="sample-request-authorize" label="Sample request (/authorize)">
-
-    ```bash
-    https://api.asgardeo.io/t/bifrost/oauth2/authorize
-    ?response_type=token
-    &client_id=cHuGSLCm77ApRFcsdyh_4sdFU2XYa
-    &redirect_uri=https://localhost:3000
-    ```
-
-    </TabItem>
-    </Tabs>
-
-</Edition>
-
-<Edition only="self-hosted">
+![How the implicit grant works](../../../assets/img/references/grants/implicit-grant.png)
 
 1. The user visits the client application and requests for login through {edition.productName}.
 2. The client application redirects the authorization request to {edition.productName}.
@@ -477,8 +292,6 @@ The following diagram shows how the implicit grant flow works.
 
     </TabItem>
     </Tabs>
-
-</Edition>
 
 3. {edition.productName} prompts the user to enter credentials.
 4. The user enters the credentials.
@@ -502,47 +315,12 @@ The password grant is primarily used in scenarios where the client application i
 
 The following diagram shows how the password grant flow works.
 
-<Edition only="cloud">![How the password grant works](../../../assets/cloud/img/references/grants/password-grant.png)</Edition><Edition only="self-hosted">![How the password grant works](../../../assets/self-hosted/img/references/grants/password-grant.png)</Edition>
+![How the password grant works](../../../assets/img/references/grants/password-grant.png)
 
 1. The user visits the client application and requests for login through {edition.productName}.
 2. The client application requests the user's credentials.
 3. The user enters the requested credentials to the client application.
 
-<Edition only="cloud">
-
-4. The client application sends the user's credentials and requests an access token from {edition.productName}.
-
-    <Tabs groupId="tabs">
-    <TabItem value="request-format-token" label="Request format (/token)">
-
-    ```bash
-    curl -v -k -X POST https://api.asgardeo.io/t/<organization_name>/oauth2/token \
-    --header "Authorization: Basic <Base64Encoded(CLIENT_ID:CLIENT_SECRET)>" \
-    --header "Content-Type:application/x-www-form-urlencoded;charset=UTF-8" \
-    --data-urlencode "grant_type=password" \
-    --data-urlencode "username=<username>&password=<password>" \
-    --data-urlencode "scope=<scopes>"
-    ```
-
-    </TabItem>
-    <TabItem value="sample-request-token" label="Sample request (/token)">
-
-    ```bash
-    curl -v -k -X POST https://api.asgardeo.io/t/bifrost/oauth2/token \
-    --header "Authorization: Basic RWkwV2Y5YnpmTXE0UTBsZndTdlRQamU4a2NFYTpIRvvyUzJIUjlrZE9YMjBXTG9JNmY1eE1wdUlBamdKeG5aUVVUMV9lNTJnYQ==" \
-    --header "Content-Type:application/x-www-form-urlencoded;charset=UTF-8" \
-    --data-urlencode "grant_type=password" \
-    --data-urlencode "username=admin&password=admin" \
-    --data-urlencode "scope=internal_idp_view internal_idp_create internal_organization_view"
-    ```
-
-    </TabItem>
-    </Tabs>
-
-</Edition>
-
-<Edition only="self-hosted">
-
 4. The client application sends the user's credentials and requests an access token from {edition.productName}.
 
     <Tabs groupId="tabs">
@@ -571,8 +349,6 @@ The following diagram shows how the password grant flow works.
 
     </TabItem>
     </Tabs>
-
-</Edition>
 
 5. {edition.productName} sends the access token to the client application.
 
@@ -589,11 +365,25 @@ The following diagram shows how the password grant flow works.
 6. The client application can now request user information from the resource server by providing the access token.
 7. The resource server returns the requested user information to the client application.
 
-<Edition only="self-hosted">
+:::note
+From WSO2 Identity Server 7.1.0 onwards, the specific authentication failure reason is not retuned with the API response by default. The API response will only indicate that the authentication has failed.
+If you want to return the specific reason for authentication failure, you can add the below configuration to the `deployment.toml` file found in the `<IS_HOME>/repository/conf` folder.
 
-\{\{ password_grant_show_auth_failure_reason_note \}\}
+```toml
+[oauth.grant_type.password]
+show_auth_failure_reason = true
+```
 
-</Edition>
+If you are migrating from an earlier version you would already be using the below set of configurations in the `deployment.toml` file to show the authentication failure reason for password grant based on the `show_auth_failure_reason` configuration of basic authenticator. In that case, you can use the below configurations together to show the authentication failure reason. These configurations will be given priority over the `show_auth_failure_reason` configuration of the password grant.
+
+```toml
+[oauth.password_grant]
+use_show_auth_failure_reason = true
+
+[authentication.authenticator.basic.parameters]
+showAuthFailureReason = true
+```
+:::
 
 ## Device authorization grant
 
@@ -602,53 +392,7 @@ Such devices include smart TVs, printers, and gaming consoles. The device flow d
 
 The diagram below illustrates the device flow.
 
-<Edition only="cloud">![device-authorization-grant-diagram](../../../assets/cloud/img/references/grants/device-flow.png)</Edition><Edition only="self-hosted">![device-authorization-grant-diagram](../../../assets/self-hosted/img/references/grants/device-flow.png)</Edition>
-
-<Edition only="cloud">
-
-1. The client device sends an access request including its client identifier to {edition.productName}.
-
-    <Tabs groupId="tabs">
-    <TabItem value="request-format-token" label="Request format (/token)">
-
-    ```bash
-    curl -v -k -X POST https://api.asgardeo.io/t/<organization_name>/oauth2/device_authorize \
-    --header "Authorization: Basic <Base64Encoded(CLIENT_ID:CLIENT_SECRET)>" \
-    --header "Content-Type:application/x-www-form-urlencoded" \
-    --data-urlencode "client_id=<client_id>" \
-    --data-urlencode "scope=<scopes>"
-    ```
-
-    </TabItem>
-    <TabItem value="sample-request-token" label="Sample request (/token)">
-
-    ```bash
-    curl -v -k -X POST https://api.asgardeo.io/t/bifrost/oauth2/device_authorize \
-    --header "Authorization: Basic YmJ3SkVheVJfT013UGtBZ205Vk9NekxuWUxnYTpTZDU2RGY3UkhLQm9JTWpWdzJLMnRhUzg5MjBh" \
-    --header "Content-Type:application/x-www-form-urlencoded" \
-    --data-urlencode "client_id=bbwJEayR_OMwPkAgm9VOMzLnYLga" \
-    --data-urlencode "scope=internal_idp_view internal_idp_create internal_organization_view"
-    ```
-
-    </TabItem>
-    </Tabs>
-
-2. {edition.productName} issues a device code, a user code, and a verification URI.
-
-    ```json
-    {
-    "user_code":"s2DqSNK",
-    "device_code":"d3fe0db1-2334-48fa-b7d9-821ecfad10d5",
-    "interval":5000,
-    "verification_uri_complete":"https://api.asgardeo.io/t/<organization_name>/authenticationendpoint/device.do?user_code=s2DqSNK",
-    "verification_uri":"https://api.asgardeo.io/t/<organization_name>/authenticationendpoint/device.do",
-    "expires_in":3600
-    }
-    ```
-
-</Edition>
-
-<Edition only="self-hosted">
+![device-authorization-grant-diagram](../../../assets/img/references/grants/device-flow.png)
 
 1. The client device sends an access request including its client identifier to {edition.productName}.
 
@@ -690,49 +434,12 @@ The diagram below illustrates the device flow.
     }
     ```
 
-</Edition>
-
 3. The client device instructs the user to access the provided URI using a secondary device (e.g., a mobile device). The client device provides the user with the user code.
 
 4. {edition.productName} prompts the user to enter the end-user code and the user enters the user code.
 
 5. {edition.productName} validates the code and asks the end user to accept or decline the authorization request.
 
-<Edition only="cloud">
-
-6. While the end user reviews the authorization request, the client polls the authorization server with the device code and client identifier to check if the user has completed the authorization step.
-
-    <Tabs groupId="tabs">
-    <TabItem value="request-format-token" label="Request format (/token)">
-
-    ```bash
-    curl -v -k -X POST https://api.asgardeo.io/t/<organization_name>/oauth2/token \
-    --header "Authorization: Basic <Base64Encoded(CLIENT_ID:CLIENT_SECRET)>" \
-    --header "Content-Type:application/x-www-form-urlencoded" \
-    --data-urlencode "grant_type=urn:ietf:params:oauth:grant-type:device_code" \
-    --data-urlencode "client_id=<client_id>" \
-    --data-urlencode "device_code=<device_code>" 
-    ```
-
-    </TabItem>
-    <TabItem value="sample-request-token" label="Sample request (/token)">
-
-    ```bash
-    curl -v -k -X POST https://api.asgardeo.io/t/<organization_name>/oauth2/token \
-    --header "Authorization: Basic YmJ3SkVheVJfT013UGtBZ205Vk9NekxuWUxnYTpTZDU2RGY3UkhLQm9JTWpWdzJLMnRhUzg5MjBh" \
-    --header "Content-Type:application/x-www-form-urlencoded" \
-    --data-urlencode "grant_type=urn:ietf:params:oauth:grant-type:device_code" \
-    --data-urlencode "client_id=bbwJEayR_OMwPkAgm9VOMzLnYLga" \
-    --data-urlencode "device_code=d3fe0db1-2334-48fa-b7d9-821ecfad10d5"
-    ```
-
-    </TabItem>
-    </Tabs>
-
-</Edition>
-
-<Edition only="self-hosted">
-
 6. While the end user reviews the authorization request, the client polls the authorization server with the device code and client identifier to check if the user has completed the authorization step.
 
     <Tabs groupId="tabs">
@@ -761,8 +468,6 @@ The diagram below illustrates the device flow.
 
     </TabItem>
     </Tabs>
-
-</Edition>
 
 7. If the user grants access, the authorization server validates the verification code and responds with the access token.
 
@@ -786,60 +491,6 @@ The diagram below illustrates the device flow.
 
 The diagram below illustrates the CIBA flow.
 
-<Edition only="cloud">![How the CIBA grant works](../../../assets/cloud/img/references/grants/ciba-grant.png)</Edition><Edition only="self-hosted">![How the CIBA grant works](../../../assets/self-hosted/img/references/grants/ciba-grant.png)</Edition>
-
-<Edition only="cloud">
-
-1. The client application (Consumption Device) sends a backchannel authentication request to {edition.productName}.
-
-    <Tabs groupId="tabs">
-    <TabItem value="request-format-ciba" label="Request format (/ciba)">
-
-    ```bash
-    curl -v -k -X POST https://api.asgardeo.io/t/<organization_name>/oauth2/ciba \
-    --header "Authorization: Basic <Base64Encoded(CLIENT_ID:CLIENT_SECRET)>" \
-    --header "Content-Type:application/x-www-form-urlencoded" \
-    --data-urlencode "scope=<scopes>" \
-    --data-urlencode "login_hint=<username>" \
-    --data-urlencode "binding_message=<custom_message>"
-    ```
-
-    To issue an [on-behalf-of (OBO) token](../../guides/agentic-ai/ai-agents/agent-authentication.mdx#using-ciba-for-on-behalf-of-delegation) for agent delegation, include the `actor_token` parameter:
-
-    ```bash
-    --data-urlencode "actor_token=<AGENT_ACTOR_TOKEN>"
-    ```
-
-    </TabItem>
-    <TabItem value="sample-request-ciba" label="Sample request (/ciba)">
-
-    ```bash
-    curl -v -k -X POST https://api.asgardeo.io/t/bifrost/oauth2/ciba \
-    --header "Authorization: Basic YmJ3SkVheVJfT013UGtBZ205Vk9NekxuWUxnYTpTZDU2RGY3UkhLQm9JTWpWdzJLMnRhUzg5MjBh" \
-    --header "Content-Type:application/x-www-form-urlencoded" \
-    --data-urlencode "scope=openid profile" \
-    --data-urlencode "login_hint=admin" \
-    --data-urlencode "binding_message=Please authenticate to My App"
-    ```
-
-    </TabItem>
-    </Tabs>
-
-2. {edition.productName} validates the request and issues an authentication request identifier (`auth_req_id`). Depending on the notification channel configured, it might also return an `auth_url` for user authentication.
-
-    ```json
-    {
-        "auth_req_id": "015a2f21-6844-4e9c-80dd-a608544dcd8f",
-        "interval": 2,
-        "auth_url": "https://api.asgardeo.io/t/<organization_name>/oauth2/ciba_authorize?authCodeKey=2d9999e0-debb-4f9d-860b-ec221a478e42",
-        "expires_in": 120
-    }
-    ```
-
-</Edition>
-
-<Edition only="self-hosted">
-
 1. The client application (Consumption Device) sends a backchannel authentication request to {edition.productName}.
 
     <Tabs groupId="tabs">
@@ -854,7 +505,7 @@ The diagram below illustrates the CIBA flow.
     --data-urlencode "binding_message=<custom_message>"
     ```
 
-    To issue an [on-behalf-of (OBO) token](../../guides/agentic-ai/ai-agents/agent-authentication.mdx#using-ciba-for-on-behalf-of-delegation) for agent delegation, include the `actor_token` parameter:
+    To issue an on-behalf-of (OBO) token for agent delegation, include the `actor_token` parameter:
 
     ```bash
     --data-urlencode "actor_token=<AGENT_ACTOR_TOKEN>"
@@ -886,45 +537,10 @@ The diagram below illustrates the CIBA flow.
     }
     ```
 
-</Edition>
-
 3. {edition.productName} notifies the user to authenticate on a separate Authentication Device (e.g. by sending an email, SMS, or relying on external delivery of the `auth_url`).
 
 4. The user authenticates and provides consent via the Authentication Device.
 
-<Edition only="cloud">
-
-5. Meanwhile, the client application polls the token endpoint with the `auth_req_id` to retrieve the access token.
-
-    <Tabs groupId="tabs">
-    <TabItem value="request-format-token" label="Request format (/token)">
-
-    ```bash
-    curl -v -k -X POST https://api.asgardeo.io/t/<organization_name>/oauth2/token \
-    --header "Authorization: Basic <Base64Encoded(CLIENT_ID:CLIENT_SECRET)>" \
-    --header "Content-Type:application/x-www-form-urlencoded" \
-    --data-urlencode "grant_type=urn:openid:params:grant-type:ciba" \
-    --data-urlencode "auth_req_id=<AUTH_REQ_ID>"
-    ```
-
-    </TabItem>
-    <TabItem value="sample-request-token" label="Sample request (/token)">
-
-    ```bash
-    curl -v -k -X POST https://api.asgardeo.io/t/bifrost/oauth2/token \
-    --header "Authorization: Basic YmJ3SkVheVJfT013UGtBZ205Vk9NekxuWUxnYTpTZDU2RGY3UkhLQm9JTWpWdzJLMnRhUzg5MjBh" \
-    --header "Content-Type:application/x-www-form-urlencoded" \
-    --data-urlencode "grant_type=urn:openid:params:grant-type:ciba" \
-    --data-urlencode "auth_req_id=015a2f21-6844-4e9c-80dd-a608544dcd8f"
-    ```
-
-    </TabItem>
-    </Tabs>
-
-</Edition>
-
-<Edition only="self-hosted">
-
 5. Meanwhile, the client application polls the token endpoint with the `auth_req_id` to retrieve the access token.
 
     <Tabs groupId="tabs">
@@ -951,8 +567,6 @@ The diagram below illustrates the CIBA flow.
 
     </TabItem>
     </Tabs>
-
-</Edition>
 
 6. If the user has authenticated successfully, the authorization server responds with the access token.
 
@@ -976,47 +590,7 @@ OAuth 2.0 token exchange is a grant type in the OAuth 2.0 framework that enables
 
 The following diagram shows how the token exchange grant flow works.
 
-<Edition only="cloud">![How the token exchange grant works](../../../assets/cloud/img/references/grants/token-exchange-grant.png)</Edition><Edition only="self-hosted">![How the token exchange grant works](../../../assets/self-hosted/img/references/grants/token-exchange-grant.png)</Edition>
-
-<Edition only="cloud">
-
-1. The user sends a login request to the client application.
-2. The client application sends an authorization request to the third-party IdP.
-3. The third-party IdP returns the JWT access token for the user to the client application.
-4. The client application makes a token exchange request to the authorization server:
-
-    <Tabs groupId="tabs">
-    <TabItem value="request-format-token" label="Request format (/token)">
-
-    ```bash
-    curl -v -k -X POST https://api.asgardeo.io/t/<organization_name>/oauth2/token \
-    --header "Authorization: Basic <Base64Encoded(CLIENT_ID:CLIENT_SECRET)>" \
-    --header "Content-Type:application/x-www-form-urlencoded" \
-    --data-urlencode "subject_token_type=urn:ietf:params:oauth:token-type:jwt" \
-    --data-urlencode "subject_token=<token>" \
-    --data-urlencode "requested_token_type=urn:ietf:params:oauth:token-type:access_token" \
-    --data-urlencode "grant_type=urn:ietf:params:oauth:grant-type:token-exchange"
-    ```
-
-    </TabItem>
-    <TabItem value="sample-request-token" label="Sample request (/token)">
-
-    ```bash
-    curl -v -k -X POST https://api.asgardeo.io/t/bifrost/oauth2/token \
-    --header "Authorization: Basic RWkwV2Y5YnpmTXE0UTBsZndTdlRQamU4a2NFYTpIRvvyUzJIUjlrZE9YMjBXTG9JNmY1eE1wdUlBamdKeG5aUVVUMV9lNTJnYQ==" \
-    --header "Content-Type:application/x-www-form-urlencoded" \
-    --data-urlencode "subject_token_type=urn:ietf:params:oauth:token-type:jwt" \
-    --data-urlencode "subject_token=eyJ4NXQiOiJDN3Q1elQ4UUhXcWJBZ3ZJOGVXWTN4UnlwcE0iLCJraWQiOiJaR0UyTXpjeE1XWXpORGhtTVRoak1HSmlOamhpTmpNMFlqWXhNakJtTUdZeFl6ZzBabU0zWldJd1pHRmxZakk1TTJZelpHTmtaalkxWXpBeE5qZzNNUV9SUzI1NiIsImFsZyI6IlJTMjU2In0.eyJpc2siOiI3YmRhNTY5ZGY0OTZkYzgzYjc1OGZkNmVhN2M2YWU1YzgyNWMyZTMyMDJmN2VjMDhiNTNhNDM2NmViOTA0MDUxIiwiYXRfaGFzaCI6IjVVWU9udGlvcFpqTm5URWhaaudGeGciLCJzdWIiOiI1OWU2Y2VlYS04ZTY2LTQxOTItYmUwOS0zNDBiYjAyZDU3YzEiLCJhbXIiOlsiQmFzaWNBdXRoZW50aWNhdG9yIl0sImlzcyI6Imh0dHBzOlwvXC9hcGkuYXNnYXJkZW8uaW9cL3RcL2hpbWVzaGRldmluZGFcL29hdXRoMlwvdG9rZW4iLCJmaGlyVXNlciI6IlBhdGllbnRcLzEiLCJzaWQiOiJjZjI5YjYzOC00ZWE0LTRiMDEtOWY0NS05MmUwYWMxMDlkZTIiLCJhdWQiOiJ6b1Z0RnlBZjZnYnhXWUxMSkxvcUh2OUo5aGNhIiwiY19oYXNoIjoiM3lYUVBNWVhHVEZWZWwzSWlQWXJXdyIsIm5iZiI6MTcyODI5OTM1OSwiYXpwIjoiem9WdEZ5QWY2Z2J4V1lMTEpMb3FIdjlKOWhjYSIsIm9yZ19pZCI6ImRlOWM1ZjE0LTEwYjYtNDk5YS05OTNkLTg5ZmMzNjJiYjI0MCIsImV4cCI6MTcyODMwMjk1OSwib3JnX25hbWUiOiJoaW1lc2hkZXZpbmRhIiwiaWF0IjoxNzI4Mjk5MzU5LCJqdGkiOiIwZmNkZDMzNy1lZWMyLTRmNDItOGNkZS05YWY0NTkzYTBiZGEifQ.EH2ex0J3Sc6XOC5CRa2ZO2Th2rGYa5Qwk1sYDxaKmSFdnTN90JXduaEdCucR0yv_GzqFe5VX2mpfmtGrFGIsrOBcqDNaw28BTgtgA20j4I_ZD8vrZdjo20K-h-ZuM-bcEtpGR_hAUtomqddGj42sl1Wb0C3ZrcqD2M7g_av9zQLgqCd3Wc6RnTAWHvrm4lWH4Z9MY2U-TCa-9P7VQ5od9dxlYAlLUwmeSTbre-EQxXPQBh8RYGuH9SrxQ7GYbgyOSnR-ZXywPulS8DcxNPMPWP4LAHMrY0xfxoN9yp5SQOYPu08XzyQ6YSY579nHfNamzu8lB7o3yoJio1d0LM4PaQ" \
-    --data-urlencode "requested_token_type=urn:ietf:params:oauth:token-type:access_token" \
-    --data-urlencode "grant_type=urn:ietf:params:oauth:grant-type:token-exchange"
-    ```
-
-    </TabItem>
-    </Tabs>
-
-</Edition>
-
-<Edition only="self-hosted">
+![How the token exchange grant works](../../../assets/img/references/grants/token-exchange-grant.png)
 
 1. The user sends a login request to the client application.
 2. The client application sends an authorization request to the third-party IdP.
@@ -1051,16 +625,12 @@ The following diagram shows how the token exchange grant flow works.
 
     </TabItem>
     </Tabs>
-
-</Edition>
 
 5. The authorization server responds to the client with the new access token.
 6. The client application can now request resources from the resource server by providing the access token.
 7. As the resource server trusts {edition.productName} issued tokens, it returns the requested resources to the client application.
 
-Token exchange can be used for delegation and impersonation use cases. See [configure the token exchange flow](../../guides/authentication/configure-oidc-flows/tokens-and-validation/configure-token-exchange.mdx) for more details about delegation usecase. See  [user impersonation](../../guides/authorization/user-impersonation/via-business-application.mdx) for more details on user impersonation with token exchange grant.
-
-<Edition only="self-hosted">
+Token exchange can be used for delegation and impersonation use cases. See [configure the token exchange flow](../../guides/authentication/configure-oidc-flows/tokens-and-validation/configure-token-exchange.mdx) for more details about delegation usecase. See  user impersonation for more details on user impersonation with token exchange grant.
 
 ## JWT bearer grant
 
@@ -1068,7 +638,7 @@ OAuth 2.0 JWT bearer is a grant type in the OAuth 2.0 framework that enables the
 
 The following diagram shows how the JWT Bearer grant flow works.
 
-![How the JWT bearer grant works](../../../assets/self-hosted/img/references/grants/token-exchange-grant.png)
+![How the JWT bearer grant works](../../../assets/img/references/grants/token-exchange-grant.png)
 
 1. The user sends a login request to the client application.
 2. The client application sends an authorization request to the third-party IdP.
@@ -1112,7 +682,7 @@ SAML 2.0 bearer grant is a grant type in the OAuth 2.0 framework that enables th
 
 The following diagram shows how the token exchange grant flow works.
 
-![How the token exchange grant works](../../../assets/self-hosted/img/references/grants/saml2-bearer-grant.png)
+![How the token exchange grant works](../../../assets/img/references/grants/saml2-bearer-grant.png)
 
 1. The user sends a login request to the client application.
 2. The client application sends an authentication request to the third-party IdP using SAML 2.0.
@@ -1150,8 +720,6 @@ The following diagram shows how the token exchange grant flow works.
 6. The client application can now request resources from the resource server by providing the access token.
 7. As the resource server trusts {edition.productName} issued tokens, it returns the requested resources to the client application.
 
-</Edition>
-
 ## Organization switch grant
 
 The organization switch grant is a custom grant type in {edition.productName} that enables users to switch between [organizations](../../guides/organization-management/index.mdx) that exists in a hierarchical structure.
@@ -1162,45 +730,6 @@ The following diagram illustrates the process of obtaining an access token using
 
 - Steps 1-7 follows the [authorization code grant](#authorization-code-grant) and the client application obtains the necessary access tokens for the root organization.
 
-<Edition only="cloud">
-
-- The client application then exchanges the received access token for another that can be used within the specified child organization.
-
-    <Tabs groupId="tabs">
-    <TabItem value="request-format-token" label="Request format (/token)">
-
-    ```bash
-    curl -v -X POST https://api.asgardeo.io/t/<organization_name>/oauth2/token \
-    --header 'Authorization: Basic <Base64Encoded(CLIENT_ID:CLIENT_SECRET)>' \
-    --header 'Content-Type: application/x-www-form-urlencoded' \
-    --data-urlencode 'grant_type=organization_switch' \
-    --data-urlencode 'token=<access_token_from_organization>' \
-    --data-urlencode 'scope=<scopes>' \
-    --data-urlencode 'switching_organization=<organization_id>'
-    ```
-
-    </TabItem>
-    <TabItem value="sample-request-token" label="Sample request (/token)">
-
-    ```bash
-    curl -v -X POST https://api.asgardeo.io/t/bifrost/oauth2/token \
-    --header 'Authorization: Basic ejhSQjZ5c2REWmhlNFFPMHpKQVF6S2JpNlA0YTp6MEM3OXpsb3B4OGk3QnlPdzhLMTVBOWRwbFlh' \
-    --header 'Content-Type: application/x-www-form-urlencoded' \
-    --data-urlencode 'grant_type=organization_switch' \
-    --data-urlencode 'token=54bd024f-5080-3db5-9422-785f5d610605' \
-    --data-urlencode 'scope=openid internal_org_application_mgt_view' \
-    --data-urlencode 'switching_organization=9e394cbf-70bf-532a-955d-0ef34597f2ef'
-    ```
-
-    </TabItem>
-    </Tabs>
-
-    After the root organization validates that the user is a member of the child organization, it returns the exchanged access token to the client application.
-
-</Edition>
-
-<Edition only="self-hosted">
-
 - The client application then exchanges the received access token for another that can be used within the specified child organization.
 
     <Tabs groupId="tabs">
@@ -1233,8 +762,6 @@ The following diagram illustrates the process of obtaining an access token using
     </Tabs>
 
     After the root organization validates that the user is a member of the child organization, it returns the exchanged access token to the client application.
-
-</Edition>
 
 :::warning[Important]
 - Although we used the authorization grant type, access tokens issued for a root organization user via other grant types can also be exchanged using the organization switch grant.

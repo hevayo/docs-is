@@ -4,7 +4,6 @@ description: The WSO2 Identity Server Console is a pivotal point for managing id
 type: how-to
 sidebar_label: Manage Console access
 sidebar_position: 2
-editions: self-hosted
 ---
 
 import Tabs from '@theme/Tabs';
@@ -53,7 +52,7 @@ To customize login for the Console,
 
     - Click **Add Authentication** on a step, select a connection from the list and click **Add**. You can add multiple connections to the same step.
 
-        <img src={require("../../../assets/self-hosted/img/guides/organization/console/login-flow-classic.png").default} alt="Configure the Console login flow using the classic editor" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+        <img src={require("../../../assets/img/guides/organization/console/login-flow-classic.png").default} alt="Configure the Console login flow using the classic editor" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
     - Click the **+** icon on the login flow if you wish to add an additional authentication step and repeat the above.
 
@@ -70,7 +69,7 @@ To customize login for the Console,
 
     - Click **Add Sign In Option**, select a connection from the list and click **Add**. You can add multiple authentication methods to the same step. (Alternatively, go to **Predefined Flows** > **Basic Flows** to quickly add a login flow.)
 
-        <img src={require("../../../assets/self-hosted/img/guides/organization/console/login-flow-visual.png").default} alt="Configure the Console login flow using the Visual Editor" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+        <img src={require("../../../assets/img/guides/organization/console/login-flow-visual.png").default} alt="Configure the Console login flow using the Visual Editor" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
     - Click the **+** icon on the login flow if you wish to add an additional authentication step and repeat the above.
 
@@ -126,12 +125,14 @@ By default, you can assign each Console component one of the following permissio
 :::note
 Selecting **View** or **Edit** for a given Console component assigns the role several scopes pertaining to it. For example, if you select **Applications** and assign the **View** permission, the role is assigned the following scopes.
 
-<img src={require("../../../assets/self-hosted/img/guides/organization/console/console-role-permissions.png").default} alt="Scopes assigned for a given permission for a Console component" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+<img src={require("../../../assets/img/guides/organization/console/console-role-permissions.png").default} alt="Scopes assigned for a given permission for a Console component" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 :::
 
-<Edition selfHostedFrom="next">
-
 #### Granular console permissions
+
+:::note
+Granular console permissions are available from **update level 7.1.0.73** onwards. See the instructions on [updating WSO2 products](https://updates.docs.wso2.com/en/latest/).
+:::
 
 By default, Console roles use the combined **View** and **Edit** permission model described above, where **Edit** grants **Create**, **Update**, and **Delete** access together.
 
@@ -167,7 +168,7 @@ Once enabled, you can assign each Console component the following permission lev
   </tbody>
 </table>
 
-<img src={require("../../../assets/self-hosted/img/guides/organization/console/granular-console-role-permissions.png").default} alt="Granular console permissions" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+<img src={require("../../../assets/img/guides/organization/console/granular-console-role-permissions.png").default} alt="Granular console permissions" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 :::note
 **View** is required whenever **Create**, **Update**, or **Delete** is selected for a component, and it cannot be turned off while any of those write permissions remain active.
@@ -180,8 +181,6 @@ Console roles created earlier with the combined **Edit** permission continue to 
 :::warning[Switching back to the default model]
 If you enable granular Console permissions and create roles with granular **Create**, **Update**, or **Delete** permissions, those role permissions will not work after you switch back to the default **View** and **Edit** permission model. Keep granular Console permissions enabled for roles created with the granular model, or review and update those roles before disabling it.
 :::
-
-</Edition>
 
 ### Create a role
 
@@ -197,7 +196,7 @@ To create a role for the Console,
 
 3. Provide the following details for the role.
 
-    <img src={require("../../../assets/self-hosted/img/guides/organization/console/create-console-role.png").default} alt="Create a role for the Console" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../assets/img/guides/organization/console/create-console-role.png").default} alt="Create a role for the Console" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 4. Click **Add** to save the role.
 
@@ -217,7 +216,7 @@ To assign a user or a group to a role,
 
         - Choose a user store and select the relevant user.
 
-            <img src={require("../../../assets/self-hosted/img/guides/organization/console/assign-console-role-to-user.png").default} alt="assign a user to a role" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+            <img src={require("../../../assets/img/guides/organization/console/assign-console-role-to-user.png").default} alt="assign a user to a role" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
         - Click **Update** to assign the user.
 
@@ -227,7 +226,7 @@ To assign a user or a group to a role,
 
         - Select a relevant local group.
 
-            <img src={require("../../../assets/self-hosted/img/guides/organization/console/assign-console-role-to-group.png").default} alt="assign a group to a role" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+            <img src={require("../../../assets/img/guides/organization/console/assign-console-role-to-group.png").default} alt="assign a group to a role" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
         - Click **Update** to assign the group.
 
@@ -243,4 +242,4 @@ To delete a role:
 
 ## Manage administrators
 
-Users who are assigned to one or more Console roles created [above](#create-a-role), are listed under the **Administrators** tab in **Console Settings**. For instructions on managing administrators, refer to [manage administrators](../users/administrators/manage-administrators.mdx).
+Users who are assigned to one or more Console roles created [above](#create-a-role), are listed under the **Administrators** tab in **Console Settings**. For instructions on managing administrators, refer to [manage administrators](../users/manage-administrators.mdx).

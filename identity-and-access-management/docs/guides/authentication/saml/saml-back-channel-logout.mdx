@@ -1,9 +1,9 @@
 ---
 title: Back-channel logout
-description: This guide explains SAML back-channel logout and how to implement it with WSO2 Identity Platform.  # generated from the first paragraph; a writer should improve it
+description: This guide explains SAML back-channel logout and how to implement it with WSO2 Identity Server.  # generated from the first paragraph; a writer should improve it
 type: how-to
 sidebar_label: SAML back-channel logout
-sidebar_position: 4
+sidebar_position: 5
 ---
 
 import Tabs from '@theme/Tabs';
@@ -25,7 +25,7 @@ SAML logout enables a user to log out of an application and automatically log ou
 
 SP-initiated logout occurs when the user starts the logout process from a Service Provider (SP).
 
-<Edition only="cloud">![SP-initiated back-channel logout](../../../../assets/cloud/img/guides/authentication/saml/back-channel-sp-initiated-logout.png)</Edition><Edition only="self-hosted">![SP-initiated back-channel logout](../../../../assets/self-hosted/img/guides/authentication/saml/back-channel-sp-initiated-logout.png)</Edition>
+![SP-initiated back-channel logout](../../../../assets/img/guides/authentication/saml/back-channel-sp-initiated-logout.png)
 
 During this flow,
 
@@ -44,7 +44,7 @@ During this flow,
 
 IdP-initiated logout occurs when the user triggers the logout process directly from the Identity Provider (IdP).
 
-<Edition only="cloud">![IdP-initiated back-channel logout](../../../../assets/cloud/img/guides/authentication/saml/back-channel-idp-initiated-logout.png)</Edition><Edition only="self-hosted">![IdP-initiated back-channel logout](../../../../assets/self-hosted/img/guides/authentication/saml/back-channel-idp-initiated-logout.png)</Edition>
+![IdP-initiated back-channel logout](../../../../assets/img/guides/authentication/saml/back-channel-idp-initiated-logout.png)
 
 During this flow,
 
@@ -105,8 +105,6 @@ The following guide walks you through setting up sample applications to see SAML
 Learn more about the /webapps directory location and Tomcat commands in the [Tomcat documentation](https://tomcat.apache.org/tomcat-8.0-doc/deployer-howto.html).
 :::
 
-<Edition only="self-hosted">
-
 ### Configure Cross Origin Cross-Origin Resource Sharing (CORS)
 
 SAML2 POST Binding sends the SAML response via browser POST, creating a cross-origin request when the SP and {edition.productName} use different domains. To Configure {edition.productName} to allow requests from the SP’s domain,
@@ -140,8 +138,6 @@ SAML2 POST Binding sends the SAML response via browser POST, creating a cross-or
     :::
 
 2. Restart {edition.productName}.
-
-</Edition>
 
 ### Integrate application with {edition.productName}
 

@@ -1,6 +1,6 @@
 openapi: 3.0.1
 info:
-  title: WSO2 Identity Platform Rule Metadata REST API
+  title: WSO2 Identity Server Rule Metadata REST API
   description: "The Rule Metadata API provides the essential metadata required to configure rules dynamically based on the flow context. \nThe metadata retrieved by this API is designed to support rule configuration in the user interface (UI) by delivering information about each configurable field, the set of applicable comparison operators (e.g., equals, contains) for each field, and lists of possible values or options for fields.\n"
   contact:
     name: WSO2
@@ -10,9 +10,15 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0.html
   version: v1
 servers:
-  - url: 'https://api.asgardeo.io/t/{organization-name}/api/server/v1'
+- url: "https://{server-url}/t/{tenant-domain}/api/server/v1"
+  variables:
+    tenant-domain:
+      default: carbon.super
+    server-url:
+      default: localhost:9443
 security:
 - OAuth2: []
+- BasicAuth: []
 paths:
   /rules/metadata:
     get:
@@ -31,7 +37,7 @@ paths:
         description: |
           Specifies the flow to retrieve rule metadata. This ensures that the metadata returned is relevant to the given flow.
 
-          Note: At present, only the 'preIssueAccessToken','preUpdatePassword' and 'preUpdateProfile' flows are supported.
+          Note: At present, only the 'preIssueAccessToken' and 'preUpdatePassword' flows are supported.
         required: true
         style: form
         explode: true
@@ -40,7 +46,7 @@ paths:
           enum:
           - preIssueAccessToken
           - preUpdatePassword
-          - preUpdateProfile
+          - preProfileUpdate
           - preLogin
           - postLogin
           - inLogin
@@ -126,51 +132,7 @@ paths:
                       - name: userInitiatedPasswordReset
                         displayName: User initiated password reset
                       - name: userInitiatedPasswordUpdate
-                        displayName: User initiated password update
-                      - name: adminInitiatedRegistration
-                        displayName: Admin initiated registration
-                      - name: applicationInitiatedRegistration
-                        displayName: Application initiated registration
-                      - name: userInitiatedRegistration
-                        displayName: User initiated registration
-                preUpdateProfile:
-                  summary: Sample response for pre-update profile flow
-                  value:
-                    - field:
-                        name: flow
-                        displayName: flow
-                      operators:
-                        - name: equals
-                          displayName: equals
-                        - name: notEquals
-                          displayName: not equals
-                      value:
-                        inputType: options
-                        valueType: string
-                        values:
-                          - name: adminInitiatedProfileUpdate
-                            displayName: Admin initiated profile update
-                          - name: applicationInitiatedProfileUpdate
-                            displayName: Application initiated profile update
-                          - name: userInitiatedProfileUpdate
-                            displayName: User initiated profile update
-                    - field:
-                        name: claim
-                        displayName: claim
-                      operators:
-                        - name: equals
-                          displayName: equals
-                        - name: notEquals
-                          displayName: not equals
-                      value:
-                        inputType: options
-                        valueType: reference
-                        valueReferenceAttribute: claimURI
-                        valueDisplayAttribute: displayName
-                        links:
-                          - href: /claim-dialects/local/claims?exclude-hidden-claims=true
-                            method: GET
-                            rel: values
+                        displayName: User initiated password update                        
                 inLogin:
                   summary: Sample response for login flow
                   value:
@@ -244,8 +206,8 @@ paths:
       x-codeSamples:
       - lang: Curl
         source: |
-          curl --location 'https://api.asgardeo.io/t/{organization-name}/api/server/v1/rules/metadata?flow=preIssueAccessToken' \
-            --header 'Authorization: Bearer {bearer_token}'
+          curl --location 'https://localhost:9443/api/server/v1/rules/metadata?flow=preIssueAccessToken' \
+            --header 'Authorization: Basic YWRtaW46YWRtaW4='
 components:
   schemas:
     ExpressionMeta:
@@ -391,11 +353,14 @@ components:
           description: Trace identifier to refer at troubleshooting logs to troubleshoot the problem.
           example: e0fbcfeb-3617-43c4-8dd0-7b7d38e13047
   securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
     OAuth2:
       type: oauth2
       flows:
         authorizationCode:
-          authorizationUrl: 'https://api.asgardeo.io/t/{org-name}/oauth2/authorize'
-          tokenUrl: 'https://api.asgardeo.io/t/{org-name}/oauth2/token'
+          authorizationUrl: https://localhost:9443/oauth2/authorize
+          tokenUrl: https://localhost:9443/oauth2/token
           scopes:
             read: internal_rule_metadata_view

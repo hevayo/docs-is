@@ -74,6 +74,10 @@ eyJ4NXQiOiJOVEF4Wm1NeE5ETXlaRGczTVRVMVpHTTBNekV6T0RKaFpXSTRORE5sWkRVMU9HRmtOakZp
 
     - A192CBC-HS384
 
+:::note
+From update level 54 onwards, the `A192CBC-HS384` encryption method is supported.
+:::
+
 - **Encrypt the Content Encryption Key (CEK)** - {edition.productName} uses the registered public key of the application to encrypt the CEK using the specified asymmetric encryption algorithm, known as the **encryption algorithm**. {edition.productName} supports the following encryption algorithms:
 
     - RSA1_5
@@ -83,7 +87,11 @@ eyJ4NXQiOiJOVEF4Wm1NeE5ETXlaRGczTVRVMVpHTTBNekV6T0RKaFpXSTRORE5sWkRVMU9HRmtOakZp
     - RSA-OAEP-384
     - RSA-OAEP-512
 
-<Edition only="self-hosted">
+    - ECDH-ES+A256KW
+
+:::note
+From update level 57 onwards, `RSA-OAEP-256`, `RSA-OAEP-384`, `RSA-OAEP-512`, and `ECDH-ES+A256KW` encryption algorithms are supported.
+:::
 
 You can configure the default values of the encryption methods and encryption algorithms by making changes to the `<IS_HOME>/repository/conf/deployment.toml` file.
 
@@ -92,6 +100,3 @@ You can configure the default values of the encryption methods and encryption al
 supported_encryption_algorithms=["RSA1_5","RSA-OAEP"]
 supported_encryption_methods=["A128GCM","A192GCM","A256GCM","A128CBC-HS256","A128CBC+HS256"]
 ```
-
-</Edition>
-

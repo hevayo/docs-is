@@ -1,6 +1,6 @@
 ---
 title: Manage OIDC Scopes
-description: In WSO2 Identity Platform, each piece of user information is mapped to a user attribute.  # generated from the first paragraph; a writer should improve it
+description: In WSO2 Identity Server, each piece of user information is mapped to a user attribute.  # generated from the first paragraph; a writer should improve it
 type: how-to
 sidebar_label: OIDC scopes
 sidebar_position: 4
@@ -140,42 +140,7 @@ As an application developer, you can follow the steps given below to configure y
 
 2. Copy the scopes listed at the end of the **User Attributes** section.
 
-    <Edition only="cloud"><img src={require("../../../../assets/cloud/img/guides/organization/scopes/selected-scopes.png").default} alt="Selected Scopes" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/self-hosted/img/guides/organization/scopes/selected-scopes.png").default} alt="Selected Scopes" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
-
-<Edition only="cloud">
-
-3. When configuring the authentication request in your client app, append the **scope** parameter with the scopes that you need:
-
-    - For client apps using the SDK:
-
-        ```json {6}
-        {
-          "clientID": "<client ID>",
-          "baseUrl": "https://api.asgardeo.io/t/<organization_name>",
-          "signInRedirectURL": "https://localhost:3000",
-          "signOutRedirectURL": "https://localhost:3000",
-          "scope": [ "openid", "address", "phone", "profile" ]
-        }
-        ```
-
-        :::note
-        Find out more about [configuring applications](../../../quick-starts/get-started/start-integrating-apps/index.mdx).
-        :::
-
-    - For client apps using direct API calls to authenticate:
-
-        ```javascript {6}
-        curl -X GET \
-        https://api.asgardeo.io/t/<organization_name>/oauth2/authorize \
-          -d 'client_id={client_id}'
-          -d 'response_type=code'
-          -d 'redirect_uri={redirect_uri}'
-          -d 'scope=openid%address%phone%profile'
-        ```
-
-</Edition>
-
-<Edition only="self-hosted">
+    <img src={require("../../../../assets/img/guides/organization/scopes/selected-scopes.png").default} alt="Selected Scopes" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 3. When configuring the authentication request in your client app, append the **scope** parameter with the scopes that you need:
 
@@ -192,7 +157,7 @@ As an application developer, you can follow the steps given below to configure y
         ```
 
         :::note
-        Find out more about [configuring applications](../../../quick-starts/get-started/start-integrating-apps/index.mdx).
+        Find out more about [configuring applications](../../../get-started/start-integrating-apps/index.mdx).
         :::
 
     - For client apps using direct API calls to authenticate:
@@ -205,7 +170,5 @@ As an application developer, you can follow the steps given below to configure y
           -d 'redirect_uri={redirect_uri}'
           -d 'scope=openid%address%phone%profile'
         ```
-
-</Edition>
 
 When the user logs in, {edition.productName} will prompt the user with a consent screen to authorize access to the user attributes. Once the user consents, your application will have access to the requested user attributes.

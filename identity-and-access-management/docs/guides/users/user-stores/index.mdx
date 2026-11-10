@@ -1,49 +1,10 @@
 ---
-title: Manage user stores
-description: Administrators in an organization can use user stores to store information about users of an organization.  # generated from the first paragraph; a writer should improve it
+title: Manage User stores
+description: WSO2 Identity Server allows configuring multiple user stores to your system that are used to store users and their groups.  # generated from the first paragraph; a writer should improve it
 type: how-to
+sidebar_label: Manage user stores
 sidebar_position: 1
 ---
-
-<Edition only="cloud">
-
-# Manage user stores
-
-Administrators in an organization can use **user stores** to store information about users of an organization.
-
-{edition.productName} maintains the following two types of user stores:
-
-<table>
-  <tbody>
-    <tr>
-      <td>Internal user store</td>
-      <td>This is the `DEFAULT` user store of {edition.productName}. You can add users and groups to this user store and make changes to them via the {edition.productName} Console.</td>
-    </tr>
-    <tr>
-      <td>Remote user store</td>
-      <td>
-
-        This is a remote user store that administrators can connect to {edition.productName}. These user stores can be configured with two access types: <br />
-
-        - Read-only - The users and groups of read-only user stores cannot be modified through {edition.productName}.
-        - Read-write - You can perform **create**, **read**, **update**, and **delete** operations on users in the user store and **read** and **update** operations on groups through {edition.productName}.
-
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-## What's Next
-
-- [Connect a remote user store](./configure-a-user-store.mdx)
-- [Configure high availability for a remote user store](./configure-high-availability.mdx)
-- [Update the configurations of a remote user store](./update-user-stores.mdx)
-
-</Edition>
-
-<Edition only="self-hosted">
-
-# Manage User stores
 
 WSO2 Identity Server allows configuring multiple user stores to your system that
 are used to store users and their groups. Out of the box, WSO2
@@ -58,7 +19,7 @@ There are two types of user stores:
 
 All the supported user stores can be configured under these two types.
 
-<img src={require("../../../../assets/self-hosted/img/guides/user-stores/user-store-types.png").default} alt="user-store-types" width="600" style={{display: "block", margin: "0"}} />
+<img src={require("../../../../assets/img/guides/user-stores/user-store-types.png").default} alt="user-store-types" width="600" style={{display: "block", margin: "0"}} />
 
 :::info[Configure how {edition.productName} handles unreachable user stores]
 By default, {edition.productName} ignores inaccessible user stores during authentication. This ensures that authentication for users in reachable user stores continues without failure, even if another user store is unreachable. To control this behavior, you can configure the following properties in the `<IS_HOME>/repository/conf/deployment.toml` file:
@@ -118,6 +79,3 @@ database. For information on how to set up a RDBMS repository for
 storing permission, see [Configure the Authorization
 Manager](../../../deploy/configure/user-stores/configure-authorization-manager.mdx).
 :::
-
-</Edition>
-
