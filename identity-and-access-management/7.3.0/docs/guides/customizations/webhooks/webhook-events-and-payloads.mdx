@@ -1,0 +1,1727 @@
+---
+title: Webhook events and payloads
+description: This guide details the webhook event types dispatched by WSO2 Identity Server.  # generated from the first paragraph; a writer should improve it
+type: how-to
+sidebar_position: 3
+slug: "/guides/webhooks/webhook-events-and-payloads"
+---
+
+This guide details the webhook event types dispatched by {edition.productName}. For each event, you'll find JSON payload examples and descriptions of their properties.
+
+:::note
+In webhook event payloads, `initiatorIpAddress` (when present) represents the IP address of the initiator that triggered the event.
+:::
+
+## Login events
+
+{edition.productName} dispatches webhook events for both successful and failed login attempts, providing detailed context for each.
+
+### Login success event
+
+{edition.productName} sends a `loginSuccess` event when a user successfully authenticates.
+
+**Example payload:**
+
+```json
+{
+  "iss": "https://localhost:9443/t/myorg.com",
+  "jti": "051f0c37-b689-44d4-b7d2-29b980ece273",
+  "iat": 1751705149662,
+  "rci": "05268edb-9a87-4656-87c0-0fb674dd03b1",
+  "events": {
+    "https://schemas.identity.wso2.org/events/login/event-type/loginSuccess": {
+      "initiatorType": "USER",
+      "user": {
+        "id": "d4002616-f00c-49d5-b9b7-63b063819049",
+        "claims": [
+          {
+            "uri": "http://wso2.org/claims/username",
+            "value": "peter@aol.com"
+          }
+        ],
+        "organization": {
+          "id": "6f8d17ae-1ad5-441b-b9e0-c7731e739e94",
+          "name": "myorg",
+          "orgHandle": "myorg.com",
+          "depth": 0
+        },
+        "ref": "https://localhost:9443/t/myorg.com/scim2/Users/d4002616-f00c-49d5-b9b7-63b063819049"
+      },
+      "tenant": {
+        "id": "12402",
+        "name": "myorg.com"
+      },
+      "organization": {
+        "id": "6f8d17ae-1ad5-441b-b9e0-c7731e739e94",
+        "name": "myorg",
+        "orgHandle": "myorg.com",
+        "depth": 0
+      },
+      "userStore": {
+        "id": "UFJJTUFSWQ==",
+        "name": "PRIMARY"
+      },
+      "application": {
+        "id": "40d982e5-23be-4ee1-8540-9cb696d8c321",
+        "name": "MyApp"
+      },
+      "action": "LOGIN",
+      "authenticationMethods": [
+        "BasicAuthenticator"
+      ]
+    }
+  }
+}
+```
+
+The `events` object contains the actual event data for a successful login, identified by the URI `https://schemas.identity.wso2.org/events/login/event-type/loginSuccess`. This URI signifies a successful login event.
+
+The table below explains each property in the event data.
+
+| Property | Description |
+| --- | --- |
+| user | Contains information about the authenticated user along with user resident organization. |
+| tenant | Represents the root organization (tenant) under which the login processes. |
+| organization | Represents the organization under which the login processes. |
+| userStore | Indicates the user store in which the user's data gets managed. |
+| application | Contains information of the application through which the login occurred. |
+| authenticationMethods | An array of authentication methods used for the successful login (for example `BasicAuthenticator`). |
+| initiatorType | Indicates whether an administrator, user, or application initiated the event. |
+| initiatorIpAddress | Indicates the IP address of the initiator that triggered the event. |
+| action | Indicates the flow that triggered the event. The value is `LOGIN`. |
+
+### Login failed event
+
+{edition.productName} sends a `loginFailed` event when a login attempt fails.
+
+**Example payload:**
+
+```json
+{
+  "iss": "https://localhost:9443/t/myorg.com",
+  "jti": "7ef94943-2004-4f72-b476-9baffe5623c7",
+  "iat": 1751709144508,
+  "rci": "05268edb-9a87-4656-87c0-0fb674dd03b1",
+  "events": {
+    "https://schemas.identity.wso2.org/events/login/event-type/loginFailed": {
+      "initiatorType": "USER",
+      "user": {
+        "claims": [
+          {
+            "uri": "http://wso2.org/claims/username",
+            "value": "johndoe@aol.com"
+          },
+          {
+            "uri": "http://wso2.org/claims/emailaddress",
+            "value": "johndoe@aol.com"
+          },
+          {
+            "uri": "http://wso2.org/claims/lastname",
+            "value": "Doe"
+          },
+          {
+            "uri": "http://wso2.org/claims/givenname",
+            "value": "John"
+          }
+        ],
+        "organization": {
+          "id": "6f8d17ae-1ad5-441b-b9e0-c7731e739e94",
+          "name": "myorg",
+          "orgHandle": "myorg.com",
+          "depth": 0
+        }
+      },
+      "tenant": {
+        "id": "12402",
+        "name": "myorg.com"
+      },
+      "organization": {
+        "id": "6f8d17ae-1ad5-441b-b9e0-c7731e739e94",
+        "name": "myorg",
+        "orgHandle": "myorg.com",
+        "depth": 0
+      },
+      "application": {
+        "id": "63d8a96f-ff87-4f38-a1d7-4d10ee470d9a",
+        "name": "Test App"
+      },
+      "reason": {
+        "description": "User authentication failed due to invalid credentials",
+        "context": {
+          "failedStep": {
+            "step": 1,
+            "idp": "LOCAL",
+            "authenticator": "BasicAuthenticator"
+          }
+        }
+      },
+      "action": "LOGIN"
+    }
+  }
+}
+```
+
+The `events` object contains the actual event data for a failed login, identified by the URI `https://schemas.identity.wso2.org/events/login/event-type/loginFailed`. This URI signifies a successful login event.
+
+The table below explains each property in the event data.
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>user</td>
+      <td>
+
+        Contains information about the authenticating user.
+
+      </td>
+    </tr>
+    <tr>
+      <td>tenant</td>
+      <td>
+
+        Represents the root organization (tenant) that processes the login.
+
+      </td>
+    </tr>
+    <tr>
+      <td>organization</td>
+      <td>
+
+        Represents the organization that processes the login.
+
+      </td>
+    </tr>
+    <tr>
+      <td>userStore</td>
+      <td>
+
+        Indicates the user store that manages the user's data if applicable.
+
+      </td>
+    </tr>
+    <tr>
+      <td>application</td>
+      <td>
+
+        Contains information about the application that initiated the login.
+
+      </td>
+    </tr>
+    <tr>
+      <td>reason</td>
+      <td>
+
+        Provides context information for the failure including:
+
+        - **description**: Human-readable explanation of why the login failed (for example "User authentication failed due to invalid credentials")
+
+        - **context**: Details about the failure point in the authentication flow including:
+
+          - Step number where the failure occurred
+          - Identity Provider (IdP) involved (for example "LOCAL")
+          - Authenticator used (for example `BasicAuthenticator`)
+
+      </td>
+    </tr>
+    <tr>
+      <td>initiatorType</td>
+      <td>
+
+        Indicates whether an administrator, user, or application initiated the event.
+
+      </td>
+    </tr>
+    <tr>
+      <td>initiatorIpAddress</td>
+      <td>
+
+        Indicates the IP address of the initiator that triggered the event.
+
+      </td>
+    </tr>
+    <tr>
+      <td>action</td>
+      <td>
+
+        Indicates the flow that triggered the event. The value is `LOGIN`.
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Registration events
+
+{edition.productName} dispatches webhook events for successful and failed user registrations. Each event provides detailed context.
+
+### Registration success event
+
+{edition.productName} sends a `registrationSuccess` event when a new user account gets successfully registered in a state where the user can login and access.
+
+**Example payload:**
+
+```json
+{
+  "iss": "https://localhost:9443/t/myorg.com",
+  "jti": "e558b025-58ae-4e29-8242-75d6bfdfcbda",
+  "iat": 1751709420327,
+  "rci": "05268edb-9a87-4656-87c0-0fb674dd03b1",
+  "events": {
+    "https://schemas.identity.wso2.org/events/registration/event-type/registrationSuccess": {
+      "initiatorType": "ADMIN",
+      "user": {
+        "id": "3fae4858-4b26-4608-9df4-78ae75e3adda",
+        "claims": [
+          {
+            "uri": "http://wso2.org/claims/username",
+            "value": "johndoe@aol.com"
+          },
+          {
+            "uri": "http://wso2.org/claims/emailaddress",
+            "value": "johndoe@aol.com"
+          },
+          {
+            "uri": "http://wso2.org/claims/lastname",
+            "value": "Doe"
+          },
+          {
+            "uri": "http://wso2.org/claims/givenname",
+            "value": "John"
+          }
+        ],
+        "organization": {
+          "id": "6f8d17ae-1ad5-441b-b9e0-c7731e739e94",
+          "name": "myorg",
+          "orgHandle": "myorg.com",
+          "depth": 0
+        },
+        "ref": "https://localhost:9443/t/myorg.com/scim2/Users/3fae4858-4b26-4608-9df4-78ae75e3adda"
+      },
+      "tenant": {
+        "id": "12402",
+        "name": "myorg.com"
+      },
+      "organization": {
+        "id": "6f8d17ae-1ad5-441b-b9e0-c7731e739e94",
+        "name": "myorg",
+        "orgHandle": "myorg.com",
+        "depth": 0
+      },
+      "userStore": {
+        "id": "REVGQVVMVA==",
+        "name": "DEFAULT"
+      },
+      "action": "REGISTER"
+    }
+  }
+}
+```
+
+The `events` object contains the actual event data for a successful registration, identified by the URI `https://schemas.identity.wso2.org/events/registration/event-type/registrationSuccess`. This URI signifies a successful user registration event.
+
+The table below explains each property in the event data.
+
+| Property | Description |
+| --- | --- |
+| user | Contains information about the user who registers. |
+| tenant | Represents the root organization (tenant) that processes the user registration. |
+| organization | Represents the organization that processes the user registration. |
+| userStore | Indicates the user store that manages the user's data. |
+| initiatorType | Indicates whether an administrator, user, or application initiated the registration. Refer to [`initiatorType` and `action` properties](#initiatorType-and-action-registration) for details. |
+| initiatorIpAddress | Indicates the IP address of the initiator that triggered the event. |
+| action | Indicates whether the registration uses direct admin registration, user self-registration, or admin invite flow. Refer to [`initiatorType` and `action` properties](#initiatorType-and-action-registration) for details. |
+
+### Registration failure event
+
+{edition.productName} sends a `registrationFailed` event when a user registration attempt fails.
+
+**Example payload:**
+
+```json
+{
+  "iss": "https://localhost:9443/t/myorg.com",
+  "jti": "43e76a18-f3b3-400c-bf76-9761b4ec5d57",
+  "iat": 1751565405544,
+  "rci": "05268edb-9a87-4656-87c0-0fb674dd03b1",
+  "events": {
+    "https://schemas.identity.wso2.org/events/registration/event-type/registrationFailed": {
+      "initiatorType": "USER",
+      "user": {
+        "claims": [
+          {
+            "uri": "http://wso2.org/claims/username",
+            "value": "peter"
+          },
+          {
+            "uri": "http://wso2.org/claims/emailaddress",
+            "value": "peter@aol.com"
+          },
+          {
+            "uri": "http://wso2.org/claims/givenname",
+            "value": "Peter"
+          }
+        ],
+        "organization": {
+          "id": "6f8d17ae-1ad5-441b-b9e0-c7731e739e94",
+          "name": "myorg",
+          "orgHandle": "myorg.com",
+          "depth": 0
+        },
+      },
+      "tenant": {
+        "id": "12402",
+        "name": "myorg.com"
+      },
+      "organization": {
+        "id": "6f8d17ae-1ad5-441b-b9e0-c7731e739e94",
+        "name": "myorg",
+        "orgHandle": "myorg.com",
+        "depth": 0
+      },
+      "action": "REGISTER",
+      "reason": {
+        "description": "The provided username already exists in the tenant: myorg.com"
+      }
+    }
+  }
+}
+```
+
+The `events` object contains the actual event data for a failed registration, identified by the URI `https://schemas.identity.wso2.org/events/registration/event-type/registrationFailed`. This URI signifies a failed user registration event.
+
+The table below explains each property in the event data.
+
+| Property | Description |
+| --- | --- |
+| user | Contains information about the user attempting registration, including provided claims. |
+| tenant | Represents the root organization (tenant) that processed the registration attempt. |
+| organization | Represents the organization that processed the registration attempt. |
+| initiatorType | Indicates whether an administrator, user, or application initiated the registration. Refer to [`initiatorType` and `action` properties](#initiatorType-and-action-registration) for details. |
+| initiatorIpAddress | Indicates the IP address of the initiator that triggered the event. |
+| action | Indicates whether the registration uses direct admin registration, user self-registration, or admin invite flow. Refer to [`initiatorType` and `action` properties](#initiatorType-and-action-registration) for details. |
+| reason | Provides context information explaining the registration failure. |
+
+<Anchor id="initiatorType-and-action-registration" />
+
+### `initiatorType` and `action` properties for registration events
+
+The initiatorType and the action property together show which flow triggers a user registration.
+
+The table below explains how these properties differ based on each flow.
+
+| Flow | Value of `initiatorType` | Value of `action` | Description |
+| --- | --- | --- | --- |
+| Admin initiated direct user registration | ADMIN | REGISTER | Occurs when an administrator directly registers a user via console or [SCIM 2.0 Users API](../../../apis/scim2/scim2-users-rest-api/index.mdx). |
+| Admin initiated user invite to register | ADMIN | INVITE | Occurs when an administrator invites a user to register via console or [SCIM 2.0 Users API](../../../apis/scim2/scim2-users-rest-api/index.mdx). |
+| User self registration | USER | REGISTER | Occurs when a user registers by clicking the 'Register' link in the login page or via self registration APIs. |
+| Application initiated user registration | APPLICATION | REGISTER | Occurs when an application with appropriate permissions automatically registers a user. This happens during automated user provisioning or integration with external identity management systems via [SCIM 2.0 Users API](../../../apis/scim2/scim2-users-rest-api/index.mdx). |
+
+## Token events
+
+{edition.productName} dispatches webhook events for both token issuance and revocation. Each event provides detailed context.
+
+### Access token issued event
+
+{edition.productName} sends an `accessTokenIssued` event when an access token gets successfully issued to a client application.
+
+**Example payload:**
+
+```json
+{
+  "iss": "https://localhost:9443/t/myorg.com",
+  "jti": "f30f6807-192a-40b0-99b9-b176d3b94a94",
+  "iat": 1755541962092,
+  "rci": "05268edb-9a87-4656-87c0-0fb674dd03b1",
+  "events": {
+    "https://schemas.identity.wso2.org/events/token/event-type/accessTokenIssued": {
+      "initiatorType": "USER",
+      "user": {
+        "id": "1801d35e-1339-4c16-9c53-61321cf37fb9",
+        "claims": [
+          {
+            "uri": "http://wso2.org/claims/username",
+            "value": "peter"
+          },
+          {
+            "uri": "http://wso2.org/claims/emailaddress",
+            "value": "peter@aol.com"
+          }
+        ],
+        "organization": {
+          "id": "10084a8d-113f-4211-a0d5-efe36b082211",
+          "name": "myorg",
+          "orgHandle": "myorg.com",
+          "depth": 0
+        },
+        "ref": "https://localhost:9443/t/myorg.com/scim2/Users/1801d35e-1339-4c16-9c53-61321cf37fb9"
+      },
+      "tenant": {
+        "id": "12402",
+        "name": "myorg.com"
+      },
+      "organization": {
+        "id": "10084a8d-113f-4211-a0d5-efe36b082211",
+        "name": "myorg",
+        "orgHandle": "myorg.com",
+        "depth": 0
+      },
+      "userStore": {
+        "id": "UFJJTUFSWQ==",
+        "name": "PRIMARY"
+      },
+      "application": {
+        "name": "Test App",
+        "consumerKey": "eaSbhGeDL7ek2ypVrb0h4ZYMSN0a"
+      },
+      "accessToken": {
+        "tokenType": "Opaque",
+        "iat": "1755541962069",
+        "grantType": "authorization_code"
+      },
+      "action": "TOKEN_ISSUE"
+    }
+  }
+}
+```
+
+The `events` object contains the actual event data for a successful token issuance, identified by the URI `https://schemas.identity.wso2.org/events/token/event-type/accessTokenIssued`. This URI signifies a successful access token issuance event.
+
+The table below explains each property in the event data.
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>user</td>
+      <td>
+
+        Contains information about the user for whom the token gets issued along with user resident organization.
+
+      </td>
+    </tr>
+    <tr>
+      <td>tenant</td>
+      <td>
+
+        Represents the root organization (tenant) under which the token issuance processes.
+
+      </td>
+    </tr>
+    <tr>
+      <td>organization</td>
+      <td>
+
+        Represents the organization under which the token issuance processes.
+
+      </td>
+    </tr>
+    <tr>
+      <td>userStore</td>
+      <td>
+
+        Indicates the user store that manages the user's data.
+
+      </td>
+    </tr>
+    <tr>
+      <td>application</td>
+      <td>
+
+        Contains information about the application that requested the token.
+
+      </td>
+    </tr>
+    <tr>
+      <td>accessToken</td>
+      <td>
+
+        Contains details about the issued token including:
+
+        - **tokenType**: Token type (for example "Opaque" or "jwt")
+        - **iat**: Token issued at timestamp
+        - **grantType**: OAuth2 grant type used for token issuance (for example "authorization_code")
+
+      </td>
+    </tr>
+    <tr>
+      <td>initiatorType</td>
+      <td>
+
+        Indicates whether an administrator, user, or application initiated the event.
+
+      </td>
+    </tr>
+    <tr>
+      <td>initiatorIpAddress</td>
+      <td>
+
+        Indicates the IP address of the initiator that triggered the event.
+
+      </td>
+    </tr>
+    <tr>
+      <td>action</td>
+      <td>
+
+        Indicates the flow that triggered the event. The value is `TOKEN_ISSUE`.
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### Access token revoked event
+
+{edition.productName} sends an `accessTokenRevoked` event when an access token gets revoked.
+
+**Example payload:**
+
+```json
+{
+  "iss": "https://localhost:9443/t/myorg.com",
+  "jti": "d801a275-e64b-4998-90d9-2ed1601a0d19",
+  "iat": 1755541966592,
+  "rci": "48eaeb32-76c0-4af8-b04e-9ce0c00cb61f",
+  "events": {
+    "https://schemas.identity.wso2.org/events/token/event-type/accessTokenRevoked": {
+      "initiatorType": "USER",
+      "user": {
+        "id": "1801d35e-1339-4c16-9c53-61321cf37fb9",
+        "claims": [
+          {
+            "uri": "http://wso2.org/claims/emailaddress",
+            "value": "peter@aol.com"
+          },
+          {
+            "uri": "http://wso2.org/claims/username",
+            "value": "peter"
+          }
+        ],
+        "organization": {
+          "id": "10084a8d-113f-4211-a0d5-efe36b082211",
+          "name": "myorg",
+          "orgHandle": "myorg.com",
+          "depth": 0
+        },
+        "ref": "https://localhost:9443/t/myorg.com/scim2/Users/1801d35e-1339-4c16-9c53-61321cf37fb9"
+      },
+      "tenant": {
+        "id": "12402",
+        "name": "myorg.com"
+      },
+      "organization": {
+        "id": "10084a8d-113f-4211-a0d5-efe36b082211",
+        "name": "myorg",
+        "orgHandle": "myorg.com",
+        "depth": 0
+      },
+      "userStore": {
+        "id": "UFJJTUFSWQ==",
+        "name": "PRIMARY"
+      },
+      "applications": [
+        {
+          "id": "eb395ddd-1280-46e9-98fb-810948c1dab4",
+          "name": "Test App",
+          "consumerKey": "eaSbhGeDL7ek2ypVrb0h4ZYMSN0a"
+        }
+      ],
+      "action": "TOKEN_REVOKE"
+    }
+  }
+}
+```
+
+The `events` object contains the actual event data for a token revocation, identified by the URI `https://schemas.identity.wso2.org/events/token/event-type/accessTokenRevoked`. This URI signifies an access token revocation event.
+
+The table below explains each property in the event data.
+
+| Property | Description |
+| --- | --- |
+| user | Contains information about the user whose token gets revoked. |
+| tenant | Represents the root organization (tenant) that processes the token revocation. |
+| organization | Represents the organization that processes the token revocation. |
+| userStore | Indicates the user store that manages the user's data. |
+| applications | Contains information about applications associated with the revoked token. This appears as an array because token revocation can affect multiple applications. |
+| initiatorType | Indicates whether an administrator, user, or application initiated the event. |
+| initiatorIpAddress | Indicates the IP address of the initiator that triggered the event. |
+| action | Indicates the flow that triggered the event. The value is `TOKEN_REVOKE`. |
+
+## Session events
+
+{edition.productName} dispatches webhook events for session establishment, presentation, and revocation. Each event provides detailed context about user sessions and associated applications.
+
+### Session established event
+
+{edition.productName} sends a `sessionEstablished` event when a user logs in for the first time and creates a new session.
+
+This event triggers for every new session creation during the login process. It helps you track when users establish new sessions in your system.
+
+**Example payload:**
+
+```json
+{
+  "iss": "https://localhost:9443/t/myorg.com",
+  "jti": "1a9b7a5f-42f3-4f87-a03d-6962b32a219b",
+  "iat": 1755541960053,
+  "rci": "b8b6ccbd-69b0-47d3-b0ae-b2b0df085f7c",
+  "events": {
+    "https://schemas.identity.wso2.org/events/session/event-type/sessionEstablished": {
+      "initiatorType": "USER",
+      "user": {
+        "id": "1801d35e-1339-4c16-9c53-61321cf37fb9",
+        "claims": [
+          {
+            "uri": "http://wso2.org/claims/username",
+            "value": "peter"
+          }
+        ],
+        "organization": {
+          "id": "10084a8d-113f-4211-a0d5-efe36b082211",
+          "name": "myorg",
+          "orgHandle": "myorg.com",
+          "depth": 0
+        },
+        "ref": "https://localhost:9443/t/myorg.com/scim2/Users/1801d35e-1339-4c16-9c53-61321cf37fb9"
+      },
+      "tenant": {
+        "id": "12402",
+        "name": "myorg.com"
+      },
+      "organization": {
+        "id": "10084a8d-113f-4211-a0d5-efe36b082211",
+        "name": "myorg",
+        "orgHandle": "myorg.com",
+        "depth": 0
+      },
+      "userStore": {
+        "id": "UFJJTUFSWQ==",
+        "name": "PRIMARY"
+      },
+      "application": {
+        "id": "eb395ddd-1280-46e9-98fb-810948c1dab4",
+        "name": "Test App"
+      },
+      "session": {
+        "id": "68d1f2861461c69d8e821d91839bbf8e23ef04fb96c1ac655f452d94d1fd6e4d",
+        "loginTime": 1755541960025,
+        "applications": [
+          {
+            "id": "eb395ddd-1280-46e9-98fb-810948c1dab4",
+            "name": "Test App"
+          }
+        ]
+      },
+      "action": "LOGIN"
+    }
+  }
+}
+```
+
+The `events` object contains the actual event data for a session establishment, identified by the URI `https://schemas.identity.wso2.org/events/session/event-type/sessionEstablished`. This URI signifies a new session establishment event.
+
+The table below explains each property in the event data.
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>user</td>
+      <td>
+
+        Contains information about the user who established the session.
+
+      </td>
+    </tr>
+    <tr>
+      <td>tenant</td>
+      <td>
+
+        Represents the root organization (tenant) under which the session gets established.
+
+      </td>
+    </tr>
+    <tr>
+      <td>organization</td>
+      <td>
+
+        Represents the organization under which the session gets established.
+
+      </td>
+    </tr>
+    <tr>
+      <td>userStore</td>
+      <td>
+
+        Indicates the user store that manages the user's data.
+
+      </td>
+    </tr>
+    <tr>
+      <td>application</td>
+      <td>
+
+        Contains information about the application through which the session gets established.
+
+      </td>
+    </tr>
+    <tr>
+      <td>session</td>
+      <td>
+
+        Contains details about the established session including:
+
+        - **id**: Unique identifier for the session
+        - **loginTime**: Timestamp when the session gets created
+        - **applications**: Array of applications associated with this session
+
+      </td>
+    </tr>
+    <tr>
+      <td>initiatorType</td>
+      <td>
+
+        Indicates whether an administrator, user, or application initiated the event.
+
+      </td>
+    </tr>
+    <tr>
+      <td>initiatorIpAddress</td>
+      <td>
+
+        Indicates the IP address of the initiator that triggered the event.
+
+      </td>
+    </tr>
+    <tr>
+      <td>action</td>
+      <td>
+
+        Indicates the flow that triggered the event. The value is `LOGIN`.
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### Session presented event
+
+{edition.productName} sends a `sessionPresented` event when an existing session gets used for authentication.
+
+**Example payload:**
+
+```json
+{
+  "iss": "https://localhost:9443/t/myorg.com",
+  "jti": "2837280b-5229-462a-afb6-dc84e97ca152",
+  "iat": 1755541961796,
+  "rci": "60f7dd4f-a791-4135-94d6-d26795629361",
+  "events": {
+    "https://schemas.identity.wso2.org/events/session/event-type/sessionPresented": {
+      "initiatorType": "USER",
+      "user": {
+        "id": "1801d35e-1339-4c16-9c53-61321cf37fb9",
+        "claims": [
+          {
+            "uri": "http://wso2.org/claims/username",
+            "value": "peter"
+          }
+        ],
+        "organization": {
+          "id": "10084a8d-113f-4211-a0d5-efe36b082211",
+          "name": "myorg",
+          "orgHandle": "myorg.com",
+          "depth": 0
+        },
+        "ref": "https://localhost:9443/t/myorg.com/scim2/Users/1801d35e-1339-4c16-9c53-61321cf37fb9"
+      },
+      "tenant": {
+        "id": "12402",
+        "name": "myorg.com"
+      },
+      "organization": {
+        "id": "10084a8d-113f-4211-a0d5-efe36b082211",
+        "name": "myorg",
+        "orgHandle": "myorg.com",
+        "depth": 0
+      },
+      "userStore": {
+        "id": "UFJJTUFSWQ==",
+        "name": "PRIMARY"
+      },
+      "application": {
+        "id": "eb395ddd-1280-46e9-98fb-810948c1dab4",
+        "name": "Test App"
+      },
+      "session": {
+        "id": "68d1f2861461c69d8e821d91839bbf8e23ef04fb96c1ac655f452d94d1fd6e4d",
+        "loginTime": 1755541961792,
+        "applications": [
+          {
+            "id": "eb395ddd-1280-46e9-98fb-810948c1dab4",
+            "name": "Test App"
+          }
+        ]
+      },
+      "action": "LOGIN"
+    }
+  }
+}
+```
+
+The `events` object contains the actual event data for a session presentation, identified by the URI `https://schemas.identity.wso2.org/events/session/event-type/sessionPresented`. This URI signifies a session presentation event.
+
+The table below explains each property in the event data.
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>user</td>
+      <td>
+
+        Contains information about the user whose session gets presented.
+
+      </td>
+    </tr>
+    <tr>
+      <td>tenant</td>
+      <td>
+
+        Represents the root organization (tenant) under which the session gets presented.
+
+      </td>
+    </tr>
+    <tr>
+      <td>organization</td>
+      <td>
+
+        Represents the organization under which the session gets presented.
+
+      </td>
+    </tr>
+    <tr>
+      <td>userStore</td>
+      <td>
+
+        Indicates the user store that manages the user's data.
+
+      </td>
+    </tr>
+    <tr>
+      <td>application</td>
+      <td>
+
+        Contains information about the application that requested the session presentation.
+
+      </td>
+    </tr>
+    <tr>
+      <td>session</td>
+      <td>
+
+        Contains details about the presented session including:
+
+        - **id**: Unique identifier for the session
+        - **loginTime**: Timestamp when the session originally started
+        - **applications**: Array of applications associated with this session
+
+      </td>
+    </tr>
+    <tr>
+      <td>initiatorType</td>
+      <td>
+
+        Indicates whether an administrator, user, or application initiated the event.
+
+      </td>
+    </tr>
+    <tr>
+      <td>initiatorIpAddress</td>
+      <td>
+
+        Indicates the IP address of the initiator that triggered the event.
+
+      </td>
+    </tr>
+    <tr>
+      <td>action</td>
+      <td>
+
+        Indicates the flow that triggered the event. The value is `LOGIN`.
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### Session revoked event
+
+{edition.productName} sends a `sessionRevoked` event when one or more user sessions get revoked.
+
+**Example payload:**
+
+```json
+{
+  "iss": "https://localhost:9443/t/myorg.com",
+  "jti": "61503199-bdf7-4f44-8f50-60c78bf419ad",
+  "iat": 1755541966644,
+  "rci": "48eaeb32-76c0-4af8-b04e-9ce0c00cb61f",
+  "events": {
+    "https://schemas.identity.wso2.org/events/session/event-type/sessionRevoked": {
+      "initiatorType": "USER",
+      "user": {
+        "id": "1801d35e-1339-4c16-9c53-61321cf37fb9",
+        "claims": [
+          {
+            "uri": "http://wso2.org/claims/username",
+            "value": "peter"
+          }
+        ],
+        "organization": {
+          "id": "10084a8d-113f-4211-a0d5-efe36b082211",
+          "name": "myorg",
+          "orgHandle": "myorg.com",
+          "depth": 0
+        },
+        "ref": "https://localhost:9443/t/myorg.com/scim2/Users/1801d35e-1339-4c16-9c53-61321cf37fb9"
+      },
+      "tenant": {
+        "id": "12402",
+        "name": "myorg.com"
+      },
+      "organization": {
+        "id": "10084a8d-113f-4211-a0d5-efe36b082211",
+        "name": "myorg",
+        "orgHandle": "myorg.com",
+        "depth": 0
+      },
+      "userStore": {
+        "id": "UFJJTUFSWQ==",
+        "name": "PRIMARY"
+      },
+      "sessions": [
+        {
+          "id": "68d1f2861461c69d8e821d91839bbf8e23ef04fb96c1ac655f452d94d1fd6e4d",
+          "loginTime": 1755541961792,
+          "applications": [
+            {
+              "id": "eb395ddd-1280-46e9-98fb-810948c1dab4",
+              "name": "Test App"
+            }
+          ]
+        }
+      ],
+      "action": "LOGOUT"
+    }
+  }
+}
+```
+
+The `events` object contains the actual event data for a session revocation, identified by the URI `https://schemas.identity.wso2.org/events/session/event-type/sessionRevoked`. This URI signifies a session revocation event.
+
+The table below explains each property in the event data.
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>user</td>
+      <td>
+
+        Contains information about the user whose sessions get revoked.
+
+      </td>
+    </tr>
+    <tr>
+      <td>tenant</td>
+      <td>
+
+        Represents the root organization (tenant) that processes the session revocation.
+
+      </td>
+    </tr>
+    <tr>
+      <td>organization</td>
+      <td>
+
+        Represents the organization that processes the session revocation.
+
+      </td>
+    </tr>
+    <tr>
+      <td>userStore</td>
+      <td>
+
+        Indicates the user store that manages the user's data.
+
+      </td>
+    </tr>
+    <tr>
+      <td>sessions</td>
+      <td>
+
+        Array of revoked sessions. Each session contains:
+
+        - **id**: Unique identifier for the revoked session
+        - **loginTime**: Timestamp when the session originally started
+        - **applications**: Array of applications that lost access due to session revocation
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Credential update events
+
+{edition.productName} sends a `credentialUpdated` event when a user successfully updates credential information. This event currently triggers only for password updates.
+
+**Example payload:**
+
+```json
+{
+  "iss": "https://localhost:9443/t/myorg.com",
+  "jti": "24fc890a-41c5-4397-9cc9-b9f48102384e",
+  "iat": 1751566637663,
+  "rci": "05268edb-9a87-4656-87c0-0fb674dd03b1",
+  "events": {
+    "https://schemas.identity.wso2.org/events/credential/event-type/credentialUpdated": {
+      "initiatorType": "ADMIN",
+      "user": {
+        "id": "85071750-3d1f-4ba4-b58f-991532e2742b",
+        "claims": [
+          {
+            "uri": "http://wso2.org/claims/emailaddress",
+            "value": "peter@aol.com"
+          }
+        ],
+        "organization": {
+          "id": "6f8d17ae-1ad5-441b-b9e0-c7731e739e94",
+          "name": "myorg",
+          "orgHandle": "myorg.com",
+          "depth": 0
+        },
+        "ref": "https://localhost:9443/t/myorg.com/scim2/Users/85071750-3d1f-4ba4-b58f-991532e2742b"
+      },
+      "tenant": {
+        "id": "12402",
+        "name": "myorg.com"
+      },
+      "organization": {
+        "id": "6f8d17ae-1ad5-441b-b9e0-c7731e739e94",
+        "name": "myorg",
+        "orgHandle": "myorg.com",
+        "depth": 0
+      },
+      "userStore": {
+        "id": "UFJJTUFSWQ==",
+        "name": "PRIMARY"
+      },
+      "credentialType": "PASSWORD",
+      "action": "UPDATE"
+    }
+  }
+}
+```
+
+The `events` object contains the actual event data for a credential update, identified by the URI `https://schemas.identity.wso2.org/events/credential/event-type/credentialUpdated`. This URI signifies a successful credential update event.
+
+The table below explains each property in the event data.
+
+| Property | Description |
+| --- | --- |
+| user | Contains information about the user whose credential updated. |
+| tenant | Represents the root organization (tenant) that processed the credential update. |
+| organization | Represents the organization that processed the credential update. |
+| userStore | Indicates the user store that manages the user's data. |
+| credentialType | Shows which credential the user updates. Currently shows "PASSWORD" as events trigger only for password updates. |
+| initiatorType | Indicates whether an administrator, user, or application initiated the password update. Refer to [`initiatorType` and `action` properties](#initiatorType-and-action-credential-update) for details. |
+| initiatorIpAddress | Indicates the IP address of the initiator that triggered the event. |
+| action | Indicates whether the password update uses a reset flow, update flow, or invite flow. Refer to [`initiatorType` and `action` properties](#initiatorType-and-action-credential-update) for details. |
+
+<Anchor id="initiatorType-and-action-credential-update" />
+
+### `initiatorType` and `action` properties for credential update events
+
+The initiatorType and the action property together show which flow triggers a password update.
+
+The table below explains how these properties differ based on each flow.
+
+| Flow | Value of initiatorType | Value of action | Description |
+| --- | --- | --- | --- |
+| User initiated password update | USER | UPDATE | Occurs when a user updates their password through profile settings in My Account app or via [SCIM 2.0 Me API](../../../apis/scim2-me-rest-apis/index.mdx) . |
+| User initiated password reset | USER | RESET | Occurs when a user forgets their password and initiates a reset flow to regain account access. |
+| Admin initiated password update | ADMIN | UPDATE | Occurs when an administrator updates a user's password directly via console or [SCIM 2.0 Users API](../../../apis/scim2/scim2-users-rest-api/index.mdx). |
+| Admin initiated password reset | ADMIN | RESET | Occurs when an administrator initiates a forced password reset and the user resets the password via that request. |
+| Admin initiated user invite to set password | ADMIN | INVITE | Occurs when an administrator invites a new user to join the system. The user then sets their password. |
+| Application initiated password update | APPLICATION | UPDATE | Occurs when an application with appropriate permissions automatically updates a user's password. This happens during automated user provisioning or integration with external identity management systems via [SCIM 2.0 Users API](../../../apis/scim2/scim2-users-rest-api/index.mdx). |
+
+## User account management events
+
+{edition.productName} dispatches webhook events for changes to user profiles and account statuses. These events provide detailed context for each action, helping you synchronize external systems with user data and manage user lifecycle within your applications.
+
+### User created event
+
+{edition.productName} sends a `userCreated` event when a new user account gets created in the system.
+
+This event triggers when administrators, applications, or users create accounts through various flows like direct registration, invitations, or automated provisioning.
+
+**Example payload:**
+
+```json
+{
+  "iss": "https://localhost:9443/t/myorg.com",
+  "jti": "b6148a40-9e3c-45c4-b57d-85c7da482ad5",
+  "iat": 1755618921154,
+  "rci": "dca8d1d5-5a8f-4141-aac6-2abcb27fd168",
+  "events": {
+    "https://schemas.identity.wso2.org/events/user/event-type/userCreated": {
+      "initiatorType": "ADMIN",
+      "user": {
+        "id": "3987d74e-8432-4f4d-b1a8-cad463af843d",
+        "claims": [
+          {
+            "uri": "http://wso2.org/claims/username",
+            "value": "johndoe@aol.com"
+          },
+          {
+            "uri": "http://wso2.org/claims/emailaddress",
+            "value": "johndoe@aol.com"
+          },
+          {
+            "uri": "http://wso2.org/claims/lastname",
+            "value": "Doe"
+          },
+          {
+            "uri": "http://wso2.org/claims/givenname",
+            "value": "John"
+          }
+        ],
+        "organization": {
+          "id": "10084a8d-113f-4211-a0d5-efe36b082211",
+          "name": "myorg",
+          "orgHandle": "myorg.com",
+          "depth": 0
+        },
+        "ref": "https://localhost:9443/t/myorg.com/scim2/Users/3987d74e-8432-4f4d-b1a8-cad463af843d"
+      },
+      "tenant": {
+        "id": "12402",
+        "name": "myorg.com"
+      },
+      "organization": {
+        "id": "10084a8d-113f-4211-a0d5-efe36b082211",
+        "name": "myorg",
+        "orgHandle": "myorg.com",
+        "depth": 0
+      },
+      "userStore": {
+        "id": "UFJJTUFSWQ==",
+        "name": "PRIMARY"
+      },
+      "action": "REGISTER"
+    }
+  }
+}
+```
+
+The `events` object contains the actual event data for a user creation, identified by the URI `https://schemas.identity.wso2.org/events/user/event-type/userCreated`. This URI signifies a successful user creation event.
+
+The table below explains each property in the event data.
+
+| Property | Description |
+| --- | --- |
+| user | Contains information about the newly created user including user claims and organization details. |
+| tenant | Represents the root organization (tenant) that processed the user creation. |
+| organization | Represents the organization that processed the user creation. |
+| userStore | Indicates the user store that manages the user's data. |
+| initiatorType | Indicates whether an administrator, user, or application initiated the user creation. |
+| initiatorIpAddress | Indicates the IP address of the initiator that triggered the event. |
+| action | Shows the user creation flow type. Can have values like `REGISTER` for direct registration or `INVITE` for invitation-based creation. |
+
+### User profile updated event
+
+{edition.productName} sends a `userProfileUpdated` event when a user updates profile information.
+
+**Example payload:**
+
+```json
+{
+  "iss": "https://localhost:9443/t/myorg.com",
+  "jti": "2371a91d-66e8-400b-a8de-6e8ee2b8175e",
+  "iat": 1751569642578,
+  "rci": "05268edb-9a87-4656-87c0-0fb674dd03b1",
+  "events": {
+    "https://schemas.identity.wso2.org/events/user/event-type/userProfileUpdated": {
+      "initiatorType": "ADMIN",
+      "user": {
+        "id": "85071750-3d1f-4ba4-b58f-991532e2742b",
+        "organization": {
+          "id": "6f8d17ae-1ad5-441b-b9e0-c7731e739e94",
+          "name": "myorg",
+          "orgHandle": "myorg.com",
+          "depth": 0
+        },
+        "ref": "https://localhost:9443/t/myorg.com/scim2/Users/85071750-3d1f-4ba4-b58f-991532e2742b",
+        "addedClaims": [
+          {
+            "uri": "http://wso2.org/claims/organization",
+            "value": "myorg"
+          }
+        ],
+        "updatedClaims": [
+          {
+            "uri": "http://wso2.org/claims/emailAddresses",
+            "value": "peter@aol.com"
+          }
+        ]
+      },
+      "tenant": {
+        "id": "12402",
+        "name": "myorg.com"
+      },
+      "organization": {
+        "id": "6f8d17ae-1ad5-441b-b9e0-c7731e739e94",
+        "name": "myorg",
+        "orgHandle": "myorg.com",
+        "depth": 0
+      },
+      "userStore": {
+        "id": "UFJJTUFSWQ==",
+        "name": "PRIMARY"
+      },
+      "action": "UPDATE"
+    }
+  }
+}
+```
+
+The `events` object contains the actual event data for a user profile update, identified by the URI `https://schemas.identity.wso2.org/events/user/event-type/userProfileUpdated`. This URI signifies a successful user profile update event.
+
+The table below explains each property in the event data.
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>user</td>
+      <td>
+
+        Contains information about the user whose profile updated. This includes:
+
+        - **addedClaims**: Array of claims (attributes) newly added to the user's profile during the update
+        - **updatedClaims**: Array of claims (attributes) that the update process changes in the user's profile
+        - **removedClaims**: Array of claims (attributes) that the update process removes from the user's profile
+
+      </td>
+    </tr>
+    <tr>
+      <td>tenant</td>
+      <td>
+
+        Represents the root organization (tenant) that processed the profile update.
+
+      </td>
+    </tr>
+    <tr>
+      <td>organization</td>
+      <td>
+
+        Represents the organization that processed the profile update.
+
+      </td>
+    </tr>
+    <tr>
+      <td>userStore</td>
+      <td>
+
+        Indicates the user store that manages the user's data.
+
+      </td>
+    </tr>
+    <tr>
+      <td>initiatorType</td>
+      <td>
+
+        Indicates whether an administrator, user, or application initiated the profile update.
+
+      </td>
+    </tr>
+    <tr>
+      <td>initiatorIpAddress</td>
+      <td>
+
+        Indicates the IP address of the initiator that triggered the event.
+
+      </td>
+    </tr>
+    <tr>
+      <td>action</td>
+      <td>
+
+        Shows the profile update flow type. Currently has the value `UPDATE`, indicating a standard profile update flow.
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### User disabled event
+
+{edition.productName} sends a `userDisabled` event when a user account gets disabled.
+
+**Example payload:**
+
+```json
+{
+  "iss": "https://localhost:9443/t/myorg.com",
+  "jti": "d32b6be7-1675-4e7d-b118-7346ad53c046",
+  "iat": 1751570468806,
+  "rci": "05268edb-9a87-4656-87c0-0fb674dd03b1",
+  "events": {
+    "https://schemas.identity.wso2.org/events/user/event-type/userDisabled": {
+      "initiatorType": "ADMIN",
+      "user": {
+        "id": "85071750-3d1f-4ba4-b58f-991532e2742b",
+        "claims": [
+          {
+            "uri": "http://wso2.org/claims/emailaddress",
+            "value": "peter@aol.com"
+          }
+        ],
+        "organization": {
+          "id": "6f8d17ae-1ad5-441b-b9e0-c7731e739e94",
+          "name": "myorg",
+          "orgHandle": "myorg.com",
+          "depth": 0
+        },
+        "ref": "https://localhost:9443/t/myorg.com/scim2/Users/85071750-3d1f-4ba4-b58f-991532e2742b"
+      },
+      "tenant": {
+        "id": "12402",
+        "name": "myorg.com"
+      },
+      "organization": {
+        "id": "6f8d17ae-1ad5-441b-b9e0-c7731e739e94",
+        "name": "myorg",
+        "orgHandle": "myorg.com",
+        "depth": 0
+      },
+      "userStore": {
+        "id": "UFJJTUFSWQ==",
+        "name": "PRIMARY"
+      },
+      "action": "USER_ACCOUNT_DISABLE"
+    }
+  }
+}
+```
+
+The `events` object contains the actual event data for a user disabled event, identified by the URI `https://schemas.identity.wso2.org/events/user/event-type/userDisabled`. This URI signifies a successful user account disablement.
+
+The table below explains each property in the event data.
+
+| Property | Description |
+| --- | --- |
+| user | Contains information about the user. |
+| tenant | Represents the root organization (tenant) that processed the user disablement. |
+| organization | Represents the organization that processed the user disablement. |
+| userStore | Indicates the user store that manages the user's data. |
+| initiatorType | Indicates whether an administrator or application initiated the user disablement. |
+| initiatorIpAddress | Indicates the IP address of the initiator that triggered the event. |
+| action | Indicates the flow that triggered the event. The value is `USER_ACCOUNT_DISABLE`. |
+
+### User enabled event
+
+{edition.productName} sends a `userEnabled` event when a user account gets enabled. This event signifies that a previously disabled user account becomes reactivated.
+
+**Example payload:**
+
+```json
+{
+  "iss": "https://localhost:9443/t/myorg.com",
+  "jti": "285a876f-ea57-47b6-9a9d-fc452a04413a",
+  "iat": 1751570713348,
+  "rci": "05268edb-9a87-4656-87c0-0fb674dd03b1",
+  "events": {
+    "https://schemas.identity.wso2.org/events/user/event-type/userEnabled": {
+      "initiatorType": "ADMIN",
+      "user": {
+        "id": "85071750-3d1f-4ba4-b58f-991532e2742b",
+        "claims": [
+          {
+            "uri": "http://wso2.org/claims/emailaddress",
+            "value": "peter@aol.com"
+          }
+        ],
+        "organization": {
+          "id": "6f8d17ae-1ad5-441b-b9e0-c7731e739e94",
+          "name": "myorg",
+          "orgHandle": "myorg.com",
+          "depth": 0
+        },
+        "ref": "https://localhost:9443/t/myorg.com/scim2/Users/85071750-3d1f-4ba4-b58f-991532e2742b"
+      },
+      "tenant": {
+        "id": "12402",
+        "name": "myorg.com"
+      },
+      "organization": {
+        "id": "6f8d17ae-1ad5-441b-b9e0-c7731e739e94",
+        "name": "myorg",
+        "orgHandle": "myorg.com",
+        "depth": 0
+      },
+      "userStore": {
+        "id": "UFJJTUFSWQ==",
+        "name": "PRIMARY"
+      },
+      "action": "USER_ACCOUNT_ENABLE"
+    }
+  }
+}
+```
+
+The `events` object contains the actual event data for a user enabled event, identified by the URI `https://schemas.identity.wso2.org/events/user/event-type/userEnabled`. This URI signifies a successful user account enablement.
+
+The table below explains each property in the event data.
+
+| Property | Description |
+| --- | --- |
+| user | Contains information about the user whose account enabled. |
+| tenant | Represents the root organization (tenant) that processed the user enablement. |
+| organization | Represents the organization that processed the user enablement. |
+| userStore | Indicates the user store that manages the user's data. |
+| initiatorType | Indicates whether an administrator or application initiated the user enablement. |
+| initiatorIpAddress | Indicates the IP address of the initiator that triggered the event. |
+| action | Indicates the flow that triggered the event. The value is `USER_ACCOUNT_ENABLE`. |
+
+### User account locked event
+
+{edition.productName} sends a `userAccountLocked` event when a user account gets locked.
+
+This event triggers when accounts get locked due to failed login attempts, administrative action, or security policies. Locked accounts prevent users from authenticating until unlocked.
+
+**Example payload:**
+
+```json
+{
+  "iss": "https://localhost:9443/t/myorg.com",
+  "jti": "5ab9d903-a718-4e71-9a16-314203f02778",
+  "iat": 1755619049121,
+  "rci": "24b22c09-ae39-4942-896f-5c14fd18b4e0",
+  "events": {
+    "https://schemas.identity.wso2.org/events/user/event-type/userAccountLocked": {
+      "initiatorType": "ADMIN",
+      "user": {
+        "id": "3987d74e-8432-4f4d-b1a8-cad463af843d",
+        "claims": [
+          {
+            "uri": "http://wso2.org/claims/emailaddress",
+            "value": "johndoe@aol.com"
+          }
+        ],
+        "organization": {
+          "id": "10084a8d-113f-4211-a0d5-efe36b082211",
+          "name": "myorg",
+          "orgHandle": "myorg.com",
+          "depth": 0
+        },
+        "ref": "https://localhost:9443/t/myorg.com/scim2/Users/3987d74e-8432-4f4d-b1a8-cad463af843d"
+      },
+      "tenant": {
+        "id": "12402",
+        "name": "myorg.com"
+      },
+      "organization": {
+        "id": "10084a8d-113f-4211-a0d5-efe36b082211",
+        "name": "myorg",
+        "orgHandle": "myorg.com",
+        "depth": 0
+      },
+      "userStore": {
+        "id": "UFJJTUFSWQ==",
+        "name": "PRIMARY"
+      },
+      "action": "USER_ACCOUNT_LOCK"
+    }
+  }
+}
+```
+
+The `events` object contains the actual event data for a user account locked event, identified by the URI `https://schemas.identity.wso2.org/events/user/event-type/userAccountLocked`. This URI signifies a user account lock event.
+
+The table below explains each property in the event data.
+
+| Property | Description |
+| --- | --- |
+| user | Contains information about the user whose account got locked. |
+| tenant | Represents the root organization (tenant) that processed the account locking. |
+| organization | Represents the organization that processed the account locking. |
+| userStore | Indicates the user store that manages the user's data. |
+| initiatorType | Indicates whether an administrator, user, or application initiated the event. |
+| initiatorIpAddress | Indicates the IP address of the initiator that triggered the event. |
+| action | Indicates the flow that triggered the event. The value is `USER_ACCOUNT_LOCK`. |
+
+### User account unlocked event
+
+{edition.productName} sends a `userAccountUnlocked` event when a user account gets unlocked.
+
+This event triggers when locked accounts get restored to normal status through administrative action or automatic timeout policies. Unlocked accounts allow users to authenticate again.
+
+**Example payload:**
+
+```json
+{
+  "iss": "https://localhost:9443/t/myorg.com",
+  "jti": "7bf8f4ce-816e-46a2-8964-99682ece9084",
+  "iat": 1755619053135,
+  "rci": "e26aade5-ad74-4e5f-a98b-762bd218197e",
+  "events": {
+    "https://schemas.identity.wso2.org/events/user/event-type/userAccountUnlocked": {
+      "initiatorType": "ADMIN",
+      "user": {
+        "id": "3987d74e-8432-4f4d-b1a8-cad463af843d",
+        "claims": [
+          {
+            "uri": "http://wso2.org/claims/emailaddress",
+            "value": "johndoe@aol.com"
+          }
+        ],
+        "organization": {
+          "id": "10084a8d-113f-4211-a0d5-efe36b082211",
+          "name": "myorg",
+          "orgHandle": "myorg.com",
+          "depth": 0
+        },
+        "ref": "https://localhost:9443/t/myorg.com/scim2/Users/3987d74e-8432-4f4d-b1a8-cad463af843d"
+      },
+      "tenant": {
+        "id": "12402",
+        "name": "myorg.com"
+      },
+      "organization": {
+        "id": "10084a8d-113f-4211-a0d5-efe36b082211",
+        "name": "myorg",
+        "orgHandle": "myorg.com",
+        "depth": 0
+      },
+      "userStore": {
+        "id": "UFJJTUFSWQ==",
+        "name": "PRIMARY"
+      },
+      "action": "USER_ACCOUNT_UNLOCK"
+    }
+  }
+}
+```
+
+The `events` object contains the actual event data for a user account unlocked event, identified by the URI `https://schemas.identity.wso2.org/events/user/event-type/userAccountUnlocked`. This URI signifies a user account unlock event.
+
+The table below explains each property in the event data.
+
+| Property | Description |
+| --- | --- |
+| user | Contains information about the user whose account got unlocked. |
+| tenant | Represents the root organization (tenant) that processed the account unlocking. |
+| organization | Represents the organization that processed the account unlocking. |
+| userStore | Indicates the user store that manages the user's data. |
+| initiatorType | Indicates whether an administrator, user, or application initiated the event. |
+| initiatorIpAddress | Indicates the IP address of the initiator that triggered the event. |
+| action | Indicates the flow that triggered the event. The value is `USER_ACCOUNT_UNLOCK`. |
+
+### User deleted event
+
+{edition.productName} sends a `userDeleted` event when a user account gets deleted.
+
+**Example Payload:**
+
+```json
+{
+  "iss": "https://localhost:9443/t/myorg.com",
+  "jti": "21f03016-632d-4266-9e8b-8863001109f2",
+  "iat": 1751571143534,
+  "rci": "05268edb-9a87-4656-87c0-0fb674dd03b1",
+  "events": {
+    "https://schemas.identity.wso2.org/events/user/event-type/userDeleted": {
+      "initiatorType": "ADMIN",
+      "user": {
+        "id": "0bd61ecd-e974-41e6-a962-8b712090240f",
+        "claims": [
+          {
+            "uri": "http://wso2.org/claims/username",
+            "value": "peter@aol.com"
+          }
+        ],
+        "organization": {
+          "id": "6f8d17ae-1ad5-441b-b9e0-c7731e739e94",
+          "name": "myorg",
+          "orgHandle": "myorg.com",
+          "depth": 0
+        },
+        "ref": "https://localhost:9443/t/myorg.com/scim2/Users/0bd61ecd-e974-41e6-a962-8b712090240f"
+      },
+      "tenant": {
+        "id": "12402",
+        "name": "myorg.com"
+      },
+      "organization": {
+        "id": "6f8d17ae-1ad5-441b-b9e0-c7731e739e94",
+        "name": "myorg",
+        "orgHandle": "myorg.com",
+        "depth": 0
+      },
+      "userStore": {
+        "id": "UFJJTUFSWQ==",
+        "name": "PRIMARY"
+      },
+      "action": "USER_ACCOUNT_DELETE"
+    }
+  }
+}
+```
+
+The `events` object contains the actual event data for a user deleted event, identified by the URI `https://schemas.identity.wso2.org/events/user/event-type/userDeleted`. This URI signifies a user account deletion.
+
+The table below explains each property in the event data.
+
+| Property | Description |
+| --- | --- |
+| user | Contains information about the user whose account got deleted. |
+| tenant | Represents the root organization (tenant) that processed the user deletion. |
+| organization | Represents the organization that processed the user deletion. |
+| userStore | Indicates the user store that managed the user's data. |
+| initiatorType | Indicates whether an administrator or application initiated the user deletion. |
+| initiatorIpAddress | Indicates the IP address of the initiator that triggered the event. |
+| action | Indicates the flow that triggered the event. The value is `USER_ACCOUNT_DELETE`. |

@@ -1,0 +1,15 @@
+# Identity & Access Management 7.1.0.
+# Written by tools/rebuild/edition-folders.mjs (Edition layout: folders).
+schemaVersion: 1
+docSpace: identity-and-access-management
+id: 7.1.0
+name: Identity Server 7.1.0
+variables:
+  productName: WSO2 Identity Server
+  productUrlFormat: https://localhost:9443
+  productUrlSample: https://localhost:9443
+  productUrl: https://localhost:9443
+  hostName: localhost:9443
+  sdkBaseUrl: https://localhost:9443
+  consoleUrl: https://localhost:9443/console
+  apiBaseUrl: https://localhost:9443

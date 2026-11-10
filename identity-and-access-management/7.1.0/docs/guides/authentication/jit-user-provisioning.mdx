@@ -1,0 +1,97 @@
+---
+title: Configure Just-in-Time user provisioning
+description: This guide explains the concept of Just-In-Time (JIT) user provisioning, why and when to use it, and also the instructions for configuring it.  # generated from the first paragraph; a writer should improve it
+type: how-to
+sidebar_position: 9
+---
+
+This guide explains the concept of Just-In-Time (JIT) user provisioning, why and when to use it, and also the instructions for configuring it.
+
+## Overview
+
+Just-in-Time (JIT) user provisioning allows {edition.productName} to automatically create a user account in its internal user store when a user successfully logs in using an external Identity Provider (IdP) for the first time.
+
+This eliminates the need for manual user account creation in {edition.productName} before users can log in using external IdPs.
+
+JIT user provisioning works follows:
+
+1. When an application initiates an authentication request, the user gets redirected to {edition.productName}.
+
+2. If the user selects an external IdP for authentication, {edition.productName} redirects the user to the relevant IdP.
+
+3. If {edition.productName} receives a positive authentication response from the external IdP, JIT provisioning is triggered.
+
+4. {edition.productName} creates a user account in its internal user store along with the user attributes obtained from the authentication response.
+
+<img src={require("../../../assets/img/guides/jit-provisioning/how-jit-works.png").default} alt="How JIT user provisioning works" width="800" style={{display: "block", margin: "0"}} />
+
+With this process, new user accounts are automatically provisioned to {edition.productName} when users log in with external IdPs.
+
+## Enable JIT user provisioning
+
+:::info[Prerequisite]
+[Register the external IdP](./add-federated-login/index.mdx) as a connection in {edition.productName}.
+:::
+
+To enable JIT user provisioning for an external Identity provider:
+
+1. On the {edition.productName} Console, click **Connections** and select the relevant connection.
+
+2. Go to the **Just-in-Time Provisioning** tab of the selected connection.
+
+3. Check the **Just-in-Time (JIT) User Provisioning** checkbox to enable it. Uncheck to disable it.
+
+    <img src={require("../../../assets/img/guides/jit-provisioning/jit-enabled.png").default} alt="JIT user provisioning configuration is enabled" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+
+4. Click **Update** to save.
+
+:::warning
+When JIT user provisioning is disabled, the following restrictions apply:
+
+- Since {edition.productName} does not create local user accounts for federated users, those users' attributes will not be stored in {edition.productName}. Instead, attributes from the external IdP are passed directly to the application.
+
+- If you have configured multi-factor authentication (MFA) that rely on a local user account, disabling JIT user provisioning breaks the application login flow for JIT provisioned users. Learn more about [troubleshooting sign-in flow errors with JIT](#troubleshoot-sign-in-flow-errors).
+:::
+
+### Preserve locally added claims of JIT provisioned users
+
+If a user already having an account in {edition.productName} logs in using federated login with the same email address, {edition.productName} deletes any locally added claims of the user and retains only the claims provided by the federated authenticator.
+
+If you wish to change this default behavior and preserve the locally added claims of the user, go to the `deployment.toml` file found in the `<IS_HOME>/repository/conf` directory and add the following configuration.
+
+```toml
+[authentication.jit_provisioning]
+preserve_locally_added_claims = "true"
+```
+
+:::note
+If an identity provider is created using the [Identity Provider REST APIs](../../apis/idp/index.mdx) with the `provisioning.jit.attributeSyncMethod` property set, this will take precedence over the above configuration.
+:::
+
+## Troubleshoot sign-in flow errors
+
+If you have disabled JIT provisioning for an IdP, applications that use [multi-factor authentication](./mfa/index.mdx) may break as certain MFA mechanisms (such as TOTP and Email OTP) require users to have local accounts in {edition.productName}.
+
+When configuring an application's sign-in flow involving JIT-disabled IdPs and such MFA options, {edition.productName} displays the following warning:
+
+<img src={require("../../../assets/img/guides/jit-provisioning/jit-mfa-conflict.png").default} alt="MFA based Sign-in flow with JIT user provisioning" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+
+To avoid unexpected errors, you can use the following conditional authentication script to skip the MFA step when using JIT-disabled connectors.
+
+```javascript
+var localAuthenticator = 'LOCAL';
+var onLoginRequest = function (context) {
+    executeStep(1, {
+        onSuccess: function (context) {
+            var step = context.steps[1];
+            if (step.idp == localAuthenticator) {
+                executeStep(2); // MFA Step
+            }
+        }
+    });
+};
+```
+
+:::note
+For more information on this script, refer to the [sign-in option-based conditional authentication script](./conditional-auth/sign-in-option-based-template.mdx#how-it-works).
+:::

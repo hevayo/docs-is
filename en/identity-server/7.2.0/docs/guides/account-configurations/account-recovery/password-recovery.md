@@ -1,5 +1,0 @@
----
-search:
-  exclude: true
----
-{% include "../../../../../../includes/guides/account-configurations/account-recovery/password-recovery.md" %}

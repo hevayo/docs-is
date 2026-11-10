@@ -1,0 +1,44 @@
+---
+title: Configure conditional authentication
+description: Given below are the high-level steps for enabling conditional authentication in your applications.  # generated from the first paragraph; a writer should improve it
+type: how-to
+sidebar_label: Set up conditional authentication
+sidebar_position: 2
+---
+
+Given below are the high-level steps for enabling conditional authentication in your applications.
+
+:::note
+- **Limitations**: Adaptive scripts do not support `Log.warn` logs or stringifying Java objects using `JSON.stringify()`.
+:::
+
+## Prerequisites
+
+[Register your application](../add-login-to-apps/overview.mdx) on the {edition.productName} Console.
+
+:::warning[Before you proceed (only for JDK 17)]
+If your system operates on JDK 17, refer to [Enable adaptive authentication](../../../deploy/enable-adaptive-authentication.mdx) to deploy WSO2 Identity Server with conditional authentication.
+:::
+
+## Enable conditional authentication
+
+{/* markdownlint-disable-next-line */}
+Follow the steps given below.
+
+1. On the {edition.productName} Console, click **Applications**.
+2. Select the application for which you wish to apply a conditional login flow and go to its **Login Flow** tab.
+3. Click **Start with default configuration** to define the login flow starting with the `username and password` login.
+4. Turn on **Conditional Authentication** by switching the toggle on. You can define your conditional authentication script in the editor.
+
+    ![Enable conditional auth](../../../../assets/img/guides/conditional-auth/enable-conditional-auth.png)
+
+    :::warning
+    As a security measure, {edition.productName} does not allow the usage of two consecutive periods (`..`) in authentication scripts.
+    :::
+
+## Add conditional authentication script
+
+There are two ways to add a conditional authentication script:
+
+- Use a [predefined template](./index.mdx#script-templates).
+- Write a [new conditional auth script](./write-your-first-script.mdx).

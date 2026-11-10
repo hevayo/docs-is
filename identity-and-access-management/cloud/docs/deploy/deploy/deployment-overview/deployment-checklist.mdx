@@ -1,0 +1,102 @@
+---
+title: Deployment Checklist
+description: 'Guidelines for hardening the security of a WSO2 Identity Server deployment in a production environment can be discussed under three high-level categories:'  # generated from the first paragraph; a writer should improve it
+type: reference
+sidebar_position: 2
+editions: self-hosted
+---
+
+<table>
+  <thead>
+    <tr>
+      <th>**Guideline**</th>
+      <th>**Details**</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Security hardening</td>
+      <td>
+
+        Guidelines for hardening the security of a WSO2 Identity Server deployment in a production environment can be discussed under three high-level categories:
+
+        - Product-level security
+        - OS-level security
+        - Network-level security
+
+        **Related Topics**
+
+        <li>[Security Guidelines for Production Deployment](../../secure/security-guidelines/index.mdx)</li>
+
+      </td>
+    </tr>
+    <tr>
+      <td>Hostname</td>
+      <td>
+
+        By default, WSO2 Identity Server identifies the hostname of the current machine through the Java API. However, this value sometimes yields erroneous results on some environments. Therefore, users are recommended to configure the hostname by setting the relevant parameter in the `<IS_HOME>/repository/conf/deployment.toml` file. <br /> **Related Topics**
+
+        <li>[Change the hostname](./change-the-hostname.mdx)</li>
+
+      </td>
+    </tr>
+    <tr>
+      <td>Userstores</td>
+      <td>
+
+        WSO2 Identity Server offers three choices to store user details:
+
+        - Using a database
+        - Using an LDAP server
+        - Using an Active Directory service
+
+        The default is the embedded H2 database, with the userstore schema. Like in the case of the registry database, you can switch to a database like Oracle, MySQL, or MSSQL. You can point to an existing LDAP or an Active Directory to make use of existing user bases and grant access privileges based on those userstores.
+
+      </td>
+    </tr>
+    <tr>
+      <td>Tuning WSO2 products</td>
+      <td>
+
+        WSO2 Identity Server has additional guidelines for optimizing the performance of product-specific features. <br /> **Related Topics**
+
+        <li>[Performance Tuning Recommendations](../performance/performance-tuning-recommendations.mdx)</li>
+
+      </td>
+    </tr>
+    <tr>
+      <td>Firewalls</td>
+      <td>
+
+        The following ports must be accessed when operating within a firewall.
+
+        - 9443 - Used by the console and services that use the servlet transport, and is defined in the `<IS_HOME>/repository/conf/deployment.toml` file.
+
+        **Related topics**
+
+        <li>[Default Ports of WSO2 Identity Server](../../../references/default-ports.mdx)</li>
+
+      </td>
+    </tr>
+    <tr>
+      <td>Proxy servers</td>
+      <td>
+
+        WSO2 Identity Server can work with two types of proxy servers. They serve different purposes and are configured independently. <br /><br /> **Forward proxy (outbound traffic)**<br /> If WSO2 Identity Server must connect to external endpoints through a forward proxy, provide the following system properties at server start-up.<br /><br /> ` -Dhttps.proxyHost=your.proxy.host -Dhttps.proxyPort=your.proxy.port -Dhttp.proxyHost=your.proxy.host -Dhttp.proxyPort=your.proxy.port ` <br /><br /> The `https.proxyHost` and `https.proxyPort` properties apply to HTTPS endpoints, and the `http.proxyHost` and `http.proxyPort` properties apply to HTTP endpoints. <br /><br /> **Reverse proxy (inbound traffic)**<br /> If users access WSO2 Identity Server through a reverse proxy such as Apache HTTPD or NGINX that forwards requests to the HTTPS port of WSO2 Identity Server, add the following configurations to the `<IS_HOME>/repository/conf/deployment.toml` file. Tomcat then uses the proxy hostname and port when it builds redirect URLs.<br /><br /> ` [transport.https.properties] proxyName = "your.proxy.host" proxyPort = "your.proxy.port" ` <br /> WSO2 Identity Server uses the hostname configured under `[server]` in the URLs it generates. To set it to the proxy hostname, see [Change the hostname](./change-the-hostname.mdx).
+
+      </td>
+    </tr>
+    <tr>
+      <td>High availability</td>
+      <td>
+
+        For high availability, WSO2 Identity Server must run on a cluster. Databases used for the repository, user management, and business activity monitoring can also be configured in a cluster or can use replication management provided by the RDBMS.
+
+      </td>
+    </tr>
+    <tr>
+      <td>Data backup and archiving</td>
+      <td>For data backup and for archiving of data, use the functionality provided by the RDBMS.</td>
+    </tr>
+  </tbody>
+</table>

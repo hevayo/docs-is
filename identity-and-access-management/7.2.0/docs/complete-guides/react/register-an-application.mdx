@@ -1,0 +1,39 @@
+---
+title: "Register an application in WSO2 Identity Server"
+description: First unless you already have done that, you need to register your application as a single page application.  # generated from the first paragraph; a writer should improve it
+type: reference
+layout: complete-guide
+read_time: 2 min
+sidebar_position: 3
+sidebar_label: "Configure an application"
+---
+
+First unless you already have done that, you need to register your application as a single page application.
+
+* Download and [setup WSO2 Identity Server](https://is.docs.wso2.com/en/latest/get-started/quick-set-up/)
+* Sign into the WSO2 Identity Server console and navigate to **Applications > New Application.**
+* Select Single Page Application
+
+<img src={require("../../../assets/img/complete-guides/react/image5.png").default} alt="Select Single Page Application" width="600" style={{display: "block", margin: "0"}} />  
+
+Next, complete the wizard popup by providing a suitable name and an authorized redirect URL.
+
+:::note[Example]
+name: is-react
+
+Authorized redirect URL: http://localhost:5173
+:::
+
+<img src={require("../../../assets/img/complete-guides/react/image8.png").default} alt="Register a new application" width="600" style={{display: "block", margin: "0"}} />
+
+:::info
+The authorized redirect URL determines where {edition.productName} should send users after they successfully log in. Typically, this will be the web address where your app is hosted. For this guide, we'll use [http://localhost:5173](http://localhost:5173), as the sample app will be accessible at this URL.
+:::
+
+You need the following information.
+
+* Client ID - You can find this from the application's **Protocol** tab.
+* Base URL - `https://localhost:9443`
+* Redirect URL - `http://localhost:5173` or the custom redirect URL you specified when creating the application.
+
+In this step, we have registered our React app as an application in the {edition.productName} console and generated the required metadata. Next, we will create a React app using Vite.

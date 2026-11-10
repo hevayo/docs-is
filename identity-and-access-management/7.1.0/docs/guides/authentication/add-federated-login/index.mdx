@@ -1,0 +1,190 @@
+---
+title: Add federated login
+description: WSO2 Identity Server lets you add and configure external Identity Providers (IdP) so that users can bring their identities in these external IdPs and log in…  # generated from the first paragraph; a writer should improve it
+type: how-to
+sidebar_position: 1
+slug: "/guides/authentication/federated-login"
+---
+
+{edition.productName} lets you add and configure external Identity Providers (IdP) so that users can bring their identities in these external IdPs and log in to applications. Follow the guides below to learn how you can integrate the external IdP of your choice with {edition.productName}.
+
+## Create a connection
+
+You can register an external IdP in {edition.productName} by creating a connection. {edition.productName} supports a variety of connections for your convenience. Select your preferred connection and follow the guide to learn how to configure it.
+
+<Cards center>
+
+- [![Facebook](../../../../assets/img/logo/facebook-logo.svg) Facebook](./social-login/add-facebook-login.mdx)
+- [![GitHub](../../../../assets/img/logo/github-logo.svg) GitHub](./social-login/add-github-login.mdx)
+- [![Google](../../../../assets/img/logo/google-logo.svg) Google](./social-login/add-google-login.mdx)
+- [![Apple](../../../../assets/img/logo/apple-logo.svg) Apple](./social-login/add-apple-login.mdx)
+- [![Microsoft](../../../../assets/img/logo/microsoft-logo.svg) Microsoft](./social-login/add-microsoft-login.mdx)
+- [![Microsoft 365](../../../../assets/img/logo/microsoft-logo.svg) Microsoft 365](./enterprise-login/add-microsoft-365-login.mdx)
+- [![Microsoft IWA](../../../../assets/img/logo/microsoft-logo.svg) IWA](./enterprise-login/add-iwa-login.mdx)
+- [![Microsoft AD FS](../../../../assets/img/logo/microsoft-logo.svg) AD FS](./enterprise-login/add-ad-fs-login.mdx)
+- [![X](../../../../assets/img/logo/x-logo.svg) X](./social-login/add-x-login.mdx)
+- [![OIDC](../../../../assets/img/logo/oidc-logo.svg) OpenID Connect](./standard-based-login/add-oidc-idp-login.mdx)
+- [![SAML](../../../../assets/img/logo/saml-logo.svg) SAML](./standard-based-login/add-saml-idp-login.mdx)
+- [![WS-Fed](../../../../assets/img/logo/ws-fed.svg) WS-Federation](./standard-based-login/add-ws-federation.mdx)
+
+</Cards>
+
+## Configure JIT provisioning
+
+#### JIT user provisioning
+
+When a user logs in with an external identity provider using the same email address registered in a local account, JIT-provisioning overrides the attributes of the local account with the attributes received from the external identity provider.
+
+{edition.productName}, by default, disables Just-In-Time (JIT) user provisioning for your external identity provider.
+
+To enable JIT-provisioning,
+
+1. On the {edition.productName} Console, click **Connections** and select the relevant connection.
+
+2. Go to the **Just-in-Time Provisioning** tab of the selected connection.
+
+3. Check/Uncheck the **Just-in-Time (JIT) User Provisioning** checkbox to enable/disable it.
+
+    <img src={require("../../../../assets/img/guides/jit-provisioning/jit-enabled.png").default} alt="enable/disable JIT user provisioning" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+
+4. Click **Update** to save the changes.
+
+:::note
+- Learn more about JIT provisioning configurations in [configure JIT user provisioning](../jit-user-provisioning.mdx).
+
+- You can use the [identity provider APIs](../../../apis/idp/index.mdx#op-getJITConfig) to customize the attribute syncing behavior between the external identity provider and {edition.productName}.
+:::
+
+## Map groups with {edition.productName}
+
+### Map local attributes to external attributes
+
+Follow the steps below to map attributes of {edition.productName} with that of a connection.
+
+1. On the {edition.productName} Console, go to **Connections**.
+
+2. Select your connection and go to its **Attributes** tab.
+
+3. Click **Add Attribute Mapping** to add a new attribute mapping.
+
+    <img src={require("../../../../assets/img/guides/idp/group-mapping/add-attribute-mappings.png").default} alt="Add attribute mappings" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+
+4. Enter the  **External IdP Attribute** of the connection and map it to the **Groups** attribute of {edition.productName}.
+
+    <img src={require("../../../../assets/img/guides/idp/group-mapping/add-new-group-attribute-mapping.png").default} alt="Add new group attribute mapping" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+
+5. Click **Add Attribute Mapping** and then click **Save**.
+
+    <img src={require("../../../../assets/img/guides/idp/group-mapping/stage-new-group-attribute-mapping.png").default} alt="Stage new group attribute mapping" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+
+6. Click **Update** to save the changes.
+
+    <img src={require("../../../../assets/img/guides/idp/group-mapping/submit-attribute-mappings.png").default} alt="Submit attribute mappings" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+
+### Add required attributes for provisioning
+
+When provisioning users from an external identity provider (IdP), you may want to include specific attributes in the user’s profile. Follow the steps below to define the required attributes and assign default values.
+
+1. On the {edition.productName} Console, go to **Connections**.
+2. Select your connection and go to its **Attributes** tab.
+3. Under **Provisioning Attributes Selection**, click **Add Attribute**.
+4. Move the attributes that you want to include in the provisioned user's profile and click **Save**.
+
+    <img src={require("../../../../assets/img/guides/idp/add-required-attributes-for-provisioning.png").default} alt="Add required attributes for provisioning" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+
+5. Add a default value to the attribute. If the federated user lacks data for it, the system adds the default to the provisioned user’s profile.
+
+    <img src={require("../../../../assets/img/guides/idp/add-default-value-for-required-attributes.png").default} alt="Add default value for required attributes" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+
+    :::note
+    To add default values to the provisioned user’s profile when the federated user has no value, configure the following in the `<IS_HOME>/repository/conf/deployment.toml` file.
+
+    ```toml
+    [authentication.endpoint]
+    enable_merging_custom_claim_mappings_with_default = true
+    ```
+    :::
+
+### Add groups to connections
+
+Follow the steps below to add the groups from your connection to {edition.productName}:
+
+1. On the {edition.productName} Console, go to **Connections**.
+2. Select your connection and go to its **Groups** tab.
+3. Click **New Group** and enter the group name. Be sure to enter the exact group name that will be returned from the connection.
+
+    <img src={require("../../../../assets/img/guides/idp/add-federated-group.png").default} alt="Add group" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+
+4. Click **Finish** to add the group information.
+
+## Add connections to federation hub
+
+Federation hub is a collection of multiple IdPs configured on WSO2 Identity Server. On the federation hub, each IdP is recognized by the **home realm identifier** of the IdP.
+
+The following diagram illustrates an authentication flow involving a federated hub.
+![fed-hub-home-realm-identifier](../../../../assets/img/guides/federation-hub-flow.png)
+
+:::note
+On the application's login page, you can support either local and federated authentication or just federated authentication. This can be done by setting the `proxy_mode` configuration to one of the following modes:
+
+<table>
+  <tbody>
+    <tr>
+      <td>`smart`</td>
+      <td>Allow both local and federated authentication</td>
+    </tr>
+    <tr>
+      <td>`dumb`</td>
+      <td>Allow only federated authentication. The home realm identifier must be configured to operate in this mode. <br />If it is not configured, a separate screen should be displayed to get it from the user.</td>
+    </tr>
+  </tbody>
+</table>
+Configure the `proxy_mode` by opening the `deployment.toml` file in the `<IS_HOME>/repository/conf` directory
+and setting one of the above modes as follows.
+
+```bash
+[authentication] 
+proxy_mode="smart"
+```
+:::
+To add a connection to federation hub,
+
+1. On the {edition.productName} Console, click **Connections** and select the relevant connection.
+
+2. Go to the **Advanced** tab of the selected connection.
+
+3. Turn on the **Federation Hub** toggle to add the connection.
+
+4. Enter the **Home Realm Identifier**. This value is an identifier used when your application uses a federated IdP. If a user selects this IdP and sends an authentication request, the fidp query parameter will be populated with this value. (example: fidp = googleIdP)
+
+5. Click **Update** to save the changes.
+
+## Delete a connection
+
+{/* markdownlint-disable-next-line */}
+
+:::note[Before you begin]
+If your connection has applications associated with it, you will not be able to delete the connection.
+
+Before deleting such connections:
+
+1. Check the associated applications from the **Connected Apps** tab of the connection.
+2. Click on an application that uses the connection and you will be redirected to the Login Flow tab of the respective application.
+3. Remove the connection from the sign-in flow of the associated applications.
+4. Repeat steps 2 and 3 for all listed applications.
+5. Proceed to delete the connection.
+:::
+
+To delete a connection:
+
+1. On the {edition.productName} Console, go to **Connections**.
+2. Click **Set up** and navigate to the **General** tab.
+3. At the bottom of the page, click the button in the **Delete connection**.
+
+    :::note
+    You cannot delete connections that are available by default.
+    :::
+
+3. Select the checkbox and confirm your action.
+
+    <img src={require("../../../../assets/img/guides/idp/delete-idp/confirmation-modal.png").default} alt="Delete connection" width="500" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />

@@ -1,0 +1,5 @@
+label: Frontend Security
+position: 1
+customProps:
+  export: single
+  icon: fontawesome/solid/user-shield

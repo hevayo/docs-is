@@ -1,0 +1,1263 @@
+---
+title: Configuration catalog
+description: "Every deployment.toml section and its parameters, with a sample configuration."
+type: reference
+sidebar_position: 3
+---
+
+The configuration model of WSO2 Identity Server is based on the toml format. The `<IS_HOME>/repository/conf/deployment.toml` file is the single source used to configure and tune various features.
+
+This document describes all the configuration parameters used in {edition.productName}.
+
+## Server `[server]` {#server}
+
+Basic configurations to identify and deploy a WSO2 Identity Server node.
+
+**Sample configuration**
+
+```toml
+[server]
+hostname = "localhost"
+node_ip = "127.0.0.1"
+base_path = "${carbon.protocol}://${carbon.host}:${carbon.management.port}"
+serverDetails = "WSO2 Identity Server"
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `hostname` | string | Yes | `localhost` | `localhost`, `127.0.0.1`, `<any-ip-address>`, `<any-hostname>` | The hostname of the machine hosting the Identity Server instance. |
+| `node_ip` | string | Yes | `127.0.0.1` |  | The IP address of the machine hosting the Identity Server instance. |
+| `base_path` | string | No | `${carbon.protocol}://${carbon.host}:${carbon.management.port}` |  | The base path URL used to access the server. |
+| `serverDetails` | string | No | `WSO2 Identity Server` |  | A description of the server instance. |
+
+## Super admin `[super_admin]` {#super-admin}
+
+Configurations for the super admin user of the Identity Server.
+
+**Sample configuration**
+
+```toml
+[super_admin]
+username = "admin"
+password = "admin"
+admin_role = "admin"
+create_admin_account = false
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `username` | string | Yes | `admin` |  | The username of the super admin user. |
+| `password` | string | Yes | `admin` |  | The password of the super admin user. Use environment variables in production environments. |
+| `admin_role` | string | No | `admin` |  | The role name assigned to the super admin user. |
+| `create_admin_account` | boolean | No | `false` | `true`, `false` | Set to true to create the admin account if it does not already exist. |
+
+## Primary keystore `[keystore.primary]` {#primary-keystore}
+
+Configurations for the primary keystore used to sign and encrypt tokens.
+
+**Sample configuration**
+
+```toml
+[keystore.primary]
+name = "wso2carbon.jks"
+password = "wso2carbon"
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `name` | string | Yes | `wso2carbon.jks` |  | The filename of the primary keystore. |
+| `password` | string | Yes | `wso2carbon` |  | The password of the primary keystore file. |
+
+## TLS keystore `[keystore.tls]` {#tls-keystore}
+
+Configurations for the keystore used for TLS communication.
+
+**Sample configuration**
+
+```toml
+[keystore.tls]
+alias = "wso2carbon"
+key_password = "wso2carbon"
+password = "wso2carbon"
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `alias` | string | Yes | `wso2carbon` |  | The alias of the TLS key entry inside the keystore. |
+| `key_password` | string | Yes | `wso2carbon` |  | The password for the TLS key entry. |
+| `password` | string | Yes | `wso2carbon` |  | The password for the TLS keystore file. |
+
+## Truststore `[truststore]` {#truststore}
+
+Configurations for the truststore, which validates certificates from external systems.
+
+**Sample configuration**
+
+```toml
+[truststore]
+password = "wso2carbon"
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `password` | string | Yes | `wso2carbon` |  | The password for the truststore file. |
+
+## Shared database `[database.shared_db]` {#shared-database}
+
+Configurations for the shared database that stores registry and governance data.
+
+**Sample configuration**
+
+```toml
+[database.shared_db]
+type = "mysql"
+hostname = "localhost"
+port = 3306
+name = "regdb"
+username = "regadmin"
+password = "regadmin"
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `type` | string | Yes | `mysql` | `mysql`, `mssql`, `oracle`, `postgresql`, `db2`, `h2` | The type of the database. |
+| `hostname` | string | Yes | `localhost` |  | The hostname of the database server. |
+| `port` | integer | Yes | `3306` |  | The port on which the database server listens. |
+| `name` | string | Yes | `regdb` |  | The name of the shared database. |
+| `username` | string | Yes | `regadmin` |  | The username for the database connection. |
+| `password` | string | Yes | `regadmin` |  | The password for the database connection. |
+
+## Shared database pool options `[database.shared_db.pool_options]` {#shared-database-pool-options}
+
+Connection pool settings for the shared database. Tune these based on your database server capacity and load.
+
+**Sample configuration**
+
+```toml
+[database.shared_db.pool_options]
+maxActive = 80
+maxWait = 360000
+minIdle = 5
+testOnBorrow = true
+validationInterval = 30000
+validationQuery = "SELECT 1"
+defaultAutoCommit = false
+commitOnReturn = true
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `maxActive` | integer | No | `80` |  | The maximum number of active connections in the pool. |
+| `maxWait` | integer | No | `360000` |  | The maximum time (in milliseconds) to wait for a connection before throwing an error. |
+| `minIdle` | integer | No | `5` |  | The minimum number of idle connections maintained in the pool. |
+| `testOnBorrow` | boolean | No | `true` | `true`, `false` | Set to true to validate a connection before borrowing it from the pool. |
+| `validationInterval` | integer | No | `30000` |  | The interval (in milliseconds) between successive connection validation runs. |
+| `validationQuery` | string | No | `SELECT 1` |  | The SQL query used to validate connections. |
+| `defaultAutoCommit` | boolean | No | `false` | `true`, `false` | Set to true to enable auto-commit on borrowed connections. |
+| `commitOnReturn` | boolean | No | `true` | `true`, `false` | Set to true to commit any pending transactions when a connection returns to the pool. Required for PostgreSQL. |
+
+## Identity database `[database.identity_db]` {#identity-database}
+
+Configurations for the identity database that stores user identity and authentication data.
+
+**Sample configuration**
+
+```toml
+[database.identity_db]
+type = "mysql"
+hostname = "localhost"
+port = 3306
+name = "regdb"
+username = "regadmin"
+password = "regadmin"
+url = "jdbc:mysql://DB_HOST:3306/WSO2_IDENTITY_DB"
+driver = "com.mysql.cj.jdbc.Driver"
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `type` | string | Yes | `mysql` | `mysql`, `mssql`, `oracle`, `postgresql`, `db2`, `h2` | The type of the database. |
+| `hostname` | string | Yes | `localhost` |  | The hostname of the database server. |
+| `port` | integer | Yes | `3306` |  | The port on which the database server listens. |
+| `name` | string | Yes | `regdb` |  | The name of the identity database. |
+| `username` | string | Yes | `regadmin` |  | The username for the database connection. |
+| `password` | string | Yes | `regadmin` |  | The password for the database connection. |
+| `url` | string | No | `jdbc:mysql://DB_HOST:3306/WSO2_IDENTITY_DB` |  | A full JDBC connection URL. When set, this overrides the individual hostname, port, and name values. |
+| `driver` | string | No | `com.mysql.cj.jdbc.Driver` |  | The fully-qualified class name of the JDBC driver. |
+
+## Identity database pool options `[database.identity_db.pool_options]` {#identity-database-pool-options}
+
+Connection pool settings for the identity database. Tune these based on your database server capacity and load.
+
+**Sample configuration**
+
+```toml
+[database.identity_db.pool_options]
+maxActive = 
+maxWait = 
+maxIdle = 
+minIdle = 
+testOnBorrow = 
+validationInterval = 
+validationQuery = ""
+MaxPermSize = ""
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `maxActive` | integer | No |  |  | The maximum number of active connections in the pool. |
+| `maxWait` | integer | No |  |  | The maximum time (in milliseconds) to wait for a connection. |
+| `maxIdle` | integer | No |  |  | The maximum number of idle connections to keep in the pool. |
+| `minIdle` | integer | No |  |  | The minimum number of idle connections maintained in the pool. |
+| `testOnBorrow` | boolean | No |  | `true`, `false` | Set to true to validate a connection before borrowing it from the pool. |
+| `validationInterval` | integer | No |  |  | The interval (in milliseconds) between successive connection validation runs. |
+| `validationQuery` | string | No |  |  | The SQL query used to validate connections. |
+| `MaxPermSize` | string | No |  |  | The maximum permanent memory size. Applicable to certain JDBC drivers. |
+
+## Authorization manager `[authorization_manager]` {#authorization-manager}
+
+Configures the class that manages authorization checks for the Identity Server.
+
+**Sample configuration**
+
+```toml
+[authorization_manager]
+class = "org.wso2.carbon.user.core.authorization.JDBCAuthorizationManager"
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `class` | string | Yes | `org.wso2.carbon.user.core.authorization.JDBCAuthorizationManager` |  | The fully-qualified class name of the authorization manager implementation. |
+
+## Authorization manager properties `[authorization_manager.properties]` {#authorization-manager-properties}
+
+Fine-tuning properties for the authorization manager.
+
+**Sample configuration**
+
+```toml
+[authorization_manager.properties]
+AdminRoleManagementPermissions = "permission"
+AuthorizationCacheEnabled = true
+GetAllRolesOfUserEnabled = true
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `AdminRoleManagementPermissions` | string | No | `permission` |  | The permission path assigned to admin role management operations. |
+| `AuthorizationCacheEnabled` | boolean | No | `true` | `true`, `false` | Set to true to enable caching of authorization decisions. |
+| `GetAllRolesOfUserEnabled` | boolean | No | `true` | `true`, `false` | Set to true to allow retrieving all roles assigned to a user. |
+
+## Transport `[transport]` {#transport}
+
+Top-level toggles for enabling or disabling the HTTP and HTTPS transports.
+
+**Sample configuration**
+
+```toml
+[transport]
+http.enabled = false
+https.enabled = true
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `http.enabled` | boolean | No | `false` | `true`, `false` | Set to false to disable the HTTP transport. Disable in production to enforce HTTPS-only access. |
+| `https.enabled` | boolean | No | `true` | `true`, `false` | Set to true to enable the HTTPS transport. |
+
+## HTTP transport `[transport.http]` {#transport-http}
+
+Configurations for the HTTP transport connector.
+
+**Sample configuration**
+
+```toml
+[transport.http]
+enabled = false
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `enabled` | boolean | No | `false` | `true`, `false` | Set to false to disable the HTTP connector and enforce all traffic over HTTPS. |
+
+## HTTPS SSL host configuration `[transport.https.sslHostConfig.properties]` {#transport-https-ssl-host-config}
+
+SSL/TLS protocol version and cipher suite settings for the HTTPS transport.
+
+**Sample configuration**
+
+```toml
+[transport.https.sslHostConfig.properties]
+protocols = "TLSv1.2+TLSv1.3"
+ciphers = ""
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `protocols` | string | No | `TLSv1.2+TLSv1.3` |  | The TLS protocol versions to enable. Separate multiple values with +. For example, TLSv1.2+TLSv1.3. |
+| `ciphers` | string | No |  |  | A comma-separated list of cipher suites to enable. Leave empty to use the JVM defaults. |
+
+## Intermediate certificate validation `[intermediate_cert_validation]` {#intermediate-cert-validation}
+
+Enables validation of intermediate CA certificates in client certificate chains.
+
+**Sample configuration**
+
+```toml
+[intermediate_cert_validation]
+enable = false
+cert_cns = []
+exempt_contexts = []
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `enable` | boolean | No | `false` | `true`, `false` | Set to true to enable intermediate certificate validation. |
+| `cert_cns` | array | No | `[]` |  | A list of common names (CNs) of certificates the server accepts. |
+| `exempt_contexts` | array | No | `[]` |  | A list of API endpoint paths exempt from intermediate certificate validation. |
+
+## Client certificate-based authentication `[client_certificate_based_authentication]` {#client-certificate-based-authentication}
+
+Enables authentication using client certificates for API access.
+
+**Sample configuration**
+
+```toml
+[client_certificate_based_authentication]
+enable = false
+trusted_issuer = ""
+cert_thumbprint = ""
+allowed_username = []
+allowed_system_user = "admin"
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `enable` | boolean | No | `false` | `true`, `false` | Set to true to enable client certificate-based authentication. |
+| `trusted_issuer` | string | No |  |  | The distinguished name (DN) of the CA that issues trusted client certificates. |
+| `cert_thumbprint` | string | No |  |  | The SHA-256 thumbprint of a trusted client certificate. |
+| `allowed_username` | array | No | `[]` |  | A list of usernames permitted to authenticate with client certificates. |
+| `allowed_system_user` | string | No | `admin` |  | The system user granted access when using certificate-based authentication. |
+
+## OAuth endpoints `[oauth.endpoints]` {#oauth-endpoints}
+
+Custom URLs for OAuth 2.0 and OIDC consent pages. Override the defaults if you use a custom authentication endpoint.
+
+**Sample configuration**
+
+```toml
+[oauth.endpoints]
+oauth2_consent_page = "${carbon.protocol}://localhost:${carbon.management.port}/authenticationendpoint/oauth2_authz.do"
+oidc_consent_page = "${carbon.protocol}://localhost:${carbon.management.port}/authenticationendpoint/oauth2_consent.do"
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `oauth2_consent_page` | string | No | `${carbon.protocol}://localhost:${carbon.management.port}/authenticationendpoint/oauth2_authz.do` |  | The URL of the OAuth 2.0 authorization consent page. |
+| `oidc_consent_page` | string | No | `${carbon.protocol}://localhost:${carbon.management.port}/authenticationendpoint/oauth2_consent.do` |  | The URL of the OIDC consent page. |
+
+## JWT-secured authorization response mode (JARM) `[oauth.jarm]` {#oauth-jarm}
+
+Enables JWT-Secured Authorization Response Mode (JARM) for OAuth 2.0 authorization responses.
+
+**Sample configuration**
+
+```toml
+[oauth.jarm]
+enable = false
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `enable` | boolean | No | `false` | `true`, `false` | Set to true to enable JARM for OAuth 2.0 authorization responses. |
+
+## JWT token renewal without revoking existing tokens `[oauth.jwt.renew_token_without_revoking_existing]` {#oauth-jwt-renew-token-without-revoking}
+
+Allows generating new JWT access tokens without revoking existing ones. Useful for service-to-service scenarios.
+
+**Sample configuration**
+
+```toml
+[oauth.jwt.renew_token_without_revoking_existing]
+enable = false
+allowed_grant_types = []
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `enable` | boolean | No | `false` | `true`, `false` | Set to true to allow issuing new JWT tokens without revoking the current active token. |
+| `allowed_grant_types` | array | No | `[]` |  | The list of OAuth grant types for which this behavior applies. |
+
+## Adaptive authentication `[authentication.adaptive]` {#authentication-adaptive}
+
+HTTP connection settings for external function calls made during adaptive authentication script execution.
+
+**Sample configuration**
+
+```toml
+[authentication.adaptive]
+http_connections.connection_timeout = 3000
+http_connections.read_timeout = 6000
+http_connections.request_timeout = 3000
+http_connections.request_retry_count = 2
+http_function_allowed_domains = []
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `http_connections.connection_timeout` | integer | No | `3000` |  | The timeout (in milliseconds) when establishing a connection to an external endpoint. |
+| `http_connections.read_timeout` | integer | No | `6000` |  | The timeout (in milliseconds) when reading a response from an external endpoint. |
+| `http_connections.request_timeout` | integer | No | `3000` |  | The maximum time (in milliseconds) allowed for a full HTTP request. |
+| `http_connections.request_retry_count` | integer | No | `2` |  | The number of retries when an HTTP request to an external endpoint fails. |
+| `http_function_allowed_domains` | array | No | `[]` |  | A list of domains that adaptive authentication scripts can call using the httpGet() or httpPost() functions. |
+
+## Session nonce cookie `[session.nonce.cookie]` {#session-nonce-cookie}
+
+Configures which authenticators bypass nonce cookie validation during passwordless flows.
+
+**Sample configuration**
+
+```toml
+[session.nonce.cookie]
+default_whitelist_authenticators = []
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `default_whitelist_authenticators` | array | No | `[]` |  | A list of authenticator names excluded from nonce cookie validation. Used for magic link and similar passwordless flows. |
+
+## User store properties `[user_store.properties]` {#user-store-properties}
+
+Additional properties for the primary user store.
+
+**Sample configuration**
+
+```toml
+[user_store.properties]
+StoreUserAttributeValueAsUnicode = false
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `StoreUserAttributeValueAsUnicode` | boolean | No | `false` | `true`, `false` | Set to true to store user attribute values as Unicode. Required for Microsoft SQL Server to support special characters. |
+
+## User store commons `[user_store_commons]` {#user-store-commons}
+
+Common resilience and retry configurations applied across all user store connections.
+
+**Sample configuration**
+
+```toml
+[user_store_commons]
+enable_circuit_breaker_for_user_stores = false
+maxConnectionRetryCount = 2
+minConnectionRetryDelayInMilliSeconds = 60000
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `enable_circuit_breaker_for_user_stores` | boolean | No | `false` | `true`, `false` | Set to true to enable the circuit breaker pattern for user store connections. This prevents cascading failures when a user store is unresponsive. |
+| `maxConnectionRetryCount` | integer | No | `2` |  | The maximum number of reconnection attempts before the circuit breaker trips. |
+| `minConnectionRetryDelayInMilliSeconds` | integer | No | `60000` |  | The minimum delay (in milliseconds) between reconnection attempts. |
+
+## Clustering `[clustering]` {#clustering}
+
+Configures cluster membership for high-availability deployments. Each node must specify its hostname and port for inter-node communication.
+
+**Sample configuration**
+
+```toml
+[clustering]
+membership_scheme = "wka"
+domain = "wso2.carbon.domain"
+local_member_host = "10.0.21.80"
+local_member_port = 5701
+members = []
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `membership_scheme` | string | Yes | `wka` | `wka`, `multicast`, `kubernetes`, `aws`, `aws-ecs` | The mechanism nodes use to discover each other. Use kubernetes for containerized deployments and aws-ecs for Amazon ECS. |
+| `domain` | string | No | `wso2.carbon.domain` |  | The Hazelcast cluster domain name. Nodes with the same domain form a cluster. |
+| `local_member_host` | string | Yes | `10.0.21.80` |  | The IP address or hostname of this node, used for cluster communication. |
+| `local_member_port` | integer | Yes | `5701` |  | The port this node listens on for cluster communication. |
+| `members` | array | No | `[]` |  | A list of cluster member addresses in host:port format. Used for well-known address (WKA) membership. |
+
+## Clustering properties `[clustering.properties]` {#clustering-properties}
+
+Provider-specific properties for the cluster membership scheme, such as Kubernetes, AWS EC2, or Amazon ECS settings.
+
+**Sample configuration**
+
+```toml
+[clustering.properties]
+KUBERNETES_NAMESPACE = "wso2-is"
+KUBERNETES_SERVICES = "wso2is-service"
+region = "us-east-1"
+accessKey = ""
+secretKey = ""
+clusterName = "ECS-IS-CLUSTER"
+hostHeader = "ec2"
+vpcCidrBlock = "10.0.*.*"
+securityGroup = "security_group_name"
+tagKey = "a_tag_key"
+tagValue = "a_tag_value"
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `KUBERNETES_NAMESPACE` | string | No | `wso2-is` |  | The Kubernetes namespace where Identity Server pods run. |
+| `KUBERNETES_SERVICES` | string | No | `wso2is-service` |  | The name of the Kubernetes service used for pod discovery. |
+| `region` | string | No | `us-east-1` |  | The AWS region where the EC2 instances or ECS cluster runs. |
+| `accessKey` | string | No |  |  | The AWS access key for EC2 or ECS membership discovery. |
+| `secretKey` | string | No |  |  | The AWS secret key for EC2 or ECS membership discovery. |
+| `clusterName` | string | No | `ECS-IS-CLUSTER` |  | The name of the Amazon ECS cluster. |
+| `hostHeader` | string | No | `ec2` |  | The header type for ECS host resolution. |
+| `vpcCidrBlock` | string | No | `10.0.*.*` |  | The CIDR block of the VPC used to filter EC2 instances for clustering. |
+| `securityGroup` | string | No | `security_group_name` |  | The AWS security group name used to identify cluster member EC2 instances. |
+| `tagKey` | string | No | `a_tag_key` |  | An EC2 tag key used to identify cluster member instances. |
+| `tagValue` | string | No | `a_tag_value` |  | The value of the EC2 tag used to identify cluster member instances. |
+
+## Application info cache `[cache.app_info_cache]` {#cache-app-info-cache}
+
+Cache for OAuth application metadata.
+
+**Sample configuration**
+
+```toml
+[cache.app_info_cache]
+enable = true
+timeout = 900
+capacity = 5000
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `enable` | boolean | No | `true` | `true`, `false` | Set to false to disable this cache. |
+| `timeout` | integer | No | `900` |  | The time (in seconds) before a cache entry expires. |
+| `capacity` | integer | No | `5000` |  | The maximum number of entries the cache holds. |
+
+## Authentication context cache `[cache.authentication_context_cache]` {#cache-authentication-context-cache}
+
+Cache for authentication context objects used during the authentication flow.
+
+**Sample configuration**
+
+```toml
+[cache.authentication_context_cache]
+enable = true
+timeout = 300
+capacity = 5000
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `enable` | boolean | No | `true` | `true`, `false` | Set to false to disable this cache. |
+| `timeout` | integer | No | `300` |  | The time (in seconds) before a cache entry expires. |
+| `capacity` | integer | No | `5000` |  | The maximum number of entries the cache holds. |
+
+## Authentication request cache `[cache.authentication_request_cache]` {#cache-authentication-request-cache}
+
+Cache for incoming authentication requests.
+
+**Sample configuration**
+
+```toml
+[cache.authentication_request_cache]
+enable = true
+timeout = 300
+capacity = 5000
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `enable` | boolean | No | `true` | `true`, `false` | Set to false to disable this cache. |
+| `timeout` | integer | No | `300` |  | The time (in seconds) before a cache entry expires. |
+| `capacity` | integer | No | `5000` |  | The maximum number of entries the cache holds. |
+
+## Authentication result cache `[cache.authentication_result_cache]` {#cache-authentication-result-cache}
+
+Cache for authentication results after a successful login.
+
+**Sample configuration**
+
+```toml
+[cache.authentication_result_cache]
+enable = true
+timeout = 300
+capacity = 5000
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `enable` | boolean | No | `true` | `true`, `false` | Set to false to disable this cache. |
+| `timeout` | integer | No | `300` |  | The time (in seconds) before a cache entry expires. |
+| `capacity` | integer | No | `5000` |  | The maximum number of entries the cache holds. |
+
+## Authorization grant cache `[cache.authorization_grant_cache]` {#cache-authorization-grant-cache}
+
+Cache for OAuth 2.0 authorization grants.
+
+**Sample configuration**
+
+```toml
+[cache.authorization_grant_cache]
+enable = true
+timeout = 300
+capacity = 5000
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `enable` | boolean | No | `true` | `true`, `false` | Set to false to disable this cache. |
+| `timeout` | integer | No | `300` |  | The time (in seconds) before a cache entry expires. |
+| `capacity` | integer | No | `5000` |  | The maximum number of entries the cache holds. |
+
+## Framework session context cache `[cache.framework_session_context_cache]` {#cache-framework-session-context-cache}
+
+Cache for session context objects used by the authentication framework.
+
+**Sample configuration**
+
+```toml
+[cache.framework_session_context_cache]
+enable = true
+timeout = 300
+capacity = 5000
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `enable` | boolean | No | `true` | `true`, `false` | Set to false to disable this cache. |
+| `timeout` | integer | No | `300` |  | The time (in seconds) before a cache entry expires. |
+| `capacity` | integer | No | `5000` |  | The maximum number of entries the cache holds. |
+
+## IdP cache by authentication property `[cache.idp_cache_by_auth_property]` {#cache-idp-cache-by-auth-property}
+
+Cache for looking up identity providers by their authentication properties.
+
+**Sample configuration**
+
+```toml
+[cache.idp_cache_by_auth_property]
+enable = true
+timeout = 900
+capacity = 5000
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `enable` | boolean | No | `true` | `true`, `false` | Set to false to disable this cache. |
+| `timeout` | integer | No | `900` |  | The time (in seconds) before a cache entry expires. |
+| `capacity` | integer | No | `5000` |  | The maximum number of entries the cache holds. |
+
+## IdP cache by home realm identifier `[cache.idp_cache_by_hri]` {#cache-idp-cache-by-hri}
+
+Cache for looking up identity providers by home realm identifier (HRI).
+
+**Sample configuration**
+
+```toml
+[cache.idp_cache_by_hri]
+enable = true
+timeout = 900
+capacity = 5000
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `enable` | boolean | No | `true` | `true`, `false` | Set to false to disable this cache. |
+| `timeout` | integer | No | `900` |  | The time (in seconds) before a cache entry expires. |
+| `capacity` | integer | No | `5000` |  | The maximum number of entries the cache holds. |
+
+## IdP cache by name `[cache.idp_cache_by_name]` {#cache-idp-cache-by-name}
+
+Cache for looking up identity providers by their configured name.
+
+**Sample configuration**
+
+```toml
+[cache.idp_cache_by_name]
+enable = true
+timeout = 900
+capacity = 5000
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `enable` | boolean | No | `true` | `true`, `false` | Set to false to disable this cache. |
+| `timeout` | integer | No | `900` |  | The time (in seconds) before a cache entry expires. |
+| `capacity` | integer | No | `5000` |  | The maximum number of entries the cache holds. |
+
+## JWKS cache `[cache.jwks_cache]` {#cache-jwks-cache}
+
+Cache for JSON Web Key Sets (JWKS) fetched from external identity providers.
+
+**Sample configuration**
+
+```toml
+[cache.jwks_cache]
+enable = true
+timeout = 300
+capacity = 5000
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `enable` | boolean | No | `true` | `true`, `false` | Set to false to disable this cache. |
+| `timeout` | integer | No | `300` |  | The time (in seconds) before a cache entry expires. |
+| `capacity` | integer | No | `5000` |  | The maximum number of entries the cache holds. |
+
+## OAuth cache `[cache.oauth_cache]` {#cache-oauth-cache}
+
+Cache for OAuth 2.0 access tokens and related data.
+
+**Sample configuration**
+
+```toml
+[cache.oauth_cache]
+enable = true
+timeout = 300
+capacity = 5000
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `enable` | boolean | No | `true` | `true`, `false` | Set to false to disable this cache. |
+| `timeout` | integer | No | `300` |  | The time (in seconds) before a cache entry expires. |
+| `capacity` | integer | No | `5000` |  | The maximum number of entries the cache holds. |
+
+## OAuth scope cache `[cache.oauth_scope_cache]` {#cache-oauth-scope-cache}
+
+Cache for OAuth 2.0 scope metadata.
+
+**Sample configuration**
+
+```toml
+[cache.oauth_scope_cache]
+enable = true
+timeout = 300
+capacity = 5000
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `enable` | boolean | No | `true` | `true`, `false` | Set to false to disable this cache. |
+| `timeout` | integer | No | `300` |  | The time (in seconds) before a cache entry expires. |
+| `capacity` | integer | No | `5000` |  | The maximum number of entries the cache holds. |
+
+## OAuth session data cache `[cache.oauth_session_data_cache]` {#cache-oauth-session-data-cache}
+
+Cache for OAuth session data used during authorization code flows.
+
+**Sample configuration**
+
+```toml
+[cache.oauth_session_data_cache]
+enable = true
+timeout = 300
+capacity = 5000
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `enable` | boolean | No | `true` | `true`, `false` | Set to false to disable this cache. |
+| `timeout` | integer | No | `300` |  | The time (in seconds) before a cache entry expires. |
+| `capacity` | integer | No | `5000` |  | The maximum number of entries the cache holds. |
+
+## Provisioning connector cache `[cache.provisioning_connector_cache]` {#cache-provisioning-connector-cache}
+
+Cache for outbound provisioning connector configurations.
+
+**Sample configuration**
+
+```toml
+[cache.provisioning_connector_cache]
+enable = true
+timeout = 900
+capacity = 5000
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `enable` | boolean | No | `true` | `true`, `false` | Set to false to disable this cache. |
+| `timeout` | integer | No | `900` |  | The time (in seconds) before a cache entry expires. |
+| `capacity` | integer | No | `5000` |  | The maximum number of entries the cache holds. |
+
+## Provisioning entity cache `[cache.provisioning_entity_cache]` {#cache-provisioning-entity-cache}
+
+Cache for provisioned entity data during outbound provisioning.
+
+**Sample configuration**
+
+```toml
+[cache.provisioning_entity_cache]
+enable = true
+timeout = 900
+capacity = 5000
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `enable` | boolean | No | `true` | `true`, `false` | Set to false to disable this cache. |
+| `timeout` | integer | No | `900` |  | The time (in seconds) before a cache entry expires. |
+| `capacity` | integer | No | `5000` |  | The maximum number of entries the cache holds. |
+
+## SAML SSO participant cache `[cache.saml_sso_participant_cache]` {#cache-saml-sso-participant-cache}
+
+Cache for SAML SSO service provider (SP) participant data.
+
+**Sample configuration**
+
+```toml
+[cache.saml_sso_participant_cache]
+enable = true
+timeout = 300
+capacity = 5000
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `enable` | boolean | No | `true` | `true`, `false` | Set to false to disable this cache. |
+| `timeout` | integer | No | `300` |  | The time (in seconds) before a cache entry expires. |
+| `capacity` | integer | No | `5000` |  | The maximum number of entries the cache holds. |
+
+## SAML SSO session data cache `[cache.saml_sso_session_data_cache]` {#cache-saml-sso-session-data-cache}
+
+Cache for SAML SSO session data.
+
+**Sample configuration**
+
+```toml
+[cache.saml_sso_session_data_cache]
+enable = true
+timeout = 300
+capacity = 5000
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `enable` | boolean | No | `true` | `true`, `false` | Set to false to disable this cache. |
+| `timeout` | integer | No | `300` |  | The time (in seconds) before a cache entry expires. |
+| `capacity` | integer | No | `5000` |  | The maximum number of entries the cache holds. |
+
+## SAML SSO session index cache `[cache.saml_sso_session_index_cache]` {#cache-saml-sso-session-index-cache}
+
+Cache for SAML SSO session index mappings.
+
+**Sample configuration**
+
+```toml
+[cache.saml_sso_session_index_cache]
+enable = true
+timeout = 300
+capacity = 5000
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `enable` | boolean | No | `true` | `true`, `false` | Set to false to disable this cache. |
+| `timeout` | integer | No | `300` |  | The time (in seconds) before a cache entry expires. |
+| `capacity` | integer | No | `5000` |  | The maximum number of entries the cache holds. |
+
+## Service provider cache `[cache.service_provider_cache]` {#cache-service-provider-cache}
+
+Cache for service provider (application) configurations.
+
+**Sample configuration**
+
+```toml
+[cache.service_provider_cache]
+enable = true
+timeout = 900
+capacity = 5000
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `enable` | boolean | No | `true` | `true`, `false` | Set to false to disable this cache. |
+| `timeout` | integer | No | `900` |  | The time (in seconds) before a cache entry expires. |
+| `capacity` | integer | No | `5000` |  | The maximum number of entries the cache holds. |
+
+## Service provider cache by ID `[cache.service_provider_cache_id]` {#cache-service-provider-cache-id}
+
+Cache for looking up service providers by their unique identifier.
+
+**Sample configuration**
+
+```toml
+[cache.service_provider_cache_id]
+enable = true
+timeout = 900
+capacity = 5000
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `enable` | boolean | No | `true` | `true`, `false` | Set to false to disable this cache. |
+| `timeout` | integer | No | `900` |  | The time (in seconds) before a cache entry expires. |
+| `capacity` | integer | No | `5000` |  | The maximum number of entries the cache holds. |
+
+## Service provider cache by inbound auth `[cache.service_provider_cache_inbound_auth]` {#cache-service-provider-cache-inbound-auth}
+
+Cache for looking up service providers by their inbound authentication configuration.
+
+**Sample configuration**
+
+```toml
+[cache.service_provider_cache_inbound_auth]
+enable = true
+timeout = 900
+capacity = 5000
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `enable` | boolean | No | `true` | `true`, `false` | Set to false to disable this cache. |
+| `timeout` | integer | No | `900` |  | The time (in seconds) before a cache entry expires. |
+| `capacity` | integer | No | `5000` |  | The maximum number of entries the cache holds. |
+
+## Service provider provisioning connector cache `[cache.service_provider_provisioning_connector_cache]` {#cache-service-provider-provisioning-connector-cache}
+
+Cache for service provider outbound provisioning connector configurations.
+
+**Sample configuration**
+
+```toml
+[cache.service_provider_provisioning_connector_cache]
+enable = true
+timeout = 900
+capacity = 5000
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `enable` | boolean | No | `true` | `true`, `false` | Set to false to disable this cache. |
+| `timeout` | integer | No | `900` |  | The time (in seconds) before a cache entry expires. |
+| `capacity` | integer | No | `5000` |  | The maximum number of entries the cache holds. |
+
+## Pagination `[pagination]` {#pagination}
+
+Controls the maximum number of users returned per role in list operations.
+
+**Sample configuration**
+
+```toml
+[pagination]
+max_users_list_per_role = 1000
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `max_users_list_per_role` | integer | No | `1000` |  | The maximum number of users listed per role in paginated responses. |
+
+## Carbon health check `[carbon_health_check]` {#carbon-health-check}
+
+Enables the built-in health check endpoint (/api/health-check/v1.0/health) to monitor server and data source health.
+
+**Sample configuration**
+
+```toml
+[carbon_health_check]
+enable = true
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `enable` | boolean | No | `true` | `true`, `false` | Set to true to enable the health check API. |
+
+## Data source health checker `[carbon_health_check.health_checker.data_source_health_checker]` {#carbon-health-check-data-source-checker}
+
+Checks whether configured data sources are reachable and functional.
+
+**Sample configuration**
+
+```toml
+[carbon_health_check.health_checker.data_source_health_checker]
+enable = false
+order = "97"
+pool_usage_limit_percentage = "20"
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `enable` | boolean | No | `false` | `true`, `false` | Set to true to enable the data source health checker. |
+| `order` | string | No | `97` |  | The execution order of this checker relative to others. Lower values run first. |
+| `pool_usage_limit_percentage` | string | No | `20` |  | The maximum percentage of the connection pool that can be in use before this checker reports an unhealthy status. |
+
+## Super tenant health checker `[carbon_health_check.health_checker.super_tenant_health_checker]` {#carbon-health-check-super-tenant-checker}
+
+Checks the health of the super tenant's user store connection.
+
+**Sample configuration**
+
+```toml
+[carbon_health_check.health_checker.super_tenant_health_checker]
+enable = false
+order = "98"
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `enable` | boolean | No | `false` | `true`, `false` | Set to true to enable the super tenant health checker. |
+| `order` | string | No | `98` |  | The execution order of this checker relative to others. |
+
+## JMX monitoring `[monitoring.jmx]` {#monitoring-jmx}
+
+Enables JMX (Java Management Extensions) for runtime monitoring and management of server components.
+
+**Sample configuration**
+
+```toml
+[monitoring.jmx]
+rmi_server_start = false
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `rmi_server_start` | boolean | No | `false` | `true`, `false` | Set to true to start the JMX RMI server, allowing external JMX clients to connect and monitor the server. |
+
+## OpenTelemetry tracing `[tracing.opentelemetry]` {#tracing-opentelemetry}
+
+Configures OpenTelemetry distributed tracing for monitoring request flows across services.
+
+**Sample configuration**
+
+```toml
+[tracing.opentelemetry]
+ldap.enabled = false
+ldap.scope_name = "wso2isldap"
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `ldap.enabled` | boolean | No | `false` | `true`, `false` | Set to true to enable tracing of LDAP operations. |
+| `ldap.scope_name` | string | No | `wso2isldap` |  | The tracing scope name used for LDAP spans. |
+
+## Log management `[log_mgt]` {#log-mgt}
+
+Controls log file behavior and formatting for the Identity Server.
+
+**Sample configuration**
+
+```toml
+[log_mgt]
+audit_log.truncate_to_microseconds = false
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `audit_log.truncate_to_microseconds` | boolean | No | `false` | `true`, `false` | Set to true to truncate audit log timestamps to microsecond precision. |
+
+## Log masking `[masking_logs]` {#masking-logs}
+
+Enables masking of sensitive data (such as passwords and tokens) in log output.
+
+**Sample configuration**
+
+```toml
+[masking_logs]
+enabled = false
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `enabled` | boolean | No | `false` | `true`, `false` | Set to true to enable log masking. Define the patterns to mask under [masking_pattern.properties]. |
+
+## HTTP access log valve `[catalina.valves.valve.properties]` {#catalina-valves-valve-properties}
+
+Configures the Tomcat extended access log valve for logging HTTP requests.
+
+**Sample configuration**
+
+```toml
+[catalina.valves.valve.properties]
+className = "org.apache.catalina.valves.ExtendedAccessLogValve"
+directory = "${carbon.home}/repository/logs"
+prefix = "localhost_access_log."
+suffix = ".log"
+pattern = "%h %l %u %t \"%r\" %s %b"
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `className` | string | Yes | `org.apache.catalina.valves.ExtendedAccessLogValve` |  | The fully-qualified class name of the Tomcat access log valve. |
+| `directory` | string | No | `${carbon.home}/repository/logs` |  | The directory where access log files are written. |
+| `prefix` | string | No | `localhost_access_log.` |  | The filename prefix for access log files. |
+| `suffix` | string | No | `.log` |  | The filename suffix for access log files. |
+| `pattern` | string | No | `%h %l %u %t "%r" %s %b` |  | The log pattern defining which HTTP request attributes to record. |
+
+## Audit log user claims `[audit.log.loggable_user_claim]` {#audit-log-loggable-user-claim}
+
+Specifies user attribute claims to include in audit log entries for each operation.
+
+**Sample configuration**
+
+```toml
+[audit.log.loggable_user_claim]
+claim1 = "http://wso2.org/claims/identity/accountLocked"
+claim2 = "http://wso2.org/claims/role"
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `claim1` | string | No | `http://wso2.org/claims/identity/accountLocked` |  | The URI of a claim to include in audit log entries. Replace with any valid WSO2 claim URI. |
+| `claim2` | string | No | `http://wso2.org/claims/role` |  | The URI of a second claim to include in audit log entries. |
+
+## Email sending module `[output_adapter.email]` {#output-adapter-email}
+
+Configures the SMTP settings for outbound email notifications such as account verification and password reset emails.
+
+**Sample configuration**
+
+```toml
+[output_adapter.email]
+hostname = "smtp.gmail.com"
+port = 587
+from_address = ""
+username = ""
+password = ""
+auth_type = "BASIC"
+enable_authentication = true
+enable_start_tls = true
+signature = ""
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `hostname` | string | Yes | `smtp.gmail.com` |  | The hostname of the SMTP server. |
+| `port` | integer | Yes | `587` |  | The port of the SMTP server. Common values are 25, 465 (SMTPS), and 587 (STARTTLS). |
+| `from_address` | string | Yes |  |  | The email address that appears in the From field of outgoing messages. |
+| `username` | string | No |  |  | The username used to authenticate with the SMTP server. |
+| `password` | string | No |  |  | The password used to authenticate with the SMTP server. |
+| `auth_type` | string | No | `BASIC` | `BASIC`, `NTLM` | The authentication method for the SMTP connection. |
+| `enable_authentication` | boolean | No | `true` | `true`, `false` | Set to true to require SMTP authentication. |
+| `enable_start_tls` | boolean | No | `true` | `true`, `false` | Set to true to upgrade the SMTP connection to TLS using the STARTTLS command. |
+| `signature` | string | No |  |  | A signature line appended at the bottom of outgoing email messages. |
+
+## FIDO `[fido]` {#fido}
+
+Configures general FIDO/WebAuthn settings such as the user response timeout for FIDO2 device registration.
+
+**Sample configuration**
+
+```toml
+[fido]
+user_response_timeout = "300000"
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `user_response_timeout` | string | No | `300000` |  | The time in milliseconds sent as a hint to the browser for how long to wait for the user to interact with their FIDO2 authenticator during device registration. This timeout is enforced by the browser, not the server, and applies only to FIDO2 device registration (not authentication). |
+
+## FIDO metadata service `[fido.metadata_service]` {#fido-metadata-service}
+
+Enables FIDO2 attestation verification using the FIDO Metadata Service (MDS). Required for enforcing strong authenticator policies.
+
+**Sample configuration**
+
+```toml
+[fido.metadata_service]
+enable = false
+mds_endpoints = []
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `enable` | boolean | No | `false` | `true`, `false` | Set to true to fetch and use the FIDO Alliance Metadata Service for attestation validation. |
+| `mds_endpoints` | array | No | `[]` |  | A list of URLs from which the server downloads FIDO MDS metadata blobs. |
+
+## AI services `[ai_services]` {#ai-services}
+
+Configures the API key for WSO2 AI-powered features such as AI-assisted login flow design.
+
+**Sample configuration**
+
+```toml
+[ai_services]
+key = ""
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `key` | string | Yes |  |  | The subscription key that authenticates requests to the WSO2 AI services API. |
+
+## Actions `[actions]` {#actions}
+
+HTTP connection pool settings for external action endpoints invoked during authentication and provisioning flows.
+
+**Sample configuration**
+
+```toml
+[actions]
+http_client.connection_pool_size = 10
+http_client.connection_timeout = 3000
+http_client.read_timeout = 6000
+http_client.request_timeout = 3000
+http_client.retry_count = 1
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `http_client.connection_pool_size` | integer | No | `10` |  | The maximum number of connections the HTTP client maintains across all external action endpoints. |
+| `http_client.connection_timeout` | integer | No | `3000` |  | The timeout (in milliseconds) for establishing a connection to an action endpoint. |
+| `http_client.read_timeout` | integer | No | `6000` |  | The timeout (in milliseconds) for reading a response from an action endpoint. |
+| `http_client.request_timeout` | integer | No | `3000` |  | The maximum time (in milliseconds) allowed for a complete HTTP request to an action endpoint. |
+| `http_client.retry_count` | integer | No | `1` |  | The number of times the HTTP client retries a failed request to an action endpoint. |
+
+## User self-registration `[identity_mgt.user_self_registration]` {#identity-mgt-user-self-registration}
+
+Controls behavior of the user self-registration flow for preferred channel verification.
+
+**Sample configuration**
+
+```toml
+[identity_mgt.user_self_registration]
+enable_account_lock_for_verified_preferred_channel = false
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `enable_account_lock_for_verified_preferred_channel` | boolean | No | `false` | `true`, `false` | Set to false to skip account locking when a user self-registers with a verified preferred communication channel. |
+
+## Resource access control `[resource.access_control]` {#resource-access-control}
+
+Configures access control rules for specific API endpoints, such as requiring authentication or specific scopes.
+
+**Sample configuration**
+
+```toml
+[resource.access_control]
+context = "/api/identity/*"
+secured = true
+http_method = "all"
+permissions = []
+scope = []
+allowed_auth_handlers = []
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `context` | string | Yes | `/api/identity/*` |  | The URL context pattern this access control rule applies to. |
+| `secured` | boolean | No | `true` | `true`, `false` | Set to true to require authentication for requests matching the context. |
+| `http_method` | string | No | `all` |  | The HTTP method this rule applies to. Use all to match any method. |
+| `permissions` | array | No | `[]` |  | A list of permission strings a caller must have to access this resource. |
+| `scope` | array | No | `[]` |  | A list of OAuth scopes required to access this resource. |
+| `allowed_auth_handlers` | array | No | `[]` |  | A list of authentication handler names permitted to authenticate requests to this resource. |
+
+## Security token service (STS) `[sts]` {#sts}
+
+Configures the WS-Federation Security Token Service (STS), which issues SAML tokens for WS-Federation web applications.
+
+**Sample configuration**
+
+```toml
+[sts]
+signature_algorithm = "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"
+digest_algorithm = "http://www.w3.org/2001/04/xmlenc#sha256"
+```
+
+| Parameter | Type | Required | Default | Possible values | Description |
+|---|---|---|---|---|---|
+| `signature_algorithm` | string | No | `http://www.w3.org/2001/04/xmldsig-more#rsa-sha256` |  | The XML signature algorithm used to sign issued SAML tokens. |
+| `digest_algorithm` | string | No | `http://www.w3.org/2001/04/xmlenc#sha256` |  | The digest algorithm used when signing SAML tokens. |
