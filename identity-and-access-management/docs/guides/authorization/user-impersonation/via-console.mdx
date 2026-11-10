@@ -15,7 +15,7 @@ User impersonation lets you perform actions and access resources using another u
 
 For this method to suit you, your organization should fulfill the following requirements.
 
-- Your organization has [enabled](../../user-self-service/self-service-portal/configure-self-service-portal.mdx#enabledisable-the-my-account-portal) the My Account portal.
+- Your organization has [enabled](../../user-self-service/my-account-portal/configure-self-service-portal.mdx#enabledisable-the-my-account-portal) the My Account portal.
 
 - Your {edition.productName} Console and My Account portal have the same login flow.
 
@@ -49,25 +49,11 @@ Follow the steps below to assign the right permissions to the impersonator.
 
 With the required permissions in place, the impersonator can now impersonate another user using the steps below.
 
-<Edition only="cloud">
-
-1. Log into the {edition.productName} Console with own credentials using the following URL.
-
-    ```text
-    https://console.asgardeo.io/t/{organization_name}
-    ```
-
-</Edition>
-
-<Edition only="self-hosted">
-
 1. Log into the {edition.productName} Console with own credentials using the following URL.
 
     ```text
     https://localhost:9443/console
     ```
-
-</Edition>
 
 2. Go to the **User management** > **Users** and select the user you want to impersonate.
 
@@ -184,7 +170,7 @@ By following the steps below, you permit a business application to use the imper
 
         iii. Click **Finish**.
 
-          <Edition only="cloud"><img src={require("../../../../assets/cloud/img/guides/authorization/impersonation/org-api-authorization-impersonation.png").default} alt="Authorize org impersonation API" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/self-hosted/img/guides/authorization/impersonation/org-api-authorization-impersonation.png").default} alt="Authorize org impersonation API" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+          <img src={require("../../../../assets/img/guides/authorization/impersonation/org-api-authorization-impersonation.png").default} alt="Authorize org impersonation API" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 ### Step 2: Create an application role that permits impersonation
 
@@ -210,7 +196,7 @@ To do so,
 
     4. Click **Create**.
 
-        <Edition only="cloud"><img src={require("../../../../assets/cloud/img/guides/authorization/impersonation/role-creation.png").default} alt="Role-Creation" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/self-hosted/img/guides/authorization/impersonation/role-creation.png").default} alt="Role-Creation" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+        <img src={require("../../../../assets/img/guides/authorization/impersonation/role-creation.png").default} alt="Role-Creation" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 ### Step 3: Assign the role to the impersonator
 
@@ -262,20 +248,6 @@ To allow impersonating organization users, share the business applications with 
 
 To troubleshoot issues and keep track of impersonators' actions, you can use {edition.productName} logs for user impersonation. Whenever a resource gets modified using an impersonated access token, an audit log prints with the relevant details of the impersonator.
 
-<Edition only="cloud">
-
-You can access these logs from the **Logs** section of the {edition.productName} Console.
-
-<img src={require("../../../../assets/cloud/img/guides/authorization/impersonation/impersonation-audit-logs.png").default} alt="Impersonation-Audit-Log" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
-
-:::note
-Learn more about [audit logs](../../identity-platform-logs/audit-logs/index.mdx).
-:::
-
-</Edition>
-
-<Edition only="self-hosted">
-
 <Tabs groupId="tabs">
 <TabItem value="audit-log-format" label="Audit log format">
 
@@ -314,8 +286,6 @@ Data={"ServiceProviderName":"POSTMAN_SBA","Claims":{"http://wso2.org/claims/coun
 Outcome=Success | Impersonator : 0fa51985-d36d-4492-9ebd-298f9d68861f
 ```
 
-</Edition>
-
 ## Notify users on impersonation
 
 When {edition.productName} issues an impersonated access token on behalf of a user, it can send a notification email to that user. This keeps the user informed of actions taken on their behalf, improving transparency.
@@ -328,7 +298,7 @@ Follow the steps below to enable or disable email notifications:
 
 The following is the default email notification sent to the impersonated user upon starting an impersonated session.
 
-<Edition only="cloud"><img src={require("../../../../assets/cloud/img/guides/authorization/impersonation/impersonation-email-notification.png").default} alt="Impersonation-Email-Notification" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/self-hosted/img/guides/authorization/impersonation/impersonation-email-notification.png").default} alt="Impersonation-Email-Notification" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+<img src={require("../../../../assets/img/guides/authorization/impersonation/impersonation-email-notification.png").default} alt="Impersonation-Email-Notification" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 :::note
 If you wish to customize this email template, you may do so by navigating to **Branding** > **Email Templates**. For more information, refer to the [Customize email templates](../../customizations/branding/customize-email-templates.mdx) documentation.
@@ -352,43 +322,6 @@ To access organizations as an impersonator, you need to switch your impersonated
 When you SSO into a business application from the impersonated user's My Account portal, the token that the application receives works as the impersonated access token.
 :::
 
-<Edition only="cloud">
-
-<Tabs groupId="tabs">
-<TabItem value="request-format" label="Request Format">
-
-```bash
-curl --location 'https://api.asgardeo.io/t/{organization_name}/oauth2/token' \
---header 'Content-Type: application/x-www-form-urlencoded' \
---header 'Authorization: Basic <base64 Encoded (clientId:clientSecret)>' \
---data-urlencode 'client_id={Client_Id}' \
---data-urlencode 'grant_type=organization_switch' \
---data-urlencode 'scope={Organization API Scopes}' \
---data-urlencode 'switching_organization={Organization_Id}' \
---data-urlencode 'token={Impersonated Access Token}'
-```
-
-</TabItem>
-<TabItem value="example" label="Example">
-
-```bash
-curl --location 'https://api.asgardeo.io/t/bifrost/oauth2/token' \
---header 'Content-Type: application/x-www-form-urlencoded' \
---header 'Authorization: Basic QVVhZkoyeWpXM2dUR3JZaWZCTlF1MTBXRWtNYToybWN1blJ1T1Y5WFQ3QXpzRDEyVmY3cGhOVWJRUmdlT0NtZW5Wa0xKQTR3YQ==' \
---data-urlencode 'client_id=AUafJ2yjW3gTGrYifBNQu10WEkMb' \
---data-urlencode 'grant_type=organization_switch' \
---data-urlencode 'scope=internal_login internal_org_user_mgt_view internal_org_user_mgt_list' \
---data-urlencode 'switching_organization=2fb64b16-94ee-4727-a542-5db7af91ef06' \
---data-urlencode 'token=eyJ4NXQiOiJPV1JpTXpaaVlURXhZVEl4WkdGa05UVTJOVE0zTWpkaFltTmxNVFZrTnpRMU56a3paVGc1TVRrNE0yWmxOMkZoWkdaalpURmlNemxsTTJJM1l6ZzJNZyIsImtpZCI6Ik9XUmlNelppWVRFeFlUSXhaR0ZrTlRVMk5UTTNNamRoWW1ObE1UVmtOelExTnprelpUZzVNVGs0TTJabE4yRmhaR1pqWlRGaU16bGxNMkkzWXpnMk1nX1JTMjU2IiwidHlwIjoiYXQrand0IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiIzMmJjNDY5Ny1lZDBmLTQ1NDYtODM4Ny1kY2Q2NDAzZTdjYWEiLCJhdXQiOiJBUFBMSUNBVElPTl9VU0VSIiwiaXNzIjoiaHR0cHM6XC9cL2xvY2FsaG9zdDo5NDQzXC9vYXV0aDJcL3Rva2VuIiwiY2xpZW50X2lkIjoialZjVzRvTG4xSmpiMlQ5NEg0Z3RQVjl6NVkwYSIsImF1ZCI6ImpWY1c0b0xuMUpqYjJUOTRINGd0UFY5ejVZMGEiLCJuYmYiOjE3MTg2OTUwNTIsImFjdCI6eyJzdWIiOiIyZDkzMWM5ZC04NzZlLTQ2YzAtOWFiYS1mMzQ1MDE4NzlkZmMifSwiYXpwIjoialZjVzRvTG4xSmpiMlQ5NEg0Z3RQVjl6NVkwYSIsIm9yZ19pZCI6IjEwMDg0YThkLTExM2YtNDIxMS1hMGQ1LWVmZTM2YjA4MjIxMSIsInNjb3BlIjoiaW50ZXJuYWxfbG9naW4gaW50ZXJuYWxfb3JnX3VzZXJfbWd0X2xpc3QgaW50ZXJuYWxfb3JnX3VzZXJfbWd0X3ZpZXcgaW50ZXJuYWxfdXNlcl9tZ3RfbGlzdCBpbnRlcm5hbF91c2VyX21ndF92aWV3IG9wZW5pZCIsImV4cCI6MTcxODY5ODY1Miwib3JnX25hbWUiOiJTdXBlciIsImlhdCI6MTcxODY5NTA1MiwianRpIjoiMDcyOGQ1MTctNzk2OC00NzRmLWJkN2QtMTI1MzdjY2JlNDM2In0.FqavHBDNLo-nMMgJ3OTDswo7pl6zMztpUkm-cgBOgDJPek_FAEQzt4DFxGglnf2-AtnRN14wPOv9_M_DYJWH529hbwYBVrQQDlJmcF1WtWX_MnBgBGsIfA5_3nzocZWBqj5KDjbXS3_3CSexQ9_h3tKWCDX1oit03flcs7E_xG_nkWV1TUPFUAaoHrMWTROIttN1iFqwRjeg6Bkqjx8hHM3Dn7E9Zsmby0EhuC7i41kid2s9F_5XPPMCYM0gyxX5lAjsf6UFth9v3SWIuMLFgiq5Eh6u4pCs9srh2A5t0DIcKMwyXTEm-QVIhGi1zkB-wGV6yYD9TwbiujnrqOyFQA'
-```
-
-</TabItem>
-</Tabs>
-
-</Edition>
-
-<Edition only="self-hosted">
-
 <Tabs groupId="tabs">
 <TabItem value="request-format" label="Request Format">
 
@@ -419,8 +352,6 @@ curl --location 'https://localhost:9443/oauth2/token' \
 
 </TabItem>
 </Tabs>
-
-</Edition>
 
 The response looks like the following:
 

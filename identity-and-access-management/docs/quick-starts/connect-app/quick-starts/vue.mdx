@@ -12,33 +12,6 @@ import TabItem from '@theme/TabItem';
 
 Welcome to the Vue quickstart guide! In this document, you will learn to build a Vue app, add user sign-in, and display user profile information using {edition.productName}.
 
-<Edition only="cloud">
-
-#### What You Will Learn
-
-- Create new Vue app using Vite
-- Install [@asgardeo/vue](https://www.npmjs.com/package/@asgardeo/vue) package
-- Add user sign-in and sign-out
-- Display user profile information
-
-#### Prerequisites
-
-Before you start, ensure you have the following:
-
-- About 15 minutes
-- [WSO2 Identity Platform account](../../create-identity-platform-account.mdx)
-- Install [Node.js](https://nodejs.org/en/download/package-manager) on your system.
-- Make sure you have a JavaScript package manager like `npm`, `yarn`, or `pnpm`.
-- A favorite text editor or IDE
-
-#### Example Source Code
-
-[Vue Vite App Sample](https://github.com/asgardeo/web-ui-sdks/tree/main/samples/vue-sdk-playground)
-
-</Edition>
-
-<Edition only="self-hosted">
-
 #### What You Will Learn
 
 - Create a new Vue app using Vite
@@ -51,12 +24,10 @@ Before you start, ensure you have the following:
 Before you start, ensure you have the following:
 
 - About 15 minutes
-- Set-up {edition.productName}
+- [Set-up {edition.productName}](../../quick-set-up.mdx)
 - Install [Node.js](https://nodejs.org/en/download/package-manager) on your system.
 - Make sure you have a JavaScript package manager like `npm`, `yarn`, or `pnpm`.
 - A favorite text editor or IDE
-
-</Edition>
 
 <Steps>
 
@@ -65,25 +36,11 @@ Before you start, ensure you have the following:
 - Sign into the {edition.productName} Console and navigate to **Applications > New Application**.
 - Select **Single-Page Application** and complete the wizard by providing a suitable name and an authorized redirect URL.
 
-<Edition only="cloud">
-
-:::note[Example]
-**Name:** `asgardeo-vue`
-
-**Authorized redirect URL:** `http://localhost:5173`
-:::
-
-</Edition>
-
-<Edition only="self-hosted">
-
 :::note[Example]
 **Name:** `is-vue`
 
 **Authorized redirect URL:** `http://localhost:5173`
 :::
-
-</Edition>
 
 Once you finish creating the application, note down the following values from its **Guide** tab. You will need them to configure the WSO2 Identity Platform Vue SDK.
 
@@ -97,45 +54,6 @@ The authorized redirect URL determines where {edition.productName} should send u
 ## Create a Vue app using Vite
 
 Create (scaffold) your new Vue app using [Vite](https://vite.dev/).
-
-<Edition only="cloud">
-
-<Tabs groupId="tabs">
-<TabItem value="npm" label="npm">
-
-```bash
-npm create vite@latest asgardeo-vue -- --template vue
-cd asgardeo-vue
-npm install
-npm run dev
-```
-
-</TabItem>
-<TabItem value="yarn" label="yarn">
-
-```bash
-yarn create vite@latest asgardeo-vue -- --template vue
-cd asgardeo-vue
-yarn install
-yarn dev
-```
-
-</TabItem>
-<TabItem value="pnpm" label="pnpm">
-
-```bash
-pnpm create vite@latest asgardeo-vue -- --template vue
-cd asgardeo-vue
-pnpm install
-pnpm dev
-```
-
-</TabItem>
-</Tabs>
-
-</Edition>
-
-<Edition only="self-hosted">
 
 <Tabs groupId="tabs">
 <TabItem value="npm" label="npm">
@@ -169,8 +87,6 @@ pnpm dev
 
 </TabItem>
 </Tabs>
-
-</Edition>
 
 ## Install `@asgardeo/vue`
 

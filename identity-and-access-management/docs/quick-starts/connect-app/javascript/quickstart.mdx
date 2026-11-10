@@ -12,33 +12,6 @@ import TabItem from '@theme/TabItem';
 
 Welcome to the JavaScript Quickstart guide! In this document, you will learn to build a single-page JavaScript app, add user login and display user profile information using {edition.productName}.
 
-<Edition only="cloud">
-
-#### What You Will Learn
-
-- Create new single-page JavaScript app
-- Install WSO2 Identity Platform JavaScript SDK
-- Add user login and logout
-- Display user profile information
-
-#### Prerequisites
-
-Before you start, ensure you have the following:
-
-- About 15 minutes
-- [WSO2 Identity Platform account](../../create-identity-platform-account.mdx)
-- Install [Node.js](https://nodejs.org/en/download/package-manager) on your system.
-- Make sure you have a JavaScript package manager like `npm`, `yarn`, or `pnpm`.
-- A favorite text editor or IDE
-
-#### Example Source Code
-
-[JavaScript App Sample](https://github.com/dasuni-30/asgardeo-javascript-vite-app/tree/master)
-
-</Edition>
-
-<Edition only="self-hosted">
-
 #### What You Will Learn
 
 - Create new single-page JavaScript app
@@ -51,7 +24,7 @@ Before you start, ensure you have the following:
 Before you start, ensure you have the following:
 
 - About 15 minutes
-- Set-up {edition.productName}
+- [Set-up {edition.productName}](../../quick-set-up.mdx)
 - Install [Node.js](https://nodejs.org/en/download/package-manager) on your system.
 - Make sure you have a JavaScript package manager like `npm`, `yarn`, or `pnpm`.
 - A favorite text editor or IDE
@@ -60,8 +33,6 @@ Before you start, ensure you have the following:
 
 [JavaScript App Sample](https://github.com/dasuni-30/asgardeo-javascript-vite-app/tree/master)
 
-</Edition>
-
 <Steps>
 
 ## Configure an Application in {edition.productName}
@@ -69,25 +40,11 @@ Before you start, ensure you have the following:
 - Sign into {edition.productName} console and navigate to **Applications > New Application**.
 - Select **Single Page Application** and complete the wizard popup by providing a suitable name and an authorized redirect URL.
 
-<Edition only="cloud">
-
-:::note[Example]
-**name:** asgardeo-javascript
-
-**Authorized redirect URL:** http://localhost:5173
-:::
-
-</Edition>
-
-<Edition only="self-hosted">
-
 :::note[Example]
 **name:** is-javascript
 
 **Authorized redirect URL:** http://localhost:5173
 :::
-
-</Edition>
 
 Note down the following values from the **Protocol** tab of the registered application. You will need them to configure  WSO2 Identity Platform JavaScript SDK.
 
@@ -101,54 +58,6 @@ The authorized redirect URL determines where {edition.productName} should send u
 ## Create a JavaScript app using Vite
 
 Create (a.k.a scaffold) your new JavaScript app using Vite.
-
-<Edition only="cloud">
-
-<Tabs groupId="tabs">
-<TabItem value="npm" label="npm">
-
-```bash
-npm create vite@latest asgardeo-javascript -- --template vanilla
-
-cd asgardeo-javascript
-
-npm install
-
-npm run dev
-```
-
-</TabItem>
-<TabItem value="yarn" label="yarn">
-
-```bash
-yarn create vite@latest asgardeo-javascript -- --template vanilla
-
-cd asgardeo-javascript
-
-yarn install
-
-yarn dev
-```
-
-</TabItem>
-<TabItem value="pnpm" label="pnpm">
-
-```bash
-pnpm create vite@latest asgardeo-javascript -- --template vanilla
-
-cd asgardeo-javascript
-
-pnpm install
-
-pnpm dev
-```
-
-</TabItem>
-</Tabs>
-
-</Edition>
-
-<Edition only="self-hosted">
 
 <Tabs groupId="tabs">
 <TabItem value="npm" label="npm">
@@ -191,8 +100,6 @@ pnpm dev
 
 </TabItem>
 </Tabs>
-
-</Edition>
 
 ## Install @asgardeo/auth-spa
 

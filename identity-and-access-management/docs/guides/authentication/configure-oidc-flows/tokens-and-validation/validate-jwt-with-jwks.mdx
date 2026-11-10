@@ -1,9 +1,9 @@
 ---
 title: Validate JWT with JSON Web Key Set (JWKS)
-description: This guide explains JSON Web Key Set (JWKS) and how to use it to validate JSON Web Tokens (JWT) with WSO2 Identity Platform.  # generated from the first paragraph; a writer should improve it
+description: This guide explains JSON Web Key Set (JWKS) and how to use it to validate JSON Web Tokens (JWT) with WSO2 Identity Server.  # generated from the first paragraph; a writer should improve it
 type: how-to
 sidebar_label: Validate JWT with JWKS
-sidebar_position: 1
+sidebar_position: 2
 slug: "/guides/authentication/oidc/validate-jwt-with-jwks"
 ---
 
@@ -28,7 +28,7 @@ A JWKS end-point exposes an authorization server’s public keys in the JWKS for
 
 In this instance, {edition.productName} works as the JWT issuer. The following diagram explains this process.
 
-<Edition only="cloud">![JWKS endpoint of WSO2 Identity Platform](../../../../../assets/cloud/img/guides/authentication/oidc/jwks-idp.png)</Edition><Edition only="self-hosted">![JWKS endpoint of WSO2 Identity Server](../../../../../assets/self-hosted/img/guides/authentication/oidc/jwks-idp.png)</Edition>
+![JWKS endpoint of WSO2 Identity Server](../../../../../assets/img/guides/authentication/oidc/jwks-idp.png)
 
 - The user authenticates with {edition.productName} to access the protected resource.
 
@@ -39,29 +39,6 @@ In this instance, {edition.productName} works as the JWT issuer. The following d
 - The application should then find the correct key based on the kid (key ID), validate the JWT response and grant access to the protected resource.
 
 {edition.productName} exposes its public keys from the following URL:
-
-<Edition only="cloud">
-
-<Tabs groupId="tabs">
-<TabItem value="format" label="Format">
-
-```bash
-https://api.asgardeo.io/t/<organization_name>/oauth2/jwks
-```
-
-</TabItem>
-<TabItem value="example" label="Example">
-
-```bash
-https://api.asgardeo.io/t/bifrost/oauth2/jwks
-```
-
-</TabItem>
-</Tabs>
-
-</Edition>
-
-<Edition only="self-hosted">
 
 <Tabs groupId="tabs">
 <TabItem value="format" label="Format">
@@ -79,8 +56,6 @@ https://localhost:9443/oauth2/jwks
 
 </TabItem>
 </Tabs>
-
-</Edition>
 
 The contents of the {edition.productName} JWKS endpoint take the following form:
 
@@ -159,7 +134,7 @@ The contents of the {edition.productName} JWKS endpoint take the following form:
 
 In this instance, {edition.productName} works as the JWT validator. The following diagram explains this process.
 
-<Edition only="cloud">![Get JWKS from external IdP](../../../../../assets/cloud/img/guides/authentication/oidc/jwks-sp.png)</Edition><Edition only="self-hosted">![Get JWKS from external IdP](../../../../../assets/self-hosted/img/guides/authentication/oidc/jwks-sp.png)</Edition>
+![Get JWKS from external IdP](../../../../../assets/img/guides/authentication/oidc/jwks-sp.png)
 
 - The user first authenticates with the external IdP to access the protected resource.
 
@@ -174,14 +149,6 @@ In this instance, {edition.productName} works as the JWT validator. The followin
 - If the key is not cached, {edition.productName} retrieves the JWKS from the external IdP and updates the cache.
 
 - After successfully validating the JWT, {edition.productName} issues an access token to the user.
-
-<Edition only="cloud">
-
-To exchange a JWT issued by an external IdP for a {edition.productName} token, register the external IdP as a trusted token issuer with its JWKS endpoint and use the token exchange grant. See [configure the token exchange flow](./configure-token-exchange.mdx#exchange-a-federated-token) for instructions.
-
-</Edition>
-
-<Edition only="self-hosted">
 
 Follow the steps below to implement this use case.
 
@@ -232,6 +199,3 @@ We recommend using `x5t#S256`. If your system requires the previous `x5t` suppor
     </tr>
   </tbody>
 </table>
-
-</Edition>
-

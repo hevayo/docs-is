@@ -13,7 +13,7 @@ To configure attributes,
 2. Under **Manage Attributes**, click **Attributes** to view the list of all attributes.
 3. Click **Edit** for the attribute you want to update.
 
- <Edition only="cloud"><img src={require("../../../../../assets/cloud/img/guides/organization/attributes/edit-attributes-general.png").default} alt="Edit attributes" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../../assets/self-hosted/img/guides/organization/attributes/edit-attributes-general.png").default} alt="Edit attributes" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+ <img src={require("../../../../../assets/img/guides/organization/attributes/edit-attributes-general.png").default} alt="Edit attributes" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 ## General settings
 
@@ -129,19 +129,13 @@ Apart from the properties in the **General** tab, you can configure the followin
 
 The **Attribute Mappings** tab lets you map attributes from each connected user store to the user attribute in {edition.productName}. This makes sure the attribute is stored and updated in the correct user store field.
 
-<Edition only="cloud"><img src={require("../../../../../assets/cloud/img/guides/organization/attributes/edit-attribute-mappings.png").default} alt="Edit attribute mappings" width="500" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../../assets/self-hosted/img/guides/organization/attributes/edit-attribute-mappings.png").default} alt="Edit attribute mappings" width="500" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
-
-<Edition only="self-hosted">
+<img src={require("../../../../../assets/img/guides/organization/attributes/edit-attribute-mappings.png").default} alt="Edit attribute mappings" width="500" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 ### Addition properties
 
 You can use the **Additional Properties** tab to add any extra properties you need when writing an extension.
 
-<img src={require("../../../../../assets/self-hosted/img/guides/organization/attributes/edit-attributes-additional-properties.png").default} alt="Edit additional properties" width="500" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
-
-</Edition>
-
-<Edition only="self-hosted">
+<img src={require("../../../../../assets/img/guides/organization/attributes/edit-attributes-additional-properties.png").default} alt="Edit additional properties" width="500" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 ## Configure the storage location of attributes
 
@@ -177,8 +171,6 @@ By default, {edition.productName} stores identity attributes internally in the u
     - `http://wso2.org/claims/identity/unlockTime`: Time at which the user’s account gets unlocked.
 
     - `http://wso2.org/claims/identity/failedLoginAttempts`: Tracks the number of consecutive failed login attempts. Account locking happens based on this value.
-
-</Edition>
 
 ### Select storage location for selected attributes
 
@@ -228,8 +220,6 @@ By default, {edition.productName} stores identity attributes internally in the u
 
 6. Click **Update** to save the changes.
 
-<Edition only="self-hosted">
-
 ## Configure hidden attributes
 
 WSO2 Identity Server includes hidden identity attributes that support internal functionality but don't appear in the Console UI by default. These attributes typically don't require mapping with Service Providers (SPs) or Identity Providers (IdPs).
@@ -248,6 +238,3 @@ hidden_claims = [
 - To add new attributes to the hidden list, include their URIs in the hidden_claims array.
 
 - To unhide default hidden attributes, override the configuration with an empty list or remove the relevant URIs.
-
-</Edition>
-

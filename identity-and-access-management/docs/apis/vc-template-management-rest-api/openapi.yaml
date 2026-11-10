@@ -1,21 +1,27 @@
 openapi: 3.0.0
 info:
-  title: "WSO2 Identity Platform Verifiable Credential Template Management API"
+  title: "WSO2 IS Verifiable Credential Template Management API"
   version: "v1"
-  description: "Admin API for managing verifiable credential templates in WSO2 Identity Platform."
+  description: "Admin API for managing verifiable credential templates in WSO2 Identity Server."
   contact:
     name: WSO2
-    url: 'https://wso2.com/asgardeo/'
+    url: 'https://wso2.com/identity-platform/access-manager/'
     email: architecture@wso2.org
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 
+servers:
+  - url: 'https://{server-url}/t/{tenant-domain}/api/server/v1'
+    variables:
+      tenant-domain:
+        default: "carbon.super"
+      server-url:
+        default: "localhost:9443"
+
 security:
   - OAuth2: []
-
-servers:
-  - url: 'https://api.asgardeo.io/t/{organization-name}/api/server/v1'
+  - BasicAuth: []
 
 paths:
   /vc-templates:
@@ -281,8 +287,8 @@ components:
       type: oauth2
       flows:
         authorizationCode:
-          authorizationUrl: 'https://api.asgardeo.io/t/{organization-name}/oauth2/authorize'
-          tokenUrl: 'https://api.asgardeo.io/t/{organization-name}/oauth2/token'
+          authorizationUrl: 'https://localhost:9443/oauth2/authorize'
+          tokenUrl: 'http://localhost:9443/oauth2/token'
           scopes: {}
 
   schemas:

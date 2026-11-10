@@ -1,6 +1,6 @@
 ---
 title: Understanding service extensions
-description: Service extensions allow you to customize specific flows of WSO2 Identity Platform by integrating custom code hosted in an external web service.  # generated from the first paragraph; a writer should improve it
+description: Service extensions allow you to customize specific flows of WSO2 Identity Server by integrating custom code hosted in an external web service.  # generated from the first paragraph; a writer should improve it
 type: how-to
 sidebar_position: 1
 slug: "/guides/service-extensions/understanding-service-extensions"
@@ -33,21 +33,9 @@ Service extensions in {edition.productName} can be broadly categorized into two 
           - Triggered before a user's profile is updated.
           - Allows you to validate profile data, synchronize with external systems, or trigger notifications.
 
-<Edition only="self-hosted">
-
 These extension types provide powerful mechanisms to tailor {edition.productName} to your specific requirements and integrate it seamlessly with your existing systems and processes without deploying custom code to the product, extending product internal architecture.
 
-</Edition>
-
-<Edition only="cloud">
-
-These extension types provide powerful mechanisms to tailor {edition.productName} to your specific requirements and integrate it seamlessly with your existing systems and processes.
-
-</Edition>
-
 All these extension types use a consistent general syntax for requests and responses exchanged between {edition.productName} and the external web service, they differ in the specifics of the JSON objects involved. When implementing your external service, you must develop your code according to the REST API contract associated with the type of action you are using.
-
-<Edition only="self-hosted">
 
 The following table lists the extensions currently supported by the product.
 
@@ -92,72 +80,13 @@ The following table lists the extensions currently supported by the product.
   </tbody>
 </table>
 
-</Edition>
-
-<Edition only="cloud">
-
-The following table lists the currently supported extensions and those in the roadmap for future availability.
-
-<table>
-  <thead>
-    <tr>
-      <th>Flow</th>
-      <th>Trigger</th>
-      <th>Example use cases</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Login</td>
-      <td>Authenticate</td>
-      <td>
-
-        - Call an external service to authenticate the user.
-
-      </td>
-    </tr>
-    <tr>
-      <td>Token management</td>
-      <td>Pre issue access token</td>
-      <td>
-
-        - Prevent tokens from being issued based on policy or change permissions, scopes.
-        - Add custom claims to access tokens.
-        - Change the access token and refresh token validity based on a rule.
-
-      </td>
-    </tr>
-    <tr>
-      <td>Password update</td>
-      <td>Pre password update</td>
-      <td>
-
-        - Integrate with credential intelligence services to verify the security of password, or check against allowed lists.
-
-      </td>
-    </tr>
-    <tr>
-      <td>Profile update</td>
-      <td>Pre profile update</td>
-      <td>
-
-        - Automated verification of user attributes.
-        - Verify for sanctioned countries, initiate screening processes.
-
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-</Edition>
-
 ## How service extensions work
 
 Each type of action is executed at a specific extension point within a particular runtime flow of {edition.productName}. When an extension is triggered, {edition.productName} calls your external service and waits for a response. Upon receiving the response, {edition.productName} performs any specified operations if applicable and continues with the flow.
 
 The following diagram illustrates the sequence of these steps:
 
-<Edition only="cloud"><img src={require("../../../../assets/cloud/img/guides/actions/how-actions-work.png").default} alt="how-actions-work" width="650" style={{display: "block", margin: "0", border: "0px"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/self-hosted/img/guides/actions/how-actions-work.png").default} alt="how-actions-work" width="650" style={{display: "block", margin: "0", border: "0px"}} /></Edition>
+<img src={require("../../../../assets/img/guides/actions/how-actions-work.png").default} alt="how-actions-work" width="650" style={{display: "block", margin: "0", border: "0px"}} />
 
 ### Request from {edition.productName}
 
@@ -228,23 +157,10 @@ Your service must respond to the request from {edition.productName} with a JSON 
 
 ### Time out and retry
 
-<Edition only="self-hosted">
-
 {edition.productName} enforces default timeout limits when calling external services:
 
 - Connection timeout: 2 seconds
 - Read timeout: 5 seconds
-
-</Edition>
-
-<Edition only="cloud">
-
-{edition.productName} enforces default timeout limits when calling external services:
-
-- Connection timeout: 2 seconds
-- Read timeout: 3 seconds
-
-</Edition>
 
 {edition.productName} will attempt at most one retry for the following HTTP status codes received from your service:
 
@@ -256,8 +172,6 @@ Your service must respond to the request from {edition.productName} with a JSON 
 | 504 | Gateway Timeout. |
 
 Requests will not be retried if the external service responds with HTTP status codes 200 (OK), 400 (Bad Request), 401 (Unauthorized), or any other codes not listed above as retry scenarios.
-
-<Edition only="self-hosted">
 
 #### Configuring HTTP Client Timeout and Retry Settings
 
@@ -282,15 +196,11 @@ http_client.connection_pool_size = 10
 http_client.retry_count = 1
 ```
 
-</Edition>
-
 ### Troubleshooting
 
 You can use diagnostic logs to capture detailed information during the troubleshooting process. Logs capture requests sent from {edition.productName} to your external action service, track the responses received, and include status and context data for response handling.
 
 Shown below is an example of a diagnostic log generated during the pre-issue access token action flow, while sending a request from {edition.productName} to the external endpoint.
-
-<Edition only="self-hosted">
 
 ```json
 {
@@ -314,14 +224,6 @@ Shown below is an example of a diagnostic log generated during the pre-issue acc
 }
 ```
 
-</Edition>
-
-<Edition only="cloud">
-
-<img src={require("../../../../assets/cloud/img/guides/actions/action-diagnostics-logs-in-ui.png").default} alt="WSO2 Identity Platform logs" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
-
-</Edition>
-
 The following table gives an explanation to each property included in the diagnostic log event.
 
 | Property | Description |
@@ -335,8 +237,6 @@ The following table gives an explanation to each property included in the diagno
 | componentId | ID to identify the component where the log event was carried out. |
 | configurations | System specific context data relevant to the log event. |
 | input | Parameters given by the user which are applicable during the log event. |
-
-<Edition only="self-hosted">
 
 To enable diagnostic logs in system configurations, you may add the following configurations to the `deployment.toml` file located in the `<IS_HOME>/repository/conf` directory.
 
@@ -363,14 +263,6 @@ loggers = org-wso2-carbon-identity-action-execution
 :::note
 It is highly recommended to disable both diagnostic logs and system debug logs once troubleshooting is completed as it may expose sensitive information included in responses and requests.
 :::
-
-</Edition>
-
-<Edition only="cloud">
-
-You may view the diagnostics logs under the logs tab in WSO2 Identity Platform. [Refer here](../../identity-platform-logs/diagnostic-logs.mdx) to learn more about diagnostic logs in WSO2 Identity Platform.
-
-</Edition>
 
 ## Extension implementation best practices
 

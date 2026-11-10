@@ -1,17 +1,18 @@
 openapi: 3.0.0
 info:
   title: Notification Senders v2 API
-  description: This document specifies **Email, SMS and Push notification sender RESTful API** for **WSO2 Identity Platform**
+  description: This document specifies **Email, SMS and Push notification sender RESTful API** for **WSO2 Identity Server**
   version: v2
 servers:
-  - url: https://api.asgardeo.io/t/{organization-name}/api/server/v2
+  - url: https://{serverUrl}/t/{tenantDomain}/api/server/v2
     variables:
       serverUrl:
-        default: api.asgardeo.io
+        default: localhost:9443
       tenantDomain:
         default: carbon.super
 security:
   - OAuth2: []
+  - BasicAuth: []
 paths:
   /notification-senders/email:
     get:
@@ -45,8 +46,6 @@ paths:
                   $ref: '#/components/examples/HTTPBasedEmailSenderWithAPIKeyAuthTypeListResponseExample'
                 httpNoneAuthResponseExample:
                   $ref: '#/components/examples/HTTPBasedEmailSenderWithNoneAuthTypeListResponseExample'
-                httpPasswordCredentialResponseExample:
-                  $ref: '#/components/examples/HTTPBasedEmailSenderWithPasswordCredentialAuthTypeListResponseExample'
         '400':
           description: Bad Request
           content:
@@ -79,15 +78,15 @@ paths:
         - lang: Curl
           source: |
             curl -X 'GET' \
-            'https://api.asgardeo.io/t/{tenant-domain}/api/server/v2/notification-senders/email' \
+            'https://localhost:9443/t/{tenant-domain}/api/server/v2/notification-senders/email' \
             -H 'accept: application/json' \
-            -H 'Authorization: Bearer {bearer_token}'
+            -H 'Authorization: Basic YWRtaW46YWRtaW4='
     post:
       tags:
         - Email Senders
       summary: Create an email sender
       description: |
-        This API provides the capability to create an email sender.\nIf the 'name' is not defined, 'EmailPublisher' is taken as the default name. For SMTP-based providers, Basic and Client Credential authentication types are supported. For HTTP-based providers, Basic, Client Credential, Bearer Token, API Key, Password Credential, and None authentication types are supported. <br>
+        This API provides the capability to create an email sender.\nIf the 'name' is not defined, 'EmailPublisher' is taken as the default name. For SMTP-based providers, Basic and Client Credential authentication types are supported. For HTTP-based providers, Basic, Client Credential, Bearer Token, API Key, and None authentication types are supported. <br>
 
         <b>Scope(Permission) required:</b> `internal_notification_senders_create`
       operationId: createEmailSender
@@ -113,8 +112,6 @@ paths:
                 $ref: '#/components/examples/HTTPBasedEmailSenderWithAPIKeyAuthTypePOSTRequestExample'
               httpNoneAuthPOSTExample:
                 $ref: '#/components/examples/HTTPBasedEmailSenderWithNoneAuthTypePOSTRequestExample'
-              httpPasswordCredentialPOSTExample:
-                $ref: '#/components/examples/HTTPBasedEmailSenderWithPasswordCredentialAuthTypePOSTRequestExample'
       responses:
         '201':
           description: Successful Response
@@ -139,8 +136,6 @@ paths:
                   $ref: '#/components/examples/HTTPBasedEmailSenderWithAPIKeyAuthTypeResponseExample'
                 httpNoneAuthResponseExample:
                   $ref: '#/components/examples/HTTPBasedEmailSenderWithNoneAuthTypeResponseExample'
-                httpPasswordCredentialResponseExample:
-                  $ref: '#/components/examples/HTTPBasedEmailSenderWithPasswordCredentialAuthTypeResponseExample'
         '400':
           description: Bad Request
           content:
@@ -179,9 +174,9 @@ paths:
         - lang: Curl
           source: |
             curl -X 'POST' \
-            'https://api.asgardeo.io/t/{tenant-domain}/api/server/v2/notification-senders/email' \
+            'https://localhost:9443/t/{tenant-domain}/api/server/v2/notification-senders/email' \
             -H 'accept: application/json' \
-            -H 'Authorization: Bearer {bearer_token}' \
+            -H 'Authorization: Basic YWRtaW46YWRtaW4=' \
             -H 'Content-Type: application/json' \
             -d '{
             "fromAddress": "iam@gmail.com",
@@ -200,7 +195,7 @@ paths:
                 "value": "iam123"
               }
             ]
-            }'
+            }'  
   /notification-senders/email/{sender-name}:
     get:
       tags:
@@ -243,8 +238,6 @@ paths:
                   $ref: '#/components/examples/HTTPBasedEmailSenderWithAPIKeyAuthTypeResponseExample'
                 httpNoneAuthResponseExample:
                   $ref: '#/components/examples/HTTPBasedEmailSenderWithNoneAuthTypeResponseExample'
-                httpPasswordCredentialResponseExample:
-                  $ref: '#/components/examples/HTTPBasedEmailSenderWithPasswordCredentialAuthTypeResponseExample'
         '400':
           description: Bad Request
           content:
@@ -273,13 +266,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-      x-codeSamples:
-        - lang: Curl
-          source: |
-            curl -X 'GET' \
-            'https://api.asgardeo.io/t/{tenant-domain}/api/server/v2/notification-senders/email/{email-sender-name}' \
-            -H 'accept: application/json' \
-            -H 'Authorization: Bearer {bearer_token}'
     put:
       tags:
         - Email Senders
@@ -321,8 +307,6 @@ paths:
                 $ref: '#/components/examples/HTTPBasedEmailSenderWithAPIKeyAuthTypePUTRequestExample'
               httpNoneAuthPUTExample:
                 $ref: '#/components/examples/HTTPBasedEmailSenderWithNoneAuthTypePUTRequestExample'
-              httpPasswordCredentialPUTExample:
-                $ref: '#/components/examples/HTTPBasedEmailSenderWithPasswordCredentialAuthTypePUTRequestExample'
         required: true
       responses:
         '200':
@@ -346,8 +330,6 @@ paths:
                   $ref: '#/components/examples/HTTPBasedEmailSenderWithAPIKeyAuthTypeResponseExample'
                 httpNoneAuthResponseExample:
                   $ref: '#/components/examples/HTTPBasedEmailSenderWithNoneAuthTypeResponseExample'
-                httpPasswordCredentialResponseExample:
-                  $ref: '#/components/examples/HTTPBasedEmailSenderWithPasswordCredentialAuthTypeResponseExample'
         '400':
           description: Bad Request
           content:
@@ -380,9 +362,9 @@ paths:
         - lang: Curl
           source: |
             curl -X 'PUT' \
-            'https://api.asgardeo.io/t/{tenant-domain}/api/server/v2/notification-senders/email/{email-sender-name}' \
+            'https://localhost:9443/t/{tenant-domain}/api/server/v2/notification-senders/email' \
             -H 'accept: application/json' \
-            -H 'Authorization: Bearer {bearer_token}' \
+            -H 'Authorization: Basic YWRtaW46YWRtaW4=' \
             -H 'Content-Type: application/json' \
             -d '{
             "fromAddress": "iam@gmail.com",
@@ -393,15 +375,15 @@ paths:
                 "value": true
               },
               {
-                  "key": "userName",
-                  "value": "iam"
+                "key": "userName",
+                "value": "iam"
               },
               {
-                  "key": "password",
-                  "value": "iam123"
+                "key": "password",
+                "value": "iam123"
               }
             ]
-            }'
+            }' 
     delete:
       tags:
         - Email Senders
@@ -456,9 +438,9 @@ paths:
         - lang: Curl
           source: |
             curl -X 'DELETE' \
-            'https://api.asgardeo.io/t/{tenant-domain}/api/server/v2/notification-senders/email/{email-sender-name}' \
+            'https://localhost:9443/t/{tenant-domain}/api/server/v2/notification-senders/email/{email-sender-name}' \
             -H 'accept: */*' \
-            -H 'Authorization: Bearer {bearer_token}'
+            -H 'Authorization: Basic YWRtaW46YWRtaW4='        
   /notification-senders/sms:
     get:
       tags:
@@ -511,16 +493,16 @@ paths:
         - lang: Curl
           source: |
             curl -X 'GET' \
-            'https://api.asgardeo.io/t/{tenant-domain}/api/server/v2/notification-senders/sms' \
+            'https://localhost:9443/api/server/v2/notification-senders/sms' \
             -H 'accept: application/json' \
-            -H 'Authorization: Bearer {bearer_token}'
+            -H 'Authorization: Basic YWRtaW46YWRtaW4='                  
     post:
       tags:
         - SMS Senders
       summary: Create a SMS sender
       description: |
         This API provides the capability to create a SMS sender.
-        If the 'name' is not not defined, 'SMSPublisher' is taken as the default name.<br>
+        If the 'name' is not defined, 'SMSPublisher' is taken as the default name.<br>
 
         <b>Scope(Permission) required:</b> `internal_notification_senders_create`
       operationId: createSMSSender
@@ -588,9 +570,9 @@ paths:
         - lang: Curl
           source: |
             curl -X 'POST' \
-            'https://api.asgardeo.io/t/{tenant-domain}/api/server/v2/notification-senders/sms' \
+            'https://localhost:9443/api/server/v2/notification-senders/sms' \
             -H 'accept: application/json' \
-            -H 'Authorization: Bearer {bearer_token}' \
+            -H 'Authorization: Basic YWRtaW46YWRtaW4=' \
             -H 'Content-Type: application/json' \
             -d '{
             "provider": "NEXMO",
@@ -609,7 +591,7 @@ paths:
                 "value": "X-Version: 1, Authorization: bearer ,Accept: application/json ,Content-Type: application/json"
               }
             ]
-            }'
+            }'                 
   /notification-senders/sms/{sender-name}:
     get:
       tags:
@@ -676,9 +658,9 @@ paths:
         - lang: Curl
           source: |
             curl -X 'GET' \
-            'https://api.asgardeo.io/t/{tenant-domain}/api/server/v2/notification-senders/sms/{sms-sender-name}' \
+            'https://localhost:9443/api/server/v2/notification-senders/sms/{sms-sender-name}' \
             -H 'accept: application/json' \
-            -H 'Authorization: Bearer {bearer_token}'
+            -H 'Authorization: Basic YWRtaW46YWRtaW4='                 
     put:
       tags:
         - SMS Senders
@@ -758,9 +740,9 @@ paths:
         - lang: Curl
           source: |
             curl -X 'PUT' \
-            'https://api.asgardeo.io/t/{tenant-domain}/api/server/v2/notification-senders/sms/{sms-sender-name}' \
+            'https://localhost:9443/api/server/v2/notification-senders/sms/{sms-sender-name}' \
             -H 'accept: application/json' \
-            -H 'Authorization: Bearer {bearer_token}' \
+            -H 'Authorization: Basic YWRtaW46YWRtaW4=' \
             -H 'Content-Type: application/json' \
             -d '{
             "provider": "NEXMO",
@@ -779,7 +761,7 @@ paths:
                 "value": "X-Version: 1, Authorization: bearer ,Accept: application/json ,Content-Type: application/json"
               }
             ]
-            }'
+            }'                 
     delete:
       tags:
         - SMS Senders
@@ -834,9 +816,9 @@ paths:
         - lang: Curl
           source: |
             curl -X 'DELETE' \
-            'https://api.asgardeo.io/t/{tenant-domain}/api/server/v2/notification-senders/sms/{sms-sender-name}' \
+            'https://localhost:9443/api/server/v2/notification-senders/sms/{sms-sender-name}' \
             -H 'accept: */*' \
-            -H 'Authorization: Bearer {bearer_token}'
+            -H 'Authorization: Basic YWRtaW46YWRtaW4='                 
   /notification-senders/push:
     get:
       tags:
@@ -886,16 +868,16 @@ paths:
         - lang: Curl
           source: |
             curl -X 'GET' \
-            'https://api.asgardeo.io/t/{tenant-domain}/api/server/v2/notification-senders/push' \
+            'https://localhost:9443/api/server/v2/notification-senders/push' \
             -H 'accept: application/json' \
-            -H 'Authorization: Bearer {bearer_token}'
+            -H 'Authorization: Basic YWRtaW46YWRtaW4='
     post:
       tags:
         - Push Senders
       summary: Create a push notification sender
       description: |
         This API provides the capability to create a push notification sender.
-        If the 'name' is not not defined, 'PushPublisher' is taken as the default name.<br>
+        If the 'name' is not defined, 'PushPublisher' is taken as the default name.<br>
 
         <b>Scope(Permission) required:</b> `internal_notification_senders_create`
       operationId: createSMSSender2
@@ -954,9 +936,9 @@ paths:
         - lang: Curl
           source: |
             curl -X 'POST' \
-            'https://api.asgardeo.io/t/{tenant-domain}/api/server/v2/notification-senders/push' \
+            'https://localhost:9443/api/server/v2/notification-senders/push' \
             -H 'accept: application/json' \
-            -H 'Authorization: Bearer {bearer_token}' \
+            -H 'Authorization: Basic YWRtaW46YWRtaW4=' \
             -H 'Content-Type: application/json' \
             -d '{
             "provider": "FCM",
@@ -1026,9 +1008,9 @@ paths:
         - lang: Curl
           source: |
             curl -X 'GET' \
-            'https://api.asgardeo.io/t/{tenant-domain}/api/server/v2/notification-senders/push/{push-sender-name}' \
+            'https://localhost:9443/api/server/v2/notification-senders/push/{push-sender-name}' \
             -H 'accept: application/json' \
-            -H 'Authorization: Bearer {bearer_token}'
+            -H 'Authorization: Basic YWRtaW46YWRtaW4='
     put:
       tags:
         - Push Senders
@@ -1099,9 +1081,9 @@ paths:
         - lang: Curl
           source: |
             curl -X 'PUT' \
-            'https://api.asgardeo.io/t/{tenant-domain}/api/server/v2/notification-senders/push/{push-sender-name}' \
+            'https://localhost:9443/api/server/v2/notification-senders/push/{push-sender-name}' \
             -H 'accept: application/json' \
-            -H 'Authorization: Bearer {bearer_token}' \
+            -H 'Authorization: Basic YWRtaW46YWRtaW4=' \
             -H 'Content-Type: application/json' \
             -d '{
             "provider": "FCM",
@@ -1166,9 +1148,9 @@ paths:
         - lang: Curl
           source: |
             curl -X 'DELETE' \
-            'https://api.asgardeo.io/t/{tenant-domain}/api/server/v2/notification-senders/push/{push-sender-name}' \
+            'https://localhost:9443/api/server/v2/notification-senders/push/{push-sender-name}' \
             -H 'accept: */*' \
-            -H 'Authorization: Bearer {bearer_token}'
+            -H 'Authorization: Basic YWRtaW46YWRtaW4='
 components:
   schemas:
     Error:
@@ -1572,8 +1554,7 @@ components:
               "tokenEndpoint": "https://custom.sms.provider/auth/token",
               "scopes": "send_scope"
             }
-          }``
-
+          }`` 
         - BASIC: Username and password based authentication.<br>
           ``{
             "type": "BASIC",
@@ -1582,7 +1563,7 @@ components:
               "password": "admin123"
             }
           }``
-        - BEARER: Token based based authentication.<br>
+        - BEARER: Token based authentication.<br>
           ``{
             "type": "BEARER",
             "properties": {
@@ -1597,18 +1578,7 @@ components:
               "value": "123ert45"
             }
           }``
-        - PASSWORD_CREDENTIAL: OAuth 2.0 resource owner password credentials authentication.<br>
-          ``{
-            "type": "PASSWORD_CREDENTIAL",
-            "properties": {
-              "clientId": "3e172dd2-901b-43a9-a26a-728466795f01",
-              "clientSecret": "83cdc120-ccf6-4163-a4a8-c1ba3e872daa",
-              "username": "admin",
-              "password": "admin123",
-              "tokenEndpoint": "https://custom.sms.provider/auth/token",
-              "scopes": "send_scope"
-            }
-          }``
+        - NONE: No authentication is required.<br>
       required:
         - type
       properties:
@@ -1619,7 +1589,6 @@ components:
             - BASIC
             - BEARER
             - API_KEY
-            - PASSWORD_CREDENTIAL
             - NONE
           example: CLIENT_CREDENTIAL
         properties:
@@ -1652,8 +1621,8 @@ components:
       type: oauth2
       flows:
         authorizationCode:
-          authorizationUrl: https://api.asgardeo.io/t/{tenant-domain}/oauth2/authorize
-          tokenUrl: https://api.asgardeo.io/t/{tenant-domain}/oauth2/token
+          authorizationUrl: https://localhost:9443/oauth2/authorize
+          tokenUrl: https://localhost:9443/oauth2/token
           scopes: {}
   examples:
     SMTPBasedEmailSenderClientCredentialPOSTRequestExample:
@@ -1732,34 +1701,6 @@ components:
             value: client-id-123
           - key: clientSecret
             value: client-secret-abc
-          - key: tokenEndpoint
-            value: https://example.com/oauth2/token
-          - key: scopes
-            value: send_scope
-    HTTPBasedEmailSenderWithPasswordCredentialAuthTypePOSTRequestExample:
-      summary: Post request for HTTP based email providers with password credential authentication
-      value:
-        name: EmailPublisher
-        provider: HTTP
-        providerURL: https://api.example.com/api/v1
-        authType: PASSWORD_CREDENTIAL
-        properties:
-          - key: http.client.method
-            value: POST
-          - key: contentType
-            value: JSON
-          - key: http.headers
-            value: 'X-Version: 1, Custom-Header: value'
-          - key: body
-            value: '{"subject": "{{subject}}", "body": "{{body}}", "footer": "{{footer}}", "to": "{{send-to}}"}'
-          - key: clientId
-            value: client-id-123
-          - key: clientSecret
-            value: client-secret-abc
-          - key: username
-            value: admin
-          - key: password
-            value: admin123
           - key: tokenEndpoint
             value: https://example.com/oauth2/token
           - key: scopes
@@ -1894,33 +1835,6 @@ components:
             value: https://example.com/oauth2/token
           - key: scopes
             value: send_scope
-    HTTPBasedEmailSenderWithPasswordCredentialAuthTypePUTRequestExample:
-      summary: Put request for HTTP based email providers with password credential authentication
-      value:
-        provider: HTTP
-        providerURL: https://api.example.com/api/v1
-        authType: PASSWORD_CREDENTIAL
-        properties:
-          - key: http.client.method
-            value: POST
-          - key: contentType
-            value: JSON
-          - key: http.headers
-            value: 'X-Version: 1, Custom-Header: value'
-          - key: body
-            value: '{"subject": "{{subject}}", "body": "{{body}}", "footer": "{{footer}}", "to": "{{send-to}}"}'
-          - key: clientId
-            value: client-id-123
-          - key: clientSecret
-            value: client-secret-abc
-          - key: username
-            value: admin
-          - key: password
-            value: admin123
-          - key: tokenEndpoint
-            value: https://example.com/oauth2/token
-          - key: scopes
-            value: send_scope
     HTTPBasedEmailSenderWithBearerTokenAuthTypePUTRequestExample:
       summary: Put request for HTTP based email providers with bearer token authentication
       value:
@@ -2040,30 +1954,6 @@ components:
             value: '{"subject": "{{subject}}", "body": "{{body}}", "footer": "{{footer}}", "to": "{{send-to}}"}'
           - key: clientId
             value: client-id-123
-          - key: tokenEndpoint
-            value: https://example.com/oauth2/token
-          - key: scopes
-            value: send_scope
-    HTTPBasedEmailSenderWithPasswordCredentialAuthTypeResponseExample:
-      summary: Response for HTTP based email providers with password credential authentication
-      value:
-        name: EmailPublisher
-        provider: HTTP
-        providerURL: https://api.example.com/api/v1
-        authType: PASSWORD_CREDENTIAL
-        properties:
-          - key: http.client.method
-            value: POST
-          - key: contentType
-            value: JSON
-          - key: http.headers
-            value: 'X-Version: 1, Custom-Header: value'
-          - key: body
-            value: '{"subject": "{{subject}}", "body": "{{body}}", "footer": "{{footer}}", "to": "{{send-to}}"}'
-          - key: clientId
-            value: client-id-123
-          - key: username
-            value: admin
           - key: tokenEndpoint
             value: https://example.com/oauth2/token
           - key: scopes
@@ -2190,30 +2080,6 @@ components:
               value: https://example.com/oauth2/token
             - key: scopes
               value: send_scope
-    HTTPBasedEmailSenderWithPasswordCredentialAuthTypeListResponseExample:
-      summary: List response containing an HTTP-based email provider with password credential authentication
-      value:
-        - name: EmailPublisher
-          provider: HTTP
-          providerURL: https://api.example.com/api/v1
-          authType: PASSWORD_CREDENTIAL
-          properties:
-            - key: http.client.method
-              value: POST
-            - key: contentType
-              value: JSON
-            - key: http.headers
-              value: 'X-Version: 1, Custom-Header: value'
-            - key: body
-              value: '{"subject": "{{subject}}", "body": "{{body}}", "footer": "{{footer}}", "to": "{{send-to}}"}'
-            - key: clientId
-              value: client-id-123
-            - key: username
-              value: admin
-            - key: tokenEndpoint
-              value: https://example.com/oauth2/token
-            - key: scopes
-              value: send_scope
     HTTPBasedEmailSenderWithBearerTokenAuthTypeListResponseExample:
       summary: List response containing an HTTP-based email provider with bearer token authentication
       value:
@@ -2273,7 +2139,7 @@ components:
       value:
         provider: Twilio
         sender: +94 775563324
-        type: json
+        contentType: JSON
         properties:
           - key: body.scope
             value: internal
@@ -2289,7 +2155,7 @@ components:
       value:
         provider: Vonage
         sender: +94 775563324
-        type: json
+        contentType: JSON
         properties:
           - key: body.scope
             value: internal
@@ -2305,8 +2171,11 @@ components:
       value:
         provider: Custom
         sender: +94 775563324
-        type: json
+        contentType: JSON
+        providerURL: https://custom.sms.provider/send
         properties:
+          - key: body
+            value: '{"content": {{body}}, "to": {{mobile}}}'
           - key: body.scope
             value: internal
           - key: http.headers
@@ -2326,7 +2195,7 @@ components:
         key: 123ert45
         secret: 5tg-rts-ssd
         sender: +94 775563324
-        type: json
+        contentType: JSON
         properties:
           - key: body.scope
             value: internal
@@ -2345,7 +2214,7 @@ components:
         key: 123ert45
         secret: 5tg-rts-ssd
         sender: +94 775563324
-        type: json
+        contentType: JSON
         properties:
           - key: body.scope
             value: internal
@@ -2362,11 +2231,14 @@ components:
       value:
         name: SMSPublisher
         provider: Custom
+        providerURL: https://custom.sms.provider/send
         key: ''
         secret: ''
         sender: +94 775563324
-        type: json
+        contentType: JSON
         properties:
+          - key: body
+            value: '{"content": {{body}}, "to": {{mobile}}}'
           - key: body.scope
             value: internal
           - key: http.headers
@@ -2383,11 +2255,14 @@ components:
       value:
         - name: SMSPublisher
           provider: Custom
+          providerURL: https://custom.sms.provider/send
           key: ''
           secret: ''
           sender: +94 775563324
-          type: json
+          contentType: JSON
           properties:
+            - key: body
+              value: '{"content": {{body}}, "to": {{mobile}}}'
             - key: body.scope
               value: internal
             - key: http.headers

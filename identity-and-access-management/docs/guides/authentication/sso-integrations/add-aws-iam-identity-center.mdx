@@ -1,6 +1,6 @@
 ---
-title: Log in to AWS IAM Identity Center using {edition.productName}
-description: This page guides you through integrating WSO2 Identity Platform for Single Sign-On (SSO) with AWS IAM Identity Center.  # generated from the first paragraph; a writer should improve it
+title: Log in to AWS IAM Identity Center using WSO2 Identity Server
+description: This page guides you through integrating WSO2 Identity Server for Single Sign-On (SSO) with AWS IAM Identity Center.  # generated from the first paragraph; a writer should improve it
 type: how-to
 sidebar_label: AWS IAM Identity Center
 sidebar_position: 7
@@ -74,22 +74,6 @@ Follow the steps below to register IAM Identity Center as an application in {edi
 
 7. Click **Update** to save the changes.
 
-<Edition only="cloud">
-
-8. Go to the **Info** tab of the application and note down the following details. You need them to configure {edition.productName} as the identity provider in IAM Identity Center.
-
-    - **Issuer** - The identity provider issuer of {edition.productName}, for example, `api.asgardeo.io/t/{organization_name}`.
-    - **Single Sign-On** - The SAML single sign-on endpoint of {edition.productName}, for example, `{edition.productUrlFormat}/samlsso`.
-    - **IdP certificate** - Download the identity provider certificate.
-
-    :::tip
-    Alternatively, download the **IdP metadata** file from the **Info** tab. The metadata file contains all of the above details.
-    :::
-
-</Edition>
-
-<Edition only="self-hosted">
-
 8. Go to the **Info** tab of the application and note down the following details. You need them to configure {edition.productName} as the identity provider in IAM Identity Center.
 
     - **Issuer** - The identity provider issuer of {edition.productName}, for example, `localhost`.
@@ -99,8 +83,6 @@ Follow the steps below to register IAM Identity Center as an application in {edi
     :::tip
     Alternatively, download the **IdP metadata** file from the **Info** tab. The metadata file contains all of the above details.
     :::
-
-</Edition>
 
 ### Configure the subject attribute
 
@@ -210,11 +192,11 @@ You can configure {edition.productName} to automatically provision users and gro
     AWS displays the access token only once. The token expires after one year, after which you need to generate a new token and update it in {edition.productName}.
     :::
 
-3. In {edition.productName}, [set up outbound provisioning](../../users/outbound-provisioning/setup-outbound-provisioning.mdx) and create an outbound provisioning connection. Provide a name for the connection, for example, `IAM Identity Center`, select **SCIM2** as the connection type, and click **Next**.
+3. In {edition.productName}, [set up outbound provisioning](../../users/provisioning/outbound-provisioning/setup-outbound-provisioning.mdx) and create an outbound provisioning connection. Provide a name for the connection, for example, `IAM Identity Center`, select **SCIM2** as the connection type, and click **Next**.
 
     <img src={require("../../../../assets/img/guides/authentication/sso-integrations/aws-iam-identity-center/create-provisioning-connection.png").default} alt="Create an outbound provisioning connection" width="500" style={{border: "0.3px solid lightgrey"}} />
 
-4. [Configure the SCIM2 connector](../../users/outbound-provisioning/outbound-connectors/scim2.mdx) with the following values and click **Finish**.
+4. [Configure the SCIM2 connector](../../users/provisioning/outbound-provisioning/outbound-connectors/scim2.mdx) with the following values and click **Finish**.
 
     - **Authentication Mode** - `Bearer`
     - **Access Token** - The access token you copied from AWS.
@@ -223,13 +205,9 @@ You can configure {edition.productName} to automatically provision users and gro
 
     <img src={require("../../../../assets/img/guides/authentication/sso-integrations/aws-iam-identity-center/configure-scim2-connector.png").default} alt="Configure the SCIM2 connector" width="500" style={{border: "0.3px solid lightgrey"}} />
 
-5. Add the connection you created as an outbound provisioner, at the organization level or for a specific application, by selecting it as the **Provisioning Connection**. Refer to [set up outbound provisioning](../../users/outbound-provisioning/setup-outbound-provisioning.mdx) for details.
+5. Add the connection you created as an outbound provisioner, at the organization level or for a specific application, by selecting it as the **Provisioning Connection**. Refer to [set up outbound provisioning](../../users/provisioning/outbound-provisioning/setup-outbound-provisioning.mdx) for details.
 
-    <Edition only="self-hosted">
-
-    <img src={require("../../../../assets/self-hosted/img/guides/authentication/sso-integrations/aws-iam-identity-center/add-outbound-provisioner.png").default} alt="Add the outbound provisioner" width="500" style={{border: "0.3px solid lightgrey"}} />
-
-    </Edition>
+    <img src={require("../../../../assets/img/guides/authentication/sso-integrations/aws-iam-identity-center/add-outbound-provisioner.png").default} alt="Add the outbound provisioner" width="500" style={{border: "0.3px solid lightgrey"}} />
 
 :::note
 IAM Identity Center requires the first name, last name, and display name of a user to be present in the SCIM request. Make sure that users in {edition.productName} have values for these attributes. Refer to the [AWS documentation](https://docs.aws.amazon.com/singlesignon/latest/userguide/scim-profile-saml.html) for the supported SCIM attributes and limitations.
@@ -257,7 +235,7 @@ Now that you have integrated {edition.productName} with AWS IAM Identity Center,
 
 3. Open the AWS access portal URL in a private browser window. You will be redirected to the {edition.productName} login screen.
 
-    <Edition only="cloud"><img src={require("../../../../assets/cloud/img/guides/authentication/sso-integrations/aws-iam-identity-center/login-page.png").default} alt="WSO2 Identity Platform login screen" width="400" style={{border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/self-hosted/img/guides/authentication/sso-integrations/aws-iam-identity-center/login-page.png").default} alt="WSO2 Identity Server login screen" width="400" style={{border: "0.3px solid lightgrey"}} /></Edition>
+    <img src={require("../../../../assets/img/guides/authentication/sso-integrations/aws-iam-identity-center/login-page.png").default} alt="WSO2 Identity Server login screen" width="400" style={{border: "0.3px solid lightgrey"}} />
 
 4. Enter the username and password of the user, and complete the login process.
 

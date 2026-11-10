@@ -1,6 +1,6 @@
 ---
-title: Log in to Slack using {edition.productName}
-description: This page guides you through integrating WSO2 Identity Platform for Single Sign-On (SSO) with Slack.  # generated from the first paragraph; a writer should improve it
+title: Log in to Slack using WSO2 Identity Server
+description: This page guides you through integrating WSO2 Identity Server for Single Sign-On (SSO) with Slack.  # generated from the first paragraph; a writer should improve it
 type: how-to
 sidebar_label: Slack
 sidebar_position: 6
@@ -22,7 +22,7 @@ Follow the steps given below to register the Slack application in {edition.produ
 
 2. Click **New Application** and under **SSO Integrations**, select **Salck**.
 
-    <Edition only="cloud"><img src={require("../../../../assets/img/guides/authentication/sso-integrations/common/add-app.png").default} alt="Select app type in the WSO2 Identity Platform" width="600" style={{border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/img/guides/authentication/sso-integrations/common/add-app.png").default} alt="Select app type in the WSO2 Identity Server" width="600" style={{border: "0.3px solid lightgrey"}} /></Edition>
+    <img src={require("../../../../assets/img/guides/authentication/sso-integrations/common/add-app.png").default} alt="Select app type in the WSO2 Identity Server" width="600" style={{border: "0.3px solid lightgrey"}} />
 
 3. Provide a name for your application and the following values:
 
@@ -34,7 +34,7 @@ Follow the steps given below to register the Slack application in {edition.produ
         Follow Slack's guidelines to [locate your Slack URL](https://slack.com/intl/en-gb/help/articles/221769328-Locate-your-Slack-URL-or-ID).
         :::
 
-    <Edition only="cloud"><img src={require("../../../../assets/img/guides/authentication/sso-integrations/slack/add-slack-app.png").default} alt="Select slack workspace app in the WSO2 Identity Platform" width="600" style={{border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/img/guides/authentication/sso-integrations/slack/add-slack-app.png").default} alt="Select slack workspace app in the WSO2 Identity Server" width="600" style={{border: "0.3px solid lightgrey"}} /></Edition>
+    <img src={require("../../../../assets/img/guides/authentication/sso-integrations/slack/add-slack-app.png").default} alt="Select slack workspace app in the WSO2 Identity Server" width="600" style={{border: "0.3px solid lightgrey"}} />
 
 4. Click **Create** to complete the registration.
 
@@ -43,24 +43,6 @@ Follow the steps given below to register the Slack application in {edition.produ
 Follow the steps below to configure Slack for SSO authentication with {edition.productName}.
 
 1. Sign in to your Slack workspace.
-
-<Edition only="cloud">
-
-2. Use the following values and configure SSO settings for Slack. Refer to [Slack documentation](https://slack.com/intl/en-gb/help/articles/203772216-SAML-single-sign-on#step-2u58-set-up-saml-sso) for more information.
-
-    - **SAML 2.0 Endpoint** - `{edition.productUrlFormat}/samlsso`
-
-    - **Identity provider issuer** - `api.asgardeo.io/t/{organization_name}`
-
-    - **Public certificate** - Obtain the certificate from the `Guide` tab of the configured Slack application.
-
-    - **Service provider issuer** - This should be the same as the **Issuer Name** you configured when creating the Slack application in {edition.productName}. If you chose `Slack Workspace URL` instead of the default Slack URL, make sure this value takes the form `https://<domain-name>.slack.com`
-
-    <img src={require("../../../../assets/cloud/img/guides/authentication/sso-integrations/slack/sso-fill-slack.png").default} alt="Sample Slack SSO Settings Form" width="600" style={{border: "0.3px solid lightgrey"}} />
-
-</Edition>
-
-<Edition only="self-hosted">
 
 2. Use the following values and configure SSO settings for Slack. Refer to [Slack documentation](https://slack.com/intl/en-gb/help/articles/203772216-SAML-single-sign-on#step-2u58-set-up-saml-sso) for more information.
 
@@ -72,9 +54,7 @@ Follow the steps below to configure Slack for SSO authentication with {edition.p
 
     - **Service provider issuer** - This should be the same as the **Issuer Name** you configured when creating the Slack application in {edition.productName}. If you chose `Slack Workspace URL` instead of the default Slack URL, make sure this value takes the form `https://<domain-name>.slack.com`
 
-    <img src={require("../../../../assets/self-hosted/img/guides/authentication/sso-integrations/slack/sso-fill-slack.png").default} alt="Sample Slack SSO Settings Form" width="600" style={{border: "0.3px solid lightgrey"}} />
-
-</Edition>
+    <img src={require("../../../../assets/img/guides/authentication/sso-integrations/slack/sso-fill-slack.png").default} alt="Sample Slack SSO Settings Form" width="600" style={{border: "0.3px solid lightgrey"}} />
 
 ## Try it out
 

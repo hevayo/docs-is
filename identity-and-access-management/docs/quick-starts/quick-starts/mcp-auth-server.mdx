@@ -12,33 +12,6 @@ import TabItem from '@theme/TabItem';
 
 This quickstart shows you how to build a secure MCP (Model Context Protocol) server using [MCP TypeScript SDK](https://www.npmjs.com/package/@modelcontextprotocol/sdk) and [WSO2 MCP Auth SDK](https://www.npmjs.com/package/@asgardeo/mcp-express). After completing this guide, you will have a working MCP server that is secured with **OAuth 2.1** according to the [MCP auth specification](https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization).
 
-<Edition only="cloud">
-
-#### What You Will Learn
-
-- Create a new MCP server in TypeScript
-- Defines an MCP tool that adds two numbers
-- Install [WSO2 Identity Platform MCP SDK](https://www.npmjs.com/package/@asgardeo/mcp-express)
-- Set up MCP authorization with {edition.productName}
-
-#### Prerequisites
-
-Before you start, ensure you have the following:
-
-- About 15 minutes
-- [{edition.productName} account](../create-identity-platform-account.mdx)
-- Install Node.js on your system
-- Make sure you have a JavaScript package manager like npm, yarn, or pnpm
-- A favorite text editor or IDE
-
-#### Example Source Code
-
-[MCP-Auth Sample](https://github.com/wso2/iam-ai-samples/tree/main/mcp-auth/typescript)
-
-</Edition>
-
-<Edition only="self-hosted">
-
 #### What You Will Learn
 
 - Create a new MCP server in TypeScript
@@ -51,7 +24,7 @@ Before you start, ensure you have the following:
 Before you start, ensure you have the following:
 
 - About 15 minutes
-- Set up {edition.productName}
+- [Set up {edition.productName}](../quick-set-up.mdx)
 - Install Node.js on your system
 - Make sure you have a JavaScript package manager like npm, yarn, or pnpm
 - A text editor or IDE
@@ -59,8 +32,6 @@ Before you start, ensure you have the following:
 #### Example Source Code
 
 [MCP-Auth Sample](https://github.com/wso2/iam-ai-samples/tree/main/mcp-auth/typescript)
-
-</Edition>
 
 <Steps>
 
@@ -320,21 +291,9 @@ nnpm install @asgardeo/mcp-express
 
 Create '.env' file and add the base URL of your {edition.productName} organization as given below.
 
-<Edition only="cloud">
-
-```bash
-BASE_URL=https://api.asgardeo.io/t/<your-org-name>
-```
-
-</Edition>
-
-<Edition only="self-hosted">
-
 ```bash
 BASE_URL=https://localhost:9443/t/<your-org-name>
 ```
-
-</Edition>
 
 Update `server.ts` to integrate the WSO2 Identity Platform middleware. This adds:
 
@@ -420,16 +379,10 @@ To register MCP Inspector as a MCP client in {edition.productName}:
     - The **authorized redirect URL** *(e.g., http://localhost:6274/oauth/callback/debug)*
 {/* markdownlint-enable MD007 */}
 
-<Edition selfHostedFrom="next">
-
 :::info
 The authorized redirect URL determines where users are sent after sign-in, typically where the client app connecting to the MCP server is running.
 For this guide, we'll use ["MCP Inspector"](https://modelcontextprotocol.io/docs/tools/inspector) to test the MCP server, so we'll use `http://localhost:6274/oauth/callback/debug`, as the authorized redirect URL.
-
-While we're using the **MCP Client Application** template here for optimized MCP settings, you can also use other application types (Single Page App, Traditional Web App, Mobile App, or M2M App) to access MCP servers, except Digital Wallet applications.
 :::
-
-</Edition>
 
 Make a note of the **client-id** from the **Protocol** tab of the registered application. You will need it during next step.
 

@@ -3,7 +3,7 @@ info:
   version: 1.0.0
   title: "User Sharing API (v2)"
   description: |-
-    This document defines the **User Sharing REST API (v2)** for organizations in **WSO2 Identity Platform**.
+    This document defines the **User Sharing REST API (v2)** for organizations in **WSO2 Identity Server**.
     It enables organization administrators to:
     - Share users across child organizations.
     - Configure per-organization user role assignments.
@@ -14,19 +14,22 @@ info:
 
   contact:
     name: WSO2
-    url: 'https://wso2.com/asgardeo/'
+    url: 'https://wso2.com/identity-platform/access-manager/'
     email: iam-dev@wso2.org
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 servers:
-  - url: 'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v2'
+  - url: 'https://{server-url}/t/{tenant-domain}/o/api/server/v2'
     variables:
-      root-organization-name:
-        default: "{root-organization-name}"
+      tenant-domain:
+        default: "carbon.super"
+      server-url:
+        default: "localhost:9443"
 
 security:
   - OAuth2: []
+  - BasicAuth: []
 
 paths:
   /users/share:
@@ -92,7 +95,7 @@ paths:
       x-codeSamples:
         - lang: Curl
           source: |
-            curl --location 'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v2/users/share' \
+            curl --location 'https://localhost:9443/o/api/server/v2/users/share' \
             -H 'Content-Type: application/json' \
             -H 'Accept: application/json' \
             -H 'Authorization: Bearer {bearer_token}' \
@@ -138,7 +141,7 @@ paths:
         - `op: "add"`    → assign additional roles.
         - `op: "remove"` → remove specific roles.
 
-        > **Note:**
+        > **Note:**  
         > Only **role assignments** updates are managed here as of now. Sharing/unsharing organizations
         > is handled via `/users/share`, `/users/share-with-all`, `/users/unshare`,
         > and `/users/unshare-with-all`.
@@ -208,7 +211,7 @@ paths:
       x-codeSamples:
         - lang: Curl
           source: |
-            curl --location --request PATCH 'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v2/users/share' \
+            curl --location --request PATCH 'https://localhost:9443/o/api/server/v2/users/share' \
             -H 'Content-Type: application/json' \
             -H 'Accept: application/json' \
             -H 'Authorization: Bearer {bearer_token}' \
@@ -309,7 +312,7 @@ paths:
       x-codeSamples:
         - lang: Curl
           source: |
-            curl --location 'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v2/users/share-with-all' \
+            curl --location 'https://localhost:9443/o/api/server/v2/users/share-with-all' \
             -H 'Content-Type: application/json' \
             -H 'Accept: application/json' \
             -H 'Authorization: Bearer {bearer_token}' \
@@ -389,7 +392,7 @@ paths:
       x-codeSamples:
         - lang: Curl
           source: |
-            curl --location 'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v2/users/unshare' \
+            curl --location 'https://localhost:9443/o/api/server/v2/users/unshare' \
             -H 'Content-Type: application/json' \
             -H 'Accept: application/json' \
             -H 'Authorization: Bearer {bearer_token}' \
@@ -452,7 +455,7 @@ paths:
       x-codeSamples:
         - lang: Curl
           source: |
-            curl --location 'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v2/users/unshare-with-all' \
+            curl --location 'https://localhost:9443/o/api/server/v2/users/unshare-with-all' \
             -H 'Content-Type: application/json' \
             -H 'Accept: application/json' \
             -H 'Authorization: Bearer {bearer_token}' \
@@ -555,7 +558,7 @@ paths:
                   summary: User shared with all organizations
                   value:
                     links:
-                      - href: "/t/{root-organization-name}/o/api/server/v2/users/7a1b7d63-8cfc-4dc9-9332-3f84641b72d8/share?limit=10&after=MTA="
+                      - href: "/o/api/server/v2/users/7a1b7d63-8cfc-4dc9-9332-3f84641b72d8/share?limit=10&after=MTA="
                         rel: "next"
                     sharingMode:
                       policy: "ALL_EXISTING_AND_FUTURE_ORGS"
@@ -571,7 +574,7 @@ paths:
                         orgName: "Child Org 1"
                         orgHandle: "child-org-1"
                         orgStatus: "ACTIVE"
-                        orgRef: "/t/wso2.com/o/api/server/v1/organizations/b028ca17-8f89-449c-ae27-fa955e66465d"
+                        orgRef: "/t/wso2.com/api/server/v1/organizations/b028ca17-8f89-449c-ae27-fa955e66465d"
                         hasChildren: true
                         depthFromRoot: 1
                         parentOrgId: "08f8c1d2-4b3e-4c5a-9f6b-7d8e9f0a1b2c"
@@ -587,14 +590,14 @@ paths:
                   summary: User shared with selected organizations
                   value:
                     links:
-                      - href: "/t/{root-organization-name}/o/api/server/v2/users/7a1b7d63-8cfc-4dc9-9332-3f84641b72d8/share?limit=10&after=MTA="
+                      - href: "/o/api/server/v2/users/7a1b7d63-8cfc-4dc9-9332-3f84641b72d8/share?limit=10&after=MTA="
                         rel: "next"
                     organizations:
                       - orgId: "b028ca17-8f89-449c-ae27-fa955e66465d"
                         orgName: "Child Org 1"
                         orgHandle: "child-org-1"
                         orgStatus: "ACTIVE"
-                        orgRef: "/t/wso2.com/o/api/server/v1/organizations/b028ca17-8f89-449c-ae27-fa955e66465d"
+                        orgRef: "/t/wso2.com/api/server/v1/organizations/b028ca17-8f89-449c-ae27-fa955e66465d"
                         hasChildren: true
                         depthFromRoot: 1
                         parentOrgId: "08f8c1d2-4b3e-4c5a-9f6b-7d8e9f0a1b2c"
@@ -619,7 +622,7 @@ paths:
                         orgName: "Child Org 2"
                         orgHandle: "child-org-2"
                         orgStatus: "ACTIVE"
-                        orgRef: "/t/wso2.com/o/api/server/v1/organizations/a17b28ca-9f89-449c-ae27-fa955e66465f"
+                        orgRef: "/t/wso2.com/api/server/v1/organizations/a17b28ca-9f89-449c-ae27-fa955e66465f"
                         hasChildren: false
                         depthFromRoot: 1
                         parentOrgId: "08f8c1d2-4b3e-4c5a-9f6b-7d8e9f0a1b2c"
@@ -647,30 +650,33 @@ paths:
         - lang: Curl
           label: Basic
           source: |
-            curl --location 'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v2/users/{userId}/share' \
+            curl --location 'https://localhost:9443/o/api/server/v2/users/{userId}/share' \
             -H 'Accept: application/json' \
             -H 'Authorization: Bearer {bearer_token}'
         - lang: Curl
           label: With pagination and attributes
           source: |
-            curl --location 'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v2/users/{userId}/share?limit=10&after=Ng==&attributes=roles,sharingMode&recursive=true' \
+            curl --location 'https://localhost:9443/o/api/server/v2/users/{userId}/share?limit=10&after=Ng==&attributes=roles,sharingMode&recursive=true' \
             -H 'Accept: application/json' \
             -H 'Authorization: Bearer {bearer_token}'
         - lang: Curl
           label: With filter
           source: |
-            curl --location 'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v2/users/{userId}/share?filter=orgId+eq+b028ca17-8f89-449c-ae27-fa955e66465d' \
+            curl --location 'https://localhost:9443/o/api/server/v2/users/{userId}/share?filter=orgId+eq+b028ca17-8f89-449c-ae27-fa955e66465d' \
             -H 'Accept: application/json' \
             -H 'Authorization: Bearer {bearer_token}'
 
 components:
   securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
     OAuth2:
       type: oauth2
       flows:
         authorizationCode:
-          authorizationUrl: "https://api.asgardeo.io/t/{root-organization-name}/oauth2/authorize"
-          tokenUrl: "https://api.asgardeo.io/t/{root-organization-name}/oauth2/token"
+          authorizationUrl: "https://localhost:9443/oauth2/authorize"
+          tokenUrl: "https://localhost:9443/oauth2/token"
           scopes:
             internal_org_user_share: "Share users across organizations."
             internal_org_user_unshare: "Unshare users from organizations."
@@ -943,7 +949,7 @@ components:
         orgRef:
           type: string
           description: API reference of the organization resource.
-          example: "/t/wso2.com/o/api/server/v1/organizations/b4526d91-a8bf-43d2-8b14-c548cf73065b"
+          example: "/t/wso2.com/api/server/v1/organizations/b4526d91-a8bf-43d2-8b14-c548cf73065b"
         hasChildren:
           type: boolean
           description: Indicates whether the organization has child organizations.
@@ -1041,7 +1047,7 @@ components:
       properties:
         href:
           type: string
-          example: "/t/{root-organization-name}/o/api/server/v2/users/7a1b7d63-8cfc-4dc9-9332-3f84641b72d8/share?limit=10&after=MTA="
+          example: "/o/api/server/v2/users/7a1b7d63-8cfc-4dc9-9332-3f84641b72d8/share?limit=10&after=MTA="
         rel:
           type: string
           example: "next"

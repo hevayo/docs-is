@@ -12,33 +12,6 @@ import TabItem from '@theme/TabItem';
 
 Welcome to the React Quickstart guide! In this document, you will learn to build a React app, add user sign-in and display user profile information using {edition.productName}.
 
-<Edition only="cloud">
-
-#### What You Will Learn
-
-- Create new React app using Vite
-- Install [@asgardeo/react](https://www.npmjs.com/package/@asgardeo/react) package
-- Add user sign-in and sign-out
-- Display user profile information
-
-#### Prerequisites
-
-Before you start, ensure you have the following:
-
-- About 15 minutes
-- [WSO2 Identity Platform account](../../create-identity-platform-account.mdx)
-- Install [Node.js](https://nodejs.org/en/download/package-manager) on your system.
-- Make sure you have a JavaScript package manager like `npm`, `yarn`, or `pnpm`.
-- A favorite text editor or IDE
-
-#### Example Source Code
-
-[React Vite App Sample](https://github.com/asgardeo/web-ui-sdks/tree/main/samples/teamspace-react)
-
-</Edition>
-
-<Edition only="self-hosted">
-
 #### What You Will Learn
 
 - Create new React app using Vite
@@ -51,7 +24,7 @@ Before you start, ensure you have the following:
 Before you start, ensure you have the following:
 
 - About 15 minutes
-- Set-up {edition.productName}
+- [Set-up {edition.productName}](../../quick-set-up.mdx)
 - Install [Node.js](https://nodejs.org/en/download/package-manager) on your system.
 - Make sure you have a JavaScript package manager like `npm`, `yarn`, or `pnpm`.
 - A favorite text editor or IDE
@@ -60,8 +33,6 @@ Before you start, ensure you have the following:
 
 [React Vite App Sample](https://github.com/asgardeo/asgardeo-auth-react-sdk/tree/main/samples/asgardeo-react-app)
 
-</Edition>
-
 <Steps>
 
 ## Configure an Application in {edition.productName}
@@ -69,25 +40,11 @@ Before you start, ensure you have the following:
 - Sign into the {edition.productName} Console and navigate to **Applications > New Application**.
 - Select **React** and complete the wizard by providing a suitable name and an authorized redirect URL.
 
-<Edition only="cloud">
-
-:::note[Example]
-**Name:** `asgardeo-react`
-
-**Authorized redirect URL:** `http://localhost:5173`
-:::
-
-</Edition>
-
-<Edition only="self-hosted">
-
 :::note[Example]
 **Name:** `is-react`
 
 **Authorized redirect URL:** `http://localhost:5173`
 :::
-
-</Edition>
 
 Once you finish creating the application, note down the following values from its **Guide** tab. You will need them to configure WSO2 Identity Platform React SDK.
 
@@ -101,45 +58,6 @@ The authorized redirect URL determines where {edition.productName} should send u
 ## Create a React app using Vite
 
 Create (scaffold) your new React app using [Vite](https://vite.dev/).
-
-<Edition only="cloud">
-
-<Tabs groupId="tabs">
-<TabItem value="npm" label="npm">
-
-```bash
-npm create vite@latest asgardeo-react -- --template react
-cd asgardeo-react
-npm install
-npm run dev
-```
-
-</TabItem>
-<TabItem value="yarn" label="yarn">
-
-```bash
-yarn create vite@latest asgardeo-react -- --template react
-cd asgardeo-react
-yarn install
-yarn dev
-```
-
-</TabItem>
-<TabItem value="pnpm" label="pnpm">
-
-```bash
-pnpm create vite@latest asgardeo-react -- --template react
-cd asgardeo-react
-pnpm install
-pnpm dev
-```
-
-</TabItem>
-</Tabs>
-
-</Edition>
-
-<Edition only="self-hosted">
 
 <Tabs groupId="tabs">
 <TabItem value="npm" label="npm">
@@ -173,8 +91,6 @@ pnpm dev
 
 </TabItem>
 </Tabs>
-
-</Edition>
 
 ## Install `@asgardeo/react`
 
@@ -341,20 +257,8 @@ To try out sign-in and sign-out features, create a test user in {edition.product
 
 </Steps>
 
-<Edition only="cloud">
-
-## What's Next?
-
-- Try out [{edition.productName} complete React guide](../../../complete-guides/react/introduction.mdx)
-
-</Edition>
-
-<Edition only="self-hosted">
-
 ## What's Next?
 
 - Try out [{edition.productName} complete React guide](../../../complete-guides/react/introduction.mdx)
 - Try out {edition.productName} user onboarding complete guide for React
 - Read security best practices for React app guide
-
-</Edition>

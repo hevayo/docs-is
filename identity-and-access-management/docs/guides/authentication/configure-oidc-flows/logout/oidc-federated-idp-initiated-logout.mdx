@@ -4,7 +4,7 @@ description: WSO2 Identity Server is able to handle logout requests from OIDC fe
 type: how-to
 sidebar_label: Federated IdP-initiated logout
 sidebar_position: 4
-editions: self-hosted
+slug: "/guides/authentication/oidc/oidc-federated-idp-initiated-logout"
 ---
 
 {edition.productName} is able to handle logout requests from OIDC federated IdPs. When an OIDC back-channel logout request is received from the federated IdP to the back-channel logout endpoint of {edition.productName} (`https://localhost:9443/identity/oidc/slo`), it processes the request, terminates the sessions of the particular user, and then responds to the external identity provider.
@@ -13,7 +13,7 @@ editions: self-hosted
 
 Let's take a look at the following scenario to understand federated IdP-initiated logout.
 
-![oidc-fed-idp-init-logout-scenario](../../../../../assets/self-hosted/img/guides/oidc-fed-idp-init-logout-scenario.png)
+![oidc-fed-idp-init-logout-scenario](../../../../../assets/img/guides/oidc-fed-idp-init-logout-scenario.png)
 
 The steps are as follows:
 

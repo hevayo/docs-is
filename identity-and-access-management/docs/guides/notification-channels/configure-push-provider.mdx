@@ -1,22 +1,12 @@
 ---
 title: Configure push provider
-description: To use push notification-based authentication, you need to configure at least one push notification provider in WSO2 Identity Platform.  # generated from the first paragraph; a writer should improve it
+description: To use push notification-based authentication, you need to configure at least one push notification provider in WSO2 Identity Server.  # generated from the first paragraph; a writer should improve it
 type: how-to
 sidebar_label: Configure Push Provider
 sidebar_position: 3
 ---
 
-<Edition only="cloud">
-
-To use push notification-based authentication, you need to configure at least one push notification provider in {edition.productName}. WSO2 Identity Platform supports **Firebase Cloud Messaging (FCM)** as a push notification provider.
-
-</Edition>
-
-<Edition only="self-hosted">
-
 To use push notification-based authentication, you need to configure at least one push notification provider in {edition.productName}. WSO2 Identity Server supports **Firebase Cloud Messaging (FCM)** and **Amazon Simple Notification Service (SNS)** as push notification providers.
-
-</Edition>
 
 :::note
 You can configure **multiple providers** and keep them active at the same time. During enrollment, the device will send the preferred push provider in the registration request. Once successfully registered, {edition.productName} will send push notifications via the device's registered push provider.
@@ -33,7 +23,7 @@ The following list shows the platforms that each provider supports.
 
 1. On the {edition.productName} Console, go to **Notification Channels** and select **Push Providers**.
 
-      <Edition only="cloud"><img src={require("../../../assets/cloud/img/guides/mfa/push/push-providers-page.png").default} alt="Notification channels page" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../assets/self-hosted/img/guides/mfa/push/push-providers-page.png").default} alt="Notification channels page" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+      <img src={require("../../../assets/img/guides/mfa/push/push-providers-page.png").default} alt="Notification channels page" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 2. Select the tab for the provider you want to configure and follow the steps in the relevant section below.
 
@@ -104,7 +94,7 @@ To set a provider as the default:
       <img src={require("../../../assets/img/guides/mfa/push/push-default-toggle.png").default} alt="Configure Default Push Provider" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 :::warning[Important]
-Amazon SNS requires additional metadata, such as the `platform` field, in the registration request. For more information, see [Build your own push authenticator app](../../references/tutorials/build-your-own-push-authenticator-app.mdx). Therefore, even if Amazon SNS is configured as the default provider, the registration payload must still include the required metadata.
+Amazon SNS requires additional metadata, such as the `platform` field, in the registration request. For more information, see [Build your own push authenticator app](../../tutorials/build-your-own-push-authenticator-app.mdx). Therefore, even if Amazon SNS is configured as the default provider, the registration payload must still include the required metadata.
 :::
 
 :::note

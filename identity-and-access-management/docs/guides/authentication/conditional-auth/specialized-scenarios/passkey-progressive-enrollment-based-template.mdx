@@ -7,13 +7,10 @@ sidebar_position: 1
 slug: "/guides/authentication/conditional-auth/passkey-progressive-enrollment-based-template"
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 This method of adaptive authentication is specifically designed for applications that have set up **Passkey** as a login option and have enabled **passkey progressive enrollment** so that users may enroll passkeys at the moment they log in to an application.
 
 :::note
-Learn how to enable passkeys and passkey progressive enrollment in [Add Passkey login](../../passwordless-login/add-passwordless-login-with-passkey.mdx).
+Learn how to enable passkeys and passkey progressive enrollment in [Add Passkey login](../../passwordless-login/passkeys/add-passwordless-login-with-passkey.mdx).
 :::
 
 Follow the guide below to learn about the adaptive script smoothly transition users using other methods of authentication to use passkeys as their primary authentication method.
@@ -28,44 +25,6 @@ The script is designed to execute during the authentication flow. When a user in
 
 3. Add the passkey progressive enrollment based adaptive script as follows.
 
-    <Edition only="cloud">
-
-    <Tabs groupId="tabs">
-    <TabItem value="visual-editor" label="Visual Editor">
-
-    To add the adaptive script using the Visual Editor:
-
-    1. Switch to the **Visual Editor** tab and go to **Predefined Flows** > **Conditional Login Flows** > **Passkey Enrollment**.
-
-    2. Click the **ADD** button corresponding to the **Passkey Progressive Enrollment** template.
-
-    3. Click **Confirm** to replace any existing script with the selected predefined script.
-
-        <img src={require("../../../../../assets/cloud/img/guides/passwordless/passkey/add-script-with-visual-editor.png").default} alt="Add adaptive script with Visual Editor" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
-
-    4. Enable the **Conditional Authentication** toggle located at the bottom of the editor.
-
-    </TabItem>
-    <TabItem value="classic-editor" label="Classic Editor">
-
-    To add the adaptive script using the Classic Editor:
-
-    1. Enable the **Conditional Authentication** toggle located at the bottom of the editor.
-
-    2. In the **Templates** section, go to **Passkey Enrollment** and click the **+** sign corresponding to the **Passkey Progressive Enrollment** template.
-
-    3. Click **Confirm** to add the script.
-
-        <img src={require("../../../../../assets/cloud/img/guides/passwordless/passkey/add-script-with-classic-editor.png").default} alt="Add adaptive script with Classic Editor" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
-
-    </TabItem>
-    </Tabs>
-    ---
-
-    </Edition>
-
-    <Edition only="self-hosted">
-
     1. Go to **Predefined Flows** > **Conditional Login Flows**.
 
     2. Click **Passkey Enrollment** > **Passkey Progressive Enrollment** > **ADD**.
@@ -75,8 +34,6 @@ The script is designed to execute during the authentication flow. When a user in
     3. Click **Confirm** to replace any existing script with the selected predefined script.
 
     4. Enable the **Conditional Authentication** toggle located at the bottom of the editor.
-
-    </Edition>
 
     :::warning[Important]
     Adding the passkey progressive enrollment adaptive script, modifies the authentication flow to include only the **Username & Password** and **Passkey** authenticators in the first step. If you need to include other authenticators in the first step, make sure to add them manually. Learn more in [How it works](#how-it-works).

@@ -3,7 +3,6 @@ title: Configuration catalog
 description: "Every deployment.toml section and its parameters, with a sample configuration."
 type: reference
 sidebar_position: 3
-editions: self-hosted
 ---
 
 The configuration model of WSO2 Identity Server is based on the toml format. The `<IS_HOME>/repository/conf/deployment.toml` file is the single source used to configure and tune various features.
@@ -1686,21 +1685,6 @@ signature = ""
 | `enable_start_tls` | boolean | No | `true` | `true`, `false` | Set to true to upgrade the SMTP connection to TLS using the STARTTLS command. |
 | `signature` | string | No |  |  | A signature line appended at the bottom of outgoing email messages. |
 
-## FIDO `[fido]` {#fido}
-
-Configures general FIDO/WebAuthn settings such as the user response timeout for FIDO2 device registration.
-
-**Sample configuration**
-
-```toml
-[fido]
-user_response_timeout = "300000"
-```
-
-| Parameter | Type | Required | Default | Possible values | Description |
-|---|---|---|---|---|---|
-| `user_response_timeout` | string | No | `300000` |  | The time in milliseconds sent as a hint to the browser for how long to wait for the user to interact with their FIDO2 authenticator during device registration. This timeout is enforced by the browser, not the server, and applies only to FIDO2 device registration (not authentication). |
-
 ## FIDO metadata service `[fido.metadata_service]` {#fido-metadata-service}
 
 Enables FIDO2 attestation verification using the FIDO Metadata Service (MDS). Required for enforcing strong authenticator policies.
@@ -1755,21 +1739,6 @@ http_client.retry_count = 1
 | `http_client.read_timeout` | integer | No | `6000` |  | The timeout (in milliseconds) for reading a response from an action endpoint. |
 | `http_client.request_timeout` | integer | No | `3000` |  | The maximum time (in milliseconds) allowed for a complete HTTP request to an action endpoint. |
 | `http_client.retry_count` | integer | No | `1` |  | The number of times the HTTP client retries a failed request to an action endpoint. |
-
-## Flow extension action `[actions.types.flow_extension]` {#flow-extension-action}
-
-Settings for the flow extension action type, which calls an external service from within a flow.
-
-**Sample configuration**
-
-```toml
-[actions.types.flow_extension]
-non_modifiable_paths = ["/user/claims[uri=http://wso2.org/claims/userid]", "/user/claims[uri=http://wso2.org/claims/created]"]
-```
-
-| Parameter | Type | Required | Default | Possible values | Description |
-|---|---|---|---|---|---|
-| `non_modifiable_paths` | array | No | `["/user/claims[uri=http://wso2.org/claims/userid]", "/user/claims[uri=http://wso2.org/claims/created]"]` |  | The flow context paths that a flow extension can never write, given as a list of context paths. Attributes take the form /user/claims[uri=&lt;claim URI&gt;]. |
 
 ## User self-registration `[identity_mgt.user_self_registration]` {#identity-mgt-user-self-registration}
 

@@ -12,34 +12,6 @@ import TabItem from '@theme/TabItem';
 
 Welcome to the Nuxt quickstart guide! In this document, you will learn to build a Nuxt app, add user login, and display user profile information using {edition.productName}.
 
-<Edition only="cloud">
-
-#### What You Will Learn
-
-- Create a new Nuxt app
-- Install [@asgardeo/nuxt](https://www.npmjs.com/package/@asgardeo/nuxt) module
-- Add user sign-in and sign-out
-- Display user profile information
-- Protect routes with route middleware
-
-#### Prerequisites
-
-Before you start, ensure you have the following:
-
-- About 15 minutes
-- [{edition.productName} account](../../create-identity-platform-account.mdx)
-- Install [Node.js](https://nodejs.org/en/download/package-manager) on your system.
-- Make sure you have a JavaScript package manager like `npm`, `yarn`, or `pnpm`.
-- A favorite text editor or IDE
-
-#### Example Source Code
-
-[Nuxt App Sample](https://github.com/asgardeo/web-ui-sdks/tree/main/samples/nuxt)
-
-</Edition>
-
-<Edition only="self-hosted">
-
 #### What You Will Learn
 
 - Create a new Nuxt app
@@ -53,12 +25,10 @@ Before you start, ensure you have the following:
 Before you start, ensure you have the following:
 
 - About 15 minutes
-- Set-up {edition.productName}
+- [Set-up {edition.productName}](../../quick-set-up.mdx)
 - Install [Node.js](https://nodejs.org/en/download/package-manager) on your system.
 - Make sure you have a JavaScript package manager like `npm`, `yarn`, or `pnpm`.
 - A favorite text editor or IDE
-
-</Edition>
 
 <Steps>
 
@@ -67,25 +37,11 @@ Before you start, ensure you have the following:
 - Sign into the {edition.productName} Console and navigate to **Applications > New Application**.
 - Select **Traditional Web Application** and complete the wizard by providing a suitable name, the **OpenID Connect** protocol, and an authorized redirect URL.
 
-<Edition only="cloud">
-
-:::note[Example]
-**Name:** `asgardeo-nuxt`
-
-**Authorized redirect URL:** `http://localhost:3000/api/auth/callback`
-:::
-
-</Edition>
-
-<Edition only="self-hosted">
-
 :::note[Example]
 **Name:** `is-nuxt`
 
 **Authorized redirect URL:** `http://localhost:3000/api/auth/callback`
 :::
-
-</Edition>
 
 Once you finish creating the application, note down the following values from its **Info** tab. You will need them to configure the WSO2 Identity Platform Nuxt SDK.
 
@@ -100,42 +56,6 @@ The authorized redirect URL is the address {edition.productName} sends the user 
 ## Create a Nuxt app
 
 Create your new Nuxt app.
-
-<Edition only="cloud">
-
-<Tabs groupId="tabs">
-<TabItem value="npm" label="npm">
-
-```bash
-npm create nuxt@latest asgardeo-nuxt
-cd asgardeo-nuxt
-npm run dev
-```
-
-</TabItem>
-<TabItem value="yarn" label="yarn">
-
-```bash
-yarn create nuxt@latest asgardeo-nuxt
-cd asgardeo-nuxt
-yarn dev
-```
-
-</TabItem>
-<TabItem value="pnpm" label="pnpm">
-
-```bash
-pnpm create nuxt@latest asgardeo-nuxt
-cd asgardeo-nuxt
-pnpm dev
-```
-
-</TabItem>
-</Tabs>
-
-</Edition>
-
-<Edition only="self-hosted">
 
 <Tabs groupId="tabs">
 <TabItem value="npm" label="npm">
@@ -166,8 +86,6 @@ pnpm dev
 
 </TabItem>
 </Tabs>
-
-</Edition>
 
 ## Install `@asgardeo/nuxt`
 
@@ -208,13 +126,9 @@ NUXT_PUBLIC_ASGARDEO_AFTER_SIGN_OUT_URL="<after-sign-out-redirect-url>"
 ASGARDEO_CLIENT_SECRET="<your-app-client-secret>"
 ```
 
-<Edition only="self-hosted">
-
 :::note
 If you are running in a local development or testing environment using self-signed SSL certificates, the application may fail to connect to {edition.productName} due to TLS certificate validation errors. To bypass this check, add `NODE_TLS_REJECT_UNAUTHORIZED=0` to the `.env` file.
 :::
-
-</Edition>
 
 ## Register the WSO2 Identity Platform Nuxt module
 

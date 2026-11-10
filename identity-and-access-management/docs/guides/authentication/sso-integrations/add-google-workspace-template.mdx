@@ -1,6 +1,6 @@
 ---
-title: Log in to Google Workspace using {edition.productName}
-description: This page guides you through integrating WSO2 Identity Platform for Single Sign-On (SSO) with Google.  # generated from the first paragraph; a writer should improve it
+title: Log in to Google Workspace using WSO2 Identity Server
+description: This page guides you through integrating WSO2 Identity Server for Single Sign-On (SSO) with Google.  # generated from the first paragraph; a writer should improve it
 type: how-to
 sidebar_label: Google Workspace
 sidebar_position: 2
@@ -17,12 +17,7 @@ This page guides you through integrating {edition.productName} for Single Sign-O
 :::note[Before you begin]
 You need to have a Google domain. Further, ensure you have a Google Workspace account and your account supports SSO by referring to the [Google documentation](https://support.google.com/a/answer/182076?sjid=13406338490513240799-AP).
 
-<Edition only="self-hosted">
-
 If you're testing the integration locally, make sure to [configure a hostname](../../../deploy/deploy/deployment-overview/change-the-hostname.mdx).
-
-</Edition>
-
 :::
 
 ## Create the Google Workspace application
@@ -33,7 +28,7 @@ Follow the steps given below to register the Google Workspace application in {ed
 
 2. Click **New Application** and under **SSO Integrations**, select **Google Workspace**.
 
-    <Edition only="cloud"><img src={require("../../../../assets/img/guides/authentication/sso-integrations/common/add-app.png").default} alt="Select app type in the WSO2 Identity Platform" width="600" style={{border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/img/guides/authentication/sso-integrations/common/add-app.png").default} alt="Select app type in the WSO2 Identity Server" width="600" style={{border: "0.3px solid lightgrey"}} /></Edition>
+    <img src={require("../../../../assets/img/guides/authentication/sso-integrations/common/add-app.png").default} alt="Select app type in the WSO2 Identity Server" width="600" style={{border: "0.3px solid lightgrey"}} />
 
 3. Provide the Entity ID and a Name for the application.
 
@@ -43,7 +38,7 @@ Follow the steps given below to register the Google Workspace application in {ed
     **Note:** While setting up the SAML SSO profile in Google, simply provide a name first. The IdP details can be added later.
     :::
 
-    <Edition only="cloud"><img src={require("../../../../assets/img/guides/authentication/sso-integrations/google-workspace-sso/add-google-app.png").default} alt="Select google workspace app in the WSO2 Identity Platform" width="600" style={{border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/img/guides/authentication/sso-integrations/google-workspace-sso/add-google-app.png").default} alt="Select google workspace app in the WSO2 Identity Server" width="600" style={{border: "0.3px solid lightgrey"}} /></Edition>
+    <img src={require("../../../../assets/img/guides/authentication/sso-integrations/google-workspace-sso/add-google-app.png").default} alt="Select google workspace app in the WSO2 Identity Server" width="600" style={{border: "0.3px solid lightgrey"}} />
 
 4. Click **Create** to complete the registration.
 
@@ -56,26 +51,6 @@ Follow the steps given below to register the Google Workspace application in {ed
 Follow the steps below to configure Google for SSO authentication with {edition.productName}.
 
 1. Access your Google domain's [admin console](https://admin.google.com).
-
-<Edition only="cloud">
-
-2. Follow Google’s instructions to [configure the SSO profile for your organization](https://support.google.com/a/answer/12032922?hl=en&ref_topic=7579248&sjid=3736947215943977003-AP#org_profile). Use the details below:
-
-    - IDP entity ID:
-      `api.asgardeo.io/t/{organization_name}`
-
-    - Sign-in page URL:
-      `{edition.productUrlFormat}/samlsso`
-
-    - Sign-out page URL:
-      `{edition.productUrlFormat}/samlsso`
-
-    - Password URL:
-      `https://myaccount.asgardeo.io/t/{organization_name}/myaccount/security`
-
-</Edition>
-
-<Edition only="self-hosted">
 
 2. Follow Google’s instructions to [configure the SSO profile for your organization](https://support.google.com/a/answer/12032922?hl=en&ref_topic=7579248&sjid=3736947215943977003-AP#org_profile). Use the details below:
 
@@ -91,11 +66,9 @@ Follow the steps below to configure Google for SSO authentication with {edition.
     - Password URL:
       `https://is.dev.wso2.com/t/carbon.super/myaccount/security`
 
-</Edition>
-
 3. Upload {edition.productName}'s certificate you downloaded earlier.
 
-    <Edition only="cloud"><img src={require("../../../../assets/cloud/img/guides/authentication/sso-integrations/google-workspace-sso/sso-fill-google.png").default} alt="sso-fill-google.png" width="600" style={{border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/self-hosted/img/guides/authentication/sso-integrations/google-workspace-sso/sso-fill-google.png").default} alt="sso-fill-google.png" width="600" style={{border: "0.3px solid lightgrey"}} /></Edition>
+    <img src={require("../../../../assets/img/guides/authentication/sso-integrations/google-workspace-sso/sso-fill-google.png").default} alt="sso-fill-google.png" width="600" style={{border: "0.3px solid lightgrey"}} />
 -----
 
 ## Try it out

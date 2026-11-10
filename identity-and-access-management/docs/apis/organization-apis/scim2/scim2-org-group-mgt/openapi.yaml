@@ -1,32 +1,27 @@
-openapi: 3.0.0
+openapi: 3.1.0
 info:
-  version: "v1"
-  title: WSO2 Identity Platform - SCIM 2.0 Group Management API
-  description:
-    "This is the RESTful API for SCIM 2.0 Group Management in WSO2 Identity Platform organizations. 
-    This API allows creating, deleting, listing, and updating users. 
-    \n To access the SCIM 2.0 Group Management APIs in WSO2 Identity Platform, you need to first get an access token from your organization."
+  title: SCIM 2.0 Group Management Endpoint API
+  description: |
+    SCIM 2.0 Group Management endpoints
+  version: 1.0.0
+servers:
+  - url: https://{serverUrl}/t/{tenantDomain}/o/scim2
+    variables:
+      serverUrl:
+        default: localhost:9443
+      tenantDomain:
+        default: carbon.super
 security:
   - OAuth2: []
-servers:
-  - url: 'https://api.asgardeo.io/t/{root-organization-name}/o/scim2'
-    variables:
-      server-url:
-        default: https://api.asgardeo.io/t/{root-organization-name}/o/
-      root-organization-name:
-        default: "{root-organization-name}"
-tags:
-  - name: Groups Endpoint
-    description: This endpoint performs actions related to all groups in the organization
 paths:
   /Groups:
     get:
       tags:
         - Groups Endpoint
-      summary: Filter Groups
-      description: "This API returns groups according to the specified filter, sort, and pagination parameters.\n\n  
-      
-      <b>Scope(Permission) required:</b> ``internal_org_group_mgt_view`` \n\n"
+      summary: Filter groups
+      description: "This API returns groups according to the specified filter, sort,\
+        \ and pagination parameters.\n\n  
+        \  \n  <b>Scope(Permission) required:</b>`internal_org_group_mgt_view`\n"
       operationId: getGroup
       parameters:
         - name: attributes
@@ -63,7 +58,7 @@ paths:
             type: string
       responses:
         200:
-          description: Valid groups are found / No Group found
+          description: Valid groups are found
           content:
             application/scim+json:
               schema:
@@ -84,16 +79,16 @@ paths:
         - lang: Curl
           source: |
             curl -X 'GET' \
-            'https://api.asgardeo.io/t/{root-organization-name}/o/scim2/Groups' \
+            'https://localhost:9443/o/scim2/Groups' \
             -H 'accept: application/scim+json' \
             -H 'Authorization: Bearer {bearer_token}'
     post:
       tags:
         - Groups Endpoint
-      summary: Create Group
-      description: "This API creates a group and returns the details of the created group including its unique ID.\n\n
-      
-      <b>Scope(Permission) required:</b> ``internal_org_group_mgt_create``\n\n"
+      summary: Create group
+      description: "This API creates a group and returns the details of the created\
+        \ group including its unique ID.\n
+        \n<b>Scope(Permission) required:</b>`internal_org_group_mgt_create`\n    \n"
       operationId: createGroup
       parameters:
         - name: attributes
@@ -131,12 +126,6 @@ paths:
             application/scim+json:
               schema:
                 $ref: '#/components/schemas/ErrorForbidden'
-        404:
-          description: Group is not found
-          content:
-            application/scim+json:
-              schema:
-                $ref: '#/components/schemas/ErrorGroupNotAvailable'
         409:
           description: Group already exist
           content:
@@ -146,19 +135,32 @@ paths:
       x-codeSamples:
         - lang: Curl
           source: |
-            curl -X 'GET' \
-            'https://api.asgardeo.io/t/{root-organization-name}/o/scim2/Groups' \
+            curl -X 'POST' \
+            'https://localhost:9443/o/scim2/Groups' \
             -H 'accept: application/scim+json' \
-            -H 'Authorization: Bearer {bearer_token}'
+            -H 'Content-Type: application/scim+json' \
+            -H 'Authorization: Bearer {bearer_token}' \
+            -d '{
+            "schemas": [
+              "urn:ietf:params:scim:schemas:core:2.0:Group"
+            ],
+            "displayName": "manager",
+            "members": [
+              {
+                "value": "008bba85-451d-414b-87de-c03b5a1f4217",
+                "display": "kim"
+              }
+            ]
+            }'
       x-codegen-request-body-name: body
   /Groups/.search:
     post:
       tags:
         - Groups Endpoint
-      summary: Search Groups
-      description: "This API returns groups according to the specified filter, sort, and pagination parameters.\n\n
-      
-      <b>Scope(Permission) required:</b> ``internal_org_group_mgt_view``\n\n"
+      summary: Search groups
+      description: "This API returns groups according to the specified filter, sort,\
+        \ and pagination parameters.\n
+        \n<b>Scope(Permission) required:</b>`internal_org_group_mgt_view`\n    \n"
       operationId: getGroupsByPost
       requestBody:
         content:
@@ -168,7 +170,7 @@ paths:
         required: false
       responses:
         200:
-          description: Valid groups are found / Valid groups are not found
+          description: Valid groups are found
           content:
             application/scim+json:
               schema:
@@ -189,7 +191,7 @@ paths:
         - lang: Curl
           source: |
             curl -X 'POST' \
-            'https://api.asgardeo.io/t/{root-organization-name}/o/scim2/Groups/.search' \
+            'https://localhost:9443/o/scim2/Groups/.search' \
             -H 'accept: application/scim+json' \
             -H 'Content-Type: application/scim+json' \
             -H 'Authorization: Bearer {bearer_token}' \
@@ -205,10 +207,10 @@ paths:
     get:
       tags:
         - Groups Endpoint
-      summary: Get Group by ID
-      description: "This API returns the group details of a particular group using its unique ID.\n\n
-      
-      <b>Scope(Permission) required:</b> ``internal_org_group_mgt_view``\n\n"
+      summary: Get group by ID
+      description: "This API returns the group details of a particular group using\
+        \ its unique ID.\n
+        \n<b>Scope(Permission) required:</b>`internal_org_group_mgt_view`\n    \n"
       operationId: getGroup by id
       parameters:
         - name: id
@@ -246,26 +248,20 @@ paths:
             application/scim+json:
               schema:
                 $ref: '#/components/schemas/ErrorForbidden'
-        404:
-          description: Valid group is not found
-          content:
-            application/scim+json:
-              schema:
-                $ref: '#/components/schemas/ErrorNoGroupAvailable'
       x-codeSamples:
         - lang: Curl
           source: |
             curl -X 'GET' \
-            'https://api.asgardeo.io/t/{root-organization-name}/o/scim2/Groups/{group-id}' \
+            'https://localhost:9443/o/scim2/Groups/{group-id}' \
             -H 'accept: application/scim+json' \
             -H 'Authorization: Bearer {bearer_token}'
     put:
       tags:
         - Groups Endpoint
-      summary: Update Group - PUT
-      description: "This API updates the group details and returns the updated group details using a PUT operation.\n\n
-      
-      <b>Scope(Permission) required:</b> ``internal_org_group_mgt_update`` \n\n"
+      summary: Update group - PUT
+      description: "This API updates the group details and returns the updated group\
+        \ details using a PUT operation.\n
+        \n<b>Scope(Permission) required:</b>`internal_org_group_mgt_update`\n    \n"
       operationId: updateGroup
       parameters:
         - name: id
@@ -315,17 +311,11 @@ paths:
             application/scim+json:
               schema:
                 $ref: '#/components/schemas/ErrorForbidden'
-        404:
-          description: Valid group is not found
-          content:
-            application/scim+json:
-              schema:
-                $ref: '#/components/schemas/ErrorNoGroupAvailable'
       x-codeSamples:
         - lang: Curl
           source: |
             curl -X 'PUT' \
-            'https://api.asgardeo.io/t/{root-organization-name}/o/scim2/Groups/{group-id}' \
+            'https://localhost:9443/o/scim2/Groups/{group-id}' \
             -H 'accept: application/scim+json' \
             -H 'Content-Type: application/scim+json' \
             -H 'Authorization: Bearer {bearer_token}' \
@@ -342,10 +332,9 @@ paths:
     delete:
       tags:
         - Groups Endpoint
-      summary: Delete Group
-      description: "This API deletes a particular group using its unique ID.\n\n 
-      
-      <b>Scope(Permission) required:</b> ``internal_org_group_mgt_delete``\n\n"
+      summary: Delete group
+      description: "This API deletes a particular group using its unique ID.\n\n
+        <b>Scope(Permission) required:</b>\n  `internal_org_group_mgt_delete`\n    \n"
       operationId: deleteGroup
       parameters:
         - name: id
@@ -370,26 +359,21 @@ paths:
             application/scim+json:
               schema:
                 $ref: '#/components/schemas/ErrorForbidden'
-        404:
-          description: Valid group is not found
-          content:
-            application/scim+json:
-              schema:
-                $ref: '#/components/schemas/ErrorNoGroupAvailable'
       x-codeSamples:
         - lang: Curl
           source: |
             curl -X 'DELETE' \
-            'https://api.asgardeo.io/t/{root-organization-name}/o/scim2/Groups/{group-id}' \
-            -H 'accept: */*' \
+            'https://localhost:9443/o/scim2/Groups/{group-id}' \
+            -H 'accept: */*'  \
             -H 'Authorization: Bearer {bearer_token}'
     patch:
       tags:
         - Groups Endpoint
-      summary: Update Group - PATCH
-      description: "This API updates the group details and returns the updated group details using a PATCH operation.\n\n 
-      
-      <b>Scope(Permission) required:</b> ``internal_org_group_mgt_update``\n\n"
+      summary: Update group - PATCH
+      description: |
+        This API updates the group details and returns the updated group details using a PATCH operation. <br>
+
+        <b>Scope(Permission) required:</b>`internal_org_group_mgt_update`
       operationId: patchGroup
       parameters:
         - name: id
@@ -433,17 +417,11 @@ paths:
             application/scim+json:
               schema:
                 $ref: '#/components/schemas/ErrorForbidden'
-        404:
-          description: Valid group is not found
-          content:
-            application/scim+json:
-              schema:
-                $ref: '#/components/schemas/ErrorNoGroupAvailable'
       x-codeSamples:
         - lang: Curl
           source: |
             curl -X 'PATCH' \
-            'https://api.asgardeo.io/t/{root-organization-name}/o/scim2/Groups/{group-id}' \
+            'https://localhost:9443/o/scim2/Groups/{group-id}' \
             -H 'accept: application/scim+json' \
             -H 'Content-Type: application/scim+json' \
             -H 'Authorization: Bearer {bearer_token}' \
@@ -478,59 +456,77 @@ components:
           properties:
             created:
               type: string
-              example: 2018-08-17T10:34:29Z
+              examples:
+                - 2018-08-17T10:34:29Z
             location:
               type: string
-              example: https://api.asgardeo.io/t/{root-organization-name}/o/scim2/Users/008bba85-451d-414b-87de-c03b5a1f4217
+              examples:
+                - https://localhost:9443/scim2/Users/008bba85-451d-414b-87de-c03b5a1f4217
             lastModified:
               type: string
-              example: 2018-08-17T10:34:29Z
+              examples:
+                - 2018-08-17T10:34:29Z
             resourceType:
               type: string
-              example: User
+              examples:
+                - User
         schemas:
           type: object
           properties: {}
-          example:
-            - urn:ietf:params:scim:schemas:core:2.0:User
-            - urn:ietf:params:scim:schemas:extension:enterprise:2.0:User
+          examples:
+            -
+              - urn:ietf:params:scim:schemas:core:2.0:User
+              - urn:ietf:params:scim:schemas:extension:enterprise:2.0:User
         username:
           type: string
-          example: DEFAULT/kim@gmail.com
+          examples:
+            - PRIMARY/kim
         id:
           type: string
-          example: 008bba85-451d-414b-87de-c03b5a1f4217
+          examples:
+            - 008bba85-451d-414b-87de-c03b5a1f4217
         name:
           type: object
           properties:
             givenName:
               type: string
-              example: Kim
+              examples:
+                - Kim
             familyName:
               type: string
-              example: Berry
+              examples:
+                - Berry
         emails:
           type: array
-          example:
-            - kim@gmail.com
+          examples:
+            -
+              - value: kim@gmail.com
+              - type: work
+                value: kim@wso2.com
           items:
             type: object
             properties: {}
         urn:ietf:params:scim:schemas:extension:enterprise:2.0:User:
           type: object
           properties:
+            employeeNumber:
+              type: string
+              examples:
+                - 1234A
             manager:
               type: object
               properties:
                 value:
                   type: string
-                  example: Taylor
+                  examples:
+                    - Taylor
         roles:
           type: object
           properties: {}
-          example:
-            - type: default
-              value: Internal/everyone
+          examples:
+            -
+              - type: default
+                value: Internal/everyone
     GroupRequestObject:
       required:
         - displayName
@@ -541,47 +537,57 @@ components:
           type: array
           items:
             type: string
-            example: urn:ietf:params:scim:schemas:core:2.0:Group
+            examples:
+              - urn:ietf:params:scim:schemas:core:2.0:Group
         displayName:
           type: string
-          example: DEFAULT/manager
+          examples:
+            - manager
         members:
           type: array
           items:
             type: object
             properties: {}
-            example:
-              value: 008bba85-451d-414b-87de-c03b5a1f4217
-              display: kim
+            examples:
+              -
+                value: 008bba85-451d-414b-87de-c03b5a1f4217
+                display: kim
     GroupResponseObject:
       type: object
       properties:
         displayName:
           type: string
-          example: DEFAULT/manager
+          examples:
+            - PRIMARY/manager
         meta:
           type: object
           properties:
             created:
               type: string
-              example: 2019-08-26T14:27:36
+              examples:
+                - 2019-08-26T14:27:36
             location:
               type: string
-              example: https://api.asgardeo.io/t/{root-organization-name}/o/scim2/Groups/7bac6a86-1f21-4937-9fb1-5be4a93ef469
+              examples:
+                - https://localhost:9443/scim2/Groups/7bac6a86-1f21-4937-9fb1-5be4a93ef469
             lastModified:
               type: string
-              example: 2019-08-26T14:27:36
+              examples:
+                - 2019-08-26T14:27:36
             resourceType:
               type: string
-              example: Group
+              examples:
+                - Group
         schemas:
           type: array
           items:
             type: string
-            example: urn:ietf:params:scim:schemas:core:2.0:Group
+            examples:
+              - urn:ietf:params:scim:schemas:core:2.0:Group
         id:
           type: string
-          example: 7bac6a86-1f21-4937-9fb1-5be4a93ef469
+          examples:
+            - 7bac6a86-1f21-4937-9fb1-5be4a93ef469
         members:
           type: array
           items:
@@ -589,13 +595,16 @@ components:
             properties:
               $ref:
                 type: string
-                example: https://api.asgardeo.io/o/{organization-id}/scim2/Users/3a12bae9-4386-44be-befd-caf349297f45
+                examples:
+                  - https://localhost:9443/scim2/Users/3a12bae9-4386-44be-befd-caf349297f45
               display:
                 type: string
-                example: kim
+                examples:
+                  - kim
               value:
                 type: string
-                example: 008bba85-451d-414b-87de-c03b5a1f4217
+                examples:
+                  - 008bba85-451d-414b-87de-c03b5a1f4217
         roles:
           type: array
           items:
@@ -603,30 +612,37 @@ components:
             properties:
               $ref:
                 type: string
-                example: https://api.asgardeo.io/t/{root-organization-name}/o/scim2/v2/Roles/4645709c-ea8c-4495-8590-e1fa0efe3de0
+                examples:
+                  - https://localhost:9443/scim2/Roles/4645709c-ea8c-4495-8590-e1fa0efe3de0
               display:
                 type: string
-                example: loginRole
+                examples:
+                  - loginRole
               value:
                 type: string
-                example: 4645709c-ea8c-4495-8590-e1fa0efe3de0
+                examples:
+                  - 4645709c-ea8c-4495-8590-e1fa0efe3de0
     GroupsListResponseObject:
       type: object
       properties:
         totalResults:
           type: integer
-          example: 3
+          examples:
+            - 3
         startIndex:
           type: integer
-          example: 1
+          examples:
+            - 1
         itemsPerPage:
           type: integer
-          example: 3
+          examples:
+            - 3
         schemas:
           type: array
           items:
             type: string
-            example: urn:ietf:params:scim:api:messages:2.0:ListResponse
+            examples:
+              - urn:ietf:params:scim:api:messages:2.0:ListResponse
         Resources:
           type: array
           items:
@@ -637,31 +653,38 @@ components:
         schemas:
           type: object
           properties: {}
-          example:
-            - urn:ietf:params:scim:api:messages:2.0:SearchRequest
+          examples:
+            -
+              - urn:ietf:params:scim:api:messages:2.0:SearchRequest
         startIndex:
           type: integer
-          example: 1
+          examples:
+            - 1
         filter:
           type: string
-          example: displayName eq manager
+          examples:
+            - displayName eq manager
     GroupSearchResponseObject:
       type: object
       properties:
         totalResults:
           type: integer
-          example: 1
+          examples:
+            - 1
         startIndex:
           type: integer
-          example: 1
+          examples:
+            - 1
         itemsPerPage:
           type: integer
-          example: 3
+          examples:
+            - 3
         schemas:
           type: array
           items:
             type: string
-            example: urn:ietf:params:scim:api:messages:2.0:ListResponse
+            examples:
+              - urn:ietf:params:scim:api:messages:2.0:ListResponse
         Resources:
           type: array
           items:
@@ -671,19 +694,23 @@ components:
       properties:
         displayName:
           type: string
-          example: DEFAULT/manager
+          examples:
+            - PRIMARY/manager
         meta:
           type: object
           properties:
             created:
               type: string
-              example: 2019-08-26T14:27:36
+              examples:
+                - 2019-08-26T14:27:36
             location:
               type: string
-              example: https://api.asgardeo.io/t/{root-organization-name}/o/scim2/Groups/7bac6a86-1f21-4937-9fb1-5be4a93ef469
+              examples:
+                - https://localhost:9443/scim2/Groups/7bac6a86-1f21-4937-9fb1-5be4a93ef469
             lastModified:
               type: string
-              example: 2019-08-26T14:27:36
+              examples:
+                - 2019-08-26T14:27:36
         members:
           type: array
           items:
@@ -691,13 +718,16 @@ components:
             properties:
               $ref:
                 type: string
-                example: https://api.asgardeo.io/t/{root-organization-name}/o/scim2/Users/3a12bae9-4386-44be-befd-caf349297f45
+                examples:
+                  - https://localhost:9443/scim2/Users/3a12bae9-4386-44be-befd-caf349297f45
               display:
                 type: string
-                example: kim
+                examples:
+                  - kim
               value:
                 type: string
-                example: 008bba85-451d-414b-87de-c03b5a1f4217
+                examples:
+                  - 008bba85-451d-414b-87de-c03b5a1f4217
         roles:
           type: array
           items:
@@ -705,67 +735,81 @@ components:
             properties:
               $ref:
                 type: string
-                example: https://api.asgardeo.io/o/{organization-id}/scim2/v2/Roles/4645709c-ea8c-4495-8590-e1fa0efe3de0
+                examples:
+                  - https://localhost:9443/scim2/Roles/4645709c-ea8c-4495-8590-e1fa0efe3de0
               display:
                 type: string
-                example: loginRole
+                examples:
+                  - loginRole
               value:
                 type: string
-                example: 4645709c-ea8c-4495-8590-e1fa0efe3de0
+                examples:
+                  - 4645709c-ea8c-4495-8590-e1fa0efe3de0
         id:
           type: string
-          example: 7bac6a86-1f21-4937-9fb1-5be4a93ef469
+          examples:
+            - 7bac6a86-1f21-4937-9fb1-5be4a93ef469
     GroupPutRequestObject:
       type: object
       properties:
         displayName:
           type: string
-          example: manager
+          examples:
+            - manager
         members:
           type: array
           items:
             type: object
             properties: {}
-            example:
-              value: 409ca90b-2ba6-4474-9a45-2cf7376e6e43
-              display: kris
+            examples:
+              -
+                value: 409ca90b-2ba6-4474-9a45-2cf7376e6e43
+                display: kris
     GroupPutResponseObject:
       type: object
       properties:
         displayName:
           type: string
-          example: DEFAULT/manager
+          examples:
+            - PRIMARY/manager
         meta:
           type: object
           properties:
             created:
               type: string
-              example: 2019-08-26T14:27:36
+              examples:
+                - 2019-08-26T14:27:36
             location:
               type: string
-              example: https://api.asgardeo.io/t/{root-organization-name}/o/scim2/Groups/7bac6a86-1f21-4937-9fb1-5be4a93ef469
+              examples:
+                - https://localhost:9443/scim2/Groups/7bac6a86-1f21-4937-9fb1-5be4a93ef469
             lastModified:
               type: string
-              example: 2019-08-26T14:27:36
+              examples:
+                - 2019-08-26T14:27:36
             resourceType:
               type: string
-              example: Group
+              examples:
+                - Group
         schemas:
           type: array
           items:
             type: string
-            example: urn:ietf:params:scim:schemas:core:2.0:Group
+            examples:
+              - urn:ietf:params:scim:schemas:core:2.0:Group
         id:
           type: string
-          example: 7bac6a86-1f21-4937-9fb1-5be4a93ef469
+          examples:
+            - 7bac6a86-1f21-4937-9fb1-5be4a93ef469
         members:
           type: array
           items:
             type: object
             properties: {}
-            example:
-              display: kris
-              value: 409ca90b-2ba6-4474-9a45-2cf7376e6e43
+            examples:
+              -
+                display: kris
+                value: 409ca90b-2ba6-4474-9a45-2cf7376e6e43
     PatchGroupOperationRequestObject:
       type: object
       properties:
@@ -773,7 +817,8 @@ components:
           type: array
           items:
             type: string
-            example: urn:ietf:params:scim:api:messages:2.0:PatchOp
+            examples:
+              - urn:ietf:params:scim:api:messages:2.0:PatchOp
         Operations:
           type: array
           items:
@@ -795,48 +840,57 @@ components:
               items:
                 type: object
                 properties: {}
-                example:
-                  display: kris
-                  value: 409ca90b-2ba6-4474-9a45-2cf7376e6e43
+                examples:
+                  -
+                    display: kris
+                    value: 409ca90b-2ba6-4474-9a45-2cf7376e6e43
     PatchGroupOperationResponseObject:
       type: object
       properties:
         displayName:
           type: string
-          example: DEFAULT/manager
+          examples:
+            - PRIMARY/manager
         meta:
           type: object
           properties:
             created:
               type: string
-              example: 2019-08-26T14:27:36
+              examples:
+                - 2019-08-26T14:27:36
             location:
               type: string
-              example: https://api.asgardeo.io/t/{root-organization-name}/o/scim2/Groups/7bac6a86-1f21-4937-9fb1-5be4a93ef469
+              examples:
+                - https://localhost:9443/scim2/Groups/7bac6a86-1f21-4937-9fb1-5be4a93ef469
             lastModified:
               type: string
-              example: 2019-08-26T14:27:36
+              examples:
+                - 2019-08-26T14:27:36
             resourceType:
               type: string
-              example: Group
+              examples:
+                - Group
         schemas:
           type: object
           properties: {}
-          example:
-            - urn:ietf:params:scim:schemas:core:2.0:Group
+          examples:
+            -
+              - urn:ietf:params:scim:schemas:core:2.0:Group
         id:
           type: string
-          example: 7bac6a86-1f21-4937-9fb1-5be4a93ef469
+          examples:
+            - 7bac6a86-1f21-4937-9fb1-5be4a93ef469
         members:
           type: array
           items:
             type: object
             properties: {}
-            example:
-              - display: kris
-                value: 409ca90b-2ba6-4474-9a45-2cf7376e6e43
-              - display: kim
-                value: 007bfc66-e4f0-4d53-9dfd-0c4a77b33257
+            examples:
+              -
+                - display: kris
+                  value: 409ca90b-2ba6-4474-9a45-2cf7376e6e43
+                - display: kim
+                  value: 007bfc66-e4f0-4d53-9dfd-0c4a77b33257
     ErrorInvalidInput:
       required:
         - detail
@@ -845,77 +899,54 @@ components:
       properties:
         status:
           type: string
-          example: "400"
+          examples:
+            - "400"
         schemas:
           type: string
-          example: urn:ietf:params:scim:api:messages:2.0:Error
+          examples:
+            - urn:ietf:params:scim:api:messages:2.0:Error
         scimType:
           type: string
-          example: invalidSyntax
+          examples:
+            - invalidSyntax
         detail:
           type: string
-          example: Request is unparsable, syntactically incorrect, or violates schema.
+          examples:
+            - Request is unparsable, syntactically incorrect, or violates schema.
     ErrorUnauthorized:
       required:
         - status
       type: object
       properties:
-        schemas:
-          type: string
-          example: urn:ietf:params:scim:api:messages:2.0:Error
-        detail:
-          type: string
-          example: "Authorization failure. Authorization information was invalid or missing from your request."
         status:
           type: string
-          example: "401"
+          examples:
+            - "401"
+        schemas:
+          type: string
+          examples:
+            - urn:ietf:params:scim:api:messages:2.0:Error
+        scimType:
+          type: string
+          examples:
+            - Unauthorized
     ErrorForbidden:
       required:
         - status
       type: object
       properties:
-        schemas:
-          type: string
-          example: urn:ietf:params:scim:api:messages:2.0:Error
-        detail:
-          type: string
-          example: "Operation is not permitted. You do not have permission to make this request."
         status:
           type: string
-          example: "403"
-    ErrorGroupNotAvailable:
-      required:
-        - detail
-        - status
-      type: object
-      properties:
-        status:
-          type: string
-          example: "404"
+          examples:
+            - "403"
         schemas:
           type: string
-          example: urn:ietf:params:scim:api:messages:2.0:Error
-        detail:
+          examples:
+            - urn:ietf:params:scim:api:messages:2.0:Error
+        scimType:
           type: string
-          example: 'No Group with the id : 89a2a363-c90f-47e9-afae-949d026dad16 in
-            the user store.'
-    ErrorNoGroupAvailable:
-      required:
-        - detail
-        - status
-      type: object
-      properties:
-        status:
-          type: string
-          example: "404"
-        schemas:
-          type: array
-          items:
-            type: string
-            example: urn:ietf:params:scim:api:messages:2.0:Error
-        detail:
-          type: string
-          example: Group not found in the user store.
+          examples:
+            - Forbidden
     ErrorGroupAlreadyAvailable:
       required:
         - detail
@@ -924,14 +955,24 @@ components:
       properties:
         status:
           type: string
-          example: "409"
+          examples:
+            - "409"
         schemas:
           type: string
-          example: urn:ietf:params:scim:api:messages:2.0:Error
+          examples:
+            - urn:ietf:params:scim:api:messages:2.0:Error
         detail:
           type: string
-          example: 'Group with name: DEFAULT/manager already exists in the system.'
+          examples:
+            - 'Group with name: PRIMARY/manager already exists in the system.'
   securitySchemes:
     OAuth2:
       type: oauth2
-      description: "**Authorization code OAuth flow** + **Organization Switch**"
+      flows:
+        authorizationCode:
+          authorizationUrl: https://localhost:9443/oauth/authorize
+          tokenUrl: https://localhost:9443/oauth/token
+          scopes:
+            read: Grants read access
+            write: Grants write access
+            admin: Grants read and write access to administrative information

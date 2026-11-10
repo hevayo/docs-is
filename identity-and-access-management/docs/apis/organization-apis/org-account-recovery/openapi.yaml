@@ -2,10 +2,15 @@ openapi: 3.0.1
 info:
   title: Recovery API
   description: |
-    This document specifies a **Organization level Recovery related RESTful API** for WSO2 Identity Platform.
+    This document specifies a **Organization level Recovery related RESTful API** for **WSO2 Identity Server**.
   version: 0.9.0
 servers:
-  - url: https://api.asgardeo.io/t/{root-organization-name}/o/api/identity/recovery/v0.9
+  - url: https://{serverUrl}/t/{tenantDomain}/o/api/identity/recovery/v0.9
+    variables:
+      serverUrl:
+        default: localhost:9443
+      tenantDomain:
+        default: carbon.super
 security:
   - OAuth2: []
 paths:
@@ -62,7 +67,7 @@ paths:
       x-codeSamples:
         - lang: Curl
           source: |
-            curl --location 'https://api.asgardeo.io/t/{root-organization-name}/o/api/identity/recovery/v0.9/recover-password?type=email&notify=true' \
+            curl --location 'https://localhost:9443/o/api/identity/recovery/v0.9/recover-password?type=email&notify=true' \
             -H 'Authorization: Bearer {bearer_token}' \
             -H 'Content-Type: application/json' \
             -d '{
@@ -116,7 +121,7 @@ paths:
       x-codeSamples:
         - lang: Curl
           source: |
-            curl --location 'https://api.asgardeo.io/t/{root-organization-name}/o/api/identity/recovery/v0.9/set-password' \
+            curl --location 'https://localhost:9443/o/api/identity/recovery/v0.9/set-password' \
             -H 'Content-Type: application/json' \
             -H 'Authorization: Bearer {bearer_token}' \
             -d '{
@@ -168,7 +173,7 @@ paths:
       x-codeSamples:
         - lang: Curl
           source: |
-            curl --location 'https://api.asgardeo.io/t/{root-organization-name}/o/api/identity/recovery/v0.9/validate-code' \
+            curl --location 'https://localhost:9443/o/api/identity/recovery/v0.9/validate-code' \
             -H 'Authorization: Bearer {bearer_token}' \
             -H 'Content-Type: application/json' \
             -d '{
@@ -248,8 +253,8 @@ components:
       type: oauth2
       flows:
         authorizationCode:
-          authorizationUrl: https://api.asgardeo.io/t/{root-organization-name}/oauth/authorize
-          tokenUrl: https://api.asgardeo.io/t/{root-organization-name}/oauth/token
+          authorizationUrl: https://localhost:9443/oauth/authorize
+          tokenUrl: https://localhost:9443/oauth/token
           scopes:
             read: Grants read access
             write: Grants write access

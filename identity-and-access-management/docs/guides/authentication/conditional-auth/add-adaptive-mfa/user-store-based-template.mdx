@@ -4,7 +4,7 @@ description: You can enable a more secure login flow for users that belong to sp
 type: how-to
 sidebar_label: MFA based on user store
 sidebar_position: 4
-editions: self-hosted
+slug: "/guides/authentication/conditional-auth/user-store-based-template"
 ---
 
 You can enable a more secure login flow for users that belong to specific user stores by applying the **User Store-Based** conditional authentication template for Adaptive MFA. This template enables two-factor authentication with TOTP for users who belong to the user store you specify.
@@ -16,7 +16,7 @@ Consider a scenario with two user stores, `EMPLOYEES` and `CONTRACTORS`. For use
 1. Username and password
 2. TOTP
 
-![User store-based adaptive authentication](../../../../../assets/self-hosted/img/guides/conditional-auth/user-store-based-adaptive-auth.png)
+![User store-based adaptive authentication](../../../../../assets/img/guides/conditional-auth/user-store-based-adaptive-auth.png)
 
 ## Prerequisites
 
@@ -41,7 +41,7 @@ To enable conditional authentication:
 
     2. Click **Adaptive MFA** > **User Store-Based** > **ADD** to add the user store based adaptive MFA script.
 
-        <img src={require("../../../../../assets/self-hosted/img/guides/conditional-auth/user-store-based-adaptive-mfa-with-visual-editor.png").default} alt="User store-based adaptive MFA with visual editor" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+        <img src={require("../../../../../assets/img/guides/conditional-auth/user-store-based-adaptive-mfa-with-visual-editor.png").default} alt="User store-based adaptive MFA with visual editor" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
     3. Click **Confirm** on the prompt to replace any existing script with the current script.
 
@@ -101,4 +101,4 @@ Follow the steps given below.
 3. Log out of the application.
 4. Log in with a user who belongs to the `EMPLOYEES` or `CONTRACTORS` user store. TOTP authentication is prompted.
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/conditional-auth/totp-step-up.png").default} alt="user-store-based-2fa-conditional-auth-stepup-page" width="300" style={{border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/conditional-auth/totp-step-up.png").default} alt="user-store-based-2fa-conditional-auth-stepup-page" width="300" style={{border: "0.3px solid lightgrey"}} />

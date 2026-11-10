@@ -56,49 +56,6 @@ the attestation services provided by these platforms to verify the legitimacy of
 
 6. Click **Update** to save the changes.
 
-<Edition only="cloud">
-
-:::tip[Using client attestation in the request]
-The client application should retrieve the attestation object (for iOS) or the integrity token (for Android) from the respective platform and pass it to {edition.productName} via the x-client-attestation header in the initial authentication request.
-
-<Tabs groupId="tabs">
-<TabItem value="sample-request" label="Sample request">
-
-```bash
-curl --location 'https://api.asgardeo.io/t/{organization_name}/oauth2/authorize/'
---header 'x-client-attestation: <attestation_object>'
---header 'Accept: application/json'
---header 'Content-Type: application/x-www-form-urlencoded'
---data-urlencode 'client_id=<client_id>'
---data-urlencode 'response_type=code'
---data-urlencode 'redirect_uri=<redirect_uri>'
---data-urlencode 'scope=<scope>'
---data-urlencode 'response_mode=direct'
-```
-
-</TabItem>
-<TabItem value="example" label="Example">
-
-```bash
-curl --location 'https://api.asgardeo.io/t/bifrost/oauth2/authorize/'
---header 'x-client-attestation: eyJhbGciOiJBMjU2S1ciLCJlbmMiOiJBMjU2R0NNIn0.O1miRMXle8A4hLH46VkxHgdU9i1-ow...'
---header 'Accept: application/json'
---header 'Content-Type: application/x-www-form-urlencoded'
---data-urlencode 'client_id=XWRkRNkJDeTiR5MwHdXROGiJka'
---data-urlencode 'response_type=code'
---data-urlencode 'redirect_uri=https://example.com/home'
---data-urlencode 'scope=openid profile'
---data-urlencode 'response_mode=direct'
-```
-
-</TabItem>
-</Tabs>
-:::
-
-</Edition>
-
-<Edition only="self-hosted">
-
 :::tip[Using client attestation in the request]
 The client application should retrieve the attestation object (for iOS) or the integrity token (for Android) from the respective platform and pass it to {edition.productName} via the x-client-attestation header in the initial authentication request.
 
@@ -135,8 +92,6 @@ curl --location 'https://localhost:9443/oauth2/authorize/'
 </TabItem>
 </Tabs>
 :::
-
-</Edition>
 
 ### Using client authentication
 Confidential clients that are able to securely store a secret can make use of client authentication to secure authentication requests.
@@ -144,49 +99,6 @@ Confidential clients that are able to securely store a secret can make use of cl
 The initial authentication request is an OAuth 2.0 authorization request. Therefore,  any [supported authentication mechanism](../../../references/app-settings/oidc-settings-for-app.mdx#client-authentication)
 for an OAuth confidential client can be used to secure this request. There are no additional configurations required to enable client authentication. The application can also initiate the request as a [Pushed Authorization Request (PAR)](../configure-oidc-flows/oidc/implement-login-with-par.mdx).
 
-<Edition only="cloud">
-
-:::tip[Using client authentication in the request]
-The following is a sample request using client secret based authentication.
-
-<Tabs groupId="tabs">
-<TabItem value="sample-request" label="Sample request">
-
-```bash
-curl --location 'https://api.asgardeo.io/t/{organization_name}/oauth2/authorize/'
---header 'Authorization: Basic <base64encoded(client_id:client_secret)>'
---header 'Accept: application/json'
---header 'Content-Type: application/x-www-form-urlencoded'
---data-urlencode 'client_id=<client_id>'
---data-urlencode 'response_type=code'
---data-urlencode 'redirect_uri=<redirect_uri>'
---data-urlencode 'scope=<scope>'
---data-urlencode 'response_mode=direct'
-```
-
-</TabItem>
-<TabItem value="example" label="Example">
-
-```bash
-curl --location 'https://api.asgardeo.io/t/bifrost/oauth2/authorize/'
---header 'Authorization: Basic WFd4N0RlVGlSNU13SGRYUk9HaUprYTpmVDlCN0RJTGZ3MWZVUmpQRVpHOG9fWFA4Q20ySFFQOEhBclJFhNYQ=='
---header 'Accept: application/json'
---header 'Content-Type: application/x-www-form-urlencoded'
---data-urlencode 'client_id=XWRkRNkJDeTiR5MwHdXROGiJka'
---data-urlencode 'response_type=code'
---data-urlencode 'redirect_uri=https://example.com/home'
---data-urlencode 'scope=openid profile'
---data-urlencode 'response_mode=direct'
-```
-
-</TabItem>
-</Tabs>
-:::
-
-</Edition>
-
-<Edition only="self-hosted">
-
 :::tip[Using client authentication in the request]
 The following is a sample request using client secret based authentication.
 
@@ -223,6 +135,3 @@ curl --location 'https://localhost:9443/oauth2/authorize/'
 </TabItem>
 </Tabs>
 :::
-
-</Edition>
-

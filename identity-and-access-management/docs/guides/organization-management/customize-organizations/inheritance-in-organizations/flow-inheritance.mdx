@@ -1,6 +1,6 @@
 ---
 title: Flows
-description: In WSO2 Identity Platform, child organizations inherit flow configurations from their parent by default.  # generated from the first paragraph; a writer should improve it
+description: In WSO2 Identity Server, child organizations inherit flow configurations from their parent by default.  # generated from the first paragraph; a writer should improve it
 type: how-to
 sidebar_position: 7
 slug: "/guides/organization-management/inheritance-in-organizations/flow-inheritance"
@@ -18,13 +18,9 @@ Organization administrators open the Flow Builder in the {edition.productName} C
 - **Local customizations**: A child organization can edit and publish its own flow. After publishing, the child uses its customized flow instead of the parent's flow.
 - **Revert to parent**: A child organization can revert its customizations and restore the inherited parent flow.
 
-<Edition selfHostedFrom="next">
-
 :::note
-[Connections](../../../authentication/index.mdx#manage-connections) used in flows aren't inherited by child organizations. To make an identity provider available to child organizations, [share the identity provider](../../manage-organization-connections/share-connections.mdx).
+[Connections](../../../authentication/index.mdx#manage-connections) used in flows aren't inherited by child organizations.
 :::
-
-</Edition>
 
 ## Customize a flow
 

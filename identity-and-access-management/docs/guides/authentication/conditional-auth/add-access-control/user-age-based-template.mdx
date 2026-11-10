@@ -2,13 +2,10 @@
 title: Add user age-based access control
 description: To control access to your application based on the user's age, you can apply the User Age-Based conditional authentication template.  # generated from the first paragraph; a writer should improve it
 type: how-to
-sidebar_label: User Age-based access
+sidebar_label: Age-based access
 sidebar_position: 2
 slug: "/guides/authentication/conditional-auth/user-age-based-template"
 ---
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 
 To control access to your application based on the user's age, you can apply the **User Age-Based** conditional authentication template. The age of the user is calculated using the `date of birth` attribute in the user's profile. Users are redirected to an error page if the date of birth is not specified in the user profile or if the user's age is below the minimum age configured in the template.
 
@@ -22,54 +19,13 @@ Consider a scenario where users who are younger than 18 years should be prevente
 
 - You need to [register an application with {edition.productName}](../../../applications/index.mdx). You can register your own application or use one of the [sample applications](../../../../quick-starts/try-samples/index.mdx) provided.
 
-- Go to the user's profile and update the date of birth so that the current age is below 18 years. For instructions, see [Manage user profiles](../../../user-self-service/self-service-portal/update-profile-info.mdx).
+- Go to the user's profile and update the date of birth so that the current age is below 18 years. For instructions, see [Manage user profiles](../../../user-self-service/my-account-portal/explore-self-service-features/update-profile-info.mdx).
 
 ## Configure the login flow
 
 1. On the {edition.productName} Console, click **Applications**.
 
 2. Select the relevant application and go to its **Login Flow** tab.
-
-<Edition only="cloud">
-
-3. Add user-age-based access control as follows:
-
-    <Tabs groupId="tabs">
-    <TabItem value="classic-editor" label="Classic Editor">
-
-    To add user-age-based access control using the classic editor:
-
-    1. Click **Start with default configuration** to define the login flow starting with the `username and password` login.
-
-    2. Turn on **Conditional Authentication** by switching the toggle on.
-
-    3. Select the **Access Control > Age-Based** template.
-
-    </TabItem>
-    <TabItem value="visual-editor" label="Visual Editor">
-
-    To add age-based access control using the visual editor:
-
-    1. Switch to the **Visual Editor** tab, and expand **Predefined Flows** > **Conditional Login Flows** > **Access Control**.
-
-    2. Click **+ ADD** next to **User-Age-Based** to add the user-age-based access control script.
-
-        <img src={require("../../../../../assets/cloud/img/guides/conditional-auth/age-based-access-control-with-visual-editor.png").default} alt="Age-based access control with visual editor" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
-
-    3. Click **Confirm** to replace any existing script with the selected predefined script.
-
-    </TabItem>
-    </Tabs>
-
-    ---
-
-    :::warning[Important]
-    As a security measure, WSO2 Identity Platform does not allow the usage of two consecutive periods (`..`) in authentication scripts.
-    :::
-
-</Edition>
-
-<Edition only="self-hosted">
 
 3. Add user-age-based access control as follows:
 
@@ -80,8 +36,6 @@ Consider a scenario where users who are younger than 18 years should be prevente
         {/*![Age-based access control with visual editor]({{base_path}}/assets/img/guides/conditional-auth/age-based-access-control-with-visual-editor.png){: width="600" style="display: block; margin: 0; border: 0.3px solid lightgrey;"}*/}
 
     3. Click **Confirm** to replace any existing script with the selected predefined script.
-
-</Edition>
 
 4. Update the following parameter in the script.
 
@@ -200,4 +154,4 @@ Follow the steps given below.
 3. Log out of the application.
 4. Log in again with a user who is below 18 years. The user will see the following error.
 
-    <Edition only="cloud"><img src={require("../../../../../assets/cloud/img/guides/conditional-auth/auth-failure.png").default} alt="authentication failed" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../../assets/self-hosted/img/guides/conditional-auth/auth-failure.png").default} alt="authentication failed" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+    <img src={require("../../../../../assets/img/guides/conditional-auth/auth-failure.png").default} alt="authentication failed" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />

@@ -12,32 +12,6 @@ import TabItem from '@theme/TabItem';
 
 Welcome to the Next.js quickstart guide! In this document, you will learn to build a Next.js app, add user login and display user profile information using {edition.productName}.
 
-<Edition only="cloud">
-
-#### What You Will Learn
-
-- Create new Next.js app
-- Install [@asgardeo/nextjs](https://www.npmjs.com/package/@asgardeo/nextjs) package
-- Add user login and logout
-- Display user profile information
-
-#### Prerequisites
-
-Before you start, ensure you have the following:
-
-- About 15 minutes
-- [{edition.productName} account](../../create-identity-platform-account.mdx)
-- Make sure you have a JavaScript package manager like `npm`, `yarn`, or `pnpm`.
-- A favorite text editor or IDE
-
-#### Example Source Code
-
-[Next.js App Sample](https://github.com/asgardeo/web-ui-sdks/tree/main/samples/teamspace-nextjs)
-
-</Edition>
-
-<Edition only="self-hosted">
-
 #### What You Will Learn
 
 - Create new Next.js app
@@ -50,11 +24,9 @@ Before you start, ensure you have the following:
 Before you start, ensure you have the following:
 
 - About 15 minutes
-- Set-up {edition.productName}
+- [Set-up {edition.productName}](../../quick-set-up.mdx)
 - Install a JS package manager
 - A favorite text editor or IDE
-
-</Edition>
 
 <Steps>
 
@@ -63,25 +35,11 @@ Before you start, ensure you have the following:
 - Sign into the {edition.productName} Console and navigate to **Applications > New Application.**
 - Select **Next.js** and complete the wizard by providing a suitable name and an authorized redirect URL.
 
-<Edition only="cloud">
-
-:::note[Example]
-**Name:** `asgardeo-nextjs`
-
-**Authorized redirect URL:** `http://localhost:3000`
-:::
-
-</Edition>
-
-<Edition only="self-hosted">
-
 :::note[Example]
 **Name:** `is-nextjs`
 
 **Authorized redirect URL:** `http://localhost:3000`
 :::
-
-</Edition>
 
 Once you finish creating the application, note down the following values from its **Guide** tab. You will need them to configure WSO2 Identity Platform Next.js SDK.
 
@@ -96,42 +54,6 @@ The authorized redirect URL specifies where {edition.productName} should send us
 ## Create a Next.js app
 
 Create your new Next.js app.
-
-<Edition only="cloud">
-
-<Tabs groupId="tabs">
-<TabItem value="npm" label="npm">
-
-```bash
-npm create next-app@latest asgardeo-nextjs -- --yes
-cd asgardeo-nextjs
-npm run dev
-```
-
-</TabItem>
-<TabItem value="yarn" label="yarn">
-
-```bash
-yarn create next-app@latest asgardeo-nextjs -- --yes
-cd asgardeo-nextjs
-yarn dev
-```
-
-</TabItem>
-<TabItem value="pnpm" label="pnpm">
-
-```bash
-pnpm create next-app@latest asgardeo-nextjs -- --yes
-cd asgardeo-nextjs
-pnpm dev
-```
-
-</TabItem>
-</Tabs>
-
-</Edition>
-
-<Edition only="self-hosted">
 
 <Tabs groupId="tabs">
 <TabItem value="npm" label="npm">
@@ -162,8 +84,6 @@ pnpm dev
 
 </TabItem>
 </Tabs>
-
-</Edition>
 
 ## Install `@asgardeo/nextjs`
 
@@ -203,13 +123,9 @@ NEXT_PUBLIC_ASGARDEO_CLIENT_ID="<your-app-client-id>"
 ASGARDEO_CLIENT_SECRET="<your-app-client-secret>"
 ```
 
-<Edition only="self-hosted">
-
 :::note
 If running in a local development or testing environment using self-signed SSL certificates, application may fail to connect due to Transport Layer Security(TLS) certificate validation errors. To bypass this check add `NODE_TLS_REJECT_UNAUTHORIZED=0` to the `.env` file.
 :::
-
-</Edition>
 
 ## Set up the middleware
 
@@ -462,10 +378,3 @@ You need to create a test user in {edition.productName} by following this [guide
 
 </Steps>
 
-<Edition only="cloud">
-
-## What's Next?
-
-- Try out [{edition.productName} complete Next.js guide](../../../complete-guides/next-js/nextjs/introduction.mdx)
-
-</Edition>

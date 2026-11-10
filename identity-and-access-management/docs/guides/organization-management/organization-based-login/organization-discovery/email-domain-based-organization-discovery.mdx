@@ -59,9 +59,7 @@ To do so,
 2. Navigate to **Login & Registration**, and under **Organization Settings**, click **Organization Discovery**.
 3. Turn the toggle on to enable email domain based organization discovery.
 
-    <Edition only="cloud"><img src={require("../../../../../assets/cloud/img/guides/organization/manage-organizations/enable-email-domain-based-organization-discovery.png").default} alt="Enable email domain based organization discovery" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../../assets/self-hosted/img/guides/organization/manage-organizations/enable-email-domain-based-organization-discovery.png").default} alt="Enable email domain based organization discovery" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
-
-<Edition only="self-hosted">
+    <img src={require("../../../../../assets/img/guides/organization/manage-organizations/enable-email-domain-based-organization-discovery.png").default} alt="Enable email domain based organization discovery" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 4. Select the **Email domain discovery for self-registration** checkbox if you want to allow users to discover organizations based on their email domain and self-register in them.
 
@@ -74,48 +72,9 @@ To do so,
     ```
     :::
 
-</Edition>
-
 5. [Map email domains to organizations](#map-email-domains-to-organizations).
 
 </TabItem>
-</Tabs>
-
-<Edition only="cloud">
-
-<Tabs groupId="tabs">
-<TabItem value="using-the-api" label="Using the API">
-
-To do so,
-
-1. [Get an access token](../../../../apis/index.mdx) with the `internal_organization_config_add` scope.
-
-2. Use the obtained access token to execute the following command.
-
-    ```bash
-    curl --location --request POST 'https://{edition.hostName}/t/<root_organization_name>/api/server/v1/organization-configs/discovery' \
-    --header 'Content-Type: application/json' \
-    --header 'Authorization: Bearer <access_token>' \
-    --data '{
-        "properties": [
-            {
-                "key": "emailDomain.enable",
-                "value": true
-            }
-        ]
-    }'
-    ```
-
-5. [Map email domains to organizations](#map-email-domains-to-organizations).
-
-</TabItem>
-</Tabs>
-
-</Edition>
-
-<Edition only="self-hosted">
-
-<Tabs groupId="tabs">
 <TabItem value="using-the-api" label="Using the API">
 
 To do so,
@@ -143,34 +102,11 @@ To do so,
 </TabItem>
 </Tabs>
 
-</Edition>
-
 ## Map email domains to organizations
 
 When you map an email domain to an organization, the organization's behavior changes as follows:
 
 - A user can only onboard to the organization if the user's email domain matches one of the domains claimed by the organization.
-
-<Edition only="cloud">
-
-- Just-In-Time (JIT) provisioning during federated authentication only occurs if the user's email domain matches one of the domains claimed by the organization.
-
-    :::warning[Map subject attribute for JIT provisioning]
-    In **OIDC** and **SAML** applications, the subject uniquely identifies the user.
-
-    If your organization uses email domain-based organization discovery, make sure to map the subject attribute correctly as explained below:
-
-    - Set the email attribute as the subject attribute i.e. `http://wso2.org/claims/emailaddress`.
-    - Map the email attribute from the external identity provider to the same WSO2 claim: `http://wso2.org/claims/emailaddress`.
-
-    **Why this matters**: Domain-based organization discovery relies on email addresses to identify organizations. Mapping the subject attribute to the email claim ensures that Just-in-Time (JIT) provisioning creates and updates users correctly.
-
-    Learn more about selecting [selecting the subject attribute](../../../authentication/user-attributes/enable-attributes-for-oidc-app.mdx#select-an-alternate-subject-attribute) for OIDC applications and [selecting the subject attribute](../../../authentication/user-attributes/enable-attributes-for-saml-app.mdx#select-the-subject-attribute) for SAML applications.
-    :::
-
-</Edition>
-
-<Edition only="self-hosted">
 
 - The system restricts federated authentication and Just-In-Time (JIT) provisioning for users logging in with email domains not claimed by the organization.
 
@@ -186,8 +122,6 @@ When you map an email domain to an organization, the organization's behavior cha
 
     Learn more about selecting [selecting the subject attribute](../../../authentication/user-attributes/enable-attributes-for-oidc-app.mdx#select-an-alternate-subject-attribute) for OIDC applications and [selecting the subject attribute](../../../authentication/user-attributes/enable-attributes-for-saml-app.mdx#select-the-subject-attribute) for SAML applications.
     :::
-
-</Edition>
 
 - If not, a user can register to the organization with an email address of any domain (other than the domains claimed by other organizations).
 
@@ -205,7 +139,7 @@ To do so,
 2. Under **Organization Settings**, click **Email Domain Discovery**.
 3. Click **Assign Email Domain**.
 
-    <Edition only="cloud"><img src={require("../../../../../assets/cloud/img/guides/organization/manage-organizations/assign-email-domains.png").default} alt="Assign Email Domain" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../../assets/self-hosted/img/guides/organization/manage-organizations/assign-email-domains.png").default} alt="Assign Email Domain" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+    <img src={require("../../../../../assets/img/guides/organization/manage-organizations/assign-email-domains.png").default} alt="Assign Email Domain" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 4. Under **Organization Name**, select the organization.
 5. Under **Email Domains**, type the email domain you want to claim for the selected organization and press enter. You can add more than one email domain.
@@ -215,49 +149,6 @@ To do so,
 6. Click **Assign**.
 
 </TabItem>
-</Tabs>
-
-<Edition only="cloud">
-
-<Tabs groupId="tabs">
-<TabItem value="using-the-api" label="Using the API">
-
-:::note[Before you begin]
-- [Enable email domain based organization discovery](#enable-email-domain-based-organization-discovery) for the root organization.
-- Create the required organizations under the root organization. See [Manage organizations](../../manage-organizations.mdx) for instructions.
-:::
-
-To do so,
-
-1. [Get an access token](../../../../apis/index.mdx) with the `internal_organization_discovery_update` scope.
-
-2. Use the obtained access token to execute the following cURL.
-
-    ```bash
-    curl --location --request POST 'https://{edition.hostName}/t/<root_organization_name>/api/server/v1/organizations/discovery' \
-    --header 'Content-Type: application/json' \
-    --header 'Authorization: Bearer <access_token>' \
-    --data '{
-        "attributes": [
-            {
-                "type": "emailDomain",
-                "values": [
-                    "bcmart.com"
-                ]
-            }
-        ],
-        "organizationId": "<organization-id>"
-    }'
-    ```
-
-</TabItem>
-</Tabs>
-
-</Edition>
-
-<Edition only="self-hosted">
-
-<Tabs groupId="tabs">
 <TabItem value="using-the-api" label="Using the API">
 
 :::note[Before you begin]
@@ -291,8 +182,6 @@ To do so,
 </TabItem>
 </Tabs>
 
-</Edition>
-
 ## Update email domain mappings
 
 :::warning
@@ -308,49 +197,11 @@ To do so,
 2. Under **Organization Settings**, click **Email Domain Discovery**.
 3. Click **Edit** of the organization you want to update the email domains.
 
-    <Edition only="cloud"><img src={require("../../../../../assets/cloud/img/guides/organization/manage-organizations/edit-email-domains.png").default} alt="Edit Email Domain" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../../assets/self-hosted/img/guides/organization/manage-organizations/edit-email-domains.png").default} alt="Edit Email Domain" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+    <img src={require("../../../../../assets/img/guides/organization/manage-organizations/edit-email-domains.png").default} alt="Edit Email Domain" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 4. Update the email domains in **Email Domains** and click **Update**.
 
 </TabItem>
-</Tabs>
-
-<Edition only="cloud">
-
-<Tabs groupId="tabs">
-<TabItem value="using-the-api" label="Using the API">
-
-To do so,
-
-1. [Get an access token](../../../../apis/index.mdx) with the `internal_organization_discovery_update` scope.
-
-2. Use the obtained access token to execute the following cURL.
-
-    ```bash
-    curl --location --request PUT 'https://{edition.hostName}/t/<root_organization_name>/api/server/v1/organizations/<organization-id>/discovery' \
-    --header 'Content-Type: application/json' \
-    --header 'Authorization: Bearer <access_token>' \
-    --data '{
-        "attributes": [
-            {
-                "type": "emailDomain",
-                "values": [
-                    "bcmart.com",
-                    "bestcars.com"
-               ]
-            }
-        ]
-    }'
-    ```
-
-</TabItem>
-</Tabs>
-
-</Edition>
-
-<Edition only="self-hosted">
-
-<Tabs groupId="tabs">
 <TabItem value="using-the-api" label="Using the API">
 
 To do so,
@@ -379,17 +230,11 @@ To do so,
 </TabItem>
 </Tabs>
 
-</Edition>
-
 ## Try it out
-
-<Edition only="self-hosted">
 
 Follow the sections below to try out each of the organization discovery scenarios.
 
 ### User login
-
-</Edition>
 
 To try out user login,
 
@@ -424,9 +269,6 @@ To try out user login,
 6. Log in to the Guardio business app by selecting `Sign In With Single Sign-On (SSO)`.
 
     :::note
-
-    <Edition only="self-hosted">
-
     You can route users directly to their organization's login page by passing the user's email as a `login_hint` on the initial authentication request. {edition.productName} resolves the organization from the email domain and skips the SSO selection prompt.
 
     Sample requests:
@@ -456,57 +298,15 @@ To try out user login,
 
     </TabItem>
     </Tabs>
-
-    </Edition>
-
-    <Edition only="cloud">
-
-    You can bypass the `Sign In With SSO` page and go directly to your organization's login page by adding the following query parameters in the login request.
-
-    - `login_hint`: The email address of the user that will be used to resolve the domain.
-    - `fidp`: If you have additional B2C login options configured for the application, you can set this parameter to `OrganizationSSO` to direct users straight to the organization login page.
-
-    Sample requests:
-
-    <Tabs groupId="tabs">
-    <TabItem value="oidc" label="OIDC">
-
-    ```bash
-    https://{edition.hostName}/t/<root_organization_name>/oauth2/authorize?
-    client_id=<client_id>
-    &redirect_uri=<redirect_url>
-    &scope=<scopes>
-    &response_type=code
-    &login_hint=<user_email>
-    &fidp=OrganizationSSO
-    ```
-
-    </TabItem>
-    <TabItem value="saml" label="SAML">
-
-    ```bash
-    https://{edition.hostName}/t/<root_organization_name>/samlsso?
-    spEntityID=<app_entity_id>
-    &login_hint=<user_email>
-    &fidp=OrganizationSSO
-    ```
-
-    </TabItem>
-    </Tabs>
-
-    </Edition>
-
     :::
 
 7. Input the email address associated with the username for `Alice` within the *Best Car Mart* organization.
 
-    <Edition only="cloud"><img src={require("../../../../../assets/cloud/img/guides/organization/manage-organizations/email-input-for-sso-login.png").default} alt="Email input for Single Sign-On (SSO) login" width="400" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../../assets/self-hosted/img/guides/organization/manage-organizations/email-input-for-sso-login.png").default} alt="Email input for Single Sign-On (SSO) login" width="400" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+    <img src={require("../../../../../assets/img/guides/organization/manage-organizations/email-input-for-sso-login.png").default} alt="Email input for Single Sign-On (SSO) login" width="400" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 8. After resolving the organization from the email, the system redirects Alice to the authentication option of *Best Car Mart*.
 
-    <Edition only="cloud"><img src={require("../../../../../assets/cloud/img/guides/organization/manage-organizations/bestcarmart-login.png").default} alt="Best Car Mart login" width="400" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../../assets/self-hosted/img/guides/organization/manage-organizations/bestcarmart-login.png").default} alt="Best Car Mart login" width="400" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
-
-<Edition only="self-hosted">
+    <img src={require("../../../../../assets/img/guides/organization/manage-organizations/bestcarmart-login.png").default} alt="Best Car Mart login" width="400" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 ### Self-registration
 
@@ -526,17 +326,14 @@ To try out self-registration,
 
 4. Navigate to the login page of the application configured in above step 1 and click **Register**.
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/organization/manage-organizations/application-login-page.png").default} alt="Application login page" width="400" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/organization/manage-organizations/application-login-page.png").default} alt="Application login page" width="400" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 5. Enter an organization email with the domain `bcmart.com` and **Submit**.
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/organization/manage-organizations/email-input-for-self-registration.png").default} alt="Email input for self-registration" width="400" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/organization/manage-organizations/email-input-for-self-registration.png").default} alt="Email input for self-registration" width="400" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 6. After resolving the organization from the email, the system redirects you to the self-registration page of the *Best Car Mart* organization.
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/organization/manage-organizations/self-registration-form.png").default} alt="Self-registration form" width="400" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/organization/manage-organizations/self-registration-form.png").default} alt="Self-registration form" width="400" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 7. Fill in the user details and click **Sign Up** to complete the registration.
-
-</Edition>
-
