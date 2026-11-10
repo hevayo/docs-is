@@ -1,0 +1,4 @@
+label: Spring Boot
+position: 9
+customProps:
+  icon: wso2/spring-boot

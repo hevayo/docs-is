@@ -1,1 +1,0 @@
-{% include "../../../../../../includes/guides/account-configurations/user-onboarding/self-registration.md" %}

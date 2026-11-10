@@ -1,0 +1,28 @@
+# Doc space manifest (schemas/docspace.schema.json in the Platform).
+# The Older cloud Doc space Asgardeo (.scratch/new-cloud-model decisions 5, 10,
+# 11 and 14): the old Cloud of Identity & Access Management (wso2/docs-is
+# master en/asgardeo, live at wso2.com/identity-platform/docs/), split out of
+# the IAM main line by tools/onboard-mkdocs/split-edition.mjs when Choreo
+# Identity & Access Management replaced it. The new Cloud is private, so this
+# repo (public) keeps only Asgardeo on the new cloud line.
+schemaVersion: 1
+slug: asgardeo
+displayName: Asgardeo
+# Unlisted: in no products menu or Docs section, out of every wider search,
+# noindex and out of the sitemap; reached from the Landing page's Older cloud bar.
+listed: false
+owners:
+  team: identity-management-docs
+repo: hevayo/docs-is
+editLinks: true
+issues:
+  repo: wso2/docs-is
+# The team notice (decision 11): a notice is plain text, so it names the new
+# Cloud rather than linking it.
+notices:
+  - level: info
+    text: These are the docs for Asgardeo, which came before Choreo Cloud. For Choreo Cloud's identity and access management docs, open Identity & Access Management on the docs home.
+# The old console (decision 17): the Action button Identity's Cloud had.
+cta: { icon: oxygen/bolt, label: Try it, url: "https://console.asgardeo.io/" }
+editions:
+  - id: cloud

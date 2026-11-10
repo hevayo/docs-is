@@ -1,0 +1,5 @@
+label: AI Tools
+position: 6
+customProps:
+  editions: cloud
+  icon: octicons/zap-16
