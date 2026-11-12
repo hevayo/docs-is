@@ -417,10 +417,10 @@ The table below explains how these properties differ based on each flow.
 
 | Flow | Value of `initiatorType` | Value of `action` | Description |
 | --- | --- | --- | --- |
-| Admin initiated direct user registration | ADMIN | REGISTER | Occurs when an administrator directly registers a user via console or [SCIM 2.0 Users API](../../../apis/scim2-users-rest-api/index.mdx). |
-| Admin initiated user invite to register | ADMIN | INVITE | Occurs when an administrator invites a user to register via console or [SCIM 2.0 Users API](../../../apis/scim2-users-rest-api/index.mdx). |
+| Admin initiated direct user registration | ADMIN | REGISTER | Occurs when an administrator directly registers a user via console or [SCIM 2.0 Users API](../../../apis/scim2/scim2-users-rest-api/index.mdx). |
+| Admin initiated user invite to register | ADMIN | INVITE | Occurs when an administrator invites a user to register via console or [SCIM 2.0 Users API](../../../apis/scim2/scim2-users-rest-api/index.mdx). |
 | User self registration | USER | REGISTER | Occurs when a user registers by clicking the 'Register' link in the login page or via self registration APIs. |
-| Application initiated user registration | APPLICATION | REGISTER | Occurs when an application with appropriate permissions automatically registers a user. This happens during automated user provisioning or integration with external identity management systems via [SCIM 2.0 Users API](../../../apis/scim2-users-rest-api/index.mdx). |
+| Application initiated user registration | APPLICATION | REGISTER | Occurs when an application with appropriate permissions automatically registers a user. This happens during automated user provisioning or integration with external identity management systems via [SCIM 2.0 Users API](../../../apis/scim2/scim2-users-rest-api/index.mdx). |
 
 ## Token events
 
@@ -1177,10 +1177,10 @@ The table below explains how these properties differ based on each flow.
 | --- | --- | --- | --- |
 | User initiated password update | USER | UPDATE | Occurs when a user updates their password through profile settings in My Account app or via [SCIM 2.0 Me API](../../../apis/scim2-me-rest-apis/index.mdx) . |
 | User initiated password reset | USER | RESET | Occurs when a user forgets their password and initiates a reset flow to regain account access. |
-| Admin initiated password update | ADMIN | UPDATE | Occurs when an administrator updates a user's password directly via console or [SCIM 2.0 Users API](../../../apis/scim2-users-rest-api/index.mdx). |
+| Admin initiated password update | ADMIN | UPDATE | Occurs when an administrator updates a user's password directly via console or [SCIM 2.0 Users API](../../../apis/scim2/scim2-users-rest-api/index.mdx). |
 | Admin initiated password reset | ADMIN | RESET | Occurs when an administrator initiates a forced password reset and the user resets the password via that request. |
 | Admin initiated user invite to set password | ADMIN | INVITE | Occurs when an administrator invites a new user to join the system. The user then sets their password. |
-| Application initiated password update | APPLICATION | UPDATE | Occurs when an application with appropriate permissions automatically updates a user's password. This happens during automated user provisioning or integration with external identity management systems via [SCIM 2.0 Users API](../../../apis/scim2-users-rest-api/index.mdx). |
+| Application initiated password update | APPLICATION | UPDATE | Occurs when an application with appropriate permissions automatically updates a user's password. This happens during automated user provisioning or integration with external identity management systems via [SCIM 2.0 Users API](../../../apis/scim2/scim2-users-rest-api/index.mdx). |
 
 ## User account management events
 
