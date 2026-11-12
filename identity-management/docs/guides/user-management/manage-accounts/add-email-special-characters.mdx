@@ -1,0 +1,43 @@
+---
+title: Configure Emails with Special Characters
+description: Follow the steps below to accommodate email addresses with special character in WSO2 Identity Server.  # generated from the first paragraph; a writer should improve it
+type: how-to
+sidebar_position: 13
+slug: "/guides/tenants/add-email-special-characters"
+---
+
+Follow the steps below to accommodate email addresses with special character in WSO2 Identity Server.  
+
+1.    Sign in to WSO2 Identity Server Management Console at `https://<IS_HOST>:<PORT>/carbon` as an administrator. 
+
+2.    On the **Main** menu of the Management Console, click **Identity > Claims > List**.
+
+    <img src={require("../../../../assets/img/guides/claims-list-menu-item.png").default} alt="Claims List menu-item" width="200" style={{border: "1px solid grey"}} />   
+
+3.    Click  **http://wso2.org/claims**.
+
+    <img src={require("../../../../assets/img/guides/claim-list-wso2.png").default} alt="WSO2 Claim" width="600" style={{border: "1px solid grey"}} />       
+
+4.    Under **Email**, click **Edit**.
+
+    <img src={require("../../../../assets/img/guides/email-claim-edit.png").default} alt="Claim Edit option" width="600" style={{border: "1px solid grey"}} /> 
+
+5.    Enter the required special characters (`!#$%&'*+-=?^_`) in the **Regular Expression** text box.
+
+    <img src={require("../../../../assets/img/guides/wso2-claim-edit-screen.png").default} alt="WSO2 Claim Edit screen" width="700" style={{border: "1px solid grey"}} /> 
+
+    :::note[Using # and $]
+    -    To add **`#`** to the email regex pattern: 
+        ```text
+        ^([a-zA-Z0-9_.-#])+\@(([a-zA-Z0-9#-])+.)+([a-zA-Z0-9#]{2,4})+$`
+        ```
+
+    -    To add **`$`** to the email regex pattern:
+        ```text
+        ^([a-zA-Z0-9_.-\])+\@(([a-zA-Z0-9\\-])+.)+([a-zA-Z0-9\]{2,4})+
+        ```
+    :::
+
+    :::warning[Escaping $]
+    When using the `$` character, make sure to use the appropriate escape characters, such as `\`, e.g., `abc\$def@somemail.com`
+    :::

@@ -2,19 +2,16 @@
 title: Write a Custom Federated Authenticator
 description: A custom federated authenticator can be written to authenticate a user with an external system.  # generated from the first paragraph; a writer should improve it
 type: reference
-sidebar_label: Write a custom federated authenticator
 sidebar_position: 1
-editions: self-hosted
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+import ContributingConnectors from '../../../../partials/fragments/contributing-connectors.mdx';
 
 A custom federated authenticator can be written to authenticate a user with an external system.
 The external system can be any identity provider such as Facebook, Twitter, Google, Yahoo, etc.
 You can use the extension points available in WSO2 Identity Server to create custom federated authenticators.
 
-<img src={require("../../../../assets/self-hosted/img/references/extend/federated-authentication-diagram.png").default} alt="Federated authentication diagram" width="1000" style={{display: "block", margin: "0"}} />
+![Federated authentication diagram](../../../../assets/img/extend/federated-authentication-diagram.png)
 
 ---
 
@@ -130,15 +127,15 @@ authenticator.
 To write the federated authenticator:
 
 1. Create a `maven` project for the custom federated authenticator. Refer the following files:
-    - The [pom.xml](https://github.com/wso2/samples-is/blob/v4.6.0/authenticators/components/org.wso2.carbon.identity.sample.federated.authenticator/pom.xml) file used for the sample custom federated authenticator.
-    - The [service component class](https://github.com/wso2/samples-is/blob/v4.6.0/authenticators/components/org.wso2.carbon.identity.sample.federated.authenticator/src/main/java/org/wso2/carbon/identity/custom/federated/authenticator/internal/CustomFederatedAuthenticatorServiceComponent.java) file to deploy in WSO2 Identity Server and register it as a federated authenticator.
+    - The [pom.xml](https://github.com/wso2/samples-is/blob/master/authenticators/components/org.wso2.carbon.identity.sample.federated.authenticator/pom.xml) file used for the sample custom federated authenticator.
+    - The [service component class](https://github.com/wso2/samples-is/blob/master/authenticators/components/org.wso2.carbon.identity.sample.federated.authenticator/src/main/java/org/wso2/carbon/identity/custom/federated/authenticator/internal/CustomFederatedAuthenticatorServiceComponent.java) file to deploy in WSO2 Identity Server and register it as a federated authenticator.
 
-2. Write the [custom federated authenticator](https://github.com/wso2/samples-is/blob/v4.6.0/authenticators/components/org.wso2.carbon.identity.sample.federated.authenticator/src/main/java/org/wso2/carbon/identity/custom/federated/authenticator/CustomFederatedAuthenticator.java) by extending the
+2. Write the [custom federated authenticator](https://github.com/wso2/samples-is/blob/master/authenticators/components/org.wso2.carbon.identity.sample.federated.authenticator/src/main/java/org/wso2/carbon/identity/custom/federated/authenticator/CustomFederatedAuthenticator.java) by extending the
 [AbstractApplicationAuthenticator](https://github.com/wso2/carbon-identity-framework/blob/v5.18.187/components/authentication-framework/org.wso2.carbon.identity.application.authentication.framework/src/main/java/org/wso2/carbon/identity/application/authentication/framework/AbstractApplicationAuthenticator.java) class and implementing the
 [FederatedApplicationAuthenticator](https://github.com/wso2/carbon-identity-framework/blob/v5.18.187/components/authentication-framework/org.wso2.carbon.identity.application.authentication.framework/src/main/java/org/wso2/carbon/identity/application/authentication/framework/FederatedApplicationAuthenticator.java) class.
 
 :::info
-See the sample [custom federated authenticator](https://github.com/wso2/samples-is/tree/v4.6.0/authenticators/components/org.wso2.carbon.identity.sample.federated.authenticator) for your reference.
+See the sample [custom federated authenticator](https://github.com/wso2/samples-is/tree/master/authenticators/components/org.wso2.carbon.identity.sample.federated.authenticator) for your reference.
 :::
 
 <details>
@@ -146,12 +143,12 @@ See the sample [custom federated authenticator](https://github.com/wso2/samples-
 
 | Method    | Description   |
 |-----------|---------------|
-|[**public String getName()**](https://github.com/wso2/samples-is/blob/v4.6.0/authenticators/components/org.wso2.carbon.identity.sample.federated.authenticator/src/main/java/org/wso2/carbon/identity/custom/federated/authenticator/CustomFederatedAuthenticator.java#L72-L75)    | Return the name of the authenticator. |
-|[**public String getFriendlyName()**](https://github.com/wso2/samples-is/blob/v4.6.0/authenticators/components/org.wso2.carbon.identity.sample.federated.authenticator/src/main/java/org/wso2/carbon/identity/custom/federated/authenticator/CustomFederatedAuthenticator.java#L66-L69) | Returns the display name for the custom federated authenticator. In this sample, we are using a custom-federated-authenticator.    |
-| [**public String getContextIdentifier(HttpServletRequest request**)](https://github.com/wso2/samples-is/blob/v4.6.0/authenticators/components/org.wso2.carbon.identity.sample.federated.authenticator/src/main/java/org/wso2/carbon/identity/custom/federated/authenticator/CustomFederatedAuthenticator.java#L214-L222)   | Returns a unique identifier that will map the authentication request and the response. The value returned by the invocation of the authentication request and the response should be the same.    |
-| [public boolean canHandle(HttpServletRequest request)](https://github.com/wso2/samples-is/blob/v4.6.0/authenticators/components/org.wso2.carbon.identity.sample.federated.authenticator/src/main/java/org/wso2/carbon/identity/custom/federated/authenticator/CustomFederatedAuthenticator.java#L59-L63)|Specifies whether this authenticator can handle the authentication response.  |
-| [protected void initiateAuthenticationRequest(HttpServletRequest request,HttpServletResponse response, AuthenticationContext context)](https://github.com/wso2/samples-is/blob/v4.6.0/authenticators/components/org.wso2.carbon.identity.sample.federated.authenticator/src/main/java/org/wso2/carbon/identity/custom/federated/authenticator/CustomFederatedAuthenticator.java#L136-L137) | Redirects the user to the login page to authenticate and in this sample, the user is redirected to the login page of the application which is configured in the partner identity server which acts as the external service. |
-| [protected void processAuthenticationResponse(HttpServletRequest request,HttpServletResponse response, AuthenticationContext context)](https://github.com/wso2/samples-is/blob/v4.6.0/authenticators/components/org.wso2.carbon.identity.sample.federated.authenticator/src/main/java/org/wso2/carbon/identity/custom/federated/authenticator/CustomFederatedAuthenticator.java#L168-L169) | Implements the logic of the custom federated authenticator.    |
+|[**public String getName()**](https://github.com/wso2/samples-is/blob/master/authenticators/components/org.wso2.carbon.identity.sample.federated.authenticator/src/main/java/org/wso2/carbon/identity/custom/federated/authenticator/CustomFederatedAuthenticator.java#L73-L77)    | Return the name of the authenticator. |
+|[**public String getFriendlyName()**](https://github.com/wso2/samples-is/blob/master/authenticators/components/org.wso2.carbon.identity.sample.federated.authenticator/src/main/java/org/wso2/carbon/identity/custom/federated/authenticator/CustomFederatedAuthenticator.java#L67-L71) | Returns the display name for the custom federated authenticator. In this sample, we are using a custom-federated-authenticator.    |
+| [**public String getContextIdentifier(HttpServletRequest request**)](https://github.com/wso2/samples-is/blob/master/authenticators/components/org.wso2.carbon.identity.sample.federated.authenticator/src/main/java/org/wso2/carbon/identity/custom/federated/authenticator/CustomFederatedAuthenticator.java#L215-L224)   | Returns a unique identifier that will map the authentication request and the response. The value returned by the invocation of the authentication request and the response should be the same.    |
+| [public boolean canHandle(HttpServletRequest request)](https://github.com/wso2/samples-is/blob/master/authenticators/components/org.wso2.carbon.identity.sample.federated.authenticator/src/main/java/org/wso2/carbon/identity/custom/federated/authenticator/CustomFederatedAuthenticator.java#L60-L65)|Specifies whether this authenticator can handle the authentication response.  |
+| [protected void initiateAuthenticationRequest(HttpServletRequest request,HttpServletResponse response, AuthenticationContext context)](https://github.com/wso2/samples-is/blob/master/authenticators/components/org.wso2.carbon.identity.sample.federated.authenticator/src/main/java/org/wso2/carbon/identity/custom/federated/authenticator/CustomFederatedAuthenticator.java#L138-L139) | Redirects the user to the login page to authenticate and in this sample, the user is redirected to the login page of the application which is configured in the partner identity server which acts as the external service. |
+| [protected void processAuthenticationResponse(HttpServletRequest request,HttpServletResponse response, AuthenticationContext context)](https://github.com/wso2/samples-is/blob/master/authenticators/components/org.wso2.carbon.identity.sample.federated.authenticator/src/main/java/org/wso2/carbon/identity/custom/federated/authenticator/CustomFederatedAuthenticator.java#L169-L171) | Implements the logic of the custom federated authenticator.    |
 
 </details>
 
@@ -184,67 +181,41 @@ Add the following config to the `<PARTNER_IS_HOME>/repository/conf/deployment.to
 offset=1
 ```
 
-After starting that partner identity server, it will run on [localhost:9444](https://localhost:9444/console).
+After starting that partner identity server, it will run on [localhost:9444](https://localhost:9444/carbon).
 
-### Register an application
+### Register a service provider
 
-To register and configure the application on the partner IS:
+To register and configure the service provider on the partner IS:
 
-1. On the WSO2 Identity Server console of the partner identity server, go to **Applications**.
+1. On the management console (`https://<PARTNER_IS_HOST>:<PARTNER_IS_PORT>/carbon`) of the partner identity server, go to **Main** > **Identity** > **Service Providers** > **Add**.
 
-2. Click **New Application** and select **Traditional Web Application**.
+2. Enter `pickup-dispatch` as the **Service Provider Name** and click **Register**.
 
-3. Enter the following details:
+3. Expand **Inbound Authentication Configuration > OAuth/OpenID Connect Configuration** and, click **Configure**.
 
-    <table>
-      <tbody>
-        <tr>
-          <td>Name</td>
-          <td>Give a unique name to identify your application.</td>
-        </tr>
-        <tr>
-          <td>Protocol</td>
-          <td>Select **OpenID Connect**.</td>
-        </tr>
-        <tr>
-          <td>Authorized redirect URLs</td>
-          <td>
+4. Enter `https://localhost:9443/commonauth` as the **Callback Url**.
 
-            The URL to which the user is redirected after a successful login. Use the following URL for this sample app:
+5. Click **Add**. Note that the `client key` and `client secret` are generated.
 
-            `https://localhost:9443/commonauth`
+6. Click **Update** to save the configurations.
 
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-5. Click **Register**. 
-
-6. Go to the **Protocol** tab and take note of the **Client ID** and the **Client secret**.
-
-:::info[Download and configure the application]
+:::info[Download and deploy the application]
 On the partner identity server:
 
-- Download the [sample](https://github.com/asgardeo/asgardeo-tomcat-oidc-agent/releases/latest/download/oidc-sample-app.war) application.
-- [Configure the sample OIDC](../../../quick-starts/try-samples/web-apps/qsg-oidc-webapp-java-ee.mdx#configure-the-sample) application on the partner identity server.
+- Download the [OIDC pickup-dispatch sample](https://github.com/wso2/samples-is/releases/download/v4.5.2/pickup-dispatch.war) application.
+- [Deploy the sample pickup-dispatch](../../../guides/authentication/login/web-application/webapp-oidc.mdx#deploy-the-sample-web-app) application on the partner identity server.
 :::
 
 ### Add a new user
 
 To add a new user:
+1. On the management console (`https://<PARTNER_IS_HOST>:<PARTNER_IS_PORT>/carbon`) of the partner identity server, go to **Users and Roles** > **Add**.
 
-1. On the WSO2 Identity Server console of the partner identity server, go to **User Management** > **Users**.
+2. Click **Add New User**.
 
-2. Click **Add User** and provide the required details.
+3. Enter a **Username** and **Password** for the new user.
 
-3. Click **Next**.
-
-4. Add the user to a group, if necessary, and click **Next**.
-
-5. Assign the user a role, if necessary, and click **Next**.
-
-6. Review the summary and click **Finish**.
+4. Click **Finish** to add the new user.
 
 ---
 
@@ -253,80 +224,65 @@ To add a new user:
 This section guides you on how to configure the identity server to use the custom federated authenticator.
 
 ### Prerequisites
-- You need to [set up the sample](../../../quick-starts/try-samples/web-apps/qsg-oidc-webapp-java-ee.mdx) application.
+- You need to [set up the sample](../../../guides/authentication/login/web-application/webapp-oidc.mdx) application.
+- You need to [register an Identity Provider](../../wso2-is-concepts/identity-federation/add-idp.mdx) named `Partner-Identity-Server`.
 
 ### Configure federated authenticator
 
-To configure the custom federated authenticator:
+To configure the custom fedrated authenticator:
 
-1. On the WSO2 Identity Server console, go to **Connections**.
-2. Click **Create Connection** and select **Custom Connector**.
-3. Provide a unique name and a description and click **Finish**.
-4. Go to **Settings** tab and click **New Authenticator**.
-5. Select the custom federated authenticator added and click **Next**.
-6. Enter the following details:
+1. On the management console, go to **Identity Providers > List**.
+2. Click on **Edit** corresponding to the `Partner-Identity-Server` identity provider.
+3. Expand **Federated Authenticators > Custom-federated-authenticator configurations**.
+4. Enter the following details
 
     | Field name    | Value |
     |---------------|-------|
-    | **Client Id** | The Client Id value generated by the external application of the partner identity server.    |
-    | **Client Secret** | The Client Secret value generated by the external application of the partner identity server.    |
+    | **Enable**    | Selected  |
+    | **Default**   | Selected  |
+    | **Client Id** | The Client Id value generated by the external service provider of the partner identity server.    |
+    | **Client Secret** | The Client Secret value generated by the external service provider of the partner identity server.    |
     | **Callback URL**  | `https://localhost:9443/commonauth`   |
     | **Authorization Endpoint URL**    | `https://localhost:9444/oauth2/authorize/`    |
     | **Token Endpoint URL**    | `https://localhost:9444/oauth2/token/`    |
 
-    <img src={require("../../../../assets/self-hosted/img/references/extend/federated-authenticator.png").default} alt="Federated Authenticator" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    ![Federated Authenticator](../../../../assets/img/extend/federated-authenticator.png)
 
-5. Click **Finish** to save the configurations.
+5. Click **Update** to save the configurations.
 
-### Configure the application with the custom federated authenticator
+### Configure the SP with the custom federated authenticator
 
-To configure the custom federated authenticator for the application:
+To configure the custom federated authenticator for the SP:
 
-1. On the WSO2 Identity Server console, go to **Applications**.
+1. On the management console, go to **Main** > **Identity** > **Service Providers** > **List**.
 
-2. Select your application, go to the **Login Flow** tab and add the custom federated authenticator from your preferred editor:
+2. Click **Edit** on the `pickup-dispatch` service provider.
 
-    ---
-    <Tabs groupId="tabs">
-    <TabItem value="classic-editor" label="Classic Editor">
+3. Expand the **Local and Outbound Authentication Configuration** and select `Partner-Identity-Server` from the **Federated Authentication** list.
+    ![Partner identity provider](../../../../assets/img/extend/partner-identity-provider.png)
 
-    To add custom federated authenticator using the Classic Editor:
+4. Click **Update** to save the configurations.
 
-    1. If you haven't already defined a sign-in flow, click **Start with Default configuration** to get started.
+    :::tip
+    To configure more advanced configurations, see [OAuth/OpenID Connect Configurations](../../../guides/authentication/login/advanced-settings/oidc-advanced/oauth-app-config-advanced.mdx).
+    :::
 
-    2. Click **Add Authentication** on the step, select your custom federated authenticator, and click **Add**.
+5. Expand the **Local & Outbound Authentication Configuration** section.
 
-        <img src={require("../../../../assets/self-hosted/img/guides/idp/custom-connector/add-custom-federation-with-basic.png").default} alt="Add custom federated authenticator" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+6. Select **Federated Authentication** and select the configured federated authenticator.
+    ![Partner identity provider](../../../../assets/img/extend/partner-identity-provider.png)
 
-    </TabItem>
-    <TabItem value="visual-editor" label="Visual Editor">
-
-    To add custom federated authenticator using the Visual Editor:
-
-    1. Switch to the **Visual Editor** tab, by default the `Username & Password` login flow will be added onto the Visual Editor's workspace.
-
-    2. Click on `+ Add Sign In Option` to add a new authenticator to the same step and select your custom federated authenticator.
-
-        <img src={require("../../../../assets/self-hosted/img/guides/idp/custom-connector/add-custom-federation-with-visual-editor.png").default} alt="Add custom federated authenticator using the Visual Editor" width="500" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
-
-    </TabItem>
-    </Tabs>
-
-    ---
-
-3. Click **Update** to save your changes.
+7. Click **Update** to save the configurations.
 
 ---
 
 ## Try it out
 
-1. Access the application URL.
+1. Access the application URL of the service provider: `http://localhost:8080/pickup-dispatch/home.js`
 
-2. Click **Login**. You will be redirected to the WSO2 Identity Server login page.
+2. Click **Login** and enter the credentials of the the new user created in the partner identity server.
 
-3. Select the sign in option configured.
-
-4. Enter the credentials of the new user created in the partner identity server.
+3. Provide the required consent. You will be redirected to the Pickup Dispatch application home page.
 
 The user is successfully authenticated by the partner Identity Server.
 
@@ -334,17 +290,4 @@ Similarly, you can write a federated authenticator to authenticate the users usi
 
 ## Contributing your connectors
 
-You are welcome to share and host your connectors in our [connector store](https://store.wso2.com/store/assets/isconnector/list). As an organization that believes in the open source paradigm, we always encourage our community to make contributions so that our community around WSO2 Identity server can benefit from using an open source product.
-Contributions can be made by following the procedure below.
-
-1. Create an issue in the [product-is git repository](https://github.com/wso2/product-is/issues/new?assignees=&labels=feature&template=feature_request.md&title=).
-2. Provide a basic description of the purpose and functionality of your connector. Include the following information in the git issue.
-   - Downloadable connector artifact (ex: JAR files).
-   - Documentation on setup and testing instructions for the connector.
-   - Source code repository of the connector.
-3. Make sure your source code follows WSO2 coding standards and [secure development guidelines](https://wso2.com/technical-reports/wso2-secure-engineering-guidelines/).
-4. Our team will perform necessary functionality, security, and usability testing on the connector and provide suggestions for improvements.
-5. If your code and the functionality are deemed to comply with the standards of WSO2, you will be able to get the connector hosted on our connector store and contribute the source code to WSO2.
-6. You will be required to sign the [Contributor License Agreement](https://wso2.com/files/wso2-cla.pdf) once the connector is accepted.
-
-You can also contact us through our [Discord channel](https://discord.com/invite/wso2) if you need more information.
+<ContributingConnectors />

@@ -1,0 +1,34 @@
+---
+title: Enable Login for a SAML Web Application
+description: This page guides you through enabling login for a SAML web application.  # generated from the first paragraph; a writer should improve it
+type: how-to
+sidebar_label: SAML
+sidebar_position: 2
+slug: "/guides/login/webapp-saml"
+---
+
+import PickupDispatchSaml from '../../../../../partials/pickup-dispatch-saml.mdx';
+
+This page guides you through enabling login for a [SAML](../../../../references/iam-topics/authentication/authentication-protocols/saml/intro-saml.mdx) web application.
+
+<PickupDispatchSaml />
+
+## Try it out
+
+Now, let's log in to the application.
+
+1. Start the Tomcat server and access the following URL on your browser: `http://localhost:8080/saml2-web-app-pickup-dispatch.com`.
+
+2. Click **Login** and enter your user credentials.
+
+3. Provide the required consent. You will be redirected to the Pickup Dispatch application home page.
+
+You have successfully configured authentication for a SAML application.
+
+:::info[Related topics]
+- [Concept: SAML](../../../../references/iam-topics/authentication/authentication-protocols/saml/intro-saml.mdx)
+- [Quick Start: SAML Authentication](../../../../get-started/sample-use-cases/try-a-sample-scenario/use-cases/single-sign-on.mdx#try-sso-with-saml-20)
+- [Guide: Advanced SAML Configurations](../advanced-settings/saml-advanced/saml-app-config-advanced.mdx)
+- [Guide: SAML Front-Channel Logout](../../single-logout/saml-flows/saml-front-channel-logout.mdx)
+- [Guide: SAML Back-Channel Logout](../../single-logout/saml-flows/saml-back-channel-logout.mdx)
+:::

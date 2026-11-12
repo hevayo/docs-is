@@ -1,0 +1,210 @@
+---
+title: Lock accounts by failed OTP attempts
+description: WSO2 Identity Server can be configured to lock a user account when the number of consecutive failed OTP attempts is exceeded.  # generated from the first paragraph; a writer should improve it
+type: how-to
+sidebar_label: Lock Accounts by Failed OTP Attempts
+sidebar_position: 4
+slug: "/guides/identity-lifecycles/lock-accounts-by-failed-otp-attempts"
+---
+
+import EnableAccountLocking from '../../../../partials/enable-account-locking.mdx';
+
+WSO2 Identity Server can be configured to lock a user account when the number of consecutive failed OTP attempts is exceeded.
+
+If you want to configure different settings for another tenant, log out
+and follow the same steps to configure these properties for the other
+tenants.
+
+:::note
+-   A user account locked by failed login attempts can be unlocked 
+by setting the <strong>Account Unlock Time</strong> period.
+-   If the lock time is set to 0, the account has to be unlocked by an admin
+user. For more information about this, see [Lock and Unlock User Accounts](./lock-account.mdx).
+-   If a user is assigned the **Internal/system** role, the user can
+    bypass account locking even if the user exceeds the specified number
+    of **Maximum failed login attempts**.
+:::
+
+## Configure the WSO2 IS server
+
+Add the following configurations into `<IS_HOME>/repository/conf/deployment.toml` file to enable account locking for each type of OTP attempts and restart the server.
+
+- For Email OTP:
+
+    ```text
+    [authentication.authenticator.email_otp.parameters]
+    EnableAccountLockingForFailedAttempts = true
+    ```
+
+- For SMS OTP:
+
+    ```text
+    [authentication.authenticator.sms_otp.parameters]
+    EnableAccountLockingForFailedAttempts = true
+    ```
+
+    :::note
+    Since `BackupCode = true` in the default configuration, configure the backup code claim. {/*according to 
+    [Configuring Backup Codes for SMSOTP]({{base_path}}/guides/mfa/2fa-sms-otp/)*/}
+    Alternatively, you can disable the backup codes for SMS OTP by setting the property to **false**.
+
+    ```text
+    [authentication.authenticator.sms_otp.parameters]
+    BackupCode = false
+    ```
+    :::
+
+- For TOTP:
+
+    ```text
+    [authentication.authenticator.totp.parameters]
+    EnableAccountLockingForFailedAttempts = true
+    ```
+
+## Enable claims
+
+1. Navigate to **Main** > **Identity** > **Claims** > **Add** > **Add Local Claim**.
+2. Click **http://wso2.org/claims**.
+3. Once the user account gets locked, the **Account Locked** attribute will be updated to **true**.
+To check this via the user profile:
+    1. Click **Edit** under the **Account Locked** claim.
+    2. Select **Supported by Default** and click **Update**.
+    3. Navigate to the relevant user's user profile and you will see that the attribute has been updated.
+
+4. **Failed Email OTP Attempts**, **Failed SMS Attempts**, and **Failed TOTP Attempts** attribute values will be incremented for the wrong attempt of Email OTP, SMS OTP, and TOTP attempt respectively. To check this via the user profile.
+    - For Email OTP:
+        1. Click **Edit** under the **Failed Email OTP Attempts** claim.
+        2. Select **Supported by Default** and click **Update**.
+        3. Navigate to the relevant user's user profile and you will see that the attribute has been updated.
+
+    - For SMS OTP:
+        1. Click **Edit** under the **Failed SMS Attempts** claim.
+        2. Select **Supported by Default** and click **Update**.
+        3. Navigate to the relevant user's user profile and you will see that the attribute has been updated.
+
+    - For TOTP:
+        1. Click **Edit** under the **Failed TOTP Attempts** claim.
+        2. Select **Supported by Default** and click **Update**.
+        3. Navigate to the relevant user's user profile and you will see that the attribute has been updated.
+
+## Enable account locking
+
+<EnableAccountLocking />
+
+The following table describes the configuration properties and
+descriptions you need to configure:
+
+<table>
+  <thead>
+    <tr>
+      <th>
+
+        Configuration
+
+      </th>
+      <th>
+
+        Description
+
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+
+        Maximum Failed Login Attempts
+
+      </td>
+      <td>
+
+        This indicates the number of consecutive attempts that a user can try to log in without the account getting locked. If the value you specify is 2, the account gets locked if the login attempt fails twice.
+
+        :::tip
+        Add the following configuration to the ` <IS_HOME>/repository/conf/deployment.toml ` file to configure the **Maximum Failed Login Attempts** property by default for all the tenants at tenant creation.
+
+        ```text
+        [identity_mgt.account_locking]allowed_failed_attempts=5
+        ```
+        :::
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        Lock Timeout Increment Factor
+
+      </td>
+      <td>
+
+        This indicates how much the account unlock timeout is incremented by after each failed login attempt. For example, according to the values configured in the above screen, when a user exceeds the specified limit of 4 **Maximum Failed Login Attempts**, the account is locked for 10 minutes. This account unlock timeout is calculated as follows.
+
+        Account unlock timeout = Configured **Account Unlock Time** \* (**Lock Timeout Increment Factor** ^ failed login attempt cycles)
+
+        i.e.,10 minutes = 5 \* ( 2 ^ 1 )
+
+        :::tip
+        Add the following configuration to the ` <IS_HOME>/repository/conf/deployment.toml ` file to configure the **Lock Timeout Increment Factor** property by default for all the tenants at tenant creation.
+
+        ```text
+        [identity_mgt.account_locking]auto_unlock_time_increment_ratio=2
+        ```
+        :::
+
+        If the user attempts to log in with invalid credentials again after the wait time has elapsed and the account is unlocked, the number of login attempt cycles is now 2 and the wait time is 20 minutes.
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        Account Unlock Time
+
+      </td>
+      <td>
+
+        The time specified here is in minutes. According to the values in the screenshot above, the account is locked for 5 minutes after the user's second failed attempt and authentication can be attempted once this time has passed.
+
+        :::tip
+        Add the following configuration to the ` <IS_HOME>/repository/conf/deployment.toml ` file to configure the **Account Unlock Time** property by default for all the tenants at tenant creation.
+
+        ```text
+        [identity_mgt.account_locking]auto_unlock_after=5
+        ```
+        :::
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        Account Lock Enabled
+
+      </td>
+      <td>
+
+        This enables locking the account when authentication fails.
+
+        :::tip
+        Add the following configuration to the ` <IS_HOME>/repository/conf/deployment.toml ` file to **Enable** Account lock on failed login by default for all the tenants at tenant creation.
+
+        ```text
+        [identity_mgt.account_locking]enable_account_locking=true
+        ```
+        :::
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Configure the email sender
+
+[Enable the email sending configurations](../../../deploy/configure/email-notifications/configure-email-sending.mdx) of the WSO2 Identity Server.
+
+:::info[Related topics]
+-   [Guides: Customize Automated Emails](../../../deploy/configure/email-notifications/customize-automated-mails.mdx)
+-   [Guides: Lock and Unlock User Accounts](./lock-account.mdx)
+{/*-   [Guides: Configure SMS OTP for 2-Factor Authentication]({{base_path}}/guides/mfa/2fa-sms-otp/)*/}
+:::

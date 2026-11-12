@@ -1,0 +1,127 @@
+---
+title: Deployment Checklist
+description: 'Guidelines for hardening the security of a WSO2 Identity Server deployment in a production environment can be discussed under three high-level categories:'  # generated from the first paragraph; a writer should improve it
+type: reference
+sidebar_position: 6
+slug: "/deploy/deployment-checklist"
+---
+
+<table>
+  <thead>
+    <tr>
+      <th>**Guideline**</th>
+      <th>**Details**</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Security hardening</td>
+      <td>
+
+        Guidelines for hardening the security of a WSO2 Identity Server deployment in a production environment can be discussed under three high-level categories:
+
+        - Product-level security
+        - OS-level security
+        - Network-level security<br /> <br />
+
+        **Related topics**
+
+        <li>[Security Guidelines for Production Deployment](../deploy/security-guidelines/security-guidelines-for-production-deployment.mdx)</li>
+
+      </td>
+    </tr>
+    <tr>
+      <td>Hostname</td>
+      <td>
+
+        By default, WSO2 Identity Server identifies the hostname of the current machine through the Java API. However, this value sometimes yields erroneous results on some environments. Therefore, users are recommended to configure the hostname by setting the relevant parameter in the ` <IS_HOME>/repository/conf/deployment.toml ` file.
+
+        **Related topics**
+
+        <li>[Change the hostname](./change-the-hostname.mdx)</li>
+
+      </td>
+    </tr>
+    <tr>
+      <td>Userstores</td>
+      <td>
+
+        WSO2 Identity Server offers three choices to store user details:
+
+        - Using a database
+        - Using an LDAP server
+        - Using an Active Directory service
+
+        The default is the embedded H2 database, with the userstore schema. Like in the case of the registry database, you can switch to a database like Oracle, MySQL, or MSSQL. You can point to an existing LDAP or an Active Directory to make use of existing user bases and grant access privileges based on those userstores.
+
+        **Related topics**
+
+        <li>[Working with Databases](../configure/data-stores/databases/work-with-databases.mdx)</li>
+
+      </td>
+    </tr>
+    <tr>
+      <td>Tuning WSO2 products</td>
+      <td>
+
+        WSO2 Identity Server has additional guidelines for optimizing the performance of product-specific features.
+
+        **Related topics**
+
+        - [Performance Tuning Recommendations](./performance/performance-tuning-recommendations.mdx)
+
+      </td>
+    </tr>
+    <tr>
+      <td>Firewalls</td>
+      <td>
+
+        The following ports must be accessed when operating within a firewall.
+
+        - 9443 - Used by the management console and services that use the servlet transport, and is defined in the ` <IS_HOME>/repository/conf/deployment.toml ` file.
+
+        **Related topics**
+
+        <li>[Default Ports of WSO2 Identity Server](../../references/references/default-ports-of-wso2-products.mdx)</li>
+
+      </td>
+    </tr>
+    <tr>
+      <td>Proxy servers</td>
+      <td>
+
+        If the product is hosted behind a proxy such as ApacheHTTPD, users can configure products to use the proxy server by providing the following system properties at the start-up.
+
+        <Anchor id="cb4" />
+
+        ```text
+        -Dhttp.proxyHost=xxxx 
+        -Dhttp.proxyPort=xxxx
+        ```
+
+        Alternatively, this can be done by adding the following configurations in the ` < IS_HOME>/repository/conf/deployment.toml ` file.
+
+        <Anchor id="cb4" />
+
+        ```text
+        [transport.https.properties]
+        proxyhost : "you.proxy.host"
+        proxyPort : "your.proxy.port"
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>High availability</td>
+      <td>
+
+        For high availability, WSO2 Identity Server must run on a cluster. Databases used for the repository, user management, and business activity monitoring can also be configured in a cluster or can use replication management provided by the RDBMS.
+
+      </td>
+    </tr>
+    <tr>
+      <td>Data backup and archiving</td>
+      <td>For data backup and for archiving of data, use the functionality provided by the RDBMS.</td>
+    </tr>
+  </tbody>
+</table>

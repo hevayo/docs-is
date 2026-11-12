@@ -1,0 +1,373 @@
+---
+title: Resending Account Recovery Confirmation Emails
+description: 'This section explains how to resend the account recovery confirmation mail in the following account recovery scenarios:'  # generated from the first paragraph; a writer should improve it
+type: how-to
+sidebar_label: Resend Account Recovery Mail
+sidebar_position: 12
+slug: "/guides/identity-lifecycles/resend-account-recovery-mail"
+---
+
+This section explains how to resend the account recovery confirmation mail in the following account recovery scenarios:
+
+- User creation through ask password option
+- Notification-based password recovery
+- Admin-initiated password reset through an email link
+- Admin-initiated password reset via OTP
+- Self-registration
+
+Follow the steps below to configure WSO2 Identity Server to resend account recovery confirmation emails:
+
+:::tip
+Sign in to the WSO2 Identity Server Management Console.
+:::
+
+1. On the Main menu, click **Manage > Email Template > Add**.
+
+{/*![manage-email-template]({{base_path}}/assets/img/using-wso2-identity-server/manage-email-template.png) */}
+
+2. Click **Add Email Template**.
+
+{/*![email-template-management]({{base_path}}/assets/img/using-wso2-identity-server/email-template-management.png) */}
+
+3. To create an email template for account registration through password request:
+
+    1. Enter resendAskPassword  as the Template Type Display Name and click Add.
+
+        {/*![template-type]({{base_path}}/assets/img/using-wso2-identity-server/template-type.png) */}
+
+        A success message about the email template creation and the Add a New Email Template screen appears.  
+
+        {/*![template-creation]({{base_path}}/assets/img/using-wso2-identity-server/template-creation.png) */}
+
+    2. Enter the following values:
+
+        1. **Email Template Type**: resendAskPassword
+        2. **Email Template Locale**: English (United States)
+        3. **Email Content Type**: text/html
+        4. **Email Template Subject**: WSO2 - Resend Create Password for New Account
+        5. **Email Body**:  
+
+            <details>
+            <summary>Click to View</summary>
+
+            \`\`\`html
+            <table align="center" cellPadding="0" cellSpacing="0" border="0" width="100%" bgColor="#f0f0f0">
+              <tbody>
+                <tr>
+                  <td style={{padding: "30px 30px 20px 30px"}}>
+
+                    <table cellPadding="0" cellSpacing="0" border="0" width="100%" bgColor="#ffffff" style={{maxWidth: "650px", margin: "auto"}}>
+                      <tbody>
+                        <tr>
+                          <td colSpan="2" align="center" style={{backgroundColor: "#333", padding: "40px"}}>[![](http://cdn.wso2.com/wso2/newsletter/images/nl-2017/wso2-logo-transparent.png)](http://wso2.com/)</td>
+                        </tr>
+                        <tr>
+                          <td colSpan="2" align="center" style={{padding: "50px 50px 0px 50px"}}>
+
+                            # Resend Password Reset
+
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style={{textAlign: "left", padding: "0px 50px 20px 50px"}} vAlign="top">
+
+                            Hi \{\{user.claim.givenname\}\},
+
+                            We received a request to reset the password for the **\{\{user-name\}\}** account that is associated with this email address.<br /> If you made this request, please click the button below to securely reset your password.
+
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style={{padding: "0px 50px 0px 50px", textAlign: "left"}}>
+
+                            <table align="left" cellPadding="0" cellSpacing="0" border="0" style={{borderRadius: "4px", backgroundColor: "#ff5000"}}>
+                              <tbody>
+                                <tr>
+                                  <td style={{borderRadius: "6px", padding: "14px 0px"}}>Reset Password</td>
+                                </tr>
+                              </tbody>
+                            </table>
+
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style={{textAlign: "left", padding: "40px 50px 0px 50px"}} vAlign="top">
+
+                            If clicking the button doesn't seem to work, you can copy and paste the following link into your browser. <br /> \{\{carbon.product-url\}\}/accountrecoveryendpoint/confirmrecovery.do?confirmation=\{\{confirmation-code\}\}&userstoredomain=\{\{userstore-domain\}\}&username=\{\{url:user-name\}\}&tenantdomain=\{\{tenant-domain\}\}&callback=\{\{callback\}\}
+
+                            <br />
+
+                            If you did not request to have your \{\{user-name\}\} password reset, disregard this email and no changes to your account will be made.
+
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style={{textAlign: "left", padding: "30px 50px 50px 50px"}} vAlign="top">
+
+                            Thanks,<br />WSO2 Identity Server Team
+
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colSpan="2" align="center" style={{padding: "20px 40px 40px 40px"}} bgColor="#f0f0f0">
+
+                            © 2018 [WSO2](http://wso2.com/) <br /> 787 Castro Street, Mountain View, CA 94041.
+
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            \`\`\`
+
+            </details>
+        6. **Email Footer** :  --
+
+4. To create an email template for **notification-based password recovery**, enter the following values:
+
+    1. **Email Template Type**: resendPasswordReset
+    2. **Email Template Locale**: English (United States)
+    3. **Email Content Type**: text/html
+    4. **Email Template Subject**: WSO2 - Resend Password Reset
+    5. **Email Body**:  
+
+        <details>
+        <summary>Click to View</summary>
+
+        \`\`\`html
+        <table align="center" cellPadding="0" cellSpacing="0" border="0" width="100%" bgColor="#f0f0f0">
+          <tbody>
+            <tr>
+              <td style={{padding: "30px 30px 20px 30px"}}>
+
+                <table cellPadding="0" cellSpacing="0" border="0" width="100%" bgColor="#ffffff" style={{maxWidth: "650px", margin: "auto"}}>
+                  <tbody>
+                    <tr>
+                      <td colSpan="2" align="center" style={{backgroundColor: "#333", padding: "40px"}}>[![](http://cdn.wso2.com/wso2/newsletter/images/nl-2017/wso2-logo-transparent.png)](http://wso2.com/)</td>
+                    </tr>
+                    <tr>
+                      <td colSpan="2" align="center" style={{padding: "50px 50px 0px 50px"}}>
+
+                        # Resend Password Reset
+
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style={{textAlign: "left", padding: "0px 50px 20px 50px"}} vAlign="top">
+
+                        Hi \{\{user.claim.givenname\}\},
+
+                        We received a request to reset the password for the **\{\{user-name\}\}** account that is associated with this email address.<br /> If you made this request, please click the button below to securely reset your password.
+
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style={{padding: "0px 50px 0px 50px", textAlign: "left"}}>
+
+                        <table align="left" cellPadding="0" cellSpacing="0" border="0" style={{borderRadius: "4px", backgroundColor: "#ff5000"}}>
+                          <tbody>
+                            <tr>
+                              <td style={{borderRadius: "6px", padding: "14px 0px"}}>Reset Password</td>
+                            </tr>
+                          </tbody>
+                        </table>
+
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style={{textAlign: "left", padding: "40px 50px 0px 50px"}} vAlign="top">
+
+                        If clicking the button doesn't seem to work, you can copy and paste the following link into your browser. <br /> \{\{carbon.product-url\}\}/accountrecoveryendpoint/confirmrecovery.do?confirmation=\{\{confirmation-code\}\}&userstoredomain=\{\{userstore-domain\}\}&username=\{\{url:user-name\}\}&tenantdomain=\{\{tenant-domain\}\}&callback=\{\{callback\}\}
+
+                        <br />
+
+                        If you did not request to have your \{\{user-name\}\} password reset, disregard this email and no changes to your account will be made.
+
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style={{textAlign: "left", padding: "30px 50px 50px 50px"}} vAlign="top">
+
+                        Thanks,<br />WSO2 Identity Server Team
+
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colSpan="2" align="center" style={{padding: "20px 40px 40px 40px"}} bgColor="#f0f0f0">
+
+                        © 2018 [WSO2](http://wso2.com/) <br /> 787 Castro Street, Mountain View, CA 94041.
+
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        \`\`\`
+
+        </details>
+
+    6. **Email Footer** :  --
+
+5. To create an email template for an **admin-initiated password reset through an email link**, enter the following values:
+
+    1. **Email Template Type**: resendAdminForcedPasswordReset
+    2. **Email Template Locale**: English (United States)
+    3. **Email Content Type**: text/html
+    4. **Email Template Subject**: WSO2 - Resend Admin Forced Password Reset
+    5. **Email Body**:  
+
+        <details>
+        <summary>Click to View</summary>
+
+        \`\`\`html
+        <table align="center" cellPadding="0" cellSpacing="0" border="0" width="100%" bgColor="#f0f0f0">
+          <tbody>
+            <tr>
+              <td style={{padding: "30px 30px 20px 30px"}}>
+
+                <table cellPadding="0" cellSpacing="0" border="0" width="100%" bgColor="#ffffff" style={{maxWidth: "650px", margin: "auto"}}>
+                  <tbody>
+                    <tr>
+                      <td colSpan="2" align="center" style={{backgroundColor: "#333", padding: "40px"}}>[![](http://cdn.wso2.com/wso2/newsletter/images/nl-2017/wso2-logo-transparent.png)](http://wso2.com/)</td>
+                    </tr>
+                    <tr>
+                      <td colSpan="2" align="center" style={{padding: "50px 50px 0px 50px"}}>
+
+                        # Resend Admin Forced Password Reset
+
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style={{textAlign: "left", padding: "0px 50px 20px 50px"}} vAlign="top">
+
+                        Hi \{\{user.claim.givenname\}\},
+
+                        Please click the button below to reset your password for the account **\{\{user-name\}\}**.
+
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style={{padding: "0px 50px 0px 50px", textAlign: "left"}}>
+
+                        <table align="left" cellPadding="0" cellSpacing="0" border="0" style={{borderRadius: "4px", backgroundColor: "#ff5000"}}>
+                          <tbody>
+                            <tr>
+                              <td style={{borderRadius: "6px", padding: "14px 0px"}}>Reset Password</td>
+                            </tr>
+                          </tbody>
+                        </table>
+
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style={{textAlign: "left", padding: "40px 50px 0px 50px"}} vAlign="top">
+
+                        If clicking the button doesn't seem to work, you can copy and paste the following link into your browser. <br /> \{\{carbon.product-url\}\}/accountrecoveryendpoint/confirmrecovery.do?confirmation=\{\{confirmation-code\}\}&userstoredomain=\{\{userstore-domain\}\}&username=\{\{url:user-name\}\}&tenantdomain=\{\{tenant-domain\}\}
+
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style={{textAlign: "left", padding: "30px 50px 50px 50px"}} vAlign="top">
+
+                        Thanks,<br />WSO2 Identity Server Team
+
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colSpan="2" align="center" style={{padding: "20px 40px 40px 40px"}} bgColor="#f0f0f0">
+
+                        © 2018 [WSO2](http://wso2.com/) <br /> 787 Castro Street, Mountain View, CA 94041.
+
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        \`\`\`
+
+        </details>
+    6. **Email Footer** :  --
+
+6. To create an email template for an **admin-initiated password reset through an OTP**, enter the following values:
+
+    1. **Email Template Type**: resendAdminForcedPasswordResetWithOTP
+    2. **Email Template Locale**: English (United States)
+    3. **Email Content Type**: text/html
+    4. **Email Template Subject**: WSO2 - Resend Admin Forced Password Reset
+    5. **Email Body**:  
+
+        <details>
+        <summary>Click to View</summary>
+
+        \`\`\`html
+        <table align="center" cellPadding="0" cellSpacing="0" border="0" width="100%" bgColor="#f0f0f0">
+          <tbody>
+            <tr>
+              <td style={{padding: "30px 30px 20px 30px"}}>
+
+                <table cellPadding="0" cellSpacing="0" border="0" width="100%" bgColor="#ffffff" style={{maxWidth: "650px", margin: "auto"}}>
+                  <tbody>
+                    <tr>
+                      <td colSpan="2" align="center" style={{backgroundColor: "#333", padding: "40px"}}>[![](http://cdn.wso2.com/wso2/newsletter/images/nl-2017/wso2-logo-transparent.png)](http://wso2.com/)</td>
+                    </tr>
+                    <tr>
+                      <td colSpan="2" align="center" style={{padding: "50px 50px 0px 50px"}}>
+
+                        # Resend Admin Forced Password Reset
+
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style={{textAlign: "left", padding: "0px 50px"}} vAlign="top">
+
+                        Hi \{\{user.claim.givenname\}\},
+
+                        We received a request to reset the password for the **\{\{user-name\}\}** account that is associated with this email address.<br /> Please use below OTP as the password at next login and then reset your password.<br /> OTP : **\{\{confirmation-code\}\}**
+
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style={{textAlign: "left", padding: "30px 50px 50px 50px"}} vAlign="top">
+
+                        Thanks,<br />WSO2 Identity Server Team
+
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colSpan="2" align="center" style={{padding: "20px 40px 40px 40px"}} bgColor="#f0f0f0">
+
+                        © 2018 [WSO2](http://wso2.com/) <br /> 787 Castro Street, Mountain View, CA 94041.
+
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        \`\`\`
+
+        </details>
+    6. **Email Footer** :  --
+
+:::tip
+For information on the REST API for resending confirmation code, see [Resend-Code Using REST API](../../../apis/user-management/use-the-self-sign-up-rest-apis.mdx).
+:::

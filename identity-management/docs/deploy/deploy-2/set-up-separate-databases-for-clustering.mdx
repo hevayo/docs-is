@@ -1,0 +1,113 @@
+---
+title: Set Up Separate Databases for Clustering
+description: WSO2 Identity Server uses a database to store information such as user management details and identity data.  # generated from the first paragraph; a writer should improve it
+type: reference
+sidebar_label: Set up Separate Databases for Clustering
+sidebar_position: 3
+slug: "/deploy/set-up-separate-databases-for-clustering"
+---
+
+WSO2 Identity Server uses a database to store information such as
+user management details and identity data. By
+default, WSO2 Identity Server is shipped with an embedded H2 database that
+works for all types of data.
+
+This section guides you through the logical separation of data that you
+can do when clustering WSO2 Identity Server. 
+
+::::warning[Embedded H2 is NOT RECOMMENDED in production]
+The embedded H2 database is not recommended for enterprise testing and 
+production environments. It has lower performance, clustering
+limitations, and can cause file corruption failures. Therefore, use an
+industry-standard RDBMS such as Oracle, PostgreSQL, MySQL, or MS SQL
+instead.
+
+:::tip[Before you begin]
+Creating separate databases as shown below is not mandatory. Instead, 
+you can point all the following datasources according to the default data structure. 
+This will not make a difference in performance. For more information on default 
+database structure, see [Working with Databases](../configure/data-stores/databases/work-with-databases.mdx).
+:::
+::::
+
+The following image shows the default database structure and a recommended 
+database structure for a logical separation of data.
+
+![separate-databases-for-clustering ](../../../assets/img/deploy/separate-databases-for-clustering.png)
+
+<table>
+  <thead>
+    <tr>
+      <th>Database Name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>` USERSTORE_DB `</td>
+      <td>
+
+        <li>Mainly contains users and roles of the system</li>
+
+        <li>Contains authorization manager configurations, internal permissions, and roles</li>
+
+        <li>In the default database configuration, user data and registry data are located inside `SHARED_DB`. .</li>
+
+        <li>For more information, see [Configure Userstores](../configure/deploy/configure-user-stores/configure-user-stores.mdx).</li>
+
+      </td>
+    </tr>
+    <tr>
+      <td>` IDENTITY_DB `</td>
+      <td>
+
+        <li>This contains identity-related data. For example, user sessions, OAuth 2.0, SAML 2.0, User Managed Access (UMA), etc.</li>
+
+        <li>In the default database configuration, all the UMA, consent and identity data are located in the `IDENTITY_DB`. In a deployment, both identity and UMA can be configured in a single database while consent data is configured to a separate database \`CONSENT_MGT\`</li>
+
+        .
+
+        <li>For more information, see [Working with Databases](../configure/data-stores/databases/work-with-databases.mdx).</li>
+
+      </td>
+    </tr>
+    <tr>
+      <td>` BPS_DB `</td>
+      <td>
+
+        <li>This is used to create, drop, and truncate data pertaining to the workflow feature.</li>
+
+        <li>For more information, see [Change the Default Datasource for BPS](../configure/data-stores/databases/change-the-carbon-database/change-datasource-bpsds.mdx).</li>
+
+      </td>
+    </tr>
+    <tr>
+      <td>` SHARED_DB `</td>
+      <td>
+
+        <li>This is the shared database for config and governance registry mounts in WSO2 Identity Server's nodes. This includes data on tenants and keystores.</li>
+
+        <li>In the default database configuration, user data and registry data is located inside `SHARED_DB`. During a deployment, user data can be configured to a different database, `USERSTORE_DB` while registry data remains in the `SHARED_DB` .</li>
+
+        <li>For more information, see [Working with Databases](../configure/data-stores/databases/work-with-databases.mdx).</li>
+
+      </td>
+    </tr>
+    <tr>
+      <td>` CONSENT_MGT `</td>
+      <td>
+
+        <li>Used for data pertaining to user consents</li>
+
+        <li>In the default database configuration, UMA, consent, and identity data are located `IDENTITY_DB`. In a deployment, both identity and UMA can be configured in a single database while consent data is configured to a separate database.</li>
+
+        <li>For more information, see [Change the Default Datasource for Consent Management](../configure/data-stores/databases/change-the-carbon-database/change-datasource-consent-management.mdx).</li>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+:::note
+For more information on `SHARED_DB` and `IDENTITY_DB`, see [Working with Databases](../configure/data-stores/databases/work-with-databases.mdx).
+:::

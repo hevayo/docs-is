@@ -2,18 +2,20 @@
 title: Log Claims in Audit Logs
 description: This feature enables to specify the required claims to be logged in audit logs.  # generated from the first paragraph; a writer should improve it
 type: reference
-sidebar_label: Log claims in audit logs
-sidebar_position: 6
-editions: self-hosted
+sidebar_position: 4
+slug: "/deploy/monitor/log-claims-in-audit-logs"
 ---
 
-This feature enables to specify the required claims to be logged in audit logs.
+This feature enables to specify the required claims to be logged in
+audit logs.
 
 Follow the steps given below in order to configure this feature.
 
-Make the following changes in the `deployment.toml` file in `<IS_HOME>/repository/conf/` to enable the audit logger.
+Make the following changes in the `         deployment.toml       ` file
+in `         <IS_HOME>/repository/conf/       ` to enable
+the audit logger.
 
-1. Add the following configuration to the  `deployment.toml` file.
+1.  Add the following configuration to the  `         deployment.toml       ` file.
 
     ```toml
     [event.default_listener.user_claim_audit_logger]     
@@ -21,7 +23,7 @@ Make the following changes in the `deployment.toml` file in `<IS_HOME>/repositor
     enable = true
     ```
 
-2. Add the following entry to define the claims that should be logged into the
+2.  Add the following entry to define the claims that should be logged into the
     audit log.
 
     ```toml
@@ -33,7 +35,7 @@ Make the following changes in the `deployment.toml` file in `<IS_HOME>/repositor
     :::note
     In the above configuration, you can define any claim available in
     the `<http://wso2.org/claims>` dialect as a
-    `LoggableUserClaim` . The **accountLocked** and
+    `           LoggableUserClaim          ` . The **accountLocked** and
     **role** claims have been used here only as examples.
     :::
 
@@ -46,4 +48,4 @@ Make the following changes in the `deployment.toml` file in `<IS_HOME>/repositor
    LogUpdatedClaimsOnly = true
    ```
 
-   On making the above-mentioned changes, claims will be logged into the `audit.log` file in `<IS_HOME>/repository/log`.
+   On making the above-mentioned changes, claims will be logged into the `           audit.log          ` file in `<IS_HOME>/repository/log`.
