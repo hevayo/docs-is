@@ -21,7 +21,7 @@ App-Native Authentication takes an API-based approach to let developers implemen
     - does not facilitate enrolling authenticators (e.g. TOTP authenticator).
     - only supports silent JIT provisioning.
 
-- App-native authentication does not support all authentication options. If you configure an unsupported authentication option, the login flow proceeds until it reaches that option and fails during execution.
+- App-native authentication does not support all authentication options. If you configure an unsupported authentication option, the login flow does not start.
 :::
 
 ## How it works
@@ -29,51 +29,6 @@ App-Native Authentication takes an API-based approach to let developers implemen
 The following diagram illustrates the high-level steps involved with app-native authentication.
 
 <img src={require("../../../../assets/img/guides/app-native-authentication/app-native-authentication-sequence.png").default} alt="app-native-authentication-sequence" width="650" style={{display: "block", margin: "0", border: "0px"}} />
-
-<Edition only="cloud">
-
-1. User initiates a login request at the application's login page.
-2. The application initiates an app-native authentication request with the server. The initial request made by the application is similar to an [OAuth 2.0 authorization code request](../configure-oidc-flows/oidc/implement-auth-code.mdx) but with the `response_mode` set to `direct` as shown below.
-
-    <Tabs groupId="tabs">
-    <TabItem value="sample-request" label="Sample request">
-
-    </TabItem>
-    </Tabs>
-
-    ```bash
-        curl --location 'https://api.asgardeo.io/t/{organization_name}/oauth2/authorize/'
-        --header 'Accept: application/json'
-        --header 'Content-Type: application/x-www-form-urlencoded'
-        --data-urlencode 'client_id=<client_id>'
-        --data-urlencode 'response_type=<response_type>'
-        --data-urlencode 'redirect_uri=<redircet_url>'
-        --data-urlencode 'state=<state>'
-        --data-urlencode 'scope=<space separated scopes>'
-        --data-urlencode 'response_mode=direct'
-    ```
-
-    <Tabs groupId="tabs">
-    <TabItem value="example" label="Example">
-
-    ```bash
-    curl --location 'https://api.asgardeo.io/t/bifrost/oauth2/authorize/'
-    --header 'Accept: application/json'
-    --header 'Content-Type: application/x-www-form-urlencoded'
-    --data-urlencode 'client_id=VTs12Ie26wb8HebnWercWZiAhMMa'
-    --data-urlencode 'response_type=code'
-    --data-urlencode 'redirect_uri=https://example-app.com/redirect'
-    --data-urlencode 'state=logpg'
-    --data-urlencode 'scope=openid internal_login'
-    --data-urlencode 'response_mode=direct'
-    ```
-
-    </TabItem>
-    </Tabs>
-
-</Edition>
-
-<Edition only="self-hosted">
 
 1. User initiates a login request at the application's login page.
 2. The application initiates an app-native authentication request with the server. The initial request made by the application is similar to an [OAuth 2.0 authorization code request](../configure-oidc-flows/oidc/implement-auth-code.mdx) but with the `response_mode` set to `direct` as shown below.
@@ -113,8 +68,6 @@ The following diagram illustrates the high-level steps involved with app-native 
 
     </TabItem>
     </Tabs>
-
-</Edition>
 
 3. The server responds with instructions for the next step of the authentication.
 4. The application displays the available authentication options to the user and prompts the user to enter the credentials.
@@ -183,17 +136,7 @@ Follow the steps below to enable app-native authentication for your application.
 
 Try out App-Native Authentication using Postman.
 
-<Edition only="cloud">
-
-[![Run in Postman](../../../../assets/img/logo/postman.svg)](https://app.getpostman.com/run-collection/8657284-83f51f64-fe45-4ca4-88b0-f670562d6b44)
-
-</Edition>
-
-<Edition only="self-hosted">
-
 [![Run in Postman](../../../../assets/img/logo/postman.svg)](https://app.getpostman.com/run-collection/8657284-8d164672-61aa-4326-bc5e-30314c49f6d0)
-
-</Edition>
 
 :::note
 Learn more about the API calls in [App-native authentication](../../../references/iam-concepts/app-native-authentication.mdx).

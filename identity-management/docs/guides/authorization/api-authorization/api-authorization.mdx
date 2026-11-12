@@ -37,7 +37,7 @@ The relationship between these entities is as follows:
 
 The following diagram depicts a sample use case of RBAC. <br />
 
-<Edition only="cloud"><img src={require("../../../../assets/cloud/img/guides/authorization/api-authorization/API-resource-high-level.png").default} alt="The relationship between terms" width="700" style={{display: "block", margin: "0"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/self-hosted/img/guides/authorization/api-authorization/API-resource-high-level.png").default} alt="The relationship between terms" width="700" style={{display: "block", margin: "0"}} /></Edition>
+<img src={require("../../../../assets/img/guides/authorization/api-authorization/API-resource-high-level.png").default} alt="The relationship between terms" width="700" style={{display: "block", margin: "0"}} />
 
 The Library application lets users log in and use its services in the form of a book API to manage books and a user API to manage users. The library application also wants to let users of an external library to log in to the application. The administrator wishes to employ RBAC to protect the application's API resources as follows,
 
@@ -129,17 +129,7 @@ You can implement access control for business APIs by following the steps below:
 
 1. Extract the access token issued by {edition.productName} in your application or API gateway.
 
-<Edition only="cloud">
-
-2. Validate opaque tokens through introspection or JWTs (JSON Web Tokens) through [JWT validation](../../authentication/configure-oidc-flows/tokens-and-validation/validate-jwt-with-jwks.mdx).
-
-</Edition>
-
-<Edition only="self-hosted">
-
 2. Validate opaque tokens through [introspection](../../authentication/configure-oidc-flows/tokens-and-validation/token-validation-resource-server.mdx) or JWTs (JSON Web Tokens) through [JWT validation](../../authentication/configure-oidc-flows/tokens-and-validation/token-validation-resource-server.mdx).
-
-</Edition>
 
 3. Extract the scopes from the token and check if the scopes match the required permissions.
 
@@ -177,13 +167,9 @@ To select the application audience,
     If you switch the role audience to **Organization**, application roles created for the application will be permanently deleted.
     :::
 
-    <Edition only="self-hosted">
-
     :::note
     In WSO2 Identity Server versions prior to update level 25, if the application's role audience is set to organization, users were required to manually assign organization-level roles to the application . This behavior has since changed. Now, all organization-level roles are automatically assigned to the application by default. If you are experiencing the previous behavior, download the updated [product pack](https://wso2.com/identity-server/) to receive the latest changes.
     :::
-
-    </Edition>
 
 ## Create roles and assign users
 
@@ -207,11 +193,11 @@ Imagine you have an issue management application. For this you employ the **issu
 
 - **Reviewers** can only read issues.
 
-Follow the steps below to use the {edition.productName}'s [React sample application](../../../quick-starts/try-samples/single-page-apps/qsg-spa-react.mdx) to see this scenario in action.
+Follow the steps below to use the {edition.productName}'s [React sample application](../../../get-started/try-samples/single-page-apps/qsg-spa-react.mdx) to see this scenario in action.
 
 1. Register the issues API as an API resource with scopes for reading, creating and deleting issues.
 
-2. [Register the issue management application](../../../quick-starts/try-samples/single-page-apps/qsg-spa-react.mdx#register-the-app) in {edition.productName} and authorize the application to use the issues API.
+2. [Register the issue management application](../../../get-started/try-samples/single-page-apps/qsg-spa-react.mdx#register-the-app) in {edition.productName} and authorize the application to use the issues API.
 
     <img src={require("../../../../assets/img/guides/authorization/api-authorization/authorize-an-api-resource.png").default} alt="Successfully authorized an API resource in the app" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
@@ -223,7 +209,7 @@ Follow the steps below to use the {edition.productName}'s [React sample applicat
 
 5. [Create users](../../users/users/manage-users.mdx#onboard-users) and assign them to each role. For this example, let's say **John** is a reporter and **Jane** is a reviewer.
 
-6. Copy the scopes authorized for the application, [configure the application to request scopes](../../../quick-starts/try-samples/single-page-apps/qsg-spa-react.mdx#configure-the-sample) and run it.
+6. Copy the scopes authorized for the application, [configure the application to request scopes](../../../get-started/try-samples/single-page-apps/qsg-spa-react.mdx#configure-the-sample) and run it.
 
 7. Access the application URL.
 

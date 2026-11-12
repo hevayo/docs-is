@@ -3,7 +3,6 @@ title: SAML artifact binding
 description: This guide explains SAML artifact binding and how to enable it in WSO2 Identity Server.  # generated from the first paragraph; a writer should improve it
 type: how-to
 sidebar_position: 3
-editions: self-hosted
 ---
 
 This guide explains SAML artifact binding and how to enable it in {edition.productName}.
@@ -16,7 +15,7 @@ When a Service Provider (SP) requests authentication from an Identity Provider (
 
 This approach minimizes the risk of interception or tampering but introduces additional complexity due to the required back-channel communication between the SP and IdP.
 
-![SAML artifact binding](../../../../assets/self-hosted/img/guides/authentication/saml/saml-artifact-binding.png)
+![SAML artifact binding](../../../../assets/img/guides/authentication/saml/saml-artifact-binding.png)
 
 The process goes as follows:
 
@@ -213,6 +212,15 @@ SAML2 POST Binding sends the SAML response via browser POST, creating a cross-or
 
     :::note
     If your are using a different URL, add that as an allowed origin.
+    :::
+
+    :::info
+    By default, {edition.productName} double-encodes the SAML artifact value. From update level **7.2.0.8** onwards, this behavior can be disabled to enforce specification-compliant SAML artifact handling by adding the following configuration to the `deployment.toml` file:
+
+    ```toml
+    [saml.artifact]
+    disable_double_encoding = true
+    ```
     :::
 
 2. Restart {edition.productName}.

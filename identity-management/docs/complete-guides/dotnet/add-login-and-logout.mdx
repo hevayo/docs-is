@@ -573,8 +573,6 @@ When you run the application using the `dotnet run` command you will now be able
 
 In the next steps we will set up and secure the routes in the application including for the login and logout functionality.
 
-<Edition only="self-hosted">
-
 :::tip
 In WSO2 Identity Server, the default certificate is a self signed certificate. This certificate needs to be added to your OS System Trust to allow the .NET application to connect to the Identity Server
 
@@ -591,6 +589,3 @@ openssl x509 -in carbon_public2.crt -inform der -outform pem -out certificate.pe
 ```
 Now you can add this certificate to your OS System Trust.
 :::
-
-</Edition>
-

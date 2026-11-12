@@ -43,95 +43,6 @@ If you only support a single mobile number and wish to update the mobile number 
 
 4. Click **Update** to save the changes. An SMS OTP will be sent to the specified mobile number for verification. The user needs to enter the SMS OTP to verify the mobile number.
 
-<Edition only="cloud">
-
-Alternatively, you may update the mobile number via a PATCH operation to the [SCIM 2.0 Me endpoint](../../../../../apis/scim2-me/index.mdx) as shown below.
-
-:::info
-<Tabs groupId="tabs">
-<TabItem value="request-format" label="Request format">
-
-```text
-curl -X PATCH
-https://api.asgardeo.io/t/{organization_name}/scim2/Me \
--d '{
-    "schemas":["urn:ietf:params:scim:api:messages:2.0:PatchOp"], 
-    "Operations":[{
-        "op":<operation>, 
-        "value":
-            { "mobileNumbers":[{"type":"mobile", "value":<new_mobile>}]}
-        }]
-    }' \
---header "Content-Type:application/json"
---header "Authorization: Bearer <access_token>"
-```
-
-</TabItem>
-<TabItem value="sample-request" label="Sample request">
-
-```bash
-curl -X PATCH
-https://api.asgardeo.io/t/bifrost/scim2/Me \
--d '{
-    "schemas":["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
-    "Operations":[{
-        "op":"replace",
-        "value":
-            { "phoneNumbers":[{"type": "mobile", "value":"0123456789"}]}
-        }]
-    }' \
---header "Content-Type:application/json"
---header "Authorization: Bearer <access_token>"
-```
-
-</TabItem>
-</Tabs>
----
-**Sample Response**
-```text
-{
-    "emails": [
-        "bobsmith@abc.com"
-    ],
-    "meta": {
-        "location": "https://api.asgardeo.io/t/bifrost/scim2/Users/6d433ee7-7cd4-47a3-810b-bc09023bc2ce",
-        "lastModified": "2020-10-12T13:35:24.579Z",
-        "resourceType": "User"
-    },
-    "schemas": [
-        "urn:ietf:params:scim:schemas:core:2.0:User",
-        "urn:ietf:params:scim:schemas:extension:enterprise:2.0:User",
-        "urn:scim:wso2:schema"
-    ],
-    "roles": [
-        {
-            "type": "default",
-            "value": "Internal/everyone"
-        }
-    ],
-    "name": {
-        "givenName": "Bob",
-        "familyName": "Smith"
-    },
-    "id": "6d433ee7-7cd4-47a3-810b-bc09023bc2ce",
-    "userName": "bob123",
-    "phoneNumbers": [
-        {
-            "type": "mobile",
-            "value": "0111111111"
-        }
-    ],
-    "urn:ietf:params:scim:schemas:extension:enterprise:2.0:User": {
-        "pendingMobileNumber": "0123456789"
-    }
-}
-```
-:::
-
-</Edition>
-
-<Edition only="self-hosted">
-
 Alternatively, you may update the mobile number via a PATCH operation to the [SCIM 2.0 Me endpoint](../../../../../apis/scim2-me-rest-apis/index.mdx) as shown below.
 
 :::info
@@ -215,8 +126,6 @@ https://localhost:9443/scim2/Me \
 ```
 :::
 
-</Edition>
-
 Upon receiving the response outlined above, the user will receive an SMS notification prompting them to verify their 
 updated mobile number. Once verified, the `Mobile` claim (`http://wso2.org/claims/mobile`) 
 will be updated to reflect the new mobile number.
@@ -241,98 +150,6 @@ A verification code will be sent to your mobile number.
 ![Mobile number update](../../../../../../assets/img/guides/users/my-account-verify-mobile.png)
 
 An SMS OTP will be sent to the specified mobile number for verification. The user needs to provide the OTP to verify the mobile number.
-
-<Edition only="cloud">
-
-Alternatively, you may update the mobile numbers via a PATCH operation to the [SCIM 2.0 Me endpoint](../../../../../apis/scim2-me/index.mdx) as shown below.
-
-:::info
-<Tabs groupId="tabs">
-<TabItem value="request-format" label="Request format">
-
-```bash
-curl -X PATCH
-https://api.asgardeo.io/t/{organization_name}/scim2/Me \
--d '{
-    "schemas":["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
-    "Operations":[{
-        "op":<operation>,
-        "value":{"urn:scim:wso2:schema": {"verifiedMobileNumbers": <list_of_mobile_numbers>}}
-        }]
-    }' 
---header "Content-Type:application/json"
---header "Authorization: Bearer <access_token>"
-```
-
-</TabItem>
-<TabItem value="sample-request" label="Sample request">
-
-```bash
-curl -X PATCH
-https://api.asgardeo.io/t/bifrost/scim2/Me \
--d '{
-    "schemas":["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
-    "Operations":[{
-        "op":"replace",
-        "value":{"urn:scim:wso2:schema": {"verifiedMobileNumbers": "0111111111,0123456789"}}
-        }]
-    }' 
---header "Content-Type:application/json"
---header "Authorization: Bearer <access_token>"
-```
-
-</TabItem>
-</Tabs>
-
----
-**Sample Response**
-```text
-{
-    "emails": [
-        "bobsmith@abc.com"
-    ],
-    "meta": {
-        "location": "https://api.asgardeo.io/t/bifrost/scim2/Users/6d433ee7-7cd4-47a3-810b-bc09023bc2ce",
-        "lastModified": "2020-10-12T13:35:24.579Z",
-        "resourceType": "User"
-    },
-    "schemas": [
-        "urn:ietf:params:scim:schemas:core:2.0:User",
-        "urn:ietf:params:scim:schemas:extension:enterprise:2.0:User",
-        "urn:scim:wso2:schema"
-    ],
-    "roles": [
-        {
-            "type": "default",
-            "value": "Internal/everyone"
-        }
-    ],
-    "name": {
-        "givenName": "Bob",
-        "familyName": "Smith"
-    },
-    "id": "6d433ee7-7cd4-47a3-810b-bc09023bc2ce",
-    "userName": "bob123",
-    "phoneNumbers": [
-        {
-            "type": "mobile",
-            "value": "0111111111"
-        }
-    ],
-    "urn:scim:wso2:schema": {
-        "mobileNumbers": "0111111111",
-        "verifiedMobileNumbers": "0111111111",
-    },
-    "urn:ietf:params:scim:schemas:extension:enterprise:2.0:User": {
-        "pendingMobileNumber": "0123456789"
-    }
-}
-```
-:::
-
-</Edition>
-
-<Edition only="self-hosted">
 
 Alternatively, you may update the mobile numbers via a PATCH operation to the [SCIM 2.0 Me endpoint](../../../../../apis/scim2-me-rest-apis/index.mdx) as shown below.
 
@@ -420,8 +237,6 @@ https://localhost:9443/scim2/Me \
 ```
 :::
 
-</Edition>
-
 Upon receiving the response outlined above, the user will receive an SMS notification prompting them to verify their 
 updated mobile number. Once verified, the `Verified Mobile Numbers` claim (`http://wso2.org/claims/verifiedMobileNumbers`) 
 will be updated to reflect the new mobile number.  If a primary mobile number has not been configured, 
@@ -435,53 +250,9 @@ When going through the mobile number verification process, users can enter the S
 
 Alternatively, the validation-code API can be used to submit the SMS OTP as shown below.
 
-<Edition only="self-hosted">
-
 ### By a non-privileged user
 
 Users can verify the SMS OTP by executing the following API request.
-
-</Edition>
-
-<Edition only="cloud">
-
-:::info
-<Tabs groupId="tabs">
-<TabItem value="request-format" label="Request format">
-
-```bash
-curl -X POST https://api.asgardeo.io/t/{organization_name}/api/identity/user/v1.0/me/validate-code 
--H "Authorization: Bearer <access_token>"
--H "Content-Type: application/json" \
--d '{ "code": "<validation_code>",
-      "properties": []
-    }'
-```
-
-</TabItem>
-<TabItem value="sample-request" label="Sample request">
-
-```bash
-curl -X POST https://api.asgardeo.io/t/bifrost/api/identity/user/v1.0/me/validate-code 
--H "Authorization: Bearer <access_token>"
--H "Content-Type: application/json" \
--d '{ "code": "1234",
-      "properties": []
-    }' 
-```
-
-</TabItem>
-</Tabs>
----
-**Response**
-```text
-"HTTP/1.1 200 Accepted"
-```
-:::
-
-</Edition>
-
-<Edition only="self-hosted">
 
 :::info
 <Tabs groupId="tabs">
@@ -516,10 +287,6 @@ curl -X POST https://localhost:9443/api/identity/user/v1.0/me/validate-code
 "HTTP/1.1 200 Accepted"
 ```
 :::
-
-</Edition>
-
-<Edition only="self-hosted">
 
 ### By a privileged user
 
@@ -559,8 +326,6 @@ curl -v -k -X POST https://localhost:9443/api/identity/user/v1.0/validate-code
 ```
 :::
 
-</Edition>
-
 ## Resend the verification code
 
 Users can request for a new SMS OTP code by simply clicking the `Resend verification code` button in the shown prompt 
@@ -569,63 +334,9 @@ Users can request for a new SMS OTP code by simply clicking the `Resend verifica
 
 Alternatively, the resend-code API can be used to resend the SMS OTP as shown below.
 
-<Edition only="self-hosted">
-
 ### By a non-privileged user {#by-a-non-privileged-user_1}
 
 Users can request a new SMS OTP by using the following API request.
-
-</Edition>
-
-<Edition only="cloud">
-
-:::info
-<Tabs groupId="tabs">
-<TabItem value="request-format" label="Request format">
-
-```bash
-curl -X POST https://api.asgardeo.io/t/{organization_name}/api/identity/user/v1.0/me/resend-code 
--H "Authorization: Bearer <access_token>"
--H "Content-Type: application/json" \
--d '{ "properties": [{
-        "key": "RecoveryScenario", 
-        "value": "<recovery_scenario>"
-      }]
-    }'
-```
-
-</TabItem>
-<TabItem value="sample-request" label="Sample request">
-
-```bash
-curl -X POST https://api.asgardeo.io/t/bifrost/api/identity/user/v1.0/me/resend-code 
--H "Authorization: Bearer <access_token>"
--H "Content-Type: application/json" \
--d '{ "properties": [{
-        "key": "RecoveryScenario", 
-        "value": "MOBILE_VERIFICATION_ON_UPDATE"
-      }]
-    }' 
-```
-
-</TabItem>
-</Tabs>
-
-The verification scenario should be specified in the `properties` parameter of the request body as follows:
-
-- `MOBILE_VERIFICATION_ON_UPDATE`: Used when verifying a newly updated mobile number for a user. <br />
-- `MOBILE_VERIFICATION_ON_VERIFIED_LIST_UPDATE`: Used when updating the list of verified mobile numbers for a user.
----
-
-**Response**
-```text
-"HTTP/1.1 201 Created"
-```
-:::
-
-</Edition>
-
-<Edition only="self-hosted">
 
 :::info
 <Tabs groupId="tabs">
@@ -670,10 +381,6 @@ The verification scenario should be specified in the `properties` parameter of t
 "HTTP/1.1 201 Created"
 ```
 :::
-
-</Edition>
-
-<Edition only="self-hosted">
 
 ### By a privileged user {#by-a-privileged-user_1}
 
@@ -732,6 +439,3 @@ The verification scenario should be specified in the request body as follows:
 "HTTP/1.1 201 Created"
 ```
 :::
-
-</Edition>
-

@@ -4,7 +4,7 @@ description: You can enable a more secure login flow for users that belong to sp
 type: how-to
 sidebar_label: MFA based on user role
 sidebar_position: 2
-editions: self-hosted
+slug: "/guides/authentication/conditional-auth/role-based-template"
 ---
 
 You can enable a more secure login flow for users that belong to specific roles associated with the application by applying the **Role-Based** conditional authentication template for Adaptive MFA. This template enables two-factor authentication with TOTP or passkeys for users who belong to the user role you specify.
@@ -16,11 +16,11 @@ Consider a scenario with two roles, `admin` and `manager` associated with an app
 1. Username and password
 2. TOTP or Passkey
 
-![Role based adaptive authentication](../../../../../assets/self-hosted/img/guides/conditional-auth/role-based-adaptive-auth.png)
+![Role based adaptive authentication](../../../../../assets/img/guides/conditional-auth/role-based-adaptive-auth.png)
 
 ## Prerequisites
 
-- You need to [register an application with {edition.productName}](../../../applications/index.mdx). You can register your own application or use one of the [sample applications](../../../../quick-starts/try-samples/index.mdx) provided.
+- You need to [register an application with {edition.productName}](../../../applications/index.mdx). You can register your own application or use one of the [sample applications](../../../../get-started/try-samples/index.mdx) provided.
 
 - Create two roles named `admin` and `manager` in application audience selecting the created application or create roles in organization audience and associate to the created application.
 
@@ -45,7 +45,7 @@ To enable conditional authentication:
 
     2. Click **Adaptive MFA** > **Role-Based** > **Add** to add the role-based adaptive MFA script.
 
-        <img src={require("../../../../../assets/self-hosted/img/guides/conditional-auth/role-based-adaptive-mfa-with-visual-editor.png").default} alt="Role-based adaptive MFA with visual editor" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+        <img src={require("../../../../../assets/img/guides/conditional-auth/role-based-adaptive-mfa-with-visual-editor.png").default} alt="Role-based adaptive MFA with visual editor" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
     3. Click **Confirm** to replace any existing script with the selected predefined script.
 
@@ -127,4 +127,4 @@ Follow the steps given below.
 
     The user will be prompted to select the step-up method, and the sign-in flow will be stepped up according to the user's preference.
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/conditional-auth/totp-passkey-step-up.png").default} alt="role-based-2fa-conditional-auth-stepup-page" width="300" style={{border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/conditional-auth/totp-passkey-step-up.png").default} alt="role-based-2fa-conditional-auth-stepup-page" width="300" style={{border: "0.3px solid lightgrey"}} />

@@ -1,22 +1,29 @@
 openapi: 3.0.0
 info:
   version: v1
-  title: WSO2 Identity Platform - Webhook Metadata Rest API
+  title: WSO2 Identity Server - Webhook Metadata Rest API
   description: >
     The Webhook Metadata REST API provides a standardized interface to retrieve
-    supported event profiles and the associated events within WSO2 Identity Platform. This API
+    supported event profiles and the associated events within WSO2 Identity Server. This API
     enables clients to dynamically fetch available events for webhook subscription based on the
     selected event profile, improving flexibility and profile-awareness in integrations.
 servers:
-  - url: 'https://api.asgardeo.io/t/{organization-name}/api/server/v1'
+  - url: "https://{server-url}/t/{tenant-domain}/api/server/v1"
+    variables:
+      server-url:
+        default: "localhost:9443"
+      tenant-domain:
+        default: carbon.super
+
 security:
   - OAuth2: []
+  - BasicAuth: []
 
 paths:
   /webhooks/metadata:
     get:
       summary: List Event Profiles
-      description: "This API returns the list of event profiles supported by WSO2 Identity Platform.\n\n <b>Scope(Permission) required:</b> `internal_webhook_meta_view` \n\n"
+      description: "This API returns the list of event profiles supported by WSO2 Identity Server.\n\n <b>Scope(Permission) required:</b> `internal_webhook_meta_view` \n\n"
       operationId: getEventProfiles
       tags:
         - Webhook Metadata
@@ -40,7 +47,7 @@ paths:
         x-codeSamples:
           - lang: Curl
             source: |
-              curl --location 'https://api.asgardeo.io/t/{organization-name}/api/server/v1/webhooks/metadata/event-profiles' -H 'Authorization: Bearer {bearer_token}'
+              curl --location 'https://localhost:9443/t/{tenant-domain}/api/server/v1/webhooks/metadata/event-profiles' -H 'Authorization: Bearer {bearer_token}'
 
   /webhooks/metadata/event-profiles/{profileName}:
     get:
@@ -91,8 +98,8 @@ components:
       type: oauth2
       flows:
         authorizationCode:
-          authorizationUrl: 'https://api.asgardeo.io/t/{org-name}/oauth2/authorize'
-          tokenUrl: 'https://api.asgardeo.io/t/{org-name}/oauth2/token'
+          authorizationUrl: 'https://localhost:9443/oauth2/authorize'
+          tokenUrl: 'https://localhost:9443/oauth2/token'
           scopes:
             internal_webhook_view: View webhook metadata
 
@@ -169,7 +176,7 @@ components:
           example: "https://schemas.identity.wso2.org"
         self:
           type: string
-          example: /t/{organization_name}/api/server/v1/webhooks/metadata/event-profiles/WSO2
+          example: /t/{tenant-domain}/api/server/v1/webhooks/metadata/event-profiles/WSO2
 
     Error:
       type: object

@@ -6,8 +6,6 @@ schemaVersion: 1
 categories:
   - id: fraud-detection
     label: Fraud detection
-  - id: identity-verification
-    label: Identity verification
   - id: authentication
     label: Authentication
 items:
@@ -19,16 +17,7 @@ items:
       - label: Connector store
         url: https://store.wso2.com/connector/identity-fraud-detection-sift
     category: fraud-detection
-    logo: assets/self-hosted/img/logo/sift-logo.svg
-  - id: onfido
-    name: Onfido
-    description: Provides identity verification so you know exactly who logs in.
-    href: ./onfido/overview.mdx
-    links:
-      - label: Connector store
-        url: https://store.wso2.com/connector/identity-verification-onfido
-    category: identity-verification
-    logo: assets/self-hosted/img/logo/onfido-logo.svg
+    logo: assets/img/logo/sift-logo.svg
   - id: iproov-authenticator
     name: iProov Authenticator
     description: Allow users to use biometrics for authentication.
@@ -37,7 +26,7 @@ items:
       - label: Connector store
         url: https://store.wso2.com/connector/identity-outbound-auth-iproov
     category: authentication
-    logo: assets/self-hosted/img/logo/iproov-logo.png
+    logo: assets/img/logo/iproov-logo.png
   - id: duo-security
     name: Duo Security
     description: Provides two-factor authentication to secure your system.
@@ -46,7 +35,7 @@ items:
       - label: Connector store
         url: https://store.wso2.com/connector/identity-outbound-auth-duo
     category: authentication
-    logo: assets/self-hosted/img/logo/duo-logo.png
+    logo: assets/img/logo/duo-logo.png
   - id: hypr-authenticator
     name: HYPR Authenticator
     description: Provides passwordless authentication with biometrics and device-based authentication.
@@ -55,7 +44,7 @@ items:
       - label: Connector store
         url: https://store.wso2.com/connector/identity-outbound-auth-hypr
     category: authentication
-    logo: assets/self-hosted/img/logo/hypr-logo.png
+    logo: assets/img/logo/hypr-logo.png
   - id: uaepass-authenticator
     name: UAEPass Authenticator
     description: An outbound OIDC federated authentication connector designed to integrate with the UAEPass Identity Provider.
@@ -64,7 +53,7 @@ items:
       - label: Connector store
         url: https://store.wso2.com/connector/identity-outbound-auth-uaepass
     category: authentication
-    logo: assets/self-hosted/img/logo/uaepass-logo.png
+    logo: assets/img/logo/uaepass-logo.png
   - id: typingdna-connector
     name: TypingDNA Connector
     description: Provides risk-based adaptive authentication by analyzing the user's typing patterns to detect anomalies and potential fraud.
@@ -73,7 +62,7 @@ items:
       - label: Connector store
         url: https://store.wso2.com/connector/identity-conditional-auth-typingdna
     category: fraud-detection
-    logo: assets/self-hosted/img/logo/typingdna-logo.png
+    logo: assets/img/logo/typingdna-logo.png
   - id: cognito
     name: Cognito
     description: Allows users to log in to WSO2 Identity Server using AWS Cognito.
@@ -82,7 +71,7 @@ items:
       - label: Connector store
         url: https://store.wso2.com/connector/identity-outbound-auth-cognito
     category: authentication
-    logo: assets/self-hosted/img/logo/cognito-logo.png
+    logo: assets/img/logo/cognito-logo.png
   - id: amazon
     name: Amazon
     description: Allows users to log in to WSO2 Identity Server using Amazon.
@@ -100,7 +89,7 @@ items:
       - label: Connector store
         url: https://store.wso2.com/connector/identity-outbound-auth-linkedIn
     category: authentication
-    logo: assets/self-hosted/img/logo/linkedin-logo.png
+    logo: assets/img/logo/linkedin-logo.png
   - id: kakao-authenticator
     name: Kakao Authenticator
     description: Allows users to log in to WSO2 Identity Server using Kakao.
@@ -109,7 +98,7 @@ items:
       - label: Connector store
         url: https://store.wso2.com/connector/identity-outbound-auth-kakao
     category: authentication
-    logo: assets/self-hosted/img/logo/kakao-logo.png
+    logo: assets/img/logo/kakao-logo.png
   - id: naver-authenticator
     name: Naver Authenticator
     description: Allows users to log in to WSO2 Identity Server using Naver.
@@ -118,13 +107,4 @@ items:
       - label: Connector store
         url: https://store.wso2.com/connector/identity-outbound-auth-naver
     category: authentication
-    logo: assets/self-hosted/img/logo/naver-logo.png
-  - id: password-reset-enforcer
-    name: Password Reset Enforcer
-    description: Enforces password reset upon expiration as part of the application's authentication flow.
-    href: ./password-reset-enforcer/overview.mdx
-    links:
-      - label: Connector store
-        url: https://store.wso2.com/connector/identity-outbound-auth-passwordPolicy
-    category: authentication
-    logo: assets/self-hosted/img/logo/password-reset-enforcer-logo.svg
+    logo: assets/img/logo/naver-logo.png

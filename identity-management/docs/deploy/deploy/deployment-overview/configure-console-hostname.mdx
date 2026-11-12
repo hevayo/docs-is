@@ -3,7 +3,7 @@ title: Restrict public access to management operations
 description: When deploying WSO2 Identity Server, you have the capability to isolate management operations from runtime traffic.  # generated from the first paragraph; a writer should improve it
 type: reference
 sidebar_position: 5
-editions: self-hosted
+slug: "/deploy/configure-console-hostname"
 ---
 
 When deploying {edition.productName}, you have the capability to isolate management operations from runtime traffic. By segregating administrative operations, you reduce the attack surface and prevent exposing high-privilege operations to the public.
@@ -19,7 +19,7 @@ This guide outlines two strategies to achieve this in {edition.productName}:
 
 The most robust security model involves physically or logically separating the infrastructure into two planes: a **Control Plane** for administration and a **Data Plane** for runtime operations.
 
-![data-plane-control-plane-separation](../../../../assets/self-hosted/img/deploy/data-plane-control-plane-seperation.png)
+![data-plane-control-plane-separation](../../../../assets/img/deploy/data-plane-control-plane-seperation.png)
 
 ### 1. Control plane (internal)
 

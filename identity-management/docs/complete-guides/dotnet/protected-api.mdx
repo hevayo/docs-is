@@ -57,7 +57,7 @@ To invoke the `/scim2/Me` endpoint, the `internal_login` scope must be present i
 
 To check the current scopes being requested upon login, analyze the `scope` parameter in the request payload of the initial authorization request during login.
 
-<Edition only="cloud"><img src={require("../../../assets/cloud/img/complete-guides/dotnet/image12.png").default} alt="Default scopes" width="800" style={{display: "block", margin: "0"}} /></Edition><Edition only="self-hosted"><img src={require("../../../assets/self-hosted/img/complete-guides/dotnet/image12.png").default} alt="Default scopes" width="800" style={{display: "block", margin: "0"}} /></Edition>
+<img src={require("../../../assets/img/complete-guides/dotnet/image12.png").default} alt="Default scopes" width="800" style={{display: "block", margin: "0"}} />
 
 By default, the requested scopes are `openid` and `profile`. To add the `internal_login` scope, navigate to the `Program.cs` file and insert this scope within the `oidcOptions` configurations in the `AddOpenIdConnect` method as highlighted below:
 
@@ -320,6 +320,6 @@ Additionally, we need to navigate to the `Components/Layout/NavMenu.razor` file 
 
 Now starting the application and clicking on the `Protected API` menu item after authentication will invoke the protected API with the token containing the required scopes and return a response as shown below.
 
-<Edition only="cloud"><img src={require("../../../assets/cloud/img/complete-guides/dotnet/image13.png").default} alt="Protected API" width="800" style={{display: "block", margin: "0"}} /></Edition><Edition only="self-hosted"><img src={require("../../../assets/self-hosted/img/complete-guides/dotnet/image13.png").default} alt="Protected API" width="800" style={{display: "block", margin: "0"}} /></Edition>
+<img src={require("../../../assets/img/complete-guides/dotnet/image13.png").default} alt="Protected API" width="800" style={{display: "block", margin: "0"}} />
 
 In this guide, we successfully implemented a secure API call from a .NET Blazor Web application using the access token. This ensures that the application can securely interact with the backend API, respecting the scopes and permissions granted during authentication. We will look into how we can manage tokens in .NET applications, especially for Blazor Web applications in the next step.

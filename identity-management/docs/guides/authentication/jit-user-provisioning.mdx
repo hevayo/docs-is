@@ -2,7 +2,7 @@
 title: Configure Just-in-Time user provisioning
 description: This guide explains the concept of Just-In-Time (JIT) user provisioning, why and when to use it, and also the instructions for configuring it.  # generated from the first paragraph; a writer should improve it
 type: how-to
-sidebar_position: 16
+sidebar_position: 9
 ---
 
 This guide explains the concept of Just-In-Time (JIT) user provisioning, why and when to use it, and also the instructions for configuring it.
@@ -23,7 +23,7 @@ JIT user provisioning works follows:
 
 4. {edition.productName} creates a user account in its internal user store along with the user attributes obtained from the authentication response.
 
-<Edition only="cloud"><img src={require("../../../assets/cloud/img/guides/jit-provisioning/how-jit-works.png").default} alt="How JIT user provisioning works" width="800" style={{display: "block", margin: "0"}} /></Edition><Edition only="self-hosted"><img src={require("../../../assets/self-hosted/img/guides/jit-provisioning/how-jit-works.png").default} alt="How JIT user provisioning works" width="800" style={{display: "block", margin: "0"}} /></Edition>
+<img src={require("../../../assets/img/guides/jit-provisioning/how-jit-works.png").default} alt="How JIT user provisioning works" width="800" style={{display: "block", margin: "0"}} />
 
 With this process, new user accounts are automatically provisioned to {edition.productName} when users log in with external IdPs.
 
@@ -41,7 +41,7 @@ To enable JIT user provisioning for an external Identity provider:
 
 3. Check the **Just-in-Time (JIT) User Provisioning** checkbox to enable it. Uncheck to disable it.
 
-    <Edition only="cloud"><img src={require("../../../assets/cloud/img/guides/jit-provisioning/jit-enabled.png").default} alt="JIT user provisioning configuration is enabled" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../assets/self-hosted/img/guides/jit-provisioning/jit-enabled.png").default} alt="JIT user provisioning configuration is enabled" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+    <img src={require("../../../assets/img/guides/jit-provisioning/jit-enabled.png").default} alt="JIT user provisioning configuration is enabled" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 4. Click **Update** to save.
 
@@ -57,13 +57,11 @@ When JIT user provisioning is disabled, the following restrictions apply:
 
 When JIT user provisioning is enabled, you can configure the following settings to customize how {edition.productName} provisions users.
 
-<Edition only="self-hosted">
-
 ### JIT provisioning scheme
 
 This setting determines whether {edition.productName} prompts users for credentials and consent when provisioning accounts through JIT. By default, {edition.productName} provisions users silently without prompting for either consent or credentials.
 
-<img src={require("../../../assets/self-hosted/img/guides/jit-provisioning/jit-provisioning-scheme.png").default} alt="JIT provisioning schemes" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+<img src={require("../../../assets/img/guides/jit-provisioning/jit-provisioning-scheme.png").default} alt="JIT provisioning schemes" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 - **Prompt for username, password, and consent** - Prompts the user for a username, password, and consent before account creation.
 
@@ -72,8 +70,6 @@ This setting determines whether {edition.productName} prompts users for credenti
 - **Prompt for consent** - Prompts the user for consent before provisioning.
 
 - **Provision silently**: Provisions the user automatically without prompting for either credentials or consent. This is the default behavior.
-
-</Edition>
 
 ### Attribute synchronization methods
 
@@ -134,5 +130,5 @@ var onLoginRequest = function (context) {
 ```
 
 :::note
-For more information on this script, refer to the [sign-in option-based conditional authentication script](./conditional-auth/add-adaptive-mfa/sign-in-option-based-template.mdx#how-it-works).
+For more information on this script, refer to the [sign-in option-based conditional authentication script](./conditional-auth/sign-in-option-based-template.mdx#how-it-works).
 :::

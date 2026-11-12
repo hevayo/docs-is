@@ -4,7 +4,7 @@ description: FranceConnect is a digital authentication solution provided by the 
 type: how-to
 sidebar_label: Add FranceConnect login
 sidebar_position: 2
-editions: self-hosted
+slug: "/guides/authentication/eid-login/add-franceconnect-login"
 ---
 
 [FranceConnect](https://franceconnect.gouv.fr/) is a digital authentication solution provided by the French government. It allows users to log in to various online services using their FranceConnect credentials. This guide will help you set up FranceConnect login in {edition.productName}.
@@ -26,7 +26,7 @@ Now, let's register the FranceConnect in {edition.productName}.
 2. Click **New Connections** and select **Standard-based Idp**.
 3. Click **Create**.
 4. Enter a  unique name for your FranceConnect connection.
-   <img src={require("../../../../../assets/self-hosted/img/guides/idp/franceconnect-eid/add-franceconnect-eid.png").default} alt="Add FranceConnect in WSO2 Identity Server" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+   <img src={require("../../../../../assets/img/guides/idp/franceconnect-eid/add-franceconnect-eid.png").default} alt="Add FranceConnect in WSO2 Identity Server" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 5. Enter the following details and click **Finish**:
 
        | Parameter | Description |
@@ -36,7 +36,7 @@ Now, let's register the FranceConnect in {edition.productName}.
        | Authorised redirect URL | Provide the Authorised redirect URL of your FranceConnect connection. For example \`https://app.franceconnect.gouv.fr/api/v1/authorize\`. |
        | Token Endpoint URL | Provide the Token endpoint URL of your FranceConnect connection. For example \`https://app.franceconnect.gouv.fr/api/v1/token\`. |
    <br />
-      <img src={require("../../../../../assets/self-hosted/img/guides/idp/franceconnect-eid/add-franceconnect-wizard.png").default} alt="Enter FranceConnect's Endpoint details WSO2 Identity Server" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /> 
+      <img src={require("../../../../../assets/img/guides/idp/franceconnect-eid/add-franceconnect-wizard.png").default} alt="Enter FranceConnect's Endpoint details WSO2 Identity Server" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /> 
 6. Click **Next**<br />
 7. You can enter *JWKS endpoint URL*  of France Connect or upload the public certificate. This step is not mandatory while creating the connection.
       <table>
@@ -52,7 +52,7 @@ Now, let's register the FranceConnect in {edition.productName}.
 ## Enable FranceConnect login
 
 :::note[Before you begin]
-You need to [register an application with {edition.productName}](../../../applications/index.mdx). You can register your own application or use one of the [sample applications](../../../../quick-starts/try-samples/index.mdx) provided.
+You need to [register an application with {edition.productName}](../../../applications/index.mdx). You can register your own application or use one of the [sample applications](../../../../get-started/try-samples/index.mdx) provided.
 :::
 
 1. On the {edition.productName} Console, go to **Applications**.
@@ -64,7 +64,7 @@ You need to [register an application with {edition.productName}](../../../applic
 
     3. Click **Confirm** to add login with FranceConnect to the sign-in flow.
 
-      <img src={require("../../../../../assets/self-hosted/img/guides/idp/franceconnect-eid/add-franceconnect-login-with-visual-editor.png").default} alt="Configuring FranceConnect in WSO2 Identity Server using the Visual Editor" width="500" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+      <img src={require("../../../../../assets/img/guides/idp/franceconnect-eid/add-franceconnect-login-with-visual-editor.png").default} alt="Configuring FranceConnect in WSO2 Identity Server using the Visual Editor" width="500" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
     :::note[Recommendations]
     It is recommended to add your social and enterprise connections to the first authentication step as they are used for identifying the user.
@@ -82,7 +82,7 @@ Follow the steps given below.
 
 3. On the {edition.productName} login page, **Sign in with FranceConnect**.
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/idp/franceconnect-eid/signin-with-franceconnect.png").default} alt="Login with FranceConnect" width="300" style={{border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/idp/franceconnect-eid/signin-with-franceconnect.png").default} alt="Login with FranceConnect" width="300" style={{border: "0.3px solid lightgrey"}} />
 
 4. Log in to FranceConnect with an existing eID.
 

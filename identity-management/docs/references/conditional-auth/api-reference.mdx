@@ -1,19 +1,10 @@
 ---
 title: Conditional authentication - API reference
-description: WSO2 Identity Platform provides a set of defined functions and objects to write your conditional authentication script.  # generated from the first paragraph; a writer should improve it
+description: WSO2 Identity Server provides a set of defined functions and objects to write your conditional authentication script.  # generated from the first paragraph; a writer should improve it
 type: reference
 sidebar_label: Conditional auth - API
 sidebar_position: 1
 ---
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
-<Edition only="cloud">
-
-{/* markdownlint-disable-file MD007 */}
-
-</Edition>
 
 {edition.productName} provides a set of defined functions and objects to write your conditional authentication script. They are grouped as follows:
 
@@ -23,48 +14,6 @@ import TabItem from '@theme/TabItem';
     - [`executeStep()`](#execute-a-step)
     - [`fail()`](#fail-the-login-flow)
     - [`sendError()`](#redirect-to-error-code)
-
-<Edition only="cloud">
-
-- [Utility functions](#utility-functions): These utility functions are used for specific scenarios. For example, checking whether the login user belongs to a specific user group. Listed below are the utility functions that can be used in conditional authentication scripts.
-
-    - [`isMemberOfAnyOfGroups()`](#check-group-membership)
-    - [`setCookie()`](#set-cookie)
-    - [`getCookieValue()`](#get-cookie-value)
-    - [`prompt()`](#prompt)
-    - [`getUserSessions()`](#get-user-sessions)
-    - [`terminateUserSession()`](#terminate-user-session)
-    - [`evaluateDevicePolicy()`](#evaluate-device-policy)
-    - [`sendEmail()`](#send-email)
-    - [`callChoreo`](#call-a-wso2-developer-platform-api)
-    - [`getValueFromDecodedAssertion()`](#get-parameter-value-from-jwt)
-    - [`getUniqueUserWithClaimValues()`](#get-unique-user)
-    - [`getUsersWithClaimValues()`](#get-multiple-users)
-    - [`getAssociatedLocalUser()`](#get-associated-user)
-    - [`doAssociationWithLocalUser()`](#do-association-with-local-user)
-    - [`removeAssociatedLocalUser()`](#remove-associated-local-user)
-    - [`getMaskedValue()`](#get-masked-value)
-    - [`httpGet()`](#http-get)
-    - [`httpPost()`](#http-post)
-    - [`resolveMultiAttributeLoginIdentifier()`](#resolve-multi-attribute-login-identifier)
-    - [`updateUserPassword()`](#update-user-password)
-
-- [Object references](#object-reference): You can use objects to capture user behaviors and set attributes. For example, you can use the **user** and **request** objects and write the login conditions accordingly. Listed below are the object references that can be used in conditional authentication scripts.
-
-    - [`context`](#context)
-    - [`step`](#step)
-    - [`user`](#user)
-    - [`request`](#request)
-    - [`response`](#response)
-    - [`session`](#session)
-    - [`application`](#application)
-    - [`userAgent`](#user-agent)
-    - [`connectionMetadata`](#connectionmetadata)
-    - [`authConfig`](#authconfig)
-
-</Edition>
-
-<Edition only="self-hosted">
 
 - [Utility functions](#utility-functions): These utility functions are used for specific scenarios. For example, checking whether the login user belongs to a specific user group. Listed below are the utility functions that can be used in conditional authentication scripts.
 
@@ -77,7 +26,6 @@ import TabItem from '@theme/TabItem';
     - [`prompt()`](#prompt-for-user-input)
     - [`getUserSessions()`](#get-user-sessions)
     - [`terminateUserSession()`](#terminate-user-session)
-    - [`evaluateDevicePolicy()`](#evaluate-device-policy)
     - [`sendEmail()`](#send-email)
     - [`getValueFromDecodedAssertion()`](#get-parameter-value-from-jwt)
     - [`getUniqueUserWithClaimValues()`](#get-unique-user)
@@ -101,8 +49,6 @@ import TabItem from '@theme/TabItem';
     - [`application`](#application)
     - [`userAgent`](#user-agent)
     - [`authConfig`](#authconfig)
-
-</Edition>
 
 ---
 
@@ -127,25 +73,11 @@ This function is called when {edition.productName} receives the initial login re
       </tbody>
     </table>
 
-<Edition only="cloud">
-
-- **Example**
-
-    ```bash
-    onLoginRequest = function(context)
-    ```
-
-</Edition>
-
-<Edition only="self-hosted">
-
 - **Example**
 
     ```bash
     onLoginRequest(context)
     ```
-
-</Edition>
 
 ### Execute a step
 
@@ -155,8 +87,6 @@ This function is called to execute an authentication step in the login flow. You
 
 This method accepts an object as a parameter and should include the details listed below.
 
-<Edition only="cloud">
-
 <table>
   <tbody>
     <tr>
@@ -173,29 +103,6 @@ This method accepts an object as a parameter and should include the details list
     </tr>
   </tbody>
 </table>
-
-</Edition>
-
-<Edition only="self-hosted">
-
-<table>
-  <tbody>
-    <tr>
-      <td>`<stepId>`</td>
-      <td>(Mandatory) The step number in the login flow.</td>
-    </tr>
-    <tr>
-      <td>`<options>`</td>
-      <td>(Optional) A map that can configure step execution. Authentication option filtering is supported.<br /> For more information, see the example on **filtering connections in a step** given below.</td>
-    </tr>
-    <tr>
-      <td>`<eventCallbacks>`</td>
-      <td>(optional) The object that contains the callback functions, which are to be called based on the result of the step execution.<br /> Supported results are `onSuccess` and `onFail` which can have their own optional callbacks as anonymous functions. For these callbacks, the \[context\](#context) and \[data\](#data) parameters are passed.<br /> If the flow reaches the eventCallback stage and additional steps need to be executed, those steps should be included within the callback itself.</td>
-    </tr>
-  </tbody>
-</table>
-
-</Edition>
 
 The following sample template shows how the above categorization can be used in a script.
 
@@ -259,36 +166,6 @@ This section describes the **options** you can use to configure the `executeStep
     `authenticatorParams` configure the authenticators that {edition.productName} provides. They are not sent to the external service of a [custom authenticator](../../guides/customizations/service-extensions/in-flow-extensions/custom-authentication.mdx). To pass values to such a service, list the request parameters you want to forward in **Allowed parameters** of the custom authenticator configuration.
     :::
 
-<Edition only="cloud">
-
-- <b> Connections: Local authenticators and federated IdPs </b>
-
-    When you want to access your configured [connections](../../guides/authentication/index.mdx#manage-connections) in an authentication step, you can use the following values through the **options** explained above.
-
-    See the example on **filtering connections in a step** given below for details.
-
-    The **local authenticators** are represented by the `authenticator` parameter. The table shows the connection names (as displayed on the {edition.productName} Console) and the corresponding authenticator name you can use in the scripts.
-
-    | Connection Name | Authenticator |
-    | --- | --- |
-    | Email OTP | email-otp-authenticator |
-    | Identifier First | IdentifierExecutor |
-    | Magic Link | MagicLinkAuthenticator |
-    | Security Key/Biometrics | FIDOAuthenticator |
-    | SMS OTP | sms-otp-authenticator |
-    | TOTP | totp |
-    | Username & Password | BasicAuthenticator |
-
-    The **external identity providers** are represented by the `idp` parameter. The federated connection names are generated based on the name you assign to the connection at registration.
-
-    :::tip[Example]
-    If you add a [federated google connection](../../guides/authentication/add-federated-login/social-login/add-google-login.mdx) with the name **bifrost google**, the value you can use in your authentication scripts is `bifrost_google`.
-    :::
-
-</Edition>
-
-<Edition only="self-hosted">
-
 - <b> Connections: Local authenticators and federated IdPs </b>
 
     When you want to access your configured [connections](../../guides/authentication/index.mdx#manage-connections) in an authentication step, you can use the following values through the **options** explained above.
@@ -313,8 +190,6 @@ This section describes the **options** you can use to configure the `executeStep
     If you add a [federated google connection](../../guides/authentication/add-federated-login/social-login/add-google-login.mdx) with the name **bifrost google**, the value you can use in your authentication scripts is `bifrost_google`.
     :::
 
-</Edition>
-
 #### Examples
 
 Shown below are ways to define a login flow using the core functions.
@@ -338,51 +213,6 @@ Shown below are ways to define a login flow using the core functions.
         }
     });
     ```
-
-<Edition only="cloud">
-
-- <b>Example 3: Use all parameters</b>
-
-    This example uses the `stepId`, `options`, and an empty `eventCallbacks` object. Different properties can be defined by the `options` object, such as `authenticationOptions` and `authenticatorParams`. However, you cannot write a script with only the `stepId` and `options`. See the following two examples:
-
-    ```javascript
-    executeStep(1, {
-        authenticationOptions:[{
-            authenticator: 'totp'
-        }]}, {}
-    );
-    ```
-
-    ```javascript
-    executeStep(1, {
-        authenticatorParams: {
-            local: {
-                email-otp-authenticator: {
-                      enableRetryFromAuthenticator: 'true'
-                }
-            }
-        }, {}
-    );
-    ```
-
-- <b>Example 4: Filter connections in a step</b>
-
-    The `authenticationOptions` array filters out connections (local authenticators and federated identity providers) of a step based on a condition.
-
-    This can be achieved by specifying an array named `authenticationOptions` to the `options` map.  You can have `idp` as an array item for federated connections and `authenticator` as an array item for local connections, as shown below.
-
-      ```javascript
-      executeStep(1,{
-        authenticationOptions:[{authenticator:'BasicAuthenticator'},{idp:'google'}]
-        },{
-            onSuccess: function (context) {
-                // Do something on success
-      };
-      ```
-
-</Edition>
-
-<Edition only="self-hosted">
 
 - <b>Example 3: Use all parameters</b>
 
@@ -448,8 +278,6 @@ Shown below are ways to define a login flow using the core functions.
       };
     ```
 
-</Edition>
-
 ### Fail the login flow
 
 `fail()`  
@@ -492,41 +320,6 @@ passed. All the properties passed in the map are also optional.
 
 `sendError()`
 
-<Edition only="cloud">
-
-This function redirects the user to an error page.
-
-- **Parameters**
-
-    <table>
-      <tbody>
-        <tr>
-          <td>`url`</td>
-          <td>The URL of the error page that the user is redirected to. If the value is null, the user is redirected by default to the **retry.do** error page.<br /> Note that any relative URL is assumed to be relative to the host's root.</td>
-        </tr>
-        <tr>
-          <td>`parameters`</td>
-          <td>Key value map passed as parameters. These are converted to query parameters in the URL.</td>
-        </tr>
-      </tbody>
-    </table>
-
-- **Example**
-
-    It is recommended to use an i18n key to describe the error messages so that they can be internationalized easily on the error page.
-
-    ```javascript
-    var user = context.steps[1].subject;
-    var isAdmin = hasRole(user, 'admin');
-    if (!isAdmin) {
-        sendError('http://www.example.com/error',{'status':'000403','statusMsg':'You are not allowed to login to this app.', 'i18nkey':'not.allowed.error'});
-    }
-    ```
-
-</Edition>
-
-<Edition only="self-hosted">
-
 This function redirects the user to an error page. It includes the parameters listed below.
 
 - **Parameters**
@@ -555,8 +348,6 @@ This function redirects the user to an error page. It includes the parameters li
     }
     ```
 
-</Edition>
-
 ## Utility functions
 
 The implementation of utility functions can be found in the [WSO2 extensions code repository](https://github.com/wso2-extensions/identity-conditional-auth-functions).
@@ -565,17 +356,7 @@ The implementation of utility functions can be found in the [WSO2 extensions cod
 
 `isMemberOfAnyOfGroups()`
 
-<Edition only="cloud">
-
-This function returns `true` if the specified user belongs to at least one of the given groups, and returns `false` if the user does not.
-
-</Edition>
-
-<Edition only="self-hosted">
-
 This function returns `true` if the specified user belongs to at least one of the given groups, and returns `false` if the user does not. It includes the parameters listed below.
-
-</Edition>
 
 - **Parameters**
 
@@ -602,8 +383,6 @@ This function returns `true` if the specified user belongs to at least one of th
         executeStep(2);
     }
     ```
-
-<Edition only="self-hosted">
 
 ### Has Any Of The Roles
 
@@ -698,23 +477,11 @@ This function removes each of the roles(v2) specified in the `roleListToAssign` 
     });
     ```
 
-</Edition>
-
 ### Set cookie
 
 `setCookie(response, name, value, properties)`
 
-<Edition only="cloud">
-
-This function sets a new cookie.
-
-</Edition>
-
-<Edition only="self-hosted">
-
 This function sets a new cookie. It includes the parameters listed below.
-
-</Edition>
 
 - **Parameters**
 
@@ -767,17 +534,7 @@ This function sets a new cookie. It includes the parameters listed below.
 
 `getCookieValue(request, name, properties)`
 
-<Edition only="cloud">
-
-This function gets the plain-text cookie value for the cookie name if it is present.
-
-</Edition>
-
-<Edition only="self-hosted">
-
 This function gets the plain-text cookie value for the cookie name if it is present. It includes the parameters listed below.
-
-</Edition>
 
 - **Parameters**
 
@@ -810,166 +567,6 @@ This function gets the plain-text cookie value for the cookie name if it is pres
     ```javascript
     getCookieValue(context.request,"name", {"decrypt" : true,"validateSignature" : true })
     ```
-
-<Edition only="cloud">
-
-### Prompt
-
-`prompt(templateId, data, eventHandlers)`
-
-This function prompts the user for different interactions.
-
-- **Parameters**
-
-    <table>
-      <tbody>
-        <tr>
-          <td>`templateId`</td>
-          <td>Identifier of the template that needs to be prompted.</td>
-        </tr>
-        <tr>
-          <td>`data`</td>
-          <td>The data associated with the template to be sent in the prompt.</td>
-        </tr>
-        <tr>
-          <td>`eventHandlers`</td>
-          <td>The callback event handlers.</td>
-        </tr>
-      </tbody>
-    </table>
-
-    The following table contains the supported templates and the associated data.
-        <table>
-          <thead>
-            <tr>
-              <th>Template Id</th>
-              <th>Description</th>
-              <th>Data</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>genericForm</td>
-              <td>Prompt for generic user input.</td>
-              <td>
-
-                - `username`: Username that will be used in a greeting
-                - `inputs`: A list of input field objects in the form. For example: `{id: “”, label: “”}`
-
-              </td>
-            </tr>
-            <tr>
-              <td>externalRedirect</td>
-              <td>Redirect users to an external static page.</td>
-              <td>
-
-                - `redirectURL`: The external URL to redirect the user.
-
-              </td>
-            </tr>
-            <tr>
-              <td>internalWait</td>
-              <td>Keep a user waiting for a predefined fixed time or until a status is completed.</td>
-              <td>
-
-                - `waitingType`: Waiting method. Can be one of `FIXED_DELAY` or `POLLING`. Default waitingType is `FIXED_DELAY`.
-
-                - `waitingConfigs`: Waiting page configurations.
-
-                  - `greeting`: An optional greeting. Default text is `Just a moment...`
-                  - `message`: An optional message. Default text is `We are setting things up for you.`.
-                  - `timeout`: Optional timeout period in seconds. Default timeout is 10 seconds and max timeout is 20 seconds.
-                  - `waitingType`
-                  - `POLLING`
-                  - - `pollingEndpoint`: REST endpoint to poll a status.
-                    - `pollingInterval`: Time internal in seconds to poll the polling endpoint. Default value is \`2\` seconds.
-                    - `requestMethod`: Polling request method. Can be one of `GET` or `POST`. Default value is `GET`.
-                    - `contentType`: Content type of the polling request. Default value is `application/x-www-form-urlencoded`.
-                    - `requestData`: Data to be sent to the polling endpoint. Can specify a string or an object. If the HTTP method is `GET`, the data will be appended to the URL.
-
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-- **Examples**
-
-<Tabs groupId="tabs">
-<TabItem value="genericform" label="genericForm">
-
-```javascript
-var onLoginRequest = function(context) {
-  executeStep(1, {
-      onSuccess: function (context) {
-          var username = context.steps[1].subject.username;
-          prompt("genericForm", {"username":username, "inputs":[{"id":"fname","label":"First Name"},{"id":"lname","label":"Last Name"}]}, {
-            onSuccess : function(context) {
-                var fname = context.request.params.fname[0];
-                var lname = context.request.params.lname[0];
-                Log.info(fname);
-                Log.info(lname);
-            }
-          });
-      }
-  });
-}
-```
-
-</TabItem>
-<TabItem value="externalredirect" label="externalRedirect">
-
-```javascript
-var onLoginRequest = function(context) {
-  executeStep(1, {
-    onSuccess: function (context) {
-      prompt("externalRedirect", {
-      "redirectURL": "{EXTERNAL_URL}"}, {
-        onSuccess : function(context) {
-          Log.info("Successfully redirected back from the external page");
-          },
-        onFail: function(context, data) {
-          Log.info("Error occurred during the prompt.");
-        } 
-      });
-     }
-  });
-}
-```
-
-</TabItem>
-<TabItem value="internalwait" label="internalWait">
-
-```javascript
-var onLoginRequest = function(context) {
-  executeStep(1, {
-    onSuccess: function (context) {
-      prompt("internalWait", {
-        "waitingType": "POLLING",
-        "waitingConfigs": {
-          "pollingEndpoint": "<POLLING_ENDPOINT>",
-          "requestData": "contextId=1234",
-          "pollingInterval": "2",
-          "timeout": "10"
-        }
-      }, {
-        onSuccess: function (context) {
-          Log.info("Successfully redirected back from waiting page.");
-        },
-        onFail: function (context, data) {
-          Log.info("Error occurred during the prompt.");
-        }
-      });
-    }
-  });
-}
-```
-
-</TabItem>
-</Tabs>
-
-</Edition>
-
-<Edition only="self-hosted">
 
 ### Prompt for user input
 
@@ -1016,25 +613,12 @@ This function prompts user input. It includes the parameters listed below.
     }
     ```
 
-</Edition>
-
 ### Get user sessions
 
 `getUserSessions()`
 
-<Edition only="cloud">
-
-This function returns a session object  (i.e., all the active user sessions of the specified user or an empty
-array if there are no sessions).
-
-</Edition>
-
-<Edition only="self-hosted">
-
 This function returns a session object  (i.e., all the active user sessions of the specified user or an empty
 array if there are no sessions). It includes the parameters listed below.
-
-</Edition>
 
 - **Parameters**
 
@@ -1061,19 +645,8 @@ array if there are no sessions). It includes the parameters listed below.
 
 `terminateUserSession()`
 
-<Edition only="cloud">
-
-This function returns a session object (i.e., all the active user sessions of the specified user or an empty
-array if there are no sessions).
-
-</Edition>
-
-<Edition only="self-hosted">
-
 This function returns a session object (i.e., all the active user sessions of the specified user or an empty
 array if there are no sessions). It includes the parameters listed below.
-
-</Edition>
 
 - **Parameters**
 
@@ -1101,80 +674,11 @@ array if there are no sessions). It includes the parameters listed below.
     }
     ```
 
-### Evaluate device policy
-
-`evaluateDevicePolicy()`
-
-This function evaluates a <Edition selfHostedFrom="next">[device assurance policy](../../guides/device-management/device-assurance-policies.mdx)</Edition> against the registered device that is making the login request, and returns the result. The device presents itself with a device token. See <Edition selfHostedFrom="next">[Enforce a device policy at login](../../guides/device-management/enforce-device-policy-at-login.mdx)</Edition>.
-
-- **Parameters**
-
-    <table>
-      <tbody>
-        <tr>
-          <td>`context`</td>
-          <td>The authentication context.</td>
-        </tr>
-        <tr>
-          <td>`policyName`</td>
-          <td>The name of the device assurance policy to evaluate.</td>
-        </tr>
-      </tbody>
-    </table>
-
-- **Return value**
-
-    An object with the following properties:
-
-    <table>
-      <tbody>
-        <tr>
-          <td>`compliant`</td>
-          <td>`true` if the device complies with the policy, and `false` otherwise.</td>
-        </tr>
-        <tr>
-          <td>`status`</td>
-          <td>One of `COMPLIANT`, `NON_COMPLIANT`, `INCOMPLETE_DEVICE_DATA`, or `ERROR`.</td>
-        </tr>
-        <tr>
-          <td>`failedFields`</td>
-          <td>The device attributes that don't meet the policy.</td>
-        </tr>
-        <tr>
-          <td>`missingFields`</td>
-          <td>The device attributes that the policy needs but the device didn't report.</td>
-        </tr>
-        <tr>
-          <td>`errorCode`</td>
-          <td>Set when the status is `ERROR`. One of `device_data_unavailable`, `policy_not_found`, `policy_error`, or `evaluation_error`.</td>
-        </tr>
-      </tbody>
-    </table>
-
-- **Example**
-
-    ```javascript
-    var result = evaluateDevicePolicy(context, "Corporate Device Policy");
-    if (!result.compliant) {
-        fail({"errorCode": "device_non_compliant", "errorMessage": "Device does not meet the policy."});
-    }
-    ```
-
 ### Send email
 
 `sendEmail()`
 
-<Edition only="cloud">
-
-This function sends an email to the specified user.
-
-</Edition>
-
-<Edition only="self-hosted">
-
 This function sends an email to the specified user. It includes the parameters listed below.
-
-</Edition>
 
 - **Parameters**
 
@@ -1202,76 +706,6 @@ This function sends an email to the specified user. It includes the parameters l
     var firstName = user.localClaims['http://wso2.org/claims/givenname'];
     sendEmail(user, 'myTemplate', {'firstName':firstName});
     ```
-
-<Edition only="cloud">
-
-### Call a WSO2 Developer Platform API
-
-This function invokes an API hosted in [WSO2 Developer Platform](https://wso2.com/engineering-platform/developer-platform/).
-
-:::note[Important]
-Note that to use the `callChoreo` function, the API should,
-
-- contain an endpoint that accepts `POST` requests.
-- return a status code of `2xx`.
-:::
-
-- **Parameters**
-
-    <table>
-      <tbody>
-        <tr>
-          <td>`connectionMetadata`</td>
-          <td>An object containing the necessary metadata to invoke the API. . See \[ConnectionMetadata\](#connectionmetadata) for more information.</td>
-        </tr>
-        <tr>
-          <td>`payloadData`</td>
-          <td>An object representing the payload that needs to be sent in the API request body.</td>
-        </tr>
-        <tr>
-          <td>`eventHandlers`</td>
-          <td>An object that contains the callback functions, which are to be called based on the result of API invocation. <br /> Supported results are `onSuccess`, `onFail`, and `onTimeout`.</td>
-        </tr>
-      </tbody>
-    </table>
-
-- **Example**
-
-    ```javascript
-    var connectionMetadata = {
-    "url": "<CWSO2 Developer Platform API URL>",
-    "consumerKey": "<Consumer key of the WSO2 Developer Platform Application>",
-    "consumerSecret": "<Consumer secret of the WSO2 Developer Platform Application>"
-    };
-
-    var requestPayload = {"example-key": "example-value"};
-
-    callChoreo(connectionMetadata, requestPayload, {
-      onSuccess: function(context, data) {
-          Log.info("Successfully invoked the WSO2 Developer Platform API.");
-      },
-      onFail: function(context, data) {
-          Log.info("Error occurred while invoking the WSO2 Developer Platform API.");
-      },
-      onTimeout: function(context, data) {
-          Log.info("Invoking WSO2 Developer Platform API timed out.");
-      }
-    });
-    ```
-
-    <details>
-    <summary>Using {edition.productName} as the key manager</summary>
-
-    If you are using {edition.productName} as the key manager in your WSO2 Developer Platform organization, append  the `asgardeoTokenEndpoint` parameter to the `connectionMetadata` variable as follows:
-        ```javascript
-        var connectionMetadata = {
-          "asgardeoTokenEndpoint": "{{ product_url_format }}/oauth2/token"
-        };
-        ```
-
-    </details>
-
-</Edition>
 
 ### Get parameter value from JWT
 
@@ -1304,22 +738,6 @@ This function returns a string containing the parameter's value in a decoded Jso
     var state = getValueFromDecodedAssertion(context.request.params.request[0],"state",true);
     ```
 
-<Edition only="cloud">
-
-:::note
-This function only decodes the JWT - it does not verify the signature, issuer, audience, or expiry.
-:::
-
-</Edition>
-
-<Edition only="self-hosted">
-
-:::note
-This function only decodes the JWT — it does not verify the signature, issuer, audience, or expiry.
-:::
-
-</Edition>
-
 ### Get unique user
 
 `getUniqueUserWithClaimValues(claimMap, context)`
@@ -1341,21 +759,6 @@ The utility function will search the underlying user stores and return a unique 
       </tbody>
     </table>
 
-<Edition only="cloud">
-
-- **Example**
-
-    ```javascript
-    var claimMap = {};
-    claimMap[MAPPED_FEDERATED_USER_NAME_CLAIM] = federatedUserName;
-    claimMap[MAPPED_FEDERATED_IDP_NAME_CLAIM] = idpName;
-    var mappedUsername = getUniqueUserWithClaimValues(claimMap, context);
-    ```
-
-</Edition>
-
-<Edition only="self-hosted">
-
 - **Example**
 
     ```javascript
@@ -1363,8 +766,6 @@ The utility function will search the underlying user stores and return a unique 
     claimMap["http://wso2.org/claims/username"] = federatedUserName;
     var mappedUsername = getUniqueUserWithClaimValues(claimMap, context);
     ```
-
-</Edition>
 
 ### Get multiple users
 
@@ -1462,45 +863,6 @@ This function removes the existing association of a federated user with the loca
       </tbody>
     </table>
 
-<Edition only="cloud">
-
-- **Example**
-
-    ```javascript
-    var federatedUser = context.steps[1].subject;
-    removeAssociatedLocalUser(federatedUser)
-    ```
-
-### Get masked value
-
-`getMaskedValue(value)`
-
-This utility function returns a masked value for the given input value. It can be used to mask sensitive content in logs.
-
-- **Parameters**
-
-    <table>
-      <tbody>
-        <tr>
-          <td>`value`</td>
-          <td>Value needs to be masked.</td>
-        </tr>
-      </tbody>
-    </table>
-
-- **Example**
-
-  If there is a requirement to add logs containing sensitive information (such as PII), those can be masked using this function as follows.
-
-  ```javascript
-  var email = context.currentKnownSubject.username;
-  Log.info("Email of the logged user : " + getMaskedValue(email));
-  ```
-
-</Edition>
-
-<Edition only="self-hosted">
-
 - **Example**
 
     ```javascript
@@ -1508,75 +870,9 @@ This utility function returns a masked value for the given input value. It can b
     removeAssociatedLocalUser(federatedUser);
     ```
 
-</Edition>
-
 ### HTTP GET
 
 `httpGet(url, headers, authConfig, eventHandlers)`
-
-<Edition only="cloud">
-
-The HTTP GET function enables sending HTTP GET requests to specified endpoints as part of the adaptive authentication scripts in WSO2 Identity Platform. It's commonly used to interact with external systems or APIs to retrieve necessary data for authentication decisions.
-
-- **Parameters**
-
-    <table>
-      <tbody>
-        <tr>
-          <td style={{whiteSpace: "nowrap"}}>`url`</td>
-          <td>The URL of the endpoint to which the HTTP GET request should be sent.</td>
-        </tr>
-        <tr>
-          <td style={{whiteSpace: "nowrap"}}>`headers`</td>
-          <td>HTTP request headers to be included in the GET request (optional).</td>
-        </tr>
-        <tr>
-          <td style={{whiteSpace: "nowrap"}}>`authConfig`</td>
-          <td>An object containing the necessary authentication metadata to invoke the API. See \[AuthConfig\](#authconfig) for information.</td>
-        </tr>
-        <tr>
-          <td style={{whiteSpace: "nowrap"}}>`eventHandlers`</td>
-          <td>The object that contains the callback functions, which are to be called based on the result of the GET request.<br /> Supported results are `onSuccess` and `onFail`, which can have their own optional callbacks as anonymous functions.</td>
-        </tr>
-      </tbody>
-    </table>
-
-- **Example**
-
-    ```javascript
-    var authConfig = {
-        type: "basic",
-        properties: {
-            username: "admin",
-            password: "adminPassword"
-        }
-    };
-
-    var onLoginRequest = function(context) {
-        httpGet('https://example.com/resource', {
-            "Accept": "application/json"
-        }, authConfig, {
-            onSuccess: function(context, data) {
-                Log.info("Successfully invoked the external API.");
-                context.selectedAcr = data.status;
-                executeStep(1);
-            },
-            onFail: function(context, data) {
-                Log.info("Error occurred while invoking the external API.");
-                context.selectedAcr = 'FAILED';
-                executeStep(2);
-            },
-            onTimeout: function(context, data) {
-                Log.info("Invoking external API timed out.");
-                executeStep(2);
-            }
-        });
-    }
-    ```
-
-</Edition>
-
-<Edition only="self-hosted">
 
 The HTTP GET function enables sending HTTP GET requests to specified endpoints as part of the adaptive authentication scripts in WSO2 Identity Server. It's commonly used to interact with external systems or APIs to retrieve necessary data for authentication decisions.
 
@@ -1632,94 +928,9 @@ The HTTP GET function enables sending HTTP GET requests to specified endpoints a
       }
   ```
 
-</Edition>
-
 ### HTTP POST
 
 `httpPost(url, body, headers, authConfig, eventHandlers)`
-
-<Edition only="cloud">
-
-The HTTP POST function enables sending HTTP POST requests to specified endpoints as part of the adaptive authentication scripts in WSO2 Identity Platform. It's commonly used to interact with external systems or APIs to retrieve necessary data for authentication decisions.
-
-- **Parameters**
-
-    <table>
-      <tbody>
-        <tr>
-          <td style={{whiteSpace: "nowrap"}}>`url`</td>
-          <td>The URL of the endpoint to which the HTTP POST request should be sent.</td>
-        </tr>
-        <tr>
-          <td style={{whiteSpace: "nowrap"}}>`body`</td>
-          <td>HTTP request body to be included in the POST request.</td>
-        </tr>
-        <tr>
-          <td style={{whiteSpace: "nowrap"}}>`headers`</td>
-          <td>HTTP request headers to be included in the POST request (optional).</td>
-        </tr>
-        <tr>
-          <td style={{whiteSpace: "nowrap"}}>`authConfig`</td>
-          <td>An object containing the necessary authentication metadata to invoke the API. See \[AuthConfig\](#authconfig) for more information.</td>
-        </tr>
-        <tr>
-          <td style={{whiteSpace: "nowrap"}}>`eventHandlers`</td>
-          <td>The object that contains the callback functions, which are to be called based on the result of the GET request.<br /> Supported results are `onSuccess`, `onFail` and `onTimeout` which can have their own optional callbacks as anonymous functions. For these callbacks, the \[context\](#context) and \[data\](#data) parameters are passed.</td>
-        </tr>
-      </tbody>
-    </table>
-
-- **Example**
-
-    ```javascript
-    var authConfig = {
-        type: "clientcredential",
-        properties: {
-            consumerKey: "clientId",
-            consumerSecret: "clientSecret",
-            tokenEndpoint: "https://token-endpoint.com/token"
-        }
-    };
-
-    var onLoginRequest = function(context) {
-        httpPost('https://example.com/resource', {
-            "email": "test@wso2.com"
-        }, {
-            "Authorization": "Bearer token",
-            "Accept": "application/json"
-        }, authConfig, {
-            onSuccess: function(context, data) {
-                Log.info("Successfully invoked the external API.");
-                context.selectedAcr = data.status;
-                executeStep(1);
-            },
-            onFail: function(context, data) {
-                Log.info("Error occurred while invoking the external API.");
-                context.selectedAcr = 'FAILED';
-                executeStep(2);
-            },
-            onTimeout: function(context, data) {
-                Log.info("Invoking external API timed out.");
-                executeStep(2);
-            }
-        });
-    }
-    ```
-
-:::note
-WSO2 Identity Platform uses the following default connection configurations for `httpPost` requests:
-
-| Configuration | Description | Default Value |
-| --- | --- | --- |
-| **Connection timeout** | The maximum time (in milliseconds) to wait when establishing a connection to an external service. | 3000 ms |
-| **Read (socket) timeout** | The maximum time (in milliseconds) to wait for a response from an external service. | 3000 ms |
-| **Connection request timeout** | The maximum time (in milliseconds) to wait to obtain a connection from the connection pool. | 1000 ms |
-| **Retry count** | The number of retry attempts for requests. | 2 |
-:::
-
-</Edition>
-
-<Edition only="self-hosted">
 
 The HTTP POST function enables sending HTTP POST requests to specified endpoints as part of the adaptive authentication scripts in WSO2 Identity Server. It's commonly used to interact with external systems or APIs to retrieve necessary data for authentication decisions.
 
@@ -1811,13 +1022,11 @@ http_connections.request_retry_count = 2
 ```
 :::
 
-</Edition>
-
 ### Resolve multi attribute login identifier
 
 `resolveMultiAttributeLoginIdentifier(loginIdentifier, tenantDomain)`
 
-If <Edition only="cloud">[alternative login identifiers](../../guides/account-configurations/manage-login-identifiers/configure-login-identifiers.mdx)</Edition><Edition only="self-hosted">alternative login identifiers</Edition> are enabled, this function resolves the username from the provided login identifier.
+If alternative login identifiers are enabled, this function resolves the username from the provided login identifier.
 
 - **Parameters**
 
@@ -1915,8 +1124,6 @@ Contains the authentication context information. The information can be accessed
 
 The step number is the one configured at the step configuration, not the actual order in which they get executed.
 
-<Edition only="cloud">
-
 <table>
   <tbody>
     <tr>
@@ -1947,55 +1154,8 @@ The step number is the one configured at the step configuration, not the actual 
       <td>`context.tenantDomain`</td>
       <td>The tenant domain of the application that initiated the authentication request.</td>
     </tr>
-    <tr>
-      <td>`context.deviceData`</td>
-      <td>The attributes reported by the registered device that sent a valid device token with the login request, for example `context.deviceData.platform`. Not available if the request had no valid device token. See [Enforce a device policy at login](../../guides/device-management/enforce-device-policy-at-login.mdx).</td>
-    </tr>
   </tbody>
 </table>
-
-</Edition>
-
-<Edition only="self-hosted">
-
-<table>
-  <tbody>
-    <tr>
-      <td>`context.request`</td>
-      <td>Access the HTTP authentication request information. See [request](#request) for more information.</td>
-    </tr>
-    <tr>
-      <td>`context.response`</td>
-      <td>Access the HTTP response, which will be sent back to the client. See [response](#response) for more information.</td>
-    </tr>
-    <tr>
-      <td>`context.serviceProviderName`</td>
-      <td>Get the application name.</td>
-    </tr>
-    <tr>
-      <td>`context.currentKnownSubject`</td>
-      <td>Access the authenticated user from the subject identifier step. It resolves the user from the first completed step that is configured as the subject identifier step. If no subject identifier step is completed yet, it falls back to the user from the current step. Returns a [user](#user) object or `null` if no step has been completed.</td>
-    </tr>
-    <tr>
-      <td>`context.requestedAcr`</td>
-      <td>The list of Authentication Context Class Reference (ACR) values requested by the application. For OIDC requests, these come from the `acr_values` parameter. For SAML SSO requests, these come from the `samlp:AuthnContextClassRef` elements.</td>
-    </tr>
-    <tr>
-      <td>`context.selectedAcr`</td>
-      <td>`(Read/Write)` <br /> The ACR value selected during the authentication flow. Set this to return the appropriate ACR value in the authentication response.</td>
-    </tr>
-    <tr>
-      <td>`context.tenantDomain`</td>
-      <td>The tenant domain of the application that initiated the authentication request.</td>
-    </tr>
-    <tr>
-      <td>`context.deviceData`</td>
-      <td>The attributes reported by the registered device that sent a valid device token with the login request, for example `context.deviceData.platform`. Not available if the request had no valid device token. See <Edition selfHostedFrom="next">[Enforce a device policy at login](../../guides/device-management/enforce-device-policy-at-login.mdx)</Edition>.</td>
-    </tr>
-  </tbody>
-</table>
-
-</Edition>
 
 ### Step
 
@@ -2087,43 +1247,6 @@ Contains the authentication step information. It may be a null or invalid step n
     </tbody>
   </table>
 
-<Edition only="cloud">
-
-### Session
-
-  <table>
-    <tbody>
-      <tr>
-        <td>`session.userAgent`</td>
-        <td>The user agent object of the user session. See [userAgent](#user-agent) for more information.</td>
-      </tr>
-      <tr>
-        <td>`session.ip`</td>
-        <td>The session's IP address.</td>
-      </tr>
-      <tr>
-        <td>`session.loginTime`</td>
-        <td>The session's last login time.</td>
-      </tr>
-      <tr>
-        <td>`session.lastAccessTime`</td>
-        <td>The session's last accessed time.</td>
-      </tr>
-      <tr>
-        <td>`session.id`</td>
-        <td>The session's id.</td>
-      </tr>
-      <tr>
-        <td>`session.applications`</td>
-        <td>The list of application objects in the session. See [application](#application) for more information.</td>
-      </tr>
-    </tbody>
-  </table>
-
-</Edition>
-
-<Edition only="self-hosted">
-
 ### Session
 
   <table>
@@ -2150,8 +1273,6 @@ Contains the authentication step information. It may be a null or invalid step n
       </tr>
     </tbody>
   </table>
-
-</Edition>
 
 ### Application
 
@@ -2171,56 +1292,6 @@ Contains the authentication step information. It may be a null or invalid step n
       </tr>
     </tbody>
   </table>
-
-<Edition only="cloud">
-
-### User agent
-
-  <table>
-    <tbody>
-      <tr>
-        <td>`userAgent.rawString`</td>
-        <td>This is the raw userAgent string.</td>
-      </tr>
-      <tr>
-        <td>`userAgent.browser`</td>
-        <td>This is the web browser property that is extracted from the raw userAgent string.</td>
-      </tr>
-      <tr>
-        <td>`userAgent.platform`</td>
-        <td>This is the operating system property that is extracted from the raw userAgent string.</td>
-      </tr>
-      <tr>
-        <td>`userAgent.device`</td>
-        <td>This is the device property that is extracted from the raw userAgent string.</td>
-      </tr>
-    </tbody>
-  </table>
-
-### ConnectionMetadata
-
-It contains the necessary metadata for invoking the API when calling the callChoreo function.
-
-<table>
-  <tbody>
-    <tr>
-      <td>`connectionMetadata.url`</td>
-      <td>URL of the WSO2 Developer Platform hosted API.</td>
-    </tr>
-    <tr>
-      <td>`connectionMetadata.consumerKey`</td>
-      <td>The consumer key of the WSO2 Developer Platform application.</td>
-    </tr>
-    <tr>
-      <td>`connectionMetadata.consumerSecret`</td>
-      <td>The consumer secret of the WSO2 Developer Platform application.</td>
-    </tr>
-  </tbody>
-</table>
-
-</Edition>
-
-<Edition only="self-hosted">
 
 ### User agent
 
@@ -2245,8 +1316,6 @@ It contains the necessary metadata for invoking the API when calling the callCho
     </tbody>
   </table>
 
-</Edition>
-
 You can securely store consumer keys and secrets as **secrets** in conditional authentication scripts and refer to
 them in your conditional authentication scripts using the `secrets.{secret name}` syntax. For example, to retrieve a secret value, you may use:
 
@@ -2257,45 +1326,10 @@ var consumerSecret = secrets.clientSecret;
 For more information on adding secrets, refer to the [Add a secret to the script](../../guides/authentication/conditional-auth/configure-conditional-auth.mdx#add-a-secret-to-the-script) section in the
 documentation.
 
-<Edition only="cloud">
-
-<details>
-<summary>Change in behavior from 30th September 2024</summary>
-
-Starting from 30th September 2024, you are no longer required to set the aliases for consumer keys and consumer secrets when calling the callChoreo command. Instead, you may directly reference them using the `secrets.secretName` notation.
-However, if you prefer, you may continue using the previous method as follows.
-  <table>
-    <tbody>
-      <tr>
-        <td>`connectionMetadata.consumerKeyAlias`</td>
-        <td>The name of the secret that stores the consumer key.</td>
-      </tr>
-      <tr>
-        <td>`connectionMetadata.consumerSecretAlias`</td>
-        <td>The name of the secret that stores the consumer secret.</td>
-      </tr>
-    </tbody>
-  </table>
-
-</details>
-
-</Edition>
-
 ### AuthConfig
-
-<Edition only="cloud">
-
-When using httpGet or httpPost functions in WSO2 Identity Platform adaptive authentication scripts, the table summarizes each
-authentication type and its required properties:
-
-</Edition>
-
-<Edition only="self-hosted">
 
 When using httpGet or httpPost functions in adaptive authentication scripts, the table summarizes each
 authentication type and its required properties:
-
-</Edition>
 
 | Authentication Type | Properties | Description |
 | --- | --- | --- |

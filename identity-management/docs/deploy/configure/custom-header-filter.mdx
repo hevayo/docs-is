@@ -4,7 +4,6 @@ description: The custom header filter adds custom HTTP headers to WSO2 Identity 
 type: reference
 sidebar_label: Custom Header Filter
 sidebar_position: 5
-editions: self-hosted
 ---
 
 The custom header filter adds custom HTTP headers to WSO2 Identity Server's own web applications. Use this to add security headers like Content-Security-Policy (CSP) to web apps. Supported apps include console, authentication endpoint, account recovery endpoint, and My Account portal.
@@ -31,6 +30,16 @@ enable = true
 ```
 
 Restart the server for the changes to take effect.
+
+:::info
+This feature is available out of the box as an update in WSO2 Identity Server {edition.version} from update level **16** (Updates 2.0 model). See the instructions on [updating WSO2 products](https://updates.docs.wso2.com/en/latest/).
+
+If you don't have this update level, build the feature manually:
+
+1. Clone the [identity-carbon-auth-rest](https://github.com/wso2-extensions/identity-carbon-auth-rest) repository.
+2. Build the project using Java 11 or Java 17.
+3. Copy `org.wso2.carbon.identity.custom.header.filter-${project.version}.jar` to the `<IS_HOME>/repository/components/dropins` directory.
+:::
 
 ## Configure custom headers
 

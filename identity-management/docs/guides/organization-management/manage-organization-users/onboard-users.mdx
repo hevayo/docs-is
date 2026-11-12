@@ -2,6 +2,7 @@
 title: Onboard users to organizations
 description: Organization administrators can add users to their organization using the following methods.  # generated from the first paragraph; a writer should improve it
 type: how-to
+sidebar_label: Onboard users
 sidebar_position: 1
 slug: "/guides/organization-management/onboard-users"
 ---
@@ -26,17 +27,7 @@ Organization administrators can use the Console to create users in the organizat
 
 Organization administrators can configure multiple secondary user stores for the organization. Once configured, users from the secondary user stores can log into the organization and perform operations permitted by the roles assigned to them.
 
-<Edition only="cloud">
-
-- To connect a secondary user store, follow this [guide](../../users/user-stores/configure-a-user-store.mdx).
-
-</Edition>
-
-<Edition only="self-hosted">
-
 - To connect a secondary user store, follow this [guide](../../users/user-stores/configure-secondary-user-stores.mdx).
-
-</Edition>
 
 ## Invite existing users from the parent organization
 
@@ -52,23 +43,6 @@ In order to invite users from the parent organization, get to know the usernames
 
 If a user of the organization with {edition.productName} Console access needs to invite a user from the parent organization, follow the steps below.
 
-<Edition only="cloud">
-
-1. Login to your organization using the link`https://console.asgardeo.io/t/{{ root_organization_name }}/o/{organization-id}`.2. Go to **User Management > Users** and click **Add user**. From there, select **Invite Parent User**.
-3. Enter the usernames of the user that you want to invite to the organization. You can enter multiple usernames by pressing enter after each username input.
-4. Select the groups that you want to assign to the invited users.
-5. Click **Invite**.
-6. The invited users will receive an email notification with the invitation link which they can click to accept.
-
-    :::note
-    - You can only invite users from your immediate parent organization.
-    - {edition.productName} Console allows you to invite users from the DEFAULT user store of your immediate parent. To invite a user from a different user store, use the [invite parent user API](../../../apis/organization-user-invitation/index.mdx#op-invitationTriggerPost).
-    :::
-
-</Edition>
-
-<Edition only="self-hosted">
-
 1. Login to your organization using the link`https://localhost:9443/t/{root_organization_handle}/o/{organization-id}/console`.2. Go to **User Management > Users** and click **Add user**. From there, select **Invite Parent User**.
 3. Enter the usernames of the user that you want to invite to the organization. You can enter multiple usernames by pressing enter after each username input.
 4. Select the groups that you want to assign to the invited users.
@@ -80,8 +54,6 @@ If a user of the organization with {edition.productName} Console access needs to
     - {edition.productName} Console allows you to invite users from the PRIMARY user store of your immediate parent. To invite a user from a different user store, use the [invite parent user API](../../../apis/organization-user-invitation/index.mdx#op-invitationTriggerPost).
     :::
 
-</Edition>
-
 If a user, who is a member of both the organization and parent organization, wishes to invite more members from the parent organization, follow the steps below.
 
 1. Login to your organization (root) on the {edition.productName} Console.
@@ -89,7 +61,7 @@ If a user, who is a member of both the organization and parent organization, wis
 3. [Switch](../manage-organizations.mdx) to that organization.
 4. Go to **User Management > Users** and click **+ Add user**. From there, select **Invite Parent User**.
 
-    <Edition only="cloud"><img src={require("../../../../assets/cloud/img/guides/organization/manage-organizations/invite-parent-users.png").default} alt="Invite parent organization users" width="600" style={{display: "block", margin: "0"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/self-hosted/img/guides/organization/manage-organizations/invite-parent-users.png").default} alt="Invite parent organization users" width="600" style={{display: "block", margin: "0"}} /></Edition>
+    <img src={require("../../../../assets/img/guides/organization/manage-organizations/invite-parent-users.png").default} alt="Invite parent organization users" width="600" style={{display: "block", margin: "0"}} />
 
 5. Enter the usernames of the users that you want to invite to the organization. You can enter multiple usernames by pressing enter after each username input.
 6. Select the groups that you want to assign to the invited users.
@@ -104,7 +76,7 @@ If a user, who is a member of both the organization and parent organization, wis
 
 1. The invited users will receive an email similar to the following, containing an invitation link valid for 72 hours.
 
-    <Edition only="cloud"><img src={require("../../../../assets/cloud/img/guides/organization/manage-organizations/parent-org-user-invitation-email.png").default} alt="Invitation email" width="600" style={{display: "block", margin: "0", border: "1px solid grey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/self-hosted/img/guides/organization/manage-organizations/parent-org-user-invitation-email.png").default} alt="Invitation email" width="600" style={{display: "block", margin: "0", border: "1px solid grey"}} /></Edition>
+    <img src={require("../../../../assets/img/guides/organization/manage-organizations/parent-org-user-invitation-email.png").default} alt="Invitation email" width="600" style={{display: "block", margin: "0", border: "1px solid grey"}} />
 
 2. Click the **Accept Invitation** button in the email to accept it.
 3. Once the invitation is accepted, the invited users will be displayed in the {edition.productName} Console as follows.
@@ -124,41 +96,6 @@ In order to view or delete the invitations via {edition.productName} Console:
 4. If required, invitations can be deleted by clicking the **Delete** icon.
 
 ### Invite users without sending email notifications from {edition.productName}
-
-<Edition only="cloud">
-
-In order to disable sending email notifications internally from {edition.productName}, `manageNotificationsInternally` 
-property can be set to false in Parent Organization's User Invitation API. The following sample request can be 
-used to obtain the confirmation code without sending email notifications.
-
-   ```bash
-   curl --location --request POST \'https://{edition.hostName}/t/{{ organization_name }}/o/api/server/v1/guests/invite' \--header 'Authorization: Bearer <access-token-obtained-for-the-organization>' \
-   --header 'Content-Type: application/json' \
-   --data '{
-    "usernames": [
-       "xyz@gmail.com",
-       "abc@gmail.com"
-    ],
-    "roles": [
-       "f5b761ca-62f2-48ba-935b-f7b460f58e5c",
-       "657fgq22-62f2-48ba-935b-f7bfgh6438fd"
-    ],
-    "groups": [
-       "48badf-rty20-48ba-935b-f7b460f58e5c",
-       "fd234100-c115-45dc-ad11-70846b783866"
-    ],
-    "properties": [
-       {
-          "key" : "manageNotificationsInternally",
-          "value" : "false"
-       }
-    ]
-   }'
-   ```
-
-</Edition>
-
-<Edition only="self-hosted">
 
 In order to disable sending email notifications internally from {edition.productName}, `manageNotificationsInternally` 
 property can be set to false in Parent Organization's User Invitation API. The following sample request can be 
@@ -189,8 +126,6 @@ used to obtain the confirmation code without sending email notifications.
    }'
    ```
 
-</Edition>
-
 Sample Response will contain the confirmation code as follows.
    ```json
       [
@@ -211,22 +146,6 @@ Sample Response will contain the confirmation code as follows.
       ]
    ```
 
-<Edition only="cloud">
-
-If you are sending the invitation email through an external service, include this confirmation code, which need to be accepted through following invitation accepting API. If your applications wants to proceed parent user invitation flow without any email sending, applications can invoke the following API call as the next step.
-
-   ```bash
-   curl --location --request POST \'https://{edition.hostName}/t/{{ organization_name }}/o/api/server/v1/guests/invitation/accept' \--header 'Authorization: Bearer <access-token-obtained-for-the-organization>' \
-   --header 'Content-Type: application/json' \
-   --data '{
-      "confirmationCode": "2663329b-c8c5-4c71-9500-9ea8c4e77d94"
-   }'
-   ```
-
-</Edition>
-
-<Edition only="self-hosted">
-
 If you are sending the invitation email through an external service, include this confirmation code, which need to be accepted through following invitation accepting API. If your applications wants to proceed parent user invitation flow without any email sending, applications can invoke the following API call as the next step.
 
    ```bash
@@ -236,6 +155,3 @@ If you are sending the invitation email through an external service, include thi
       "confirmationCode": "2663329b-c8c5-4c71-9500-9ea8c4e77d94"
    }'
    ```
-
-</Edition>
-

@@ -1,25 +1,35 @@
-openapi: 3.0.1
+openapi: 3.0.3
 info:
-  title: SCIM 2.0 Schemas Retrieval API
+  version: 1.0.0
+  title: SCIM 2.0 Endpoint Swagger Definition
   description: |
-    This document specifies **SCIM 2.0 Schemas RESTful API** for **WSO2 Identity Platform**.
-  version: "v1"
-servers:
-  - url: 'https://api.asgardeo.io/t/{organization-name}/scim2'
-tags:
-  - name: Schemas Endpoint
-    description: This API lists and returns metadata about SCIM 2.0 schemas.
+    SCIM 2.0 endpoints
+    It is written with [swagger 2](http://swagger.io/).
+  contact:
+    name: WSO2 Identity Server Team
+    url: http://wso2.com/products/identity-server
+    email: iam-dev@wso2.org
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0
+security:
+  - OAuth2: []
+  - BasicAuth: []
 paths:
   /Schemas:
     get:
       tags:
         - Schemas Endpoint
       summary: Get All Schemas
-      description: "This API returns all supported SCIM 2.0 schema definitions.\n\n
-              <b>No additional scopes or permissions required. Authentication is required.</b>"
+      description: |
+        This API returns all supported SCIM 2.0 schema definitions.
+
+        <b>Permission required:</b>
+
+            * No additional roles or scopes required. Authentication is required.
       operationId: getSchemas
       responses:
-        200:
+        '200':
           description: Schemas are found
           content:
             application/scim+json:
@@ -27,68 +37,56 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SchemaObject'
-        401:
+        '401':
           description: Unauthorized
           content:
             application/scim+json:
               schema:
                 $ref: '#/components/schemas/ErrorUnauthorized'
-        404:
+        '404':
           description: Schema not found
           content:
             application/scim+json:
               schema:
                 $ref: '#/components/schemas/ErrorSchemaNotFound'
-      x-codeSamples:
-        - lang: Curl
-          source: |
-            curl -X 'GET' \
-            'https://api.asgardeo.io/t/{organization-name}/scim2/Schemas' \
-            -H 'accept: application/json' \
-            -H 'Authorization: Bearer {bearer_token}'
-
-  '/Schemas/{id}':
+  /Schemas/{id}:
     get:
       tags:
         - Schemas Endpoint
       summary: Get Schema by ID
-      description: "This API returns the SCIM 2.0 schema definition identified by the given id.\n\n
-              <b>No additional scopes or permissions required. Authentication is required.</b>"
+      description: |
+        This API returns the SCIM 2.0 schema definition identified by the given id.
+
+        <b>Permission required:</b>
+
+            * No permissions required
       operationId: getSchemaById
       parameters:
         - name: id
           in: path
-          description: Unique ID of the schema (e.g., urn:ietf:params:scim:schemas:core:2.0:User).
           required: true
+          description: Unique ID of the schema (e.g., urn:ietf:params:scim:schemas:core:2.0:User).
           schema:
             type: string
       responses:
-        200:
+        '200':
           description: Schema is found
           content:
             application/scim+json:
               schema:
                 $ref: '#/components/schemas/SchemaObject'
-        401:
+        '401':
           description: Unauthorized
           content:
             application/scim+json:
               schema:
                 $ref: '#/components/schemas/ErrorUnauthorized'
-        404:
+        '404':
           description: Schema not found
           content:
             application/scim+json:
               schema:
                 $ref: '#/components/schemas/ErrorSchemaNotFound'
-      x-codeSamples:
-        - lang: Curl
-          source: |
-            curl -X 'GET' \
-            'https://api.asgardeo.io/t/{organization-name}/scim2/Schemas/{id}' \
-            -H 'accept: application/json' \
-            -H 'Authorization: Bearer {bearer_token}'
-
 components:
   schemas:
     SchemaObject:
@@ -97,11 +95,11 @@ components:
         name:
           type: string
           description: The name of the schema.
-          example: "User"
+          example: User
         description:
           type: string
           description: The description of the schema.
-          example: "User Account"
+          example: User Account
         attributes:
           type: array
           description: The list of attributes defined in the schema.
@@ -110,15 +108,14 @@ components:
         id:
           type: string
           description: The unique URI of the schema.
-          example: "urn:ietf:params:scim:schemas:core:2.0:User"
-
+          example: urn:ietf:params:scim:schemas:core:2.0:User
     SchemaAttribute:
       type: object
       properties:
         name:
           type: string
           description: The attribute's name.
-          example: "userName"
+          example: userName
         type:
           type: string
           description: The attribute's data type.
@@ -132,7 +129,7 @@ components:
             - DATE
             - BINARY
             - REFERENCE
-          example: "STRING"
+          example: STRING
         multiValued:
           type: boolean
           description: Whether the attribute is multi-valued.
@@ -140,7 +137,7 @@ components:
         description:
           type: string
           description: The attribute's human-readable description.
-          example: "Username"
+          example: Username
         required:
           type: boolean
           description: Whether the attribute is required.
@@ -157,7 +154,7 @@ components:
             - READ_WRITE
             - IMMUTABLE
             - WRITE_ONLY
-          example: "READ_WRITE"
+          example: READ_WRITE
         returned:
           type: string
           description: Indicates when an attribute is returned in a response.
@@ -166,17 +163,17 @@ components:
             - NEVER
             - DEFAULT
             - REQUEST
-          example: "DEFAULT"
+          example: DEFAULT
         uniqueness:
           type: string
           description: Indicates how unique a value must be.
           enum:
             - NONE
-          example: "NONE"
+          example: NONE
         displayName:
           type: string
           description: The display name of the attribute.
-          example: "Username"
+          example: Username
         displayOrder:
           type: integer
           description: The display order of the attribute.
@@ -188,11 +185,11 @@ components:
         sharedProfileValueResolvingMethod:
           type: string
           description: The method used to resolve shared profile values.
-          example: "FromOrigin"
+          example: FromOrigin
         regEx:
           type: string
           description: The regular expression for validating the attribute value.
-          example: "^([a-zA-Z0-9_\\.\\-])+\\@(([a-zA-Z0-9\\-])+\\.)+([a-zA-Z0-9]{2,10})+$"
+          example: ^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,10})+$
         subAttributes:
           type: array
           description: The sub-attributes of a COMPLEX attribute.
@@ -214,19 +211,18 @@ components:
           properties:
             inputType:
               type: string
-              example: "text_input"
+              example: text_input
         excludedUserStores:
           type: string
           description: Comma-separated list of excluded user stores.
-          example: ""
-
+          example: ''
     SchemaSubAttribute:
       type: object
       properties:
         name:
           type: string
           description: The sub-attribute's name.
-          example: "familyName"
+          example: familyName
         type:
           type: string
           description: The sub-attribute's data type.
@@ -240,7 +236,7 @@ components:
             - DATE
             - BINARY
             - REFERENCE
-          example: "STRING"
+          example: STRING
         multiValued:
           type: boolean
           description: Whether the sub-attribute is multi-valued.
@@ -248,7 +244,7 @@ components:
         description:
           type: string
           description: The sub-attribute's human-readable description.
-          example: "Last Name"
+          example: Last Name
         required:
           type: boolean
           description: Whether the sub-attribute is required.
@@ -265,7 +261,7 @@ components:
             - READ_WRITE
             - IMMUTABLE
             - WRITE_ONLY
-          example: "READ_WRITE"
+          example: READ_WRITE
         returned:
           type: string
           description: Indicates when a sub-attribute is returned in a response.
@@ -274,17 +270,17 @@ components:
             - NEVER
             - DEFAULT
             - REQUEST
-          example: "DEFAULT"
+          example: DEFAULT
         uniqueness:
           type: string
           description: Indicates how unique a value must be.
           enum:
             - NONE
-          example: "NONE"
+          example: NONE
         displayName:
           type: string
           description: The display name of the sub-attribute.
-          example: "Last Name"
+          example: Last Name
         displayOrder:
           type: integer
           description: The display order of the sub-attribute.
@@ -296,7 +292,7 @@ components:
         sharedProfileValueResolvingMethod:
           type: string
           description: The method used to resolve shared profile values.
-          example: "FromOrigin"
+          example: FromOrigin
         regEx:
           type: string
           description: The regular expression for validating the sub-attribute value.
@@ -316,41 +312,53 @@ components:
           properties:
             inputType:
               type: string
-              example: "text_input"
+              example: text_input
         excludedUserStores:
           type: string
           description: Comma-separated list of excluded user stores.
-          example: ""
-
+          example: ''
     ErrorUnauthorized:
+      type: object
       required:
         - status
         - schemas
-      type: object
       properties:
+        status:
+          type: string
+          example: '401'
         schemas:
           type: string
           example: urn:ietf:params:scim:api:messages:2.0:Error
-        detail:
+        scimType:
           type: string
-          example: "Authorization failure. Authorization information was invalid or missing from your request."
-        status:
-          type: string
-          example: "401"
-
+          example: Unauthorized
     ErrorSchemaNotFound:
+      type: object
       required:
-        - detail
         - status
         - schemas
-      type: object
+        - detail
       properties:
         status:
           type: string
-          example: "404"
+          example: '404'
         schemas:
           type: string
           example: urn:ietf:params:scim:api:messages:2.0:Error
         detail:
           type: string
           example: Schema not found.
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://localhost:9443/oauth/authorize
+          tokenUrl: https://localhost:9443/oauth/token
+          scopes:
+            read: Grants read access
+            write: Grants write access
+            admin: Grants read and write access to administrative information

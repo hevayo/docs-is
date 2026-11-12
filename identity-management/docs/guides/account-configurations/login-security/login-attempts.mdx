@@ -1,9 +1,9 @@
 ---
 title: Configure login-attempts security
-description: You can protect user accounts in WSO2 Identity Platform from brute-force attacks by locking the account after consecutive failed login attempts.  # generated from the first paragraph; a writer should improve it
+description: You can protect user accounts in WSO2 Identity Server from brute-force attacks by locking the account after consecutive failed login attempts.  # generated from the first paragraph; a writer should improve it
 type: how-to
 sidebar_label: Login attempts
-sidebar_position: 1
+sidebar_position: 2
 ---
 
 You can protect user accounts in {edition.productName} from brute-force attacks by locking the account after consecutive failed login attempts.
@@ -20,11 +20,11 @@ This setting is disabled by default. To enable login attempts security,
 
 3. Switch to **Enabled** to enable this configuration.  
 
-    <Edition only="cloud"><img src={require("../../../../assets/cloud/img/guides/organization/account-security/login-attempts-security/enable-login-attempts-security.png").default} alt="Enable login attempts security" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/self-hosted/img/guides/organization/account-security/login-attempts-security/enable-login-attempts-security.png").default} alt="Enable login attempts security" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+    <img src={require("../../../../assets/img/guides/organization/account-security/login-attempts-security/enable-login-attempts-security.png").default} alt="Enable login attempts security" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 4. Configure the settings below if you want to change how login attempts security works by default.
 
-    <Edition only="cloud"><img src={require("../../../../assets/cloud/img/guides/account-configurations/login-attempts.png").default} alt="View account security options" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/self-hosted/img/guides/account-configurations/login-attempts.png").default} alt="View account security options" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+    <img src={require("../../../../assets/img/guides/account-configurations/login-attempts.png").default} alt="View account security options" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
     <table>
       <tbody>
@@ -71,8 +71,6 @@ Based on the above settings, the following happens when a user tries to log in w
 Time for account to unlock = Account lock duration * (Account lock duration increment factor ^ Account lock count excluding the initial occurrence)
 ```
 
-<Edition only="self-hosted">
-
 :::info
 - On the {edition.productName} login pages, a generic error message is displayed by default to end-users in the event of login failures. To show more specific error messages on the login page, the following properties can be configured in the `deployment.toml` file, which is located in the `<IS_HOME>/repository/conf` directory.
 
@@ -100,6 +98,3 @@ TOTP authenticator configurations:
     showAuthFailureReasonOnLoginPage = true
 ```
 :::
-
-</Edition>
-

@@ -4,7 +4,7 @@ description: In today’s rapidly growing digital landscape, businesses and orga
 type: reference
 sidebar_label: Understanding Disaster Recovery
 sidebar_position: 1
-editions: self-hosted
+slug: "/deploy/disaster-recovery/understanding-disaster-recovery"
 ---
 
 In today’s rapidly growing digital landscape, businesses and organizations rely heavily 
@@ -99,7 +99,7 @@ be achieved by following an Active and Passive region architecture as per the be
 diagram. In this architecture, the passive region deployment can be maintained in a 
 cold state and activated in the event of a disaster.
 
-<img src={require("../../../../assets/self-hosted/img/setup/deploy/disaster-recovery/disaster-recovery-basic-normal-operation.png").default} alt="Disaster recovery normal operation" width="800" style={{display: "block", margin: "0"}} />
+<img src={require("../../../../assets/img/setup/deploy/disaster-recovery/disaster-recovery-basic-normal-operation.png").default} alt="Disaster recovery normal operation" width="800" style={{display: "block", margin: "0"}} />
 
 ### Usual Regional Operation
 
@@ -137,7 +137,7 @@ in the disaster recovery (DR) region must be manually activated, and traffic mus
 redirected to the DR site until the primary region has fully recovered from the disaster
 as per the below diagram.
 
-<img src={require("../../../../assets/self-hosted/img/setup/deploy/disaster-recovery/disaster-recovery-basic-disaster-operation.png").default} alt="Disaster recovery disaster operation" width="800" style={{display: "block", margin: "0"}} />
+<img src={require("../../../../assets/img/setup/deploy/disaster-recovery/disaster-recovery-basic-disaster-operation.png").default} alt="Disaster recovery disaster operation" width="800" style={{display: "block", margin: "0"}} />
 
 To ensure a seamless disaster recovery process, it is important to properly configure 
 and test the manual trigger mechanism for starting the servers in the DR region. 
