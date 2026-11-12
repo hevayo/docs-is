@@ -2,19 +2,25 @@
 title: HTTP Access Logging
 description: HTTP access logs help you monitor your application's usage with information such as the persons who access it, how many hits it received, what the errors…  # generated from the first paragraph; a writer should improve it
 type: reference
-sidebar_label: HTTP access logs
 sidebar_position: 2
-editions: self-hosted
+slug: "/deploy/monitor/http-access-logging"
 ---
 
-HTTP access logs help you monitor your application's usage with information such as the persons who access it, how many hits it received, what the errors are, etc. This information is useful for troubleshooting errors. WSO2 Identity Server can enable access logs for the HTTP servlet transport. This servlet transport works on `9443`/`9763` ports, and it receives admin/operation requests.
-Therefore, access logs for the servlet transport are useful for analyzing operational/admin-level access details.
+HTTP access logs help you monitor your application's usage with
+information such as the persons who access it, how many hits
+it received, what the errors are, etc. This information is useful for
+troubleshooting errors. WSO2 Identity Server can enable access logs for the
+HTTP servlet transport. This servlet transport works on `9443`/`9763` ports,
+and it receives admin/operation requests. So, access logs for the
+servlet transport is useful for analysing operational/admin-level access
+details.
 
-## Configure access logs for the HTTP servlet transport
+## Configuring access logs for the HTTP servlet transport
 
-To configure access logs for HTTP servlet transport:
+In the Identity Server 5.9.0 only the access log pattern is configurable.
 
-1. Open the `<IS_HOME>/repository/conf/deployment.toml` file.
+1. Open the `<IS_HOME>/repository/conf/deployment.toml`
+    file.
 
 2. Add the following configuration.
 
@@ -23,7 +29,9 @@ To configure access logs for HTTP servlet transport:
     pattern = "%h %l %u %t %r %s %b %{Referer}i %{User-Agent}i %T"
     ```
 
-    The attributes that are used by default are explained below. See the descriptions of the Tomcat-supported [Access Log Valve attributes](http://tomcat.apache.org/tomcat-9.0-doc/config/valve.html#Access_Log_Valve/Attributes).
+    The attributes that are used by default are explained below. See the
+    descriptions of the Tomcat-supported [Access Log
+    Valve attributes](http://tomcat.apache.org/tomcat-9.0-doc/config/valve.html#Access_Log_Valve/Attributes).
 
     <table style={{width: "100%"}}>
       <colgroup>
@@ -33,7 +41,7 @@ To configure access logs for HTTP servlet transport:
       <tbody>
         <tr>
           <td>directory</td>
-          <td>The path to the directory that will store the access log file. By default, this location is set to `${carbon.home}/repository/logs` in all WSO2 products.</td>
+          <td>The path to the directory that will store the access log file. By default, this is location is set to ` ${carbon.home}/repository/logs ` in all WSO2 products.</td>
         </tr>
         <tr>
           <td>prefix</td>
@@ -47,28 +55,40 @@ To configure access logs for HTTP servlet transport:
           <td>pattern</td>
           <td>
 
-            The attribute defines the format for the log pattern, which consists of the information fields from the requests and responses that should be logged. The pattern format is created using the following attributes:
+            The attribute defines the format for the log pattern, which consists of the information fields from the requests and responses that should be logged. The pattern format is created using the following attributes:
 
-            - A standard value to represent a particular string. For example, "%h" represents the remote hostname in the request. See the list of [string replacement values supported by the Tomcat valve](https://tomcat.apache.org/tomcat-9.0-doc/api/org/apache/catalina/valves/AccessLogValve.html) .
+            - A standard value to represent a particular string. For example, "%h" represents the remote host name in the request. See the list of [string replacement values supported by the Tomcat valve](https://tomcat.apache.org/tomcat-9.0-doc/api/org/apache/catalina/valves/AccessLogValve.html) .
             - **%\{xxx\}i** is used to represent the header in the incoming request (xxx=header value).
-            - **%\{xxx\}o** is used to represent the header in the outgoing request (xxx=header value).
+            - **%\{xxx\}o** is used to represents the header in the outgoing request (xxx=header value).
 
             While you can use the above attributes to define a custom pattern, the standard patterns shown below can be used.
 
-            - **common** ([Apache common log pattern](http://httpd.apache.org/docs/2.4/logs.html#common)):
+            - **common** ( [Apache common log pattern](http://httpd.apache.org/docs/2.4/logs.html#common) ):
 
-              `pattern=%h %l %u %t "%r" %s %b`
+              <Anchor id="cb1" />
 
-            - **combined** ([Apache combined log pattern](http://httpd.apache.org/docs/2.4/logs.html#combined)):
+              ```text
+              pattern=%h %l %u %t "%r" %s %b
+              ```
 
-              `pattern=%h %l %u %t "%r" %s %b "%{Referer}i" "%{User-Agent}i"`
+            - **combined** ( [Apache combined log pattern](http://httpd.apache.org/docs/2.4/logs.html#combined) ):
+
+              <Anchor id="cb2" />
+
+              ```text
+              pattern=%h %l %u %t "%r" %s %b "%{Referer}i" "%{User-Agent}i"
+              ```
 
           </td>
         </tr>
       </tbody>
     </table>
 
-3. Restart the server. According to the configurations, a log file named `http_access.{DATE}.log` is created by default inside the `<IS_HOME>/repository/logs` directory. The log is rotated daily.
+3. Restart the server. According to the configurations, a log
+    file named
+    `http_access.{DATE}.log` is
+    created by default inside the `<IS_HOME>/repository/logs` directory. The
+    log is rotated on a daily basis.
 
 ## Routing access logs to the Log4j2 logger
 
@@ -90,7 +110,7 @@ If you want to keep HTTP access logs in their own file, separate from other serv
 1. Add `HTTP_ACCESS` to the `appenders` list:
 
     ```properties
-    appenders = CARBON_CONSOLE, CARBON_LOGFILE, AUDIT_LOGFILE, ATOMIKOS_LOGFILE, CARBON_TRACE_LOGFILE, DELETE_EVENT_LOGFILE, TRANSACTION_LOGFILE, HTTP_ACCESS
+    appenders = CARBON_CONSOLE, CARBON_LOGFILE, AUDIT_LOGFILE, ATOMIKOS_LOGFILE,    CARBON_TRACE_LOGFILE, DELETE_EVENT_LOGFILE, TRANSACTION_LOGFILE, HTTP_ACCESS
     ```
 
 2. Add `HTTP_ACCESS` to the `loggers` list:
@@ -110,7 +130,7 @@ If you want to keep HTTP access logs in their own file, separate from other serv
     appender.HTTP_ACCESS.type = RollingFile
     appender.HTTP_ACCESS.name = HTTP_ACCESS
     appender.HTTP_ACCESS.fileName = ${sys:carbon.home}/repository/logs/http_access.log
-    appender.HTTP_ACCESS.filePattern = ${sys:carbon.home}/repository/logs/http_access-%d{MM-dd-yyyy}.log
+    appender.HTTP_ACCESS.filePattern = ${sys:carbon.home}/repository/logs/http_access-%d    {MM-dd-yyyy}.log
     appender.HTTP_ACCESS.layout.type = PatternLayout
     appender.HTTP_ACCESS.layout.pattern = [%X{Correlation-ID}] %mm%n
     appender.HTTP_ACCESS.policies.type = Policies
@@ -154,24 +174,29 @@ You can define other logging patterns and targets for the `HTTP_ACCESS` logger u
 
 ### Customizing access logs by pattern
 
-Given below are a few sample configurations for customizing the `pattern` attribute:
+Given below are a few sample configurations for customizing the
+`pattern` attribute:
 
 #### Example 1: Logging request headers
 
 The configuration is as follows:
 
-```toml
-[http_access_log]
-pattern = "%{Content-Type}i %{Accept}i %{Accept-Encoding}i"
-```
+   ```toml
+   [http_access_log]
+   pattern = "%{Content-Type}i %{Accept}i %{Accept-Encoding}i"
+   ```
 
-This sample configuration logs the Content-type, Accept, and Accept-encoding headers of every request coming to the server. For example, in the following example, we use the `RequestInfoExample` to send the HTTP request:
+This sample configuration logs the Content-type,
+Accept and Accept-encoding headers of every request coming to the
+server. For example, in the following example, we use the
+`RequestInfoExample` to send the HTTP request:
 
 ```java
 GET http://<IP>:<PORT>/example/servlets/servlet/RequestInfoExample?abc=xyz
 ```
 
-The following log entry is recorded in the `http_access.{DATE}.log` file.
+The following log entry is recorded in the
+`http_access.{DATE}.log` file.
 
 ```java
 text/plain; charset=utf-8        */*        gzip,deflate,sdch
@@ -181,12 +206,14 @@ text/plain; charset=utf-8        */*        gzip,deflate,sdch
 
 The configuration is as follows:
 
-```toml
-[http_access_log]
-pattern = "%{Content-Type}o %{Content-Length}o %{Date}o %{Server}o"
-```
+   ```toml
+   [http_access_log]
+   pattern = "%{Content-Type}o %{Content-Length}o %{Date}o %{Server}o"
+   ```
 
-The above configuration sample logs the `Content-type`, `Content-Length`, `Date,` and `Server` headers of every response coming from the server as follows:
+The above configuration sample logs the `Content-type`,
+`Content-Length`, `Date`, and `Server` headers of every response coming from the
+server as follows:
 
 ```java
 text/html;charset=ISO-8859-1       662       Tue, 09 Jul 2013 11:21:50 GMT        WSO2 Carbon
@@ -196,12 +223,15 @@ text/html;charset=ISO-8859-1       662       Tue, 09 Jul 2013 11:21:50 GMT      
 
 The configuration is as follows:
 
-```toml
-[http_access_log]
-pattern = "%r %q %h"
-```
+   ```toml
+   [http_access_log]
+   pattern = "%r %q %h"
+   ```
 
-The above sample configuration logs the first line of the request (method and request URI), query string (prepended with a '?' if it exists), and a remote hostname (or IP) of every request coming to the server as follows:
+The above sample configuration logs the first line of the request
+(method and request URI), query string (prepended with a '?' if it
+exists), and a remote hostname (or IP) of every request coming to the
+server as follows:
 
 ```java
 “GET http://<IP>:<PORT>//example/servlets/servlet/RequestInfoExample?abc=xyz HTTP/1.1”      ?abc=xyz     10.100.0.67
@@ -209,7 +239,12 @@ The above sample configuration logs the first line of the request (method and re
 
 #### Example 4: Logging URL encoded parameters
 
-You cannot use the `AccessLogValve` to log URL-encoded parameters. However, you can use the `ExtendedAccessLogValve` attribute for this purpose. In this example, only two values (namely, `className`, and `pattern` ) are modified from the previous configuration. Hence this will be added as a new valve.
+You cannot use the `AccessLogValve` to log URL encoded
+parameters. However, you can use the
+`ExtendedAccessLogValve` attribute for this purpose. In
+this example only two values (namely, `className`, and
+`pattern`) are modified from the previous
+configuration. Hence this will be added as a new valve.
 
 The configuration is as follows:
 
@@ -222,7 +257,9 @@ suffix=".log"
 pattern="x-P(param1) x-P(param2)"
 ```
 
-Send the POST request together with the URL encoded values such as `param1` = `value1` and `param2` = `value2` as follows:
+Send the POST request together with the URL encoded values such as
+`param1` = `value1` and
+`param2` = `value2` as follows:
 
 ```java
 POST http://<IP>:<PORT>/example/servlets/servlet/RequestInfoExample

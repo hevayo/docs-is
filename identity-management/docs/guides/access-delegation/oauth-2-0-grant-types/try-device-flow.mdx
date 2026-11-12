@@ -1,0 +1,197 @@
+---
+title: Try Device Authorization Grant
+description: The Device Authorization Grant is a grant type in the OAuth 2.0 specification.  # generated from the first paragraph; a writer should improve it
+type: how-to
+sidebar_label: Device Flow Grant
+sidebar_position: 3
+slug: "/guides/access-delegation/try-device-flow"
+---
+
+The Device Authorization Grant is a grant type in the OAuth 2.0
+specification.
+
+:::info
+For more information, see [Device Authorization Grant](../../../references/iam-topics/authorization/oauth-2-0/grant-types/device-flow-grant.mdx).
+:::
+
+Follow the topics given below to try out the Device Authorization grant type.
+
+## (Optional) Configure WSO2 Identity Server
+
+:::info
+This change is optional unless you want to change the default values of the properties mentioned below.
+:::
+
+Open the `deployment.toml` file (stored in the `<IS_HOME>/repository/conf` folder), add the following configuration, and change the values of the properties below:
+
+```toml
+[oauth.grant_type.device_code]
+key_length = 7
+expiry_time = "10m"
+polling_interval = "5s"
+key_set = "BCDFGHJKLMNPQRSTVWXYZbcdfghjklmnpqrstvwxyz23456789"
+```
+
+The parameters in this configuration are explained below.
+
+| Name | Description | Parameter |
+| --- | --- | --- |
+| Key length | The length of the user code. | key_length |
+| Expiry time | The expiry time of the user code and the device code. | expiry_time |
+| Polling interval | The minimum delay of the client between each polling request to the token endpoint. | polling_interval |
+| Key set | The set of characters that is used to generate the user code. | key_set |
+
+## Enable the Device Authorization grant
+
+Follow the steps given below to enable the Device Authorization grant for your application (service provider).
+
+1. Sign in to the Management Console.
+
+2. Go to **Main** > **Identity** > **Service Providers** and click **Add**.
+
+    {/*
+    ![register-service-provider]({{base_path}}/assets/img/using-wso2-identity-server/register-service-provider.png)
+    */}
+
+3. Give a name for your service provider and click **Register**.
+
+    {/*
+    ![register-service-provider-name]({{base_path}}/assets/img/using-wso2-identity-server/register-sp-name.jpg)
+    */}
+
+4. On the screen that follows, expand **Inbound Authentication Configuration**  > **OAuth/OpenID Connect Configuration** and click **Configure**.
+
+    {/*
+    ![register-service-provider-oauth]({{base_path}}/assets/img/using-wso2-identity-server/register-sp-oauth.jpg)
+    */}
+
+5. Select `urn:ietf:params:oauth:grant-type:device_code` to enable the device flow grant type. 
+
+    :::info
+    Since these are public clients, ensure that **Allow authentication without the client secret** is checked.
+    :::
+
+6. Click **Add** to save the service provider configurations. 
+
+    :::info
+    Note of the generated OAuth client key and client secret. When configuring your device, use the client ID as your OAuth client-key.
+    :::
+
+{/*
+![consumer-key-service-provider-oauth]({{base_path}}/assets/img/using-wso2-identity-server/get-oauth-consumer-key.jpg)
+*/}
+
+## Try it out
+
+Let's try out the device flow.
+
+1. Open a terminal and run the following command to send a request to the `device_authorize` endpoint.
+
+    :::info
+    The client (the device) initiates this request to the authorization server. In the response, the client receives a **device code**, a **user code**, and a **verification URI**. The client starts polling the **/token** endpoint of the authorization server using the **device_code** at an interval as specified in the response.
+    :::
+
+    <table>
+      <tbody>
+        <tr>
+          <td>Request</td>
+          <td>
+
+            **Request**
+
+            <Anchor id="cb1" />
+
+            ```text
+            curl -k -X POST -H 'Content-Type: application/x-www-form-urlencoded' --data-urlencode 'client_id=<CLIENT_ID>' https://localhost:9443/oauth2/device_authorize
+            ```
+
+            **Sample cURL**
+
+            <Anchor id="cb1" />
+
+            ```text
+            curl -k -X POST -H 'Content-Type: application/x-www-form-urlencoded' --data-urlencode 'client_id=bbwJEayR_OMwPkAgm9VOMzLnYLga' https://localhost:9443/oauth2/device_authorize
+            ```
+
+          </td>
+        </tr>
+        <tr>
+          <td>Response</td>
+          <td>
+
+            <Anchor id="cb3" />
+
+            ```text
+            {"user_code":"s2DqSNK","device_code":"d3fe0db1-2334-48fa-b7d9-821ecfad10d5","interval":5000,"verification_uri_complete":"https://localhost:9443/authenticationendpoint/device.do?user_code=s2DqSNK","verification_uri":"https://localhost:9443/authenticationendpoint/device.do","expires_in":3600}
+            ```
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+2. From a device with no input constraints, access the `verification_uri` and enter the user code. 
+
+    :::info
+    You can alternatively access the `verification_uri_complete` link obtained in the response.
+    :::
+
+    ![device-code-enter](../../../../assets/img/using-wso2-identity-server/device-code-enter.jpg)
+
+3. Click **Continue** to proceed. 
+
+    :::info
+    -   If the user code is correct, you are prompted to enter your credentials.
+    -   Note that the user code is for one-time use only. If your code is expired or if you have entered a wrong user code, get a new user code by following the previous steps.
+    :::
+
+    ![device-username-password](../../../../assets/img/using-wso2-identity-server/device-username-password.jpg)
+
+4. Once you log in successfully, you are redirected to the configured callback URL of the service provider.
+
+    ![device-scopes](../../../../assets/img/using-wso2-identity-server/device-scopes.jpg)
+
+    The client, who has been polling the **/token** endpoint, receives the access token and the refresh token.
+
+5.  Open a terminal window and send the following token request to the authorization server.
+
+    <table>
+      <tbody>
+        <tr>
+          <td>Request</td>
+          <td>
+
+            **Request**
+
+            <Anchor id="cb1" />
+
+            ```text
+            curl -k -X POST -H 'Content-Type: application/x-www-form-urlencoded' --data-urlencode 'grant_type=urn:ietf:params:oauth:grant-type:device_code' --data-urlencode 'client_id=<CLIENT_ID>' --data-urlencode 'device_code=<DEVICE_CODE>' https://localhost:9443/oauth2/token
+            ```
+
+            **Sample cURL**
+
+            <Anchor id="cb1" />
+
+            ```text
+            curl -k -X POST -H 'Content-Type: application/x-www-form-urlencoded' --data-urlencode 'grant_type=urn:ietf:params:oauth:grant-type:device_code' --data-urlencode 'client_id=bbwJEayR_OMwPkAgm9VOMzLnYLga' --data-urlencode 'device_code=7411f395-2f3a-4cb5-8562-d7059d69c66f' https://localhost:9443/oauth2/token
+            ```
+
+          </td>
+        </tr>
+        <tr>
+          <td>Response</td>
+          <td>
+
+            <Anchor id="cb3" />
+
+            ```text
+            {"access_token":"74d610ab-7f4a-3b11-90e8-279d76644fc7","refresh_token":"fdb58069-ecc7-3803-9b8b-6f2ed85eff19","token_type":"Bearer","expires_in":3042}
+            ```
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+6. To validate the token that you received, [use the introspection endpoint](../invoke-oauth-introspection-endpoint.mdx).

@@ -2,9 +2,9 @@
 title: Authentication Session Persistence
 description: This guide walks you through the process of enabling session persistence for sessions.  # generated from the first paragraph; a writer should improve it
 type: reference
-sidebar_label: Session persistence
+sidebar_label: Session Persistence
 sidebar_position: 3
-editions: self-hosted
+slug: "/deploy/session-persistence"
 ---
 
 This guide walks you through the process of enabling session persistence for sessions. This is useful when the **Remember me** option is selected while logging into either the service provider or the Management Console.
@@ -111,7 +111,7 @@ The `[session_data.cleanup]` section is related to the cleaning up of session da
 ## Importance of correct `Deletechunksize`
 
 In the world of the World Wide Web, sessions are the simplest way to store data for individual users against a unique session ID. These can be used to persist state information between page requests. When all
-the requests and responses that come to a page per day are considered, that is a large amount. Due to this reason, the session data stored in the “IDN\_AUTH\_SESSION\_STORE ” table in the WSO2CARBON\_DB of WSO2 IS is high. This table fills up quickly if your system receives too many loads of requests.
+the requests ad responses that come to a page per day are considered, that is a large amount. Due to this reason, the session data stored in the “IDN\_AUTH\_SESSION\_STORE ” table in the WSO2CARBON\_DB of WSO2 IS is high. This table fills up quickly if your system receives too many loads of requests.
 
 After a certain period, these session data are not necessary. To stop the exponential table growth, a Session Clean Up Task in predefined time intervals is run via a script. If this storing session data is huge, the data that need to be deleted also will come in bulk.
 
@@ -119,7 +119,7 @@ The session clean-up task also takes a certain amount of time and consumes a cer
 
 But if you didn’t select the correct number for the DeleteChunkSize, you will end up with less performance. Therefore selecting a suitable chunk size for your database is a must.
 
-:::note[Size of Delete Chunks]
+:::info[Size of Delete Chunks]
 The value of the delete chunk size depends on various factors such as:  
 
 - The size of a row of the table. You can calculate this by adding bytes needed for each column and some control information per record.  

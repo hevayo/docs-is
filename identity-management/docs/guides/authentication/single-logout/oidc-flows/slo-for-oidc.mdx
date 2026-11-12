@@ -1,0 +1,23 @@
+---
+title: OpenID Connect Single Logout
+description: 'The following three single logout mechanisms are supported by OpenID Connect:'  # generated from the first paragraph; a writer should improve it
+type: how-to
+sidebar_label: Overview
+sidebar_position: 1
+slug: "/guides/login/slo-for-oidc"
+---
+
+The following three single logout mechanisms are supported by OpenID Connect:  
+
+- [OpenID Connect Session Management](../../../../references/iam-topics/authentication/authentication-protocols/oidc/session-management.mdx) is enabled by 
+  default for all OAuth/OpenID Connect service providers in WSO2 Identity Server. For more information on configuring an 
+  OAuth/OpenID Connect application, see [Enable Authentication for an OIDC Web Application](../../login/web-application/webapp-oidc.mdx). To configure 
+  this logout mechanism in your application, see [Manage User Sessions and Logout](./session-management-logout.mdx).
+
+- [OpenID Connect Back-Channel Logout](../../../../references/iam-topics/authentication/authentication-protocols/oidc/back-channel-logout.mdx) can be configured using one of the following methods:
+    1. via OpenID Connect Dynamic Client Registration (DCR)
+    2. manually via the WSO2 IS management console <br />
+
+    To configure this logout mechanism in your application, see [Configure OpenID Connect Back-Channel Logout](./oidc-backchannel-logout.mdx).
+
+- OpenID Connect Front-Channel Logout is on the WSO2 Identity Server roadmap and will be available in a future release.

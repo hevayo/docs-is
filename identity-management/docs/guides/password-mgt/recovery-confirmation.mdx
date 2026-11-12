@@ -1,0 +1,26 @@
+---
+title: Resend Account Recovery Confirmation Email
+description: The following curl command can be used to resend the confirmation code.  # generated from the first paragraph; a writer should improve it
+type: how-to
+unlisted: true
+---
+
+## Resend confirmation Email using the admin portal
+
+---
+
+## Resend confirmation Email using REST APIs
+
+The following curl command can be used to resend the confirmation code. 
+
+```bash
+curl -X POST -H "Authorization: Basic <Base64Encoded_username:password>" -H "Content-Type: application/json" -d '{"user":{"username": "<username>","realm": "<user_store_name>"},"properties": []}' "https://localhost:9443/api/identity/user/v1.0/resend-code"
+```
+
+```bash
+curl -X POST -H "Authorization: Basic YWRtaW46YWRtaW4=" -H "Content-Type: application/json" -d '{"user":{"username": "kim","realm": "PRIMARY"},"properties": []}' "https://localhost:9443/api/identity/user/v1.0/resend-code"
+```
+
+```bash
+"HTTP/1.1 201 Created"
+```

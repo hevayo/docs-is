@@ -1,43 +1,39 @@
 ---
-title: Cross-Origin Resource Sharing (CORS)
-description: Cross-Origin Resource Sharing (CORS) lets web services control which external origins can access their resources.  # generated from the first paragraph; a writer should improve it
+title: CORS
+description: Cross Origin Resource Sharing (CORS) is a mechanism that allows the web services to control the access to its resources from different origins.  # generated from the first paragraph; a writer should improve it
 type: reference
-sidebar_position: 4
-editions: self-hosted
+sidebar_position: 7
+slug: "/deploy/configure-cors"
 ---
 
-Cross-Origin Resource Sharing (CORS) lets web services control which external origins can access their resources. {edition.productName} allows you to enforce CORS at the tenant level, ideal for connecting Single Page Applications (SPAs).
+Cross Origin Resource Sharing (CORS) is a mechanism that allows the web services to control the access to its resources from different origins. The WSO2 Identity Server (WSO2 IS) supports enforcing CORS at the tenant level. This is particularly useful when a Single Page Application (SPA) is needed to be connected to the IS.
+You can configure the CORS either at the server level during deployment or through the REST API. Any CORS preference that is configured at the server level can be overriden at the tenant level with the notable exception of the `Allowed CORS origins`. Any CORS origin that will be made allowed at the deployment stage through the `deployment.toml` will always be enabled for all the tenants under that particular WSO2 IS instance.
 
-:::tip[Before you begin: Enable tenant URL mode]
-{edition.productName} must be running in tenant URL mode for CORS to work. This means your URL should follow this format:
+**The Identity Server must be running in the tenant URL mode in order for CORS to work.**
 
-```bash
-https://<IS_HOST>:<IS_PORT>/t/<TENANT_DOMAIN>/...
-```
+## CORS Configurations
 
-For example, for the default carbon super tenant, the URL should be:
+Following are the CORS configurations that are configurable.
 
-```bash
-https://localhost:9443/t/carbon.super/...
-```
+| Name | Description | Configuration |
+| --- | --- | --- |
+| Allow generic HTTP requests | If this is through, then the generic HTTP requests will be allowed to pass through to the WSO2 IS. Otherwise, only valid and accepted CORS requests will be allowed. | allow_generic_http_requests |
+| Allow any origin | If through, the CORS valve will allow requests from any origin to the WSO2 IS while ignoring the whitelisted origins. Otherwise the 'Allowed origins' for the server/tenant is considered when allowing CORS requests. | allow_any_origin |
+| Allowed origins | A list of origins that will be allowed to make CORS requests to the WSO2 IS. | allowed_origins |
+| Allow subdomains | If true, then CORS requests from subdomains of the configured CORS origins will be allowed to be made to the WSO2 IS. | allow_subdomains |
+| Supported methods | The supported HTTP methods. Requests for methods not included here will be refused by the CORS filter with a HTTP 405 'Method not allowed' response. | supported_methods |
+| Support any header | If true, then CORS requests for any header will be supported while ignoring the 'Supported headers' property. | support_any_header |
+| Supported headers | This will only be consulted if the 'Support any header' property is false. In such case, the CORS requests can be made only for the headers included in this property. | supported_headers |
+| Exposed headers | The non-simple response headers that the web browser should expose to the author of the CORS request. | exposed_headers |
+| Supports credentials | Whether user credentials, such as cookies, HTTP authentication or client-side certificates are supported. | supports_credentials |
+| Max age | Indicates how long the results of a preflight request can be cached by the web client, in seconds. Here -1 means the age is unspecified. | max_age |
+| Tag requests | Enables HTTP servlet request tagging to provide CORS information to downstream handlers. | tag_requests |
 
-Tenant mode is enabled by default. If it’s disabled, enable it by editing the `<IS_HOME>/repository/conf/deployment.toml` file and adding the following configuration:
+## Configuring CORS during deployment
 
-```toml
-[tenant_context]
-enable_tenant_qualified_urls = true
-```
-:::
+All the above parameters can be configured at the server level through the `deployment.toml` file. A sample configuration is shown below.
 
-## Configure CORS
-
-You can configure CORS in the following two ways:
-
-### During deployment
-
-You can configure CORS settings during server deployment from the `<IS_HOME>/repository/conf/deployment.toml` file. The following shows a sample configuration.
-
-```toml
+```text
 [cors]
 allow_generic_http_requests = true
 allow_any_origin = false
@@ -59,34 +55,15 @@ max_age = 3600
 tag_requests = false
 ```
 
-### Using REST APIs
+## Working with CORS through the REST APIs
 
-You can use the following REST APIs to view and configure CORS properties.
+The CORS functionality of the WSO2 Identity Server is managed by three different REST APIs.
 
-:::note[Overriding server-level properties]
-REST APIs can override all the CORS properties defined at the server-level except for **Allowed CORS origins**.  The origins listed under this property at the server level are permanent. REST APIs can add new origins to it but can't restrict or remove server-level defined origins.
-:::
+### Server Configuration API
+The Server Configuration API is able to manage all the CORS configurations of a tenant except allowed CORS origins. These configurations cannot be set at the application level.
 
-- [Server Configuration API](../../apis/configs-rest-api/index.mdx) - Allows overriding all server-level properties except for `Allowed CORS origins`.
+### Application Management API
+Even if the enforcement happens at the tenant level, the developers are able to configure \`Allowed CORS origins\` for their applications individually through the Application Management REST API. Any CORS origin that will be made allowed through this API will be automatically allowed for other applications under the tenant as the CORS can only be enforced at the tenant level under the tenant-url mode.
 
-- [Application Management API](../../apis/application-rest-api/index.mdx) - You can define the allowed CORS origins for your applications. Any origin allowed for a single application will be allowed for other applications under the same tenant.
-
-- [CORS API](../../apis/cors-rest-api/index.mdx) allows you to view all the CORS origins configured per tenant and applications associated with a single origin.
-
-## Configurable properties
-
-Following are the configurable CORS properties.
-
-| Name | Description | Configuration |
-| --- | --- | --- |
-| Allow generic HTTP requests | When set to true, generic HTTP requests will be allowed to pass through to {edition.productName}. Otherwise, only valid and accepted CORS requests will be allowed. | allow_generic_http_requests |
-| Allow any origin | When set to true, the CORS valve allows requests from any origin to {edition.productName}. If false, only allows the whitelisted origins configured under `Allowed origins`. | allow_any_origin |
-| Allowed origins | A list of origins that will be allowed to make CORS requests to {edition.productName}. | allowed_origins |
-| Allow subdomains | When set to true, subdomains of the allowed CORS origins can make requests to {edition.productName}. | allow_subdomains |
-| Supported methods | List of supported HTTP methods. {edition.productName} responds with a HTTP 405 'Method not allowed' response for any methods not listed here. | supported_methods |
-| Support any header | If true, then CORS requests for any header will be supported while ignoring the 'Supported headers' property. | support_any_header |
-| Supported headers | If `Support any header` set to false, {edition.productName} only allows requests with headers listed here. | supported_headers |
-| Exposed headers | The non-simple response headers that the browser will expose to the requesting page in a cross-origin request. | exposed_headers |
-| Supports credentials | Whether to support user credentials, such as cookies, HTTP authentication or client-side certificates. | supports_credentials |
-| Max age | The duration (in seconds) that the browser can cache the preflight response. -1 means the cache duration is unspecified. | max_age |
-| Tag requests | Enables HTTP servlet request tagging to provide CORS information to downstream handlers. | tag_requests |
+### CORS API
+CORS API allows the developers to view all the CORS origins configured per tenant. In addition, this API facilitates viewing the applications that are associated with a single CORS origin.

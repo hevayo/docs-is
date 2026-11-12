@@ -1,0 +1,1348 @@
+---
+title: Entitlement with REST APIs
+description: Entitlement management is the process that grants, resolves, enforces, revokes and administers fine-grained access privileges.  # generated from the first paragraph; a writer should improve it
+type: reference
+sidebar_label: Entitlement management API
+sidebar_position: 4
+---
+
+Entitlement management is the process that grants, resolves, enforces,
+revokes and administers fine-grained access privileges.
+
+The WSO2 Identity Server supports REST APIs for entitlement management via the
+`https://{IS_IP}:{IS_PORT}/api/identity/entitlement/decision/` endpoint.
+
+If your WSO2 Identity Server is running on localhost (127.0.0.1) and on the default port, the entitlement endpoint is:
+    ```java
+    https://localhost:9443/api/identity/entitlement/decision/
+    ```
+
+:::note
+The REST APIs are secured with basic authentication. Follow
+the steps below to add a basic auth header when calling these methods.
+
+1.  Build a string of the form **username:password** and encode it using **Base64**.
+2.  Define an authorization header with the term `Basic`, followed by the encoded
+    string. 
+For example, the basic authorization header for `admin` user with password `admin` is:
+
+    ```java
+    Authorization: Basic YWRtaW46YWRtaW4=
+    ```
+:::
+
+---
+
+#### Get API resource list
+
+<table>
+  <tbody>
+    <tr>
+      <td>Description</td>
+      <td>Get the API resource list according to XACML 3.0 specification.</td>
+    </tr>
+    <tr>
+      <td>Resource Path</td>
+      <td>/home</td>
+    </tr>
+    <tr>
+      <td>HTTP Method</td>
+      <td>GET</td>
+    </tr>
+    <tr>
+      <td>Request/Response Format</td>
+      <td>
+
+        application/json
+
+        application/xml
+
+      </td>
+    </tr>
+    <tr>
+      <td>Authentication</td>
+      <td>Basic</td>
+    </tr>
+    <tr>
+      <td>Username</td>
+      <td>admin</td>
+    </tr>
+    <tr>
+      <td>Password</td>
+      <td>admin</td>
+    </tr>
+    <tr>
+      <td>Parameters</td>
+      <td>
+
+        | Name | Located In | Description | Required | Schema |
+        | --- | --- | --- | --- | --- |
+        | Accept | header | Request Media Type | Yes | string |
+        | Auth_Type | header | Authentication Type | Yes | string |
+        | Authorization | header | Add HTTP Basic Authorization | Yes | string |
+        | Content-type | header | Response Media Type | Yes | string |
+
+      </td>
+    </tr>
+    <tr>
+      <td>Response</td>
+      <td>
+
+        <table>
+          <colgroup>
+            <col style={{width: "33%"}} />
+            <col style={{width: "33%"}} />
+            <col style={{width: "33%"}} />
+          </colgroup>
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Description</th>
+              <th>Schema</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>200</td>
+              <td>XACML JSON/XML Response</td>
+              <td><br /></td>
+            </tr>
+            <tr>
+              <td>40010</td>
+              <td>Error in response</td>
+              <td>
+
+                ```text
+                ExceptionBean {
+                    code:integer
+                    message:string
+                }
+                ```
+
+              </td>
+            </tr>
+            <tr>
+              <td>40020</td>
+              <td>Request parse exception</td>
+              <td>
+
+                ```text
+                ExceptionBean {
+                    code:integer
+                    message:string
+                }
+                ```
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <br />
+
+        <br />
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+A sample request and response is as follows:
+
+<table>
+  <colgroup>
+    <col style={{width: "18%"}} />
+    <col style={{width: "81%"}} />
+  </colgroup>
+  <tbody>
+    <tr>
+      <td>Sample request</td>
+      <td>
+
+        **GET Request: cURL**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -X GET   https://localhost:9443/api/identity/entitlement/decision/home   -H 'accept: application/json'   -H 'authorization: Basic YWRtaW46YWRtaW4='   -H 'content-type: application/json'  -k
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>Sample Response</td>
+      <td>
+
+        **Sample response: JSON**
+
+        <Anchor id="cb2" />
+
+        ```text
+        {
+            "xmlns": "http://ietf.org/ns/home-documents",
+            "resources": [
+                {
+                    "link": {
+                        "href": "/pdp"
+                    },
+                    "rel": "http://docs.oasis-open.org/ns/xacml/relation/pdp"
+                }
+            ]
+        }
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+#### Evaluate XACML request
+
+<table>
+  <colgroup>
+    <col style={{width: "23%"}} />
+    <col style={{width: "76%"}} />
+  </colgroup>
+  <tbody>
+    <tr>
+      <td>Description</td>
+      <td>Get a response by evaluating the JSON/XML XACML request.</td>
+    </tr>
+    <tr>
+      <td>Resource Path</td>
+      <td>/pdp</td>
+    </tr>
+    <tr>
+      <td>HTTP Method</td>
+      <td>POST</td>
+    </tr>
+    <tr>
+      <td>Request/Response Format</td>
+      <td>
+
+        application/json
+
+        application/xml
+
+      </td>
+    </tr>
+    <tr>
+      <td>Authentication</td>
+      <td>Basic</td>
+    </tr>
+    <tr>
+      <td>Username</td>
+      <td>admin</td>
+    </tr>
+    <tr>
+      <td>Password</td>
+      <td>admin</td>
+    </tr>
+    <tr>
+      <td>Parameters</td>
+      <td>
+
+        | Name | Located In | Description | Required | Schema |
+        | --- | --- | --- | --- | --- |
+        | Accept | header | Request Media Type | Yes | string |
+        | Auth_Type | header | Authentication Type | Yes | string |
+        | Authorization | header | Add HTTP Basic Authorization | Yes | string |
+        | Content-type | header | Response Media Type | Yes | string |
+        | body | body | XACML JSON/XML Request | Yes | string |
+
+      </td>
+    </tr>
+    <tr>
+      <td>Response</td>
+      <td>
+
+        <table>
+          <colgroup>
+            <col style={{width: "33%"}} />
+            <col style={{width: "33%"}} />
+            <col style={{width: "33%"}} />
+          </colgroup>
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Description</th>
+              <th>Schema</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>200</td>
+              <td>XACML JSON/XML Response</td>
+              <td><br /></td>
+            </tr>
+            <tr>
+              <td>40010</td>
+              <td>Error in response</td>
+              <td>
+
+                ```text
+                ExceptionBean {
+                    code:integer
+                    message:string
+                }
+                ```
+
+              </td>
+            </tr>
+            <tr>
+              <td>40020</td>
+              <td>Request parse exception</td>
+              <td>
+
+                ```text
+                ExceptionBean {
+                    code:integer
+                    message:string
+                }
+                ```
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <br />
+
+        <br />
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+A sample request and response is as follows:
+
+<table style={{width: "100%"}}>
+  <colgroup>
+    <col style={{width: "6%"}} />
+    <col style={{width: "93%"}} />
+  </colgroup>
+  <tbody>
+    <tr>
+      <td>XACML Policy Evaluated</td>
+      <td>
+
+        **XACML Policy**
+
+        <Anchor id="cb1" />
+
+        ```text
+        <Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" PolicyId="samplePolicy" RuleCombiningAlgId="urn:oasis:names:tc:xacml:3.0:rule-combining-algorithm:deny-overrides" Version="1.0">
+            <Target>
+                <AnyOf>
+                    <AllOf>
+                        <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                            <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">read</AttributeValue>
+                            <AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="true"/>
+                        </Match>
+                    </AllOf>
+                </AnyOf>
+            </Target>
+            <Rule Effect="Permit" RuleId="permit"/>
+        </Policy>
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>Sample Request</td>
+      <td>
+
+        **Request: JSON**
+
+        <Anchor id="cb2" />
+
+        ```text
+        {
+            "Request": {
+                     "AccessSubject": {
+                             "Attribute": [
+                                   {
+                                          "AttributeId": "urn:oasis:names:tc:xacml:1.0:subject:subject-id",
+                                          "Value": "Andreas"
+                                   }
+                   ]
+                      },        "Action": {
+                    "Attribute": [
+                        {
+                            "AttributeId": "urn:oasis:names:tc:xacml:1.0:action:action-id",
+                            "Value": "read"
+                        }
+                    ]
+                },
+                "Resource": {
+                    "Attribute": [
+                        {
+                            "AttributeId": "urn:oasis:names:tc:xacml:1.0:resource:resource-id",
+                            "Value": "http://127.0.0.1/service/very_secure/"
+                        }
+                    ]
+                }
+            }
+        }
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>Sample Response</td>
+      <td>
+
+        **Response: JSON**
+
+        <Anchor id="cb3" />
+
+        ```text
+        {
+          "Response": [
+            {
+              "Decision": "Permit",
+              "Status": {
+                "StatusCode": {
+                  "Value": "urn:oasis:names:tc:xacml:1.0:status:ok"
+                }
+              }
+            }
+          ]
+        }
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+---  
+
+#### Evaluate XACML request by attributes
+
+<table>
+  <tbody>
+    <tr>
+      <td>Description</td>
+      <td>Get a response by evaluating attributes.</td>
+    </tr>
+    <tr>
+      <td>Resource Path</td>
+      <td>/by-attrib</td>
+    </tr>
+    <tr>
+      <td>HTTP Method</td>
+      <td>POST</td>
+    </tr>
+    <tr>
+      <td>Request/Response Format</td>
+      <td>
+
+        application/json
+
+        application/xml
+
+      </td>
+    </tr>
+    <tr>
+      <td>Authentication</td>
+      <td>Basic</td>
+    </tr>
+    <tr>
+      <td>Username</td>
+      <td>admin</td>
+    </tr>
+    <tr>
+      <td>Password</td>
+      <td>admin</td>
+    </tr>
+    <tr>
+      <td>Parameters</td>
+      <td>
+
+        <table>
+          <colgroup>
+            <col style={{width: "20%"}} />
+            <col style={{width: "20%"}} />
+            <col style={{width: "20%"}} />
+            <col style={{width: "20%"}} />
+            <col style={{width: "20%"}} />
+          </colgroup>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Located In</th>
+              <th>Description</th>
+              <th>Required</th>
+              <th>Schema</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Accept</td>
+              <td>header</td>
+              <td>Request Media Type</td>
+              <td>Yes</td>
+              <td>string</td>
+            </tr>
+            <tr>
+              <td>Auth_Type</td>
+              <td>header</td>
+              <td>Authentication Type</td>
+              <td>Yes</td>
+              <td>string</td>
+            </tr>
+            <tr>
+              <td>Authorization</td>
+              <td>header</td>
+              <td>Add HTTP Basic Authorization</td>
+              <td>Yes</td>
+              <td>string</td>
+            </tr>
+            <tr>
+              <td>Content-type</td>
+              <td>header</td>
+              <td>Response Media Type</td>
+              <td>Yes</td>
+              <td>string</td>
+            </tr>
+            <tr>
+              <td>body</td>
+              <td>body</td>
+              <td>Decision Request Model</td>
+              <td>Yes</td>
+              <td>
+
+                ```text
+                DecisionRequestModel {
+                 
+                    subject:string
+                    action:string
+                    resource:string
+                    environment:[
+                            string
+                    ]
+                }
+                ```
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </td>
+    </tr>
+    <tr>
+      <td>Response</td>
+      <td>
+
+        <table>
+          <colgroup>
+            <col style={{width: "33%"}} />
+            <col style={{width: "33%"}} />
+            <col style={{width: "33%"}} />
+          </colgroup>
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Description</th>
+              <th>Schema</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>200</td>
+              <td>Method call success</td>
+              <td>` HomeResponseModel { } `</td>
+            </tr>
+            <tr>
+              <td>40010</td>
+              <td>Error in response</td>
+              <td>
+
+                ```text
+                ExceptionBean {
+                    code:integer
+                    message:string
+                }
+                ```
+
+              </td>
+            </tr>
+            <tr>
+              <td>40020</td>
+              <td>Request parse exception</td>
+              <td>
+
+                ```text
+                ExceptionBean {
+                    code:integer
+                    message:string
+                }
+                ```
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+A sample request and response are as follows,
+
+<table>
+  <colgroup>
+    <col style={{width: "15%"}} />
+    <col style={{width: "84%"}} />
+  </colgroup>
+  <tbody>
+    <tr>
+      <td>A sample request</td>
+      <td>
+
+        **Request: cURL**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl --request POST \
+          --url https://localhost:9443/api/identity/entitlement/decision/by-attrib \
+          --header 'accept: application/json' \
+          --header 'authorization: Basic YWRtaW46YWRtaW4=' \
+          --header 'content-type: application/json' \
+          --data '{
+          "action":"read",
+          "resource":"http://127.0.0.1/service/very_secure/",
+          "subject" : "admin"
+        }' -k
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>A sample response</td>
+      <td>
+
+        **Response: JSON**
+
+        <Anchor id="cb2" />
+
+        ```text
+        {
+          "Response": [
+            {
+              "Decision": "Permit",
+              "Status": {
+                "StatusCode": {
+                  "Value": "urn:oasis:names:tc:xacml:1.0:status:ok"
+                }
+              }
+            }
+          ]
+        }
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+#### Evaluate XACML request by attributes and receive boolean response
+
+<table>
+  <tbody>
+    <tr>
+      <td>Description</td>
+      <td>Get a boolean response by evaluating attributes.</td>
+    </tr>
+    <tr>
+      <td>Resource Path</td>
+      <td>/by-attrib-boolean</td>
+    </tr>
+    <tr>
+      <td>HTTP Method</td>
+      <td>POST</td>
+    </tr>
+    <tr>
+      <td>Request/Response Format</td>
+      <td>
+
+        application/json
+
+        application/xml
+
+      </td>
+    </tr>
+    <tr>
+      <td>Authentication</td>
+      <td>Basic</td>
+    </tr>
+    <tr>
+      <td>Username</td>
+      <td>admin</td>
+    </tr>
+    <tr>
+      <td>Password</td>
+      <td>admin</td>
+    </tr>
+    <tr>
+      <td>Parameters</td>
+      <td>
+
+        <table>
+          <colgroup>
+            <col style={{width: "20%"}} />
+            <col style={{width: "20%"}} />
+            <col style={{width: "20%"}} />
+            <col style={{width: "20%"}} />
+            <col style={{width: "20%"}} />
+          </colgroup>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Located In</th>
+              <th>Description</th>
+              <th>Required</th>
+              <th>Schema</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Accept</td>
+              <td>header</td>
+              <td>Request Media Type</td>
+              <td>Yes</td>
+              <td>string</td>
+            </tr>
+            <tr>
+              <td>Auth_Type</td>
+              <td>header</td>
+              <td>Authentication Type</td>
+              <td>Yes</td>
+              <td>string</td>
+            </tr>
+            <tr>
+              <td>Authorization</td>
+              <td>header</td>
+              <td>Add HTTP Basic Authorization</td>
+              <td>Yes</td>
+              <td>string</td>
+            </tr>
+            <tr>
+              <td>Content-type</td>
+              <td>header</td>
+              <td>Response Media Type</td>
+              <td>Yes</td>
+              <td>string</td>
+            </tr>
+            <tr>
+              <td>body</td>
+              <td>body</td>
+              <td>Decision Request Model</td>
+              <td>Yes</td>
+              <td>
+
+                ```text
+                DecisionRequestModel {
+                 
+                    subject:string
+                    action:string
+                    resource:string
+                    environment:[
+                            string
+                    ]
+                }
+                ```
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </td>
+    </tr>
+    <tr>
+      <td>Response</td>
+      <td>
+
+        <table>
+          <colgroup>
+            <col style={{width: "33%"}} />
+            <col style={{width: "33%"}} />
+            <col style={{width: "33%"}} />
+          </colgroup>
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Description</th>
+              <th>Schema</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>200</td>
+              <td>XACML JSON/XML Response</td>
+              <td><br /></td>
+            </tr>
+            <tr>
+              <td>40010</td>
+              <td>Error in response</td>
+              <td>
+
+                ```text
+                ExceptionBean {
+                    code:integer
+                    message:string
+                }
+                ```
+
+              </td>
+            </tr>
+            <tr>
+              <td>40020</td>
+              <td>Request parse exception</td>
+              <td>
+
+                ```text
+                ExceptionBean {
+                    code:integer
+                    message:string
+                }
+                ```
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+A sample request and response are as follows,
+
+<table>
+  <colgroup>
+    <col style={{width: "15%"}} />
+    <col style={{width: "84%"}} />
+  </colgroup>
+  <tbody>
+    <tr>
+      <td>A sample request</td>
+      <td>
+
+        **Request: cURL**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl --request POST \
+          --url https://localhost:9443/api/identity/entitlement/decision/by-attrib-boolean \
+          --header 'accept: application/json' \
+          --header 'authorization: Basic YWRtaW46YWRtaW4=' \
+          --header 'content-type: application/json' \
+          --data '{
+          "action":"read",
+          "resource":"http://127.0.0.1/service/very_secure/",
+          "subject" : "admin"
+        }' -k
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>A sample response</td>
+      <td>
+
+        **Response: Boolean**
+
+        <Anchor id="cb2" />
+
+        ```text
+        true
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+--- 
+
+#### Get entitled attributes
+
+<table>
+  <tbody>
+    <tr>
+      <td>Description</td>
+      <td>Get entitled attributes for a given set of parameters.</td>
+    </tr>
+    <tr>
+      <td>Resource Path</td>
+      <td>/entitled-attribs</td>
+    </tr>
+    <tr>
+      <td>HTTP Method</td>
+      <td>POST</td>
+    </tr>
+    <tr>
+      <td>Request/Response Format</td>
+      <td>
+
+        application/json
+
+        application/xml
+
+      </td>
+    </tr>
+    <tr>
+      <td>Authentication</td>
+      <td>Basic</td>
+    </tr>
+    <tr>
+      <td>Username</td>
+      <td>admin</td>
+    </tr>
+    <tr>
+      <td>Password</td>
+      <td>admin</td>
+    </tr>
+    <tr>
+      <td>Parameters</td>
+      <td>
+
+        <table>
+          <colgroup>
+            <col style={{width: "20%"}} />
+            <col style={{width: "20%"}} />
+            <col style={{width: "20%"}} />
+            <col style={{width: "20%"}} />
+            <col style={{width: "20%"}} />
+          </colgroup>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Located In</th>
+              <th>Description</th>
+              <th>Required</th>
+              <th>Schema</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Accept</td>
+              <td>header</td>
+              <td>Request Media Type</td>
+              <td>Yes</td>
+              <td>string</td>
+            </tr>
+            <tr>
+              <td>Auth_Type</td>
+              <td>header</td>
+              <td>Authentication Type</td>
+              <td>Yes</td>
+              <td>string</td>
+            </tr>
+            <tr>
+              <td>Authorization</td>
+              <td>header</td>
+              <td>Add HTTP Basic Authorization</td>
+              <td>Yes</td>
+              <td>string</td>
+            </tr>
+            <tr>
+              <td>Content-type</td>
+              <td>header</td>
+              <td>Response Media Type</td>
+              <td>Yes</td>
+              <td>string</td>
+            </tr>
+            <tr>
+              <td>body</td>
+              <td>body</td>
+              <td>Decision Request Model</td>
+              <td>Yes</td>
+              <td>
+
+                ```text
+                EntitledAttributesRequestModel {
+                    subjectName:string
+                    resourceName:string
+                    subjectId:string
+                    action:string
+                    enableChildSearch:boolean
+                }
+                ```
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </td>
+    </tr>
+    <tr>
+      <td>Response</td>
+      <td>
+
+        <table>
+          <colgroup>
+            <col style={{width: "33%"}} />
+            <col style={{width: "33%"}} />
+            <col style={{width: "33%"}} />
+          </colgroup>
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Description</th>
+              <th>Schema</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>200</td>
+              <td>Entitled attributes response</td>
+              <td>
+
+                ```text
+                EntitledAttributesResponseModel {
+                    entitledResultSetDTO:EntitledResultSetDTO {
+                        entitledAttributesDTOs:[
+                            EntitledAttributesDTO {
+                                resourceName:string
+                                action:string
+                                environment:string
+                                allActions:boolean
+                                allResources:boolean
+                                attributeDTOs:[
+                                    AttributeDTO {
+                                        attributeValue:string
+                                        attributeDataType:string
+                                        attributeId:string
+                                        category:string
+                                    }
+                                ]
+                            }
+                        ]
+                        advanceResult:boolean
+                        message:string
+                        messageType:string
+                    }
+                }
+                ```
+
+              </td>
+            </tr>
+            <tr>
+              <td>40010</td>
+              <td>Error in response</td>
+              <td>
+
+                ```text
+                ExceptionBean {
+                    code:integer
+                    message:string
+                }
+                ```
+
+              </td>
+            </tr>
+            <tr>
+              <td>40020</td>
+              <td>Request parse exception</td>
+              <td>
+
+                ```text
+                ExceptionBean {
+                    code:integer
+                    message:string
+                }
+                ```
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+A sample request and response are as follows,
+
+<table>
+  <colgroup>
+    <col style={{width: "15%"}} />
+    <col style={{width: "84%"}} />
+  </colgroup>
+  <tbody>
+    <tr>
+      <td>A sample request</td>
+      <td>
+
+        **Request: cURL**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl --request POST \
+          --url https://localhost:9443/api/identity/entitlement/decision/entitled-attribs \
+          --header 'accept: application/json' \
+          --header 'authorization: Basic YWRtaW46YWRtaW4=' \
+          --header 'content-type: application/json' \
+          --data '{
+          "subjectName" : "admin",
+          "enableChildSearch" : "false"
+        }' -k
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>A sample response</td>
+      <td>
+
+        **Response: JSON**
+
+        <Anchor id="cb2" />
+
+        ```text
+        {
+           "entitledResultSetDTO": {
+              "entitledAttributesDTOs": [
+                 {
+                    "resourceName": null,
+                    "action": "read",
+                    "environment": null,
+                    "allActions": false,
+                    "allResources": true,
+                    "attributeDTOs": []
+                 }
+              ],
+              "advanceResult": false,
+              "message": null,
+              "messageType": null
+           }
+        }
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+#### Get all entitlements
+
+<table>
+  <tbody>
+    <tr>
+      <td>Description</td>
+      <td>Get all entitlements for a given set of parameters</td>
+    </tr>
+    <tr>
+      <td>Resource Path</td>
+      <td>/entitlements-all</td>
+    </tr>
+    <tr>
+      <td>HTTP Method</td>
+      <td>POST</td>
+    </tr>
+    <tr>
+      <td>Request/Response Format</td>
+      <td>
+
+        application/json
+
+        application/xml
+
+      </td>
+    </tr>
+    <tr>
+      <td>Authentication</td>
+      <td>Basic</td>
+    </tr>
+    <tr>
+      <td>Username</td>
+      <td>admin</td>
+    </tr>
+    <tr>
+      <td>Password</td>
+      <td>admin</td>
+    </tr>
+    <tr>
+      <td>Parameters</td>
+      <td>
+
+        <table>
+          <colgroup>
+            <col style={{width: "20%"}} />
+            <col style={{width: "20%"}} />
+            <col style={{width: "20%"}} />
+            <col style={{width: "20%"}} />
+            <col style={{width: "20%"}} />
+          </colgroup>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Located In</th>
+              <th>Description</th>
+              <th>Required</th>
+              <th>Schema</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Accept</td>
+              <td>header</td>
+              <td>Request Media Type</td>
+              <td>Yes</td>
+              <td>string</td>
+            </tr>
+            <tr>
+              <td>Auth_Type</td>
+              <td>header</td>
+              <td>Authentication Type</td>
+              <td>Yes</td>
+              <td>string</td>
+            </tr>
+            <tr>
+              <td>Authorization</td>
+              <td>header</td>
+              <td>Add HTTP Basic Authorization</td>
+              <td>Yes</td>
+              <td>string</td>
+            </tr>
+            <tr>
+              <td>Content-type</td>
+              <td>header</td>
+              <td>Response Media Type</td>
+              <td>Yes</td>
+              <td>string</td>
+            </tr>
+            <tr>
+              <td>body</td>
+              <td>body</td>
+              <td>All Entitlements Model</td>
+              <td>Yes</td>
+              <td>
+
+                ```text
+                AllEntitlementsRequestModel {
+                    identifier:string
+                    givenAttributes:[
+                        AttributeDTO {
+                            attributeValue:string
+                            attributeDataType:string
+                            attributeId:string
+                            category:string
+                        }
+                    ]
+                }
+                ```
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </td>
+    </tr>
+    <tr>
+      <td>Response</td>
+      <td>
+
+        <table>
+          <colgroup>
+            <col style={{width: "33%"}} />
+            <col style={{width: "33%"}} />
+            <col style={{width: "33%"}} />
+          </colgroup>
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Description</th>
+              <th>Schema</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>200</td>
+              <td>All entitlements response</td>
+              <td>
+
+                ```text
+                AllEntitlementsResponseModel {
+                    entitledResultSetDTO:EntitledResultSetDTO {
+                        entitledAttributesDTOs:[
+                            EntitledAttributesDTO {
+                                resourceName:string
+                                action:string
+                                environment:string
+                                allActions:boolean
+                                allResources:boolean
+                                attributeDTOs:[
+                                    AttributeDTO {
+                                        attributeValue:string
+                                        attributeDataType:string
+                                        attributeId:string
+                                        category:string
+                                    }
+                                ]
+                            }
+                        ]
+                        advanceResult:boolean
+                        message:string
+                        messageType:string
+                    }
+                }
+                ```
+
+              </td>
+            </tr>
+            <tr>
+              <td>40010</td>
+              <td>Error in response</td>
+              <td>
+
+                ```text
+                ExceptionBean {
+                    code:integer
+                    message:string
+                }
+                ```
+
+              </td>
+            </tr>
+            <tr>
+              <td>40020</td>
+              <td>Request parse exception</td>
+              <td>
+
+                ```text
+                ExceptionBean {
+                    code:integer
+                    message:string
+                }
+                ```
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </td>
+    </tr>
+  </tbody>
+</table>

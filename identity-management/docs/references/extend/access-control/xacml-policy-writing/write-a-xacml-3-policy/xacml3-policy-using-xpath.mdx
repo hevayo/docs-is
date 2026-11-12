@@ -1,0 +1,183 @@
+---
+title: Writing a XACML 3.0 Policy Using XPath
+description: XPath is a major element in the XSLT standard and it is a syntax for defining parts of an XML document.  # generated from the first paragraph; a writer should improve it
+type: reference
+sidebar_label: XACML 3 policy using XPath
+sidebar_position: 8
+slug: "/references/extend/access-control/xacml3-policy-using-xpath"
+---
+
+XPath is a major element in the XSLT standard and it is a syntax for
+defining parts of an XML document. XPath can be used to navigate
+through elements and attributes in an XML document.
+
+XPath plays an important role in XACML when policies are evaluated for
+XML-based data. When XML data is passed across nodes, PEP can be an
+interception point that calls the PDP with parsing XML data. Based on
+the XML data, PDP can take decisions.  Let's see how we can develop a
+simple policy that can be used to evaluate XML data.
+
+## Sample scenario
+
+-   There is a healthcare application called "Medicom" where the online registered
+    user (patient, doctor, etc.) can examine patients' data.
+-   The patient datastore returns the data that is requested for the given
+    patient id, regardless of the logged in user of the application.
+-   Medicom has an authorization interceptor (PEP) between their web
+    application and patient data store.  PEP would authorize the
+    requested data by calling to a PDP.
+-   The authorization rule here is that **users can only read their own patients' data**.
+
+## Sample XACML policy
+
+According to our usecase, it says “Users can only read their own patients'
+data”. For example, if you log in to the Medicom web application with patient
+id “alex” then you can only read the data that is stored for “alex”.
+
+The code given below shows a sample policy that is written to match the
+**resources** relevant to a specific **patientId.**
+
+:::note
+Here, the XPath evaluation is done with respect to the content element and it checks for a matching value. The content element has been bound to the  custom namespace and prefix eg: Path="//ak:record/ak:patient/ak:patientId/text()"
+:::
+
+**Policy: XML**
+
+```java
+<?xml version="1.0" encoding="UTF-8"?>
+<Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" PolicyId="medi-xpath-test-policy" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable" Version="1.0">
+   <Description>XPath evaluation is done with respect to content elementand check for a matching value. Here content element has been bounded with custom namespace and prefix</Description>
+   <PolicyDefaults>
+      <XPathVersion>http://www.w3.org/TR/1999/REC-xpath-19991116</XPathVersion>
+   </PolicyDefaults>
+   <Target>
+      <AnyOf>
+         <AllOf>
+            <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-regexp-match">
+               <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">read</AttributeValue>
+               <AttributeDesignator MustBePresent="false" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action" AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#string" />
+            </Match>
+         </AllOf>
+      </AnyOf>
+   </Target>
+   <Rule RuleId="rule1" Effect="Permit">
+      <Description>Rule to match value in content element using XPath</Description>
+      <Condition>
+         <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:any-of">
+            <Function FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal" />
+            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only">
+               <AttributeDesignator Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" AttributeId="urn:oasis:names:tc:xacml:1.0:subject:subject-id" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false" />
+            </Apply>
+            <AttributeSelector MustBePresent="false" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" Path="//ak:record/ak:patient/ak:patientId/text()" DataType="http://www.w3.org/2001/XMLSchema#string" />
+         </Apply>
+      </Condition>
+   </Rule>
+   <Rule RuleId="rule2" Effect="Deny">
+      <Description>Deny rule</Description>
+   </Rule>
+</Policy>
+```
+
+## Deploy and publish the policy
+
+1.  Start WSO2 Identity Server and Log in to the management console.
+
+2.  Go to **Policy Administration** under **PAP** in **Main** and click
+    on **Add New Entitlement Policy.**
+
+3.  Next click on **Import Existing Policy.**  
+    ![import-existing- policy-xacml](../../../../../../assets/img/tutorials/import-existing-policy-xacml.png)
+
+4.  Save the above sample policy to a file and import it as follows by
+    clicking **upload**.  
+    ![upload-existing-xacml-policy](../../../../../../assets/img/tutorials/upload-existing-xacml-policy.png)
+
+5.  Once it is uploaded, you can see the added policy in the policy
+    view. Publish it to PDP so that we can evaluate the policy with
+    sample requests.
+    ![publish-xpath-policy-to-pdp](../../../../../../assets/img/tutorials/publish-xpath-policy-to-pdp.png)  
+
+### Evaluate the Policy
+
+The easiest way to evaluate the poilcy is to use the **Try It** tool available in our
+**Tools** menu in WSO2 Identity Server.
+
+:::note
+You can follow the steps given here to try this using the Try It tool.
+:::
+
+<table>
+  <colgroup>
+    <col style={{width: "23%"}} />
+    <col style={{width: "76%"}} />
+  </colgroup>
+  <tbody>
+    <tr>
+      <td>Sample Request</td>
+      <td>
+
+        <Anchor id="cb1" />
+
+        ```text
+        <?xml version="1.0" encoding="UTF-8"?>
+        <Request xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" ReturnPolicyIdList="false" CombinedDecision="false">
+           <Attributes Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject">
+              <Attribute IncludeInResult="false" AttributeId="urn:oasis:names:tc:xacml:1.0:subject:subject-id">
+                 <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">alex</AttributeValue>
+              </Attribute>
+           </Attributes>
+           <Attributes Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource">
+              <Content>
+                 <ak:record xmlns:ak="http://akpower.org">
+                    <ak:patient>
+                       <ak:patientId>alex</ak:patientId>
+                       <ak:patientName>
+                          <ak:first>alex</ak:first>
+                          <ak:last>Allan</ak:last>
+                       </ak:patientName>
+                       <ak:patientContact>
+                          <ak:street>51 Main road</ak:street>
+                          <ak:city>Colombo</ak:city>
+                          <ak:state>Western</ak:state>
+                          <ak:zip>11730</ak:zip>
+                          <ak:phone>94332189873</ak:phone>
+                          <ak:email>alex@wso2.com</ak:email>
+                       </ak:patientContact>
+                       <ak:patientDoB>1991-05-11</ak:patientDoB>
+                       <ak:patientGender>male</ak:patientGender>
+                    </ak:patient>
+                 </ak:record>
+              </Content>
+           </Attributes>
+           <Attributes Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action">
+              <Attribute IncludeInResult="false" AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id">
+                 <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">read</AttributeValue>
+              </Attribute>
+           </Attributes>
+        </Request>
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>Sample Response</td>
+      <td>
+
+        <Anchor id="cb2" />
+
+        ```text
+        <?xml version="1.0" encoding="UTF-8"?>
+        <Response>
+           <Result>
+              <Decision>Permit</Decision>
+              <Status>
+                 <StatusCode Value="urn:oasis:names:tc:xacml:1.0:status:ok" />
+              </Status>
+           </Result>
+        </Response>
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>

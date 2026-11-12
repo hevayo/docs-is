@@ -1,0 +1,412 @@
+---
+title: Invoke the OAuth Introspection Endpoint
+description: 'The OAuth introspection endpoint is:'  # generated from the first paragraph; a writer should improve it
+type: how-to
+sidebar_label: OAuth 2.0 Introspection
+sidebar_position: 7
+---
+
+import RegisterAServiceProvider from '../../../partials/register-a-service-provider.mdx';
+import OauthAppConfigBasic from '../../../partials/oauth-app-config-basic.mdx';
+import OauthAppConfigAdvancedTip from '../../../partials/oauth-app-config-advanced-tip.mdx';
+
+The OAuth introspection endpoint is:
+
+```bash
+https://<IS_HOST>:<IS_PORT>/oauth2/introspect
+```
+
+This guide explains how to invoke the [OAuth Introspection Endpoint](../../references/iam-topics/authorization/oauth-2-0/introspection.mdx).
+
+-----
+
+## Register a service provider
+
+<RegisterAServiceProvider />
+
+----
+
+## Configure the service provider
+
+<OauthAppConfigBasic />
+
+<OauthAppConfigAdvancedTip />
+
+:::info
+If subject identifier in the token validation response needs to adhere to the " Use tenant domain in local subject identifier" and " Use user store domain in local subject identifier" configurations in service provider, add the following configuration to the `<IS_HOME>/repository/conf/deployment.toml` file .
+
+```toml
+[oauth]
+validation_response_subject_identifier_format= "app_configured"
+```
+
+-   Default value of this property is false.
+-   If the value is false, subject identifier will be set as the fully
+    qualified username.
+:::
+
+----
+
+## Invoking the endpoint for the super tenant
+
+Use the cURL commands given in the following sections to invoke the OAuth introspection endpoint for the super tenant users.
+
+### Prerequisites
+
+Note the following before you begin.
+
+-   Token validation requests sent to the introspection endpoint can be authenticated using basic authentication or client credentials.
+
+    :::info[Important]
+    Basic authentication is enabled by default. However, it is recommended to use client credentials for authenticating to the introspection endpoint as it improves server performance. 
+
+    To enable token validation using client credentials, apply the following configurations to the `deployment.toml` file (stored in the `<IS_HOME>/repository/conf` directory).
+
+    ```toml
+    [[resource.access_control]]
+    context="(.*)/oauth2/introspect(.*)"
+    http_method = "all"
+    secure = true
+    allowed_auth_handlers="BasicClientAuthentication"
+    ```
+    :::
+
+-   For token validation requests that require `CLIENT_ID:CLIENT_SECRET`, use the client ID and client secret of the OAuth service provider you configured above.
+
+-   For token validation requests that require `USERNAME:PASSWORD`, you can use credentials of any user with `/permission/admin/manage/identity/applicationmgt/view` permissions. If you want to allow users with other permissions to send token validation requests, add the permissions to the `<IS_HOME>/repository/conf/deployment.toml` file as shown below and restart the server.
+
+    ```toml
+    [resource_access_control.introspect]
+    permissions = ["/permission/admin/manage/identity/applicationmgt/view","/permission/admin/login"]
+    ```
+
+### Get a valid token (without scopes)
+
+First, you need to get a valid access token as follows:
+
+:::info
+**Request Format**
+```bash
+curl -v -X POST --basic -u <CLIENT_ID>:<CLIENT_SECRET> -H 'Content-Type: application/x-www-form-urlencoded;charset=UTF-8' -k -d 'grant_type=client_credentials' https://<IS_HOST>:<IS_PORT>/oauth2/token
+```
+---
+**Sample Request**
+```bash
+curl -v -X POST --basic -u rgfKVdnMQnJSSr_pKFTxj3apiwYa:BRebJ0aqfclQB9v7yZwhj0JfW0ga -H 'Content-Type: application/x-www-form-urlencoded;charset=UTF-8' -k -d 'grant_type=client_credentials' https://localhost:9443/oauth2/token
+```
+:::
+
+You will receive the access token as follows:
+
+```text
+{"token_type":"Bearer","expires_in":3600,"access_token":"fbc4e794-23db-3394-b1e5-f2c3e511d01f"}
+```
+
+### Get a valid token (with scopes)
+
+First, you need to get a valid access token as follows:
+
+:::info
+**Request Format**
+```bash
+curl -v -X POST --basic -u <CLIENT_ID>:<CLIENT_SECRET> -H 'Content-Type: application/x-www-form-urlencoded;charset=UTF-8' -k -d 'grant_type=client_credentials&scope=<scope 1> <scope 2>' https://<IS_HOST>:<IS_PORT>/oauth2/token
+```
+---
+**Sample Request**
+```bash
+curl -v -X POST --basic -u rgfKVdnMQnJSSr_pKFTxj3apiwYa:BRebJ0aqfclQB9v7yZwhj0JfW0ga -H 'Content-Type: application/x-www-form-urlencoded;charset=UTF-8' -k -d 'grant_type=client_credentials&scope=test1 test2' https://localhost:9443/oauth2/token
+```
+:::
+
+You will receive the access token as follows:
+
+```text
+{"access_token":"34060588-dd4e-36a5-ad93-440cc77a1cfb","scope":"test1 test2","token_type":"Bearer","expires_in":3600}
+```
+
+### Validate the token
+
+You can send a token validation request using one of the following authentication methods:
+
+-   Using basic authentication:
+
+    :::info
+    **Request Format**
+    ```bash
+    curl -k -u <USERNAME>:<PASSWORD> -H 'Content-Type: application/x-www-form-urlencoded' -X POST --data 'token=<ACCESS_TOKEN>' https://<IS_HOST>:<IS_PORT>/oauth2/introspect
+    ```
+    ---
+    **Sample Request**
+    ```bash
+    curl -k -u admin:admin -H 'Content-Type: application/x-www-form-urlencoded' -X POST --data 'token=fbc4e794-23db-3394-b1e5-f2c3e511d01f' https://localhost:9443/oauth2/introspect
+    ```
+    :::
+
+    Note that you can pass the token type as an optional parameter in the request (e.g., `token_type_hint=access_token` or `token_type_hint=refresh_token`).
+
+-   Using authentication with client credentials:
+
+    :::tip
+    Note that authentication using client credentials should be enabled for the server. See the [prerequisites](#invoking-the-endpoint-for-the-super-tenant) for instructions.
+    :::
+
+    :::info
+    **Request Format**
+    ```bash
+    curl -k -u <CLIENT_ID>:<CLIENT_SECRET> -H 'Content-Type: application/x-www-form-urlencoded' -X POST --data 'token=<ACCESS_TOKEN>' https://<IS_HOST>:<IS_PORT>/oauth2/introspect
+    ```
+    ---
+    **Sample Request**
+    ```bash
+    curl -k -u rgfKVdnMQnJSSr_pKFTxj3apiwYa:BRebJ0aqfclQB9v7yZwhj0JfW0ga -H 'Content-Type: application/x-www-form-urlencoded' -X POST --data 'token=fbc4e794-23db-3394-b1e5-f2c3e511d01f' https://localhost:9443/oauth2/introspect
+    ```
+    :::
+
+You will receive one of the following responses:
+
+-   If the access token did not request scopes:
+
+    ```bash
+    {"exp":1464161608,"username":"admin@carbon.super","active":true,"token_type":"Bearer","client_id":"rgfKVdnMQnJSSr_pKFTxj3apiwYa","iat":1464158008}
+    ```
+
+-   If the access token requested scopes:
+
+    ```bash
+    {"exp":1464161560,"username":"admin@carbon.super","scope":"test1 test2","active":true,"token_type":"Bearer","client_id":"rgfKVdnMQnJSSr_pKFTxj3apiwYa","iat":1464157960}
+    ```
+
+### Invalid token
+
+If the token that you used is invalid, you get the following response:
+
+```java
+{'active':false}
+```
+
+### Empty token
+
+If you leave the token parameter empty as shown below, you get the 
+following response :
+
+<table>
+  <tbody>
+    <tr>
+      <td>Request</td>
+      <td>
+
+        **Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -k -u <USERNAME>:<PASSWORD> -H 'Content-Type: application/x-www-form-urlencoded' -X POST --data 'token=' https://<IS_HOST>:<IS_PORT>/oauth2/introspect
+        ```
+
+        **Sample cURL**
+
+        <Anchor id="cb2" />
+
+        ```text
+         curl -k -u admin:admin -H 'Content-Type: application/x-www-form-urlencoded' -X POST --data 'token=' https://localhost:9443/oauth2/introspect
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>Response</td>
+      <td>
+
+        <Anchor id="cb3" />
+
+        ```text
+        {'error': 'Invalid input'}
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+-----
+
+## Invoking the endpoint for tenants
+
+Use the following cURL commands given in the following sections to
+invoke the OAuth introspection endpoint for tenant users.
+
+### Prerequisites {#prerequisites_1}
+
+Note the following before you begin.
+
+-   Token validation requests sent to the introspection endpoint can be authenticated using basic authentication or client credentials.
+
+    :::info[Important]
+    Basic authentication is enabled by default. However, it is recommended to use client credentials for authenticating to the introspection endpoint as it improves server performance. 
+
+    To enable token validation using client credentials, apply the following configurations to the `deployment.toml` file (stored in the `<IS_HOME>/repository/conf` directory) and restart the server.
+
+    ```toml
+    [[resource.access_control]]
+    context="(.*)/oauth2/introspect(.*)"
+    http_method = "all"
+    secure = true
+    allowed_auth_handlers="BasicClientAuthentication"
+    ```
+    :::
+
+-   For token validation requests that require `CLIENT_ID:CLIENT_SECRET`, use the client ID and client secret of the OAuth service provider you configured above.
+
+-   For token validation requests that require `USERNAME:PASSWORD`, you can use credentials of any user with `/permission/admin/manage/identity/applicationmgt/view` permissions. If you want to allow users with other permissions to send token validation requests, add the permissions to the `<IS_HOME>/repository/conf/deployment.toml` file as shown below and restart the server.
+
+    ```toml
+    [resource_access_control.introspect]
+    permissions = ["/permission/admin/manage/identity/applicationmgt/view","/permission/admin/login"]
+    ```
+
+-   Token introspection across tenant domains is disabled by default. To allow cross tenant token validation, add the following configuration to the `<IS_HOME>/repository/conf/deployment.toml` file and restart the server.
+
+    ```toml
+    [oauth.introspect]
+    allow_cross_tenant = true
+    ```
+
+### Get a valid token (without scopes) {#get-a-valid-token-without-scopes_1}
+
+First, you need to get a valid access token as follows:
+
+:::info
+**Request Format**
+```bash
+curl -v -X POST --basic -u <CLIENT_ID>:<CLIENT_SECRET> -H 'Content-Type: application/x-www-form-urlencoded;charset=UTF-8' -k -d 'grant_type=client_credentials' https://<IS_HOST>:<IS_PORT>/t/<TENANT_DOMAIN>/oauth2/token
+```
+---
+**Sample Request**
+```bash
+curl -v -X POST --basic -u rgfKVdnMQnJSSr_pKFTxj3apiwYa:BRebJ0aqfclQB9v7yZwhj0JfW0ga -H 'Content-Type: application/x-www-form-urlencoded;charset=UTF-8' -k -d 'grant_type=client_credentials' https://localhost:9443/t/foo.com/oauth2/token
+```
+:::
+
+You will receive the access token as follows:
+
+```text
+{"token_type":"Bearer","expires_in":3600,"access_token":"fbc4e794-23db-3394-b1e5-f2c3e511d01f"}
+```
+
+### Get a valid token (with scopes) {#get-a-valid-token-with-scopes_1}
+
+First, you need to get a valid access token as follows:
+
+:::info
+**Request Format**
+```bash
+curl -v -X POST --basic -u <CLIENT_ID>:<CLIENT_SECRET> -H 'Content-Type: application/x-www-form-urlencoded;charset=UTF-8' -k -d 'grant_type=client_credentials&scope=test1 test2' https://<IS_HOST>:<IS_PORT>/t/<TENANT_DOMAIN>/oauth2/token
+```
+---
+**Sample Request**
+```bash
+curl -v -X POST --basic -u rgfKVdnMQnJSSr_pKFTxj3apiwYa:BRebJ0aqfclQB9v7yZwhj0JfW0ga -H 'Content-Type: application/x-www-form-urlencoded;charset=UTF-8' -k -d 'grant_type=client_credentials&scope=test1 test2' https://localhost:9443/t/foo.com/oauth2/token
+```
+:::
+
+You will receive the access token as follows:
+
+```bash
+{"access_token":"34060588-dd4e-36a5-ad93-440cc77a1cfb","scope":"test1","token_type":"Bearer","expires_in":3600}
+```
+
+### Validate the token {#validate-the-token_1}
+
+You can send a token validation request using one of the following authentication methods:
+
+-   Using basic authentication:
+
+    :::info
+    **Request Format (method 1)**
+    ```bash
+    curl -k -u <USERNAME>@<TENAND_DOMAIN>:<PASSWORD> -H 'Content-Type: application/x-www-form-urlencoded' -X POST --data 'token=<ACCESS_TOKEN>' https://<IS_HOST>:<IS_PORT>/t/<TENANT_DOMAIN>/oauth2/introspect
+    ```
+    ---
+    **Request Format (method 2)**
+    ```bash
+    curl -v -k -H 'Authorization: Basic <BASE64ENCODED(USERNAME@TENAND_DOMAIN:PASSWORD)>' -H 'Content-Type: application/x-www-form-urlencoded' -X POST --data 'token=<ACCESS_TOKEN>' https://localhost:9443/t/<TENANT_DOMAIN>/oauth2/introspect
+    ```
+    ---
+    **Sample Request**
+    ```bash
+    curl -k -u admin@foo.com:admin -H 'Content-Type: application/x-www-form-urlencoded' -X POST --data 'token=fbc4e794-23db-3394-b1e5-f2c3e511d01f' https://localhost:9443/t/foo.com/oauth2/introspect
+    ```
+    :::
+
+    Note that you can pass the token type as an optional parameter in the request (e.g., `token_type_hint=access_token` or `token_type_hint=refresh_token`).
+
+-   Using authentication with client credentials:
+
+    :::tip
+    Note that authentication using client credentials should be enabled for the server. See the [prerequisites](#invoking-the-endpoint-for-tenants) for instructions.
+    :::
+
+    :::info
+    **Request Format**
+    ```bash
+    curl -k -u <CLIENT_ID>:<CLIENT_SECRET> -H 'Content-Type: application/x-www-form-urlencoded' -X POST --data 'token=<ACCESS_TOKEN>' https://<IS_HOST>:<IS_PORT>/t/<TENANT_DOMAIN>/oauth2/introspect
+    ```
+    ---
+    **Sample Request**
+    ```bash
+    curl -k -u rgfKVdnMQnJSSr_pKFTxj3apiwYa:BRebJ0aqfclQB9v7yZwhj0JfW0ga -H 'Content-Type: application/x-www-form-urlencoded' -X POST --data 'token=fbc4e794-23db-3394-b1e5-f2c3e511d01f' https://localhost:9443/t/foo.com/oauth2/introspect
+    ```
+    :::
+
+You will receive one of the following responses:
+
+-   If the access token did not request scopes:
+
+    ```bash
+    {"active":true,"token_type":"Bearer","exp":1517922556,"iat":1517918956,"client_id":"okaN2IXAsLx5SBH9Los1C6zX1RIa","username":"admin@foo.com”}
+    ```
+
+-   If the access token requested scopes:
+
+    ```bash
+    {"scope":"1 test","active":true,"token_type":"Bearer","exp":1517922663,"iat":1517919063,"client_id":"okaN2IXAsLx5SBH9Los1C6zX1RIa","username":"admin@foo.com"}
+    ```
+
+### Invalid token {#invalid-token_1}
+
+If the token that you used is invalid, you get the following response:
+
+**Response**
+
+```java
+{'active':false}
+```
+
+### Empty token {#empty-token_1}
+
+If you leave the token parameter empty as shown below, you get the following response:
+
+:::info
+**Request Format**
+```bash
+curl -k -u <USERNAME>@<TENANT_DOMAIN>:<PASSWORD> -H 'Content-Type: application/x-www-form-urlencoded' -X POST --data 'token=' https://<IS_HOST>:<IS_PORT>/t/<TENANT_DOMAIN>/oauth2/introspect
+```
+---
+**Sample Request**
+```bash
+curl -k -u admin:admin -H 'Content-Type: application/x-www-form-urlencoded' -X POST --data 'token=' https://localhost:9443/oauth2/introspect
+```
+---
+**Response**
+```bash
+{'error': 'Invalid input'}
+```
+:::
+
+The samples given above only demonstrate how to validate a token obtained for the client credentials grant using the **introspect endpoint**. Similarly, you can [invoke introspection endpoint](#validate-the-token) with a token obtained from any other grant type as well.
+
+----
+
+:::info[Related topics]
+[Concept: OAuth Introspection Endpoint](../../references/iam-topics/authorization/oauth-2-0/introspection.mdx)
+:::

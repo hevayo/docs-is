@@ -1,0 +1,286 @@
+---
+title: Change the Default Datasources for the Registry Data
+description: If you have a paid subscription, this capability can be made available by applying update level 213 for WSO2 Identity Server 7.0.0 using the WSO2 Update Tool.  # generated from the first paragraph; a writer should improve it
+type: reference
+sidebar_label: Change the Default Datasource for Registry Data
+sidebar_position: 11
+slug: "/deploy/change-datasource-registry-data"
+---
+
+import RegistryRepositories from '../../../../../../partials/registry-repositories.mdx';
+import DbConfigTable from '../../../../../../partials/db-config-table.mdx';
+
+:::note
+To deploy this update into production, you need to have a paid subscription. If you do not have a paid subscription, you can use this feature with the next version of WSO2 Identity Server when it is released. 
+
+If you have a paid subscription, this capability can be made available by applying update level 213 for WSO2 Identity Server 7.0.0 using the WSO2 Update Tool. For more information on updating WSO2 Identity Server using the WSO2 Update Tool, see [WSO2 Updates](https://updates.docs.wso2.com/en/latest/updates/overview/).
+:::
+
+<RegistryRepositories />
+
+These repositories use the default datasources as follows.
+
+- WSO2_CARBON_DB: Used by the local repository.
+- WSO2_SHARED_DB: Used by the configuration and governance repositories.
+
+They can be changed to utilize alternate datasources as described below.
+
+## Configure the Datasource
+
+Following are the sample configuration for each database type.
+
+<details>
+<summary>PostgreSQL</summary>
+
+1.  Configure the `<IS_HOME>/repository/conf/deployment.toml` file.
+
+    ```text
+    [[datasource]]
+    id="WSO2CONFIG_DB"
+    url = "jdbc:postgresql://localhost:5432/gregdb"
+    username = "regadmin"
+    password = "regadmin"
+    driver = "org.postgresql.Driver"
+    jmx_enable=false
+    ```
+
+2.  Execute the database scripts. 
+
+    Execute the scripts in the `<IS_HOME>/dbscripts/postgresql.sql` file against 
+    the created database.    
+
+3. Download the PostgreSQL JDBC driver for the version you are using. Extract the downloaded file if necessary, and copy all required JAR files from the driver package to the `<IS_HOME>/repository/components/lib` folder.
+
+</details>
+
+<details>
+<summary>MySQL</summary>
+
+1.  Configure the `<IS_HOME>/repository/conf/deployment.toml` file.
+
+    ```text
+    [[datasource]]
+    id="WSO2CONFIG_DB"
+    url = "jdbc:mysql://localhost:3306/IAMtest?useSSL=false"
+    username = "root"
+    password = "root"
+    driver = "com.mysql.jdbc.Driver"
+    jmx_enable=false
+    ```
+
+2.  Execute the database scripts. 
+
+    Execute the scripts in the `<IS_HOME>/dbscripts/mysql.sql` file against 
+    the created database.   
+
+3.  Download the MySQL JDBC driver for the version you are using. Extract the downloaded file and copy all required JAR files from the driver package to the `<IS_HOME>/repository/components/lib` folder.
+
+</details>
+
+<details>
+<summary>DB2</summary>
+
+1.  Configure the `<IS_HOME>/repository/conf/deployment.toml` file.
+    ```text
+    [[datasource]]
+    id="WSO2CONFIG_DB"
+    url = "jdbc:db2://192.168.108.31:50000/test"
+    username = "db2inst1"
+    password = "db2inst1"
+    driver = "com.ibm.db2.jcc.DB2Driver"
+    jmx_enable=false
+    ```
+
+2.  Execute the database scripts. 
+
+    Execute the scripts in the `<IS_HOME>/dbscripts/db2.sql` file against 
+    the created database.    
+
+3. Download the DB2 JDBC driver for the version you are using. Extract the downloaded file if necessary, and copy all required JAR files from the driver package to the `<IS_HOME>/repository/components/lib` folder.
+
+</details>
+
+<details>
+<summary>MSSQL</summary>
+
+1.  Configure the `<IS_HOME>/repository/conf/deployment.toml` file.
+    ```text
+    [[datasource]]
+    id="WSO2CONFIG_DB"
+    url = "jdbc:sqlserver://localhost:1433;databaseName=test;SendStringParametersAsUnicode=false"
+    username = "sa"
+    password = "pass#word2"
+    driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver"
+    jmx_enable=false
+    ```
+
+2.  Execute the database scripts. 
+
+    Execute the scripts in the `<IS_HOME>/dbscripts/mssql.sql` file against 
+    the created database.   
+
+3. Download the MSSQL JDBC driver for the version you are using. Extract the downloaded file and copy all required JAR files from the driver package to the `<IS_HOME>/repository/components/lib` folder.
+
+</details>
+
+<details>
+<summary>Oracle</summary>
+
+1.  Configure the `<IS_HOME>/repository/conf/deployment.toml` file.
+    ```text
+    [[datasource]]
+    id="WSO2CONFIG_DB"
+    url = "jdbc:oracle:thin:@localhost:1521/ORCLPDB"
+    username = "IS590Test"
+    password = "ora12c"
+    driver = "oracle.jdbc.OracleDriver"
+    jmx_enable=false
+    ```
+
+2.  Execute the database scripts. 
+
+    Execute the scripts in the `<IS_HOME>/dbscripts/oracle.sql` file against 
+    the created database.    
+
+3. Download the Oracle JDBC driver. Copy all required JAR files from the driver package to the `<IS_HOME>/repository/components/lib` folder.
+
+</details>
+
+---
+
+### Advanced database configurations
+
+Apart from the above basic configurations, WSO2 Identity Server supports advanced database 
+configurations. Add the following configurations to the `<IS_HOME>/repository/conf/
+deployment.toml` file under the corresponding `[[datasource]]` tag.
+
+````text
+    ``` json 
+    pool_options.maxActive = "80"
+    pool_options.maxWait = "60000"
+    pool_options.minIdle = "5"
+    pool_options.testOnBorrow = true
+    pool_options.validationQuery="SELECT 1; COMMIT"
+    pool_options.validationInterval="30000"
+    pool_options.defaultAutoCommit=false
+````
+
+````text
+    ``` json 
+    pool_options.maxActive = "80"
+    pool_options.maxWait = "60000"
+    pool_options.minIdle = "5"
+    pool_options.testOnBorrow = true
+    pool_options.validationQuery="SELECT 1"
+    pool_options.validationInterval="30000"
+    pool_options.defaultAutoCommit=false
+````
+
+````text
+    ``` json 
+    pool_options.maxActive = "80"
+    pool_options.maxWait = "360000"
+    pool_options.minIdle = "5"
+    pool_options.testOnBorrow = true
+    pool_options.validationQuery="SELECT 1"
+    pool_options.validationInterval="30000"
+    pool_options.defaultAutoCommit=false
+````
+
+````text
+    ``` json 
+    pool_options.maxActive = "80"
+    pool_options.maxWait = "60000"
+    pool_options.minIdle = "5"
+    pool_options.testOnBorrow = true
+    pool_options.validationQuery="SELECT 1"
+    pool_options.validationInterval="30000"
+    pool_options.defaultAutoCommit=false
+````
+
+````text
+    ``` json 
+    pool_options.maxActive = "80"
+    pool_options.maxWait = "60000"
+    pool_options.minIdle = "5"
+    pool_options.testOnBorrow = true
+    pool_options.validationQuery="SELECT 1 FROM DUAL"
+    pool_options.validationInterval="30000"
+    pool_options.defaultAutoCommit=false
+````
+
+<DbConfigTable />
+
+---
+
+## Configure the Registry Databases
+
+The following configurations can be added under the `[registry]` section in the `<IS_HOME>/repository/conf/deployment.toml` file.
+
+```text
+[registry]
+local_datasource = "jdbc/<id-of-the-datasource>"
+gov_datasource = "jdbc/<id-of-the-datasource>"
+config_datasource = "jdbc/<id-of-the-datasource>"
+```
+
+| Configuration | Description |
+| --- | --- |
+| **local_datasource** | This is the jndi config name of the datasource for the local repository. Here, this would be "jdbc/\<id\>" where `id` is the value configured in the datasource configurations. |
+| **gov_datasource** | This is the jndi config name of the datasource configured for the governance repository. Here, this would be "jdbc/\<id\>" where `id` is the value configured in the datasource configurations. |
+| **config_datasource** | This is the jndi config name of the datasource configured for the configuration repository. Here, this would be "jdbc/\<id\>" where `id` is the value configured in the datasource configurations. |
+
+It is only necessary to add the configuration for the datasource which is being changed.
+For example, if you wish to change only the governance and configuration datasources,
+only the `gov_datasource` and `config_datasource` configurations would be necessary
+as shown below.
+
+```text
+[registry]
+gov_datasource = "jdbc/<id-of-the-datasource>"
+config_datasource = "jdbc/<id-of-the-datasource>"
+```
+
+:::note[Sample Config]
+If you have correctly configured, the `deployment.toml` file should have an entry 
+similar to the following config. 
+
+The following sample configuration is for separate **MSSQL** governance and config 
+databases.
+
+```text
+[registry]
+gov_datasource = "jdbc/WSO2GOV_DB"
+config_datasource = "jdbc/WSO2CONFIG_DB"
+
+[[datasource]]
+id="WSO2GOV_DB"
+url = "jdbc:sqlserver://localhost:1433;databaseName=test1;SendStringParametersAsUnicode=false"
+username = "sa"
+password = "pass#word2"
+driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver"
+jmx_enable=false
+pool_options.maxActive = "80"
+pool_options.maxWait = "60000"
+pool_options.minIdle = "5"
+pool_options.testOnBorrow = true
+pool_options.validationQuery="SELECT 1"
+pool_options.validationInterval="30000"
+pool_options.defaultAutoCommit=false
+
+[[datasource]]
+id="WSO2CONFIG_DB"
+url = "jdbc:sqlserver://localhost:1433;databaseName=test2;SendStringParametersAsUnicode=false"
+username = "sa"
+password = "pass#word2"
+driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver"
+jmx_enable=false
+pool_options.maxActive = "80"
+pool_options.maxWait = "60000"
+pool_options.minIdle = "5"
+pool_options.testOnBorrow = true
+pool_options.validationQuery="SELECT 1"
+pool_options.validationInterval="30000"
+pool_options.defaultAutoCommit=false
+```
+:::
