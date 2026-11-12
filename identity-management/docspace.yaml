@@ -20,25 +20,24 @@ editLinks: true
 latest: 7.3.0
 editions:
   - id: cloud
-    branch: docs-v2/main
   - id: 7.3.0
-    branch: docs-v2/identity-management/release/7.3.0
+    branch: identity-management/release/7.3.0
   - id: 7.2.0
-    branch: docs-v2/identity-management/release/7.2.0
+    branch: identity-management/release/7.2.0
   - id: 7.1.0
-    branch: docs-v2/identity-management/release/7.1.0
+    branch: identity-management/release/7.1.0
   - id: 7.0.0
-    branch: docs-v2/identity-management/release/7.0.0
+    branch: identity-management/release/7.0.0
   - id: 6.1.0
-    branch: docs-v2/identity-management/release/6.1.0
+    branch: identity-management/release/6.1.0
   - id: 6.0.0
-    branch: docs-v2/identity-management/release/6.0.0
+    branch: identity-management/release/6.0.0
   - id: 5.11.0
-    branch: docs-v2/identity-management/release/5.11.0
+    branch: identity-management/release/5.11.0
   - id: 5.10.0
-    branch: docs-v2/identity-management/release/5.10.0
+    branch: identity-management/release/5.10.0
   - id: 5.9.0
-    branch: docs-v2/identity-management/release/5.9.0
+    branch: identity-management/release/5.9.0
 legacyVersions:
   - id: 5.8.0
     url: https://wso2docs.atlassian.net/wiki/spaces/IS580/overview
