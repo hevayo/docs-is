@@ -2,7 +2,8 @@
 title: Implement login using the Device Authorization flow
 description: See the instructions given below to implement login with OpenID Connect in your application by using the device authorization flow.  # generated from the first paragraph; a writer should improve it
 type: how-to
-unlisted: true
+sidebar_label: Device authorization flow
+sidebar_position: 4
 slug: "/guides/authentication/oidc/implement-device-flow"
 ---
 
@@ -14,9 +15,7 @@ Refer [how the device authorization flow work](../../../../references/iam-concep
 
 1. You need to have an application registered in {edition.productName}. If you don't already have one, register a [standard-based OIDC application](../../../applications/register-standard-based-app.mdx).
 
-2. Create a [user account](../../../users/users/manage-users.mdx).
-
-<Edition only="self-hosted">
+2. Create a [user account](../../../users/manage-users.mdx).
 
 3. (Optional) Update device flow configurations.
 
@@ -41,8 +40,6 @@ Refer [how the device authorization flow work](../../../../references/iam-concep
     | `key_set`   | The set of characters that is used to generate the user code.   |
 
     </details>
-
-</Edition>
 
 ## Get the required codes
 First, your app must initiate a login request to the authorization endpoint of {edition.productName}. After redirecting to {edition.productName}, the user should be prompted with a login page if the user is not authenticated.
@@ -94,7 +91,7 @@ To authorize the client device:
 1. The user accesses the `verification_uri` through a device with no input constraints.
 2. The user enters the `user_code` on the prompted window.
 
-    <Edition only="cloud"><img src={require("../../../../../assets/cloud/img/guides/applications/oidc/device-code-enter.jpg").default} alt="Enter device cpde prompt" width="400" style={{border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../../assets/self-hosted/img/guides/applications/oidc/device-code-enter.jpg").default} alt="Enter device cpde prompt" width="400" style={{border: "0.3px solid lightgrey"}} /></Edition>
+    <img src={require("../../../../../assets/img/guides/applications/oidc/device-code-enter.jpg").default} alt="Enter device cpde prompt" width="400" style={{border: "0.3px solid lightgrey"}} />
 
     :::note
     The user code is for one-time use only. If your code is expired or if you have entered a wrong user code, get a new user code by following the previous steps.
@@ -147,33 +144,3 @@ curl -k -X POST
     "expires_in":3042
 }
 ```
-
-<Edition only="cloud">
-
-:::note
-Find the default values related to the device authorization flow in the WSO2 Identity Platform.
-
-<table>
-  <tbody>
-    <tr>
-      <td>The length of the user code</td>
-      <td>6</td>
-    </tr>
-    <tr>
-      <td>The expiry time of the user code and the device code</td>
-      <td>10 min</td>
-    </tr>
-    <tr>
-      <td>The minimum delay of the client between each polling request to the token endpoint</td>
-      <td>5 seconds</td>
-    </tr>
-    <tr>
-      <td>The set of characters that is used to generate the user code</td>
-      <td>BCDFGHJKLMNPQRSTVWXYZbcdfghjklmnpqrstvwxyz23456789</td>
-    </tr>
-  </tbody>
-</table>
-:::
-
-</Edition>
-

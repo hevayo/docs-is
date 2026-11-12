@@ -6,11 +6,12 @@ sidebar_label: Register a FAPI-compliant app
 sidebar_position: 8
 ---
 
-Financial-Grade API (FAPI) specification extends the OAuth and OIDC frameworks and defines additional technical requirements to protect high-value APIs. {edition.productName} provides full support for [FAPI 1.0 Advanced](https://openid.net/specs/openid-financial-api-part-2-1_0.html) allowing developers to build applications that meet advanced security standards.
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+Financial-Grade API (FAPI) specification extends the OAuth and OIDC frameworks and defines additional technical requirements to protect high-value APIs. {edition.productName} provides full support for both [FAPI 1.0 Advanced](https://openid.net/specs/openid-financial-api-part-2-1_0.html) and [FAPI 2.0](https://openid.net/specs/fapi-security-profile-2_0-final.html) allowing developers to build applications that meet these advanced security standards.
 
 This guide walks you through creating and configuring a FAPI-compliant application in {edition.productName}.
-
-<Edition only="self-hosted">
 
 ## Configure {edition.productName} for FAPI compliance
 
@@ -18,11 +19,77 @@ This guide walks you through creating and configuring a FAPI-compliant applicati
 
 To configure {edition.productName} to issue FAPI-compliant tokens, open the `<IS_HOME>/repository/conf/deployment.toml` file and add the configurations specific to your FAPI version. After saving the changes, restart WSO2 Identity Server to apply the configuration.
 
+<Tabs groupId="tabs">
+<TabItem value="fapi-2-0" label="FAPI 2.0">
+
 - Limit cipher suites for TLSv1.2.
 
     ```bash
     [transport.https.sslHostConfig.properties]
-    ciphers="TLS_DHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384"
+    ciphers="TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384"
+    ```
+
+- Specify a time skew for JWT token validation.
+
+    ```bash
+    [oauth]
+    timestamp_skew = 10
+    ```
+
+- Specify supported FAPI version.
+
+    ```bash
+    [oauth.oidc]
+    fapi.version= "2"
+    ```
+
+- Specify the id-token issuer and force using entity id as the issuer in jwt tokens.
+
+    ```bash
+    [oauth.oidc]
+    id_token.issuer = "https://$ref{server.hostname}:${carbon.management.port}/oauth2/oidcdiscovery"
+    id_token.use_entityid_as_issuer = true
+    ```
+
+- Specify a FAPI 2.0 compliant signing algorithm for ID tokens (PS256).
+
+    ```bash
+    [oauth.oidc]
+    id_token.signature_algorithm="PS256"
+    ```
+
+- Specify the authorization code validity as 50 seconds.
+
+    ```bash
+    [oauth.token_validation]
+    authorization_code_validity = 50
+    ```
+
+- If your implementation involves TLS termination, specify the following MTLS header name.
+
+    ```bash
+    [oauth.mutualtls]
+    client_certificate_header = "x-wso2-mtls-cert"
+    ```
+
+- Change the well-known endpoint of the Console and MyAccount applications.
+
+    ```bash
+    [myaccount.idp_configs]
+    wellKnownEndpoint = "https://<IS_HOST>/oauth2/token/.well-known/openid-configuration"
+
+    [console.idp_configs]
+    wellKnownEndpoint = "https://<IS_HOST>/oauth2/token/.well-known/openid-configuration"
+    ```
+
+</TabItem>
+<TabItem value="fapi-1-0-advanced" label="FAPI 1.0 Advanced">
+
+- Limit cipher suites for TLSv1.2.
+
+    ```bash
+    [transport.https.sslHostConfig.properties]
+    ciphers="TLS_DHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384"
     ```
 
 - Specify a FAPI-compliant signing algorithm for ID tokens (PS256, ES256).
@@ -53,7 +120,8 @@ To configure {edition.productName} to issue FAPI-compliant tokens, open the `<IS
      client_certificate_header = "x-wso2-mtls-cert"
     ```
 
-</Edition>
+</TabItem>
+</Tabs>
 
 ## Create a FAPI-compliant application
 
@@ -85,30 +153,6 @@ If you wish to register your application manually using the Console, follow the 
 
 If you have applications that need to dynamically register with {edition.productName} during runtime, follow the steps below to make them FAPI-compliant.
 
-<Edition only="cloud">
-
-1. Configure DCR properties in {edition.productName}. To do so,
-
-    1. On the {edition.productName} Console, go to **Applications**.
-
-    2. Click the gear icon at the top to open **Dynamic Client Registration** settings.
-
-    3. Configure the following properties:
-
-        <img src={require("../../../assets/cloud/img/guides/applications/fapi-compliant-apps/fapi-dcr-settings.png").default} alt="DCR settings" width="600px" />
-
-        -   **Require Authentication** is enabled by default. You may deselect the option to not require authentication to create an application with DCR.
-        - Select **Mandate SSA Validation** to require a valid Software Statement Assertion (SSA) during creation. Provide the necessary JWKS to validate the SSA. If authentication is not required by the endpoint, this is made mandatory.
-        - Select **Enforce FAPI Conformance** to make the created application FAPI compliant.
-
-    4. Click **Update** to save the changes.
-
-2. Refer to the [Dynamic Client Registration (DCR) API](../../apis/dynamic-client-registration-rest-api/index.mdx) documentation to learn how to register an application with DCR.
-
-</Edition>
-
-<Edition only="self-hosted">
-
 1. Open the `deployment.toml` file found in the `<IS_HOME>/repository/conf/` directory, add the following configuration and restart WSO2 Identity Server.
 
     ```bash
@@ -122,8 +166,6 @@ If you have applications that need to dynamically register with {edition.product
 
 2. Refer to the [Dynamic Client Registration (DCR) API](../../apis/dynamic-client-registration-rest-api/index.mdx) documentation to learn how to register an application with DCR.
 
-</Edition>
-
 ## What's next?
 
-Refer to the [Financial-grade API](../../references/iam-concepts/financial-grade-api.mdx) documentation to learn about the FAPI-compliant configurations available in {edition.productName} and how to configure them.
+Refer to the [Financial-grade API](../../references/iam-concepts/financial-grade-api/financial-grade-api.mdx) documentation to learn about the FAPI-compliant configurations available in {edition.productName} and how to configure them.

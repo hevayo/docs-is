@@ -1,15 +1,18 @@
 openapi: 3.0.0
 info:
   title: Notification Senders API
-  description: This document specifies **Email, SMS and Push notification sender RESTful API** for **WSO2 Identity Platform**
+  description: This document specifies **Email, SMS and Push notification sender RESTful API** for **WSO2 Identity Server**
   version: v1
 servers:
   - url: https://{serverUrl}/t/{tenantDomain}/api/server/v1
     variables:
       serverUrl:
-        default: api.asgardeo.io
+        default: localhost:9443
+      tenantDomain:
+        default: carbon.super
 security:
   - OAuth2: []
+  - BasicAuth: []
 paths:
   /notification-senders/email:
     get:
@@ -60,9 +63,9 @@ paths:
         - lang: Curl
           source: |
             curl -X 'GET' \
-            'https://api.asgardeo.io/t/{tenant-domain}/api/server/v1/notification-senders/email' \
+            'https://localhost:9443/t/{tenant-domain}/api/server/v1/notification-senders/email' \
             -H 'accept: application/json' \
-            -H 'Authorization: Bearer {bearer_token}'
+            -H 'Authorization: Basic YWRtaW46YWRtaW4='
     post:
       tags:
         - Email Senders
@@ -129,9 +132,9 @@ paths:
         - lang: Curl
           source: |
             curl -X 'POST' \
-            'https://api.asgardeo.io/t/{tenant-domain}/api/server/v1/notification-senders/email' \
+            'https://localhost:9443/t/{tenant-domain}/api/server/v1/notification-senders/email' \
             -H 'accept: application/json' \
-            -H 'Authorization: Bearer {bearer_token}' \
+            -H 'Authorization: Basic YWRtaW46YWRtaW4=' \
             -H 'Content-Type: application/json' \
             -d '{
             "fromAddress": "iam@gmail.com",
@@ -203,9 +206,9 @@ paths:
         - lang: Curl
           source: |
             curl -X 'GET' \
-            'https://api.asgardeo.io/t/{tenant-domain}/api/server/v1/notification-senders/email/{email-sender-name}' \
+            'https://localhost:9443/t/{tenant-domain}/api/server/v1/notification-senders/email/{email-sender-name}' \
             -H 'accept: application/json' \
-            -H 'Authorization: Bearer {bearer_token}'
+            -H 'Authorization: Basic YWRtaW46YWRtaW4='
     put:
       tags:
         - Email Senders
@@ -277,9 +280,9 @@ paths:
         - lang: Curl
           source: |
             curl -X 'PUT' \
-            'https://api.asgardeo.io/t/{tenant-domain}/api/server/v1/notification-senders/email/{email-sender-name}' \
+            'https://localhost:9443/t/{tenant-domain}/api/server/v1/notification-senders/email/{email-sender-name}' \
             -H 'accept: application/json' \
-            -H 'Authorization: Bearer {bearer_token}' \
+            -H 'Authorization: Basic YWRtaW46YWRtaW4=' \
             -H 'Content-Type: application/json' \
             -d '{
             "fromAddress": "iam@gmail.com",
@@ -346,9 +349,9 @@ paths:
         - lang: Curl
           source: |
             curl -X 'DELETE' \
-            'https://api.asgardeo.io/t/{tenant-domain}/api/server/v1/notification-senders/email/{email-sender-name}' \
+            'https://localhost:9443/t/{tenant-domain}/api/server/v1/notification-senders/email/{email-sender-name}' \
             -H 'accept: */*' \
-            -H 'Authorization: Bearer {bearer_token}'                  
+            -H 'Authorization: Basic YWRtaW46YWRtaW4='                  
   /notification-senders/sms:
     get:
       tags:
@@ -398,9 +401,9 @@ paths:
         - lang: Curl
           source: |
             curl -X 'GET' \
-            'https://api.asgardeo.io/t/{tenant-domain}/api/server/v1/notification-senders/sms' \
+            'https://localhost:9443/api/server/v1/notification-senders/sms' \
             -H 'accept: application/json' \
-            -H 'Authorization: Bearer {bearer_token}'                  
+            -H 'Authorization: Basic YWRtaW46YWRtaW4='                  
     post:
       tags:
         - SMS Senders
@@ -473,9 +476,9 @@ paths:
         - lang: Curl
           source: |
             curl -X 'POST' \
-            'https://api.asgardeo.io/t/{tenant-domain}/api/server/v1/notification-senders/sms' \
+            'https://localhost:9443/api/server/v1/notification-senders/sms' \
             -H 'accept: application/json' \
-            -H 'Authorization: Bearer {bearer_token}' \
+            -H 'Authorization: Basic YWRtaW46YWRtaW4=' \
             -H 'Content-Type: application/json' \
             -d '{
             "provider": "NEXMO",
@@ -554,9 +557,9 @@ paths:
         - lang: Curl
           source: |
             curl -X 'GET' \
-            'https://api.asgardeo.io/t/{tenant-domain}/api/server/v1/notification-senders/sms/{sms-sender-name}' \
+            'https://localhost:9443/api/server/v1/notification-senders/sms/{sms-sender-name}' \
             -H 'accept: application/json' \
-            -H 'Authorization: Bearer {bearer_token}'                 
+            -H 'Authorization: Basic YWRtaW46YWRtaW4='                 
     put:
       tags:
         - SMS Senders
@@ -634,9 +637,9 @@ paths:
         - lang: Curl
           source: |
             curl -X 'PUT' \
-            'https://api.asgardeo.io/t/{tenant-domain}/api/server/v1/notification-senders/sms/{sms-sender-name}' \
+            'https://localhost:9443/api/server/v1/notification-senders/sms/{sms-sender-name}' \
             -H 'accept: application/json' \
-            -H 'Authorization: Bearer {bearer_token}' \
+            -H 'Authorization: Basic YWRtaW46YWRtaW4=' \
             -H 'Content-Type: application/json' \
             -d '{
             "provider": "NEXMO",
@@ -710,9 +713,9 @@ paths:
         - lang: Curl
           source: |
             curl -X 'DELETE' \
-            'https://api.asgardeo.io/t/{tenant-domain}/api/server/v1/notification-senders/sms/{sms-sender-name}' \
+            'https://localhost:9443/api/server/v1/notification-senders/sms/{sms-sender-name}' \
             -H 'accept: */*' \
-            -H 'Authorization: Bearer {bearer_token}'                 
+            -H 'Authorization: Basic YWRtaW46YWRtaW4='                 
   /notification-senders/push:
     get:
       tags:
@@ -762,9 +765,9 @@ paths:
         - lang: Curl
           source: |
             curl -X 'GET' \
-            'https://api.asgardeo.io/t/{tenant-domain}/api/server/v1/notification-senders/push' \
+            'https://localhost:9443/api/server/v1/notification-senders/push' \
             -H 'accept: application/json' \
-            -H 'Authorization: Bearer {bearer_token}'
+            -H 'Authorization: Basic YWRtaW46YWRtaW4='
     post:
       tags:
         - Push Senders
@@ -830,9 +833,9 @@ paths:
         - lang: Curl
           source: |
             curl -X 'POST' \
-            'https://api.asgardeo.io/t/{tenant-domain}/api/server/v1/notification-senders/push' \
+            'https://localhost:9443/api/server/v1/notification-senders/push' \
             -H 'accept: application/json' \
-            -H 'Authorization: Bearer {bearer_token}' \
+            -H 'Authorization: Basic YWRtaW46YWRtaW4=' \
             -H 'Content-Type: application/json' \
             -d '{
             "provider": "FCM",
@@ -902,9 +905,9 @@ paths:
         - lang: Curl
           source: |
             curl -X 'GET' \
-            'https://api.asgardeo.io/t/{tenant-domain}/api/server/v1/notification-senders/push/{push-sender-name}' \
+            'https://localhost:9443/api/server/v1/notification-senders/push/{push-sender-name}' \
             -H 'accept: application/json' \
-            -H 'Authorization: Bearer {bearer_token}'
+            -H 'Authorization: Basic YWRtaW46YWRtaW4='
     put:
       tags:
         - Push Senders
@@ -975,9 +978,9 @@ paths:
         - lang: Curl
           source: |
             curl -X 'PUT' \
-            'https://api.asgardeo.io/t/{tenant-domain}/api/server/v1/notification-senders/push/{push-sender-name}' \
+            'https://localhost:9443/api/server/v1/notification-senders/push/{push-sender-name}' \
             -H 'accept: application/json' \
-            -H 'Authorization: Bearer {bearer_token}' \
+            -H 'Authorization: Basic YWRtaW46YWRtaW4=' \
             -H 'Content-Type: application/json' \
             -d '{
             "provider": "FCM",
@@ -1042,9 +1045,9 @@ paths:
         - lang: Curl
           source: |
             curl -X 'DELETE' \
-            'https://api.asgardeo.io/t/{tenant-domain}/api/server/v1/notification-senders/push/{push-sender-name}' \
+            'https://localhost:9443/api/server/v1/notification-senders/push/{push-sender-name}' \
             -H 'accept: */*' \
-            -H 'Authorization: Bearer {bearer_token}'
+            -H 'Authorization: Basic YWRtaW46YWRtaW4='
 components:
   schemas:
     Error:
@@ -1351,10 +1354,13 @@ components:
       schema:
         type: string
   securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
     OAuth2:
       type: oauth2
       flows:
         authorizationCode:
-          authorizationUrl: https://api.asgardeo.io/t/{tenant-domain}/oauth2/authorize
-          tokenUrl: https://api.asgardeo.io/t/{tenant-domain}/oauth2/token
+          authorizationUrl: https://localhost:9443/oauth2/authorize
+          tokenUrl: https://localhost:9443/oauth2/token
           scopes: {}

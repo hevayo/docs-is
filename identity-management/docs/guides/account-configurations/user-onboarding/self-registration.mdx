@@ -2,20 +2,8 @@
 title: Self registration
 description: You can enable users to self-register to your organization from the login page of the application.  # generated from the first paragraph; a writer should improve it
 type: how-to
-sidebar_label: Self-registration
 sidebar_position: 1
 ---
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
-<Edition only="cloud">
-
-:::note
-For organizations created after 08th March 2026, use the new flow-based self-registration experience. Refer to [Self Registration](../../flows/self-registration.mdx) for more details.
-:::
-
-</Edition>
 
 You can enable users to self-register to your organization from the login page of the application. This creates a new user account for the user.
 
@@ -67,8 +55,6 @@ To enable/disable user self-registration or to change the default configurations
       </tbody>
     </table>
 
-<Edition only="self-hosted">
-
 ## Configure callback URL validation
 
 When running {edition.productName} behind a proxy or with a different port configuration, you may encounter callback URL validation errors during the self-registration flow. To resolve this, you need to configure a regex pattern to validate the callback URL.
@@ -94,8 +80,6 @@ To configure the callback URL validation:
 
 3. Save the file and restart {edition.productName} for the changes to take effect.
 
-</Edition>
-
 ## Configure self-registration methods
 
 Users may self-register to your organization using the same methods configured as sign-in options in your application.
@@ -110,7 +94,7 @@ During user self-registration, the available methods are displayed to the user a
 
 <img src={require("../../../../assets/img/guides/organization/self-registration/sign-up-methods.png").default} alt="Self sign-up methods" width="300" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
-For information on how a user can self-register, refer to [Try self-registration](../../user-self-service/self-service-portal/self-register.mdx).
+For information on how a user can self-register, refer to [Try self-registration](../../user-self-service/my-account-portal/explore-self-service-features/self-register.mdx).
 
 ## Customize the self-registration form
 
@@ -145,24 +129,6 @@ To implement this scenario, you must enforce account verification for self-regis
 
 You can get the account verification status of users through the [SCIM2 API](../../../apis/scim2-users-rest-api/index.mdx) as shown below.
 
-<Edition only="cloud">
-
-- To get your own information, invoke the `/scim2/Me` endpoint:
-
-    ```bash
-    https://api.asgardeo.io/t/{organization_name}/scim2/Me
-    ```
-
-- To get information about other users in your organization, invoke the `/scim2/Users/<user_id>` endpoint:
-
-    ```bash
-    https://api.asgardeo.io/t/{organization_name}/scim2/Users/{user_id}
-    ```
-
-</Edition>
-
-<Edition only="self-hosted">
-
 - To get your own information, invoke the `/scim2/Me` endpoint:
 
     ```bash
@@ -175,35 +141,7 @@ You can get the account verification status of users through the [SCIM2 API](../
     https://localhost:9443/scim2/Users/{user_id}
     ```
 
-</Edition>
-
 The following is part of the API response:
-
-<Edition only="cloud">
-
-```text
-"roles": [
-    {
-        "display": "selfsignup",
-        "value": "a85d4baf-2e7a-37b1-a722-d4d427039736",
-        "$ref": "https://api.asgardeo.io/t/{organization_name}{{ organization_path_param }}/scim2/v2/Roles/16ba9acb-fa30-42ef-8e25-29b557862124",
-        "audienceValue": "<organization id>",
-        "audienceType": "organization",
-        "audienceDisplay": "<organization name>"
-    },
-    ......
-    ],
-"{{ scim_schema_for_wso2_custom_claims }}": {
-    "emailVerified": "true",
-    "accountConfirmedTime": "2023-02-16T03:07:34.392293Z"
-    .....
-}
-```
-Note the following details in the response payload:
-
-</Edition>
-
-<Edition only="self-hosted">
 
 ```text
 "roles": [
@@ -225,8 +163,6 @@ Note the following details in the response payload:
 ```
 Note the following details in the response payload:
 
-</Edition>
-
 :::info
 - If the `role.display` parameter is set to `selfsignup`, the user has self-registered.
 - Under the `urn:scim:wso2:schema` schema, if the `emailVerified` parameter is available, the user has already clicked the email link to verify the account. This parameter will have the following values:
@@ -238,226 +174,3 @@ Note the following details in the response payload:
 :::
 
 Once you have identified the `emailVerified` status of the user and the method used to onboard the user (either through self-registration or by an administrator), you can enforce any access restrictions through your application logic.
-
-## Resend account verification email
-
-:::tip
-To implement this scenario, you must enforce account verification for self-registered users and activate accounts immediately without waiting for verification.<br /><br /> Learn more in [enable/disable self-registration](#enabledisable-self-registration).
-:::
-
-<Edition only="cloud">
-
-- To resend the account verification email for the authenticated user, use the curl command shown below.
-
-:::info
-<Tabs groupId="tabs">
-<TabItem value="request-format" label="Request format">
-
-```bash
-curl -X 'POST' \
-'https://api.asgardeo.io/t/{organization_name}/api/identity/user/v1.0/me/resend-code' \
--H 'Authorization: Bearer <access_token>' \
--H 'Content-Type: application/json' \
--d '{
-    "properties": [
-        {
-            "key": "RecoveryScenario",
-            "value": "SELF_SIGN_UP"
-        }
-    ]
-}'
-```
-
-</TabItem>
-<TabItem value="sample-request" label="Sample request">
-
-```bash
-curl -X 'POST' \
-'https://api.asgardeo.io/t/bifrost/api/identity/user/v1.0/me/resend-code' \
--H 'Authorization: Bearer <access_token>' \
--H 'Content-Type: application/json' \
--d '{
-    "properties": [
-        {
-            "key": "RecoveryScenario",
-            "value": "SELF_SIGN_UP"
-        }
-    ]
-}'
-```
-
-</TabItem>
-</Tabs>
-
----
-**Response**
-```text
-HTTP/1.1 201 Created
-```
-:::
-
-- To resend the account verification email for other users, use the curl command shown below.
-
-:::info
-<Tabs groupId="tabs">
-<TabItem value="request-format" label="Request format">
-
-```bash
-curl -X 'POST' \
-'https://api.asgardeo.io/t/{organization_name}/api/identity/user/v1.0/resend-code' \
--H 'Authorization: Bearer <access_token>' \
--H 'Content-Type: application/json' \
--d '{
-    "user": {
-        "username": "<USERNAME>",
-        "realm": "<REALM>"
-    },
-    "properties": [{
-        "key": "RecoveryScenario",
-        "value": "SELF_SIGN_UP"
-        }]
-    }'
-```
-
-</TabItem>
-<TabItem value="sample-request" label="Sample request">
-
-```text
-curl -X 'POST' \
-'https://api.asgardeo.io/t/bifrost/api/identity/user/v1.0/resend-code' \
--H 'Authorization: Bearer <access_token>' \
--H 'Content-Type: application/json' \
--d '{
-    "user": {
-        "username": "bob",
-        "realm": "PRIMARY"
-    },
-    "properties": [{
-        "key": "RecoveryScenario",
-        "value": "SELF_SIGN_UP"
-        }]
-    }'
-```
-
-</TabItem>
-</Tabs>
-
-Ensure that the username provided is without the user store domain prefix, and the realm parameter specifies the relevant user store domain name.
-
----
-**Response**
-```text
-"HTTP/1.1 201 Created"
-```
-:::
-
-</Edition>
-
-<Edition only="self-hosted">
-
-- To resend the account verification email for the authenticated user, use the [Self Resend Code API](../../../apis/use-the-self-sign-up-rest-apis/index.mdx#tag-self-register) as shown below.
-
-:::info
-<Tabs groupId="tabs">
-<TabItem value="request-format" label="Request format">
-
-```bash
-curl -X 'POST' \
-'https://{edition.hostName}/api/identity/user/v1.0/me/resend-code' \
--H 'Authorization: Bearer <access_token>' \
--H 'Content-Type: application/json' \
--d '{
-    "properties": [
-        {
-            "key": "RecoveryScenario",
-            "value": "SELF_SIGN_UP"
-        }
-    ]
-}'
-```
-
-</TabItem>
-<TabItem value="sample-request" label="Sample request">
-
-```bash
-curl -X 'POST' \
-'https://localhost:9443/api/identity/user/v1.0/me/resend-code' \
--H 'Authorization: Bearer <access_token>' \
--H 'Content-Type: application/json' \
--d '{
-    "properties": [
-        {
-            "key": "RecoveryScenario",
-            "value": "SELF_SIGN_UP"
-        }
-    ]
-}'
-```
-
-</TabItem>
-</Tabs>
-
----
-**Response**
-```text
-HTTP/1.1 201 Created
-```
-:::
-
-- To resend the account verification email for other users, use the [Resend Code API](../../../apis/use-the-self-sign-up-rest-apis/index.mdx#tag-self-register) as shown below.
-
-:::info
-<Tabs groupId="tabs">
-<TabItem value="request-format" label="Request format">
-
-```bash
-curl -X 'POST' \
-'https://{edition.hostName}/api/identity/user/v1.0/resend-code' \
--H 'Authorization: Bearer <access_token>' \
--H 'Content-Type: application/json' \
--d '{
-    "user": {
-        "username": "<USERNAME>",
-        "realm": "<REALM>"
-    },
-    "properties": [{
-        "key": "RecoveryScenario",
-        "value": "SELF_SIGN_UP"
-        }]
-    }'
-```
-
-</TabItem>
-<TabItem value="sample-request" label="Sample request">
-
-```text
-curl -X 'POST' \
-'https://localhost:9443/api/identity/user/v1.0/resend-code' \
--H 'Authorization: Bearer <access_token>' \
--H 'Content-Type: application/json' \
--d '{
-    "user": {
-        "username": "bob",
-        "realm": "PRIMARY"
-    },
-    "properties": [{
-        "key": "RecoveryScenario",
-        "value": "SELF_SIGN_UP"
-        }]
-    }'
-```
-
-</TabItem>
-</Tabs>
-
-Ensure that the username provided is without the user store domain prefix, and the realm parameter specifies the relevant user store domain name.
-
----
-**Response**
-```text
-"HTTP/1.1 201 Created"
-```
-:::
-
-</Edition>
-

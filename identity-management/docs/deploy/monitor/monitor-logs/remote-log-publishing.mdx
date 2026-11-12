@@ -4,7 +4,7 @@ description: The Remote Log Publishing feature in WSO2 Identity Server allows or
 type: reference
 sidebar_label: Remote log publishing
 sidebar_position: 4
-editions: self-hosted
+slug: "/deploy/monitor/remote-log-publishing"
 ---
 
 The Remote Log Publishing feature in {edition.productName} allows organizations to securely transmit and store [audit logs](./monitor-logs.mdx) in an external server. This capability ensures that critical log data is not only preserved in a secure location but also remains readily accessible for thorough analysis and compliance auditing.
@@ -14,6 +14,15 @@ The Remote Log Publishing feature in {edition.productName} allows organizations 
 :::note[Before you begin]
 - Ensure that the WSO2 Identity Server is up and running.
 - Have access to an external log storage solution that is reachable over the network.
+:::
+
+:::note[Important]
+Add the following property to the `<IS_HOME>/repository/conf/deployment.toml` file to hide credentials after you configure remote log publishing.
+
+```toml
+[remote_logging]
+hide_secrets=true
+```
 :::
 
 Follow the steps below to configure remote log publishing to an external system:

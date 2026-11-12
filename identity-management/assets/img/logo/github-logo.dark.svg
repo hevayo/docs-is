@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
- * Copyright (c) 2020, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c) 2020, WSO2 LLC. (http://wso2.com).
  *
- * WSO2 Inc. licenses this file to you under the Apache License,
+ * WSO2 LLC. licenses this file to you under the Apache License,
+
  * Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License.
  * You may obtain a copy of the License at
@@ -30,4 +31,3 @@
     <path id="path32" d="M444.978-528.2c.048.273-.232.554-.633.629s-.759-.1-.809-.368.237-.561.63-.633.761.094.812.372h0" transform="translate(-32.713 -74.876)" fill="#FFFFFF"/>
   </g>
 </svg>
-

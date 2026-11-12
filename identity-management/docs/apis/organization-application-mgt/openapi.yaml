@@ -1,9 +1,17 @@
 openapi: 3.0.0
 info:
   description: >
-    This document explains the RESTful API for application management of organizations in WSO2 Identity Platform.
+    This document specifies an **Application Management RESTful API** for **WSO2 Identity Server**.
   version: "v1"
-  title: WSO2 Identity Platform - Application Management Rest API
+  title: WSO2 Identity Server - Application Management Rest API
+  termsOfService: 'http://swagger.io/terms/'
+  contact:
+    name: WSO2
+    url: 'https://wso2.com/identity-platform/access-manager/'
+    email: architecture@wso2.org
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 security:
   - OAuth2: []
 paths:
@@ -66,7 +74,7 @@ paths:
         - lang: Curl
           source: |
             curl -X 'GET' \
-            'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v1/applications?limit=30&offset=0' \
+            'https://localhost:9443/o/api/server/v1/applications?limit=30&offset=0' \
             -H 'accept: application/json' \
             -H 'Authorization: Bearer {bearer_token}'
     post:
@@ -127,7 +135,7 @@ paths:
         - lang: Curl
           source: |
             curl -X 'POST' \
-            'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v1/applications' \
+            'https://localhost:9443/o/api/server/v1/applications' \
             -H 'accept: */*' \
             -H 'Authorization: Bearer {bearer_token}' \
             -H 'Content-Type: application/json' \
@@ -164,8 +172,8 @@ paths:
             },
             "inboundProtocolConfiguration": {
               "oidc": {
-                "clientId": "string",
-                "clientSecret": "string",
+                "clientId": "fd52e37f-1b8b-44f5-ad1a-5d846ad03b18",
+                "clientSecret": "RwrNGNNf9dkqJh6NSCqfXj1h6DrmNdNfpzNfJms4jC4a",
                 "grantTypes": [
                   "client_credentials",
                   "password"
@@ -196,8 +204,7 @@ paths:
                   }
                 },
                 "scopeValidators": [
-                  "Role based scope validator",
-                  "XACML Scope Validator"
+                  "Role based scope validator"
                 ]
               }
             }
@@ -261,7 +268,7 @@ paths:
         - lang: Curl
           source: |
             curl -X 'GET' \
-            'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v1/applications/{application-id}' \
+            'https://localhost:9443/o/api/server/v1/applications/{application-id}' \
             -H 'accept: application/json' \
             -H 'Authorization: Bearer {bearer_token}'
     patch:
@@ -316,7 +323,7 @@ paths:
         - lang: Curl
           source: |
             curl -X 'PATCH' \
-            'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v1/applications/{application-id}' \
+            'https://localhost:9443/o/api/server/v1/applications/{application-id}' \
             -H 'accept: */*' \
             -H 'Authorization: Bearer {bearer_token}' \
             -H 'Content-Type: application/json' \
@@ -411,7 +418,7 @@ paths:
         - lang: Curl
           source: |
             curl -X 'DELETE' \
-            'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v1/applications/{application-id}' \
+            'https://localhost:9443/o/api/server/v1/applications/{application-id}' \
             -H 'accept: */*' \
             -H 'Authorization: Bearer {bearer_token}'
   /applications/{applicationId}/authorized-apis:
@@ -455,7 +462,7 @@ paths:
       x-codeSamples:
         - lang: Curl
           source: |
-            curl --location 'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v1/applications/{application-id}/authorized-apis' \
+            curl --location 'https://localhost:9443/o/api/server/v1/applications/{application-id}/authorized-apis' \
             -H 'Authorization: Bearer {bearer_token}'
     post:
       tags:
@@ -464,19 +471,8 @@ paths:
         Authorized an API to the application.
       operationId: addAuthorizedAPI
       description: |
-        This API provides the capability to authorized an API to the application.
-        
-        <b>Scope(Permission) required:</b> 
-          - `internal_org_application_mgt_update`
-        
-        <b>➕ Additional Scopes</b>
-        
-          To authorize organization APIs and business APIs, you also need the following additional scopes:
-        
-          | Action | Scope |
-          |---------|--------|
-          | Authorize organization API | `internal_org_application_internal_api_update` |
-          | Authorize business APIs | `internal_org_application_business_api_update` |
+        This API provides the capability to authorized an API to the application. <br>
+          <b>Scope(Permission) required:</b> `internal_org_application_mgt_update`
       parameters:
         - name: applicationId
           in: path
@@ -513,7 +509,7 @@ paths:
       x-codeSamples:
         - lang: Curl
           source: |
-            curl --location 'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v1/applications/{application-id}/authorized-apis' \
+            curl --location 'https://localhost:9443/o/api/server/v1/applications/{application-id}/authorized-apis' \
             -H 'Content-Type: application/json' \
             -H 'Authorization: Bearer {bearer_token}' \
             -d '{
@@ -533,18 +529,7 @@ paths:
       operationId: patchAuthorizedAPI
       description: |
         This API provides the capability to update an authorized API of the application. <br>
-        
-        <b>Scope(Permission) required:</b> 
-          - `internal_org_application_mgt_update`  
-        
-        <b>➕ Additional Scopes</b>
-        
-          To update authorized organization APIs and business APIs, you also need the following additional scopes:
-        
-          | Action | Scope |
-          |---------|--------|
-          | Update authorized organization API | `internal_org_application_internal_api_update` |
-          | Update authorized business APIs | `internal_org_application_business_api_update` |
+          <b>Scope(Permission) required:</b> `internal_org_application_mgt_update`
       parameters:
         - name: applicationId
           in: path
@@ -587,7 +572,7 @@ paths:
       x-codeSamples:
         - lang: Curl
           source: |
-            curl --location --request PATCH 'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v1/applications/{application-id}/authorized-apis/{api-id}' \
+            curl --location --request PATCH 'https://localhost:9443/o/api/server/v1/applications/{application-id}/authorized-apis/{api-id}' \
             -H 'Content-Type: application/json' \
             -H 'Authorization: Bearer {bearer_token}' \
             -d '{
@@ -607,18 +592,7 @@ paths:
       operationId: deleteAuthorizedAPI
       description: |
         This API provides the capability to delete an authorized API of the application. <br>
-        
-        <b>Scope(Permission) required:</b> 
-          - `internal_org_application_mgt_update`
-        
-        <b>➕ Additional Scopes</b>
-        
-          To remove authorized organization APIs and business APIs, you also need the following additional scopes:
-        
-          | Action | Scope |
-          |---------|--------|
-          | Remove authorized organization API | `internal_org_application_internal_api_update` |
-          | Remove authorized business APIs | `internal_org_application_business_api_update` |
+          <b>Scope(Permission) required:</b> `internal_org_application_mgt_update`
       parameters:
         - name: applicationId
           in: path
@@ -648,7 +622,7 @@ paths:
       x-codeSamples:
         - lang: Curl
           source: |
-            curl --location --request DELETE 'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v1/applications/{application-id}/authorized-apis/{api-id}' \
+            curl --location --request DELETE 'https://localhost:9443/o/api/server/v1/applications/{application-id}/authorized-apis/{api-id}' \
             -H 'Authorization: Bearer {bearer_token}'
   /applications/{applicationId}/inbound-protocols/:
     get:
@@ -700,7 +674,7 @@ paths:
         - lang: Curl
           source: |
             curl -X 'GET' \
-            'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v1/applications/{application-id}/inbound-protocols/' \
+            'https://localhost:9443/o/api/server/v1/applications/{application-id}/inbound-protocols/' \
             -H 'accept: application/json' \
             -H 'Authorization: Bearer {bearer_token}'
   /applications/{applicationId}/inbound-protocols/oidc:
@@ -709,19 +683,9 @@ paths:
         - Inbound Protocols - OAuth / OIDC
       summary: |
         Retrieve OIDC authentication protocol parameters.
-      description: |
+      description: >
         This API provides the capability to retrieve OIDC authentication protocol parameters of an application. <br>
-        
-                <b>Scope(Permission) required:</b> 
-          - `internal_org_application_mgt_view`
-        
-        <b>➕ Additional Scopes</b>
-        
-          To view the client secret, you also need the following additional scope:
-        
-          | Action | Scope |
-          |---------|--------|
-          | View client secret | `internal_org_application_mgt_client_secret_view` |
+          <b>Scope(Permission) required:</b> `internal_org_application_mgt_view`
       operationId: getInboundOAuthConfiguration
       parameters:
         - name: applicationId
@@ -763,7 +727,7 @@ paths:
         - lang: Curl
           source: |
             curl -X 'GET' \
-            'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v1/applications/{application-id}/inbound-protocols/oidc' \
+            'https://localhost:9443/o/api/server/v1/applications/{application-id}/inbound-protocols/oidc' \
             -H 'accept: application/json' \
             -H 'Authorization: Bearer {bearer_token}'
     put:
@@ -824,13 +788,13 @@ paths:
         - lang: Curl
           source: |
             curl -X 'PUT' \
-            'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v1/applications/{application-id}/inbound-protocols/oidc' \
+            'https://localhost:9443/o/api/server/v1/applications/{application-id}/inbound-protocols/oidc' \
             -H 'accept: */*' \
             -H 'Authorization: Bearer {bearer_token}' \
             -H 'Content-Type: application/json' \
             -d '{
-            "clientId": "string",
-            "clientSecret": "string",
+            "clientId": "fd52e37f-1b8b-44f5-ad1a-5d846ad03b18",
+            "clientSecret": "RwrNGNNf9dkqJh6NSCqfXj1h6DrmNdNfpzNfJms4jC4a",
             "grantTypes": [
               "client_credentials",
               "password"
@@ -861,8 +825,7 @@ paths:
               }
             },
             "scopeValidators": [
-              "Role based scope validator",
-              "XACML Scope Validator"
+              "Role based scope validator"
             ]
             }'
       requestBody:
@@ -919,7 +882,7 @@ paths:
         - lang: Curl
           source: |
             curl -X 'DELETE' \
-            'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v1/applications/{application-id}/inbound-protocols/oidc' \
+            'https://localhost:9443/o/api/server/v1/applications/{application-id}/inbound-protocols/oidc' \
             -H 'accept: */*' \
             -H 'Authorization: Bearer {bearer_token}'
   /applications/{applicationId}/inbound-protocols/oidc/regenerate-secret:
@@ -929,9 +892,8 @@ paths:
       summary: |
         Regenerate the OAuth2/OIDC client secret.
       description: |
-        This API regenerates a new client secret. Existing secrets and tokens are revoked. <br>
-        
-        <b>Scope(Permission) required:</b> `internal_org_application_mgt_client_secret_create`
+        This API regenerates the OAuth2/OIDC client secret. <br>
+          <b>Scope(Permission) required:</b> `internal_org_application_mgt_create`
       operationId: regenerateOAuthClientSecret
       parameters:
         - name: applicationId
@@ -973,248 +935,10 @@ paths:
         - lang: Curl
           source: |
             curl -X 'POST' \
-            'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v1/applications/{application-id}/inbound-protocols/oidc/regenerate-secret' \
+            'https://localhost:9443/o/api/server/v1/applications/{application-id}/inbound-protocols/oidc/regenerate-secret' \
             -H 'accept: application/json' \
             -H 'Authorization: Bearer {bearer_token}' \
             -d ''
-  /applications/{applicationId}/inbound-protocols/oidc/secrets:
-    post:
-      tags:
-        - Inbound Protocols - OAuth / OIDC
-      summary: Create a new OAuth2/OIDC client secret.
-      description: |
-        This API creates a new client secret for the application. Existing secrets and tokens
-        remain valid. <br>
-          <b>Scope(Permission) required:</b> `internal_org_application_mgt_client_secret_create`
-      operationId: createOAuthClientSecret
-      parameters:
-        - name: applicationId
-          in: path
-          description: ID of the application
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: false
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ClientSecretCreationRequest'
-      responses:
-        '201':
-          description: Client secret created.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ClientSecretResponse'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '409':
-          description: Conflict — client secret limit reached for the application.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-      x-codeSamples:
-        - lang: Curl
-          source: |
-            curl -X 'POST' \
-            'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v1/applications/{application-id}/inbound-protocols/oidc/secrets' \
-            -H 'accept: application/json' \
-            -H 'Content-Type: application/json' \
-            -H 'Authorization: Bearer {bearer_token}' \
-            -d '{
-              "expiresAt": 2082758400
-            }'
-    get:
-      tags:
-        - Inbound Protocols - OAuth / OIDC
-      summary: List client secrets of the application.
-      description: |
-        This API returns metadata of all client secrets attached to the application. <br>
-          <b>Scope(Permission) required:</b> `internal_org_application_mgt_client_secret_view`
-      operationId: getOAuthClientSecrets
-      parameters:
-        - name: applicationId
-          in: path
-          description: ID of the application
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ClientSecretList'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-      x-codeSamples:
-        - lang: Curl
-          source: |
-            curl -X 'GET' \
-            'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v1/applications/{application-id}/inbound-protocols/oidc/secrets' \
-            -H 'accept: application/json' \
-            -H 'Authorization: Bearer {bearer_token}'
-  /applications/{applicationId}/inbound-protocols/oidc/secrets/{secretId}:
-    get:
-      tags:
-        - Inbound Protocols - OAuth / OIDC
-      summary: Get a specific client secret's metadata.
-      description: |
-        This API returns the metadata of the client secret identified by `secretId`. <br>
-          <b>Scope(Permission) required:</b> `internal_org_application_mgt_client_secret_view`
-      operationId: getOAuthClientSecret
-      parameters:
-        - name: applicationId
-          in: path
-          description: ID of the application
-          required: true
-          schema:
-            type: string
-        - name: secretId
-          in: path
-          description: ID of the client secret
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ClientSecretResponse'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-      x-codeSamples:
-        - lang: Curl
-          source: |
-            curl -X 'GET' \
-            'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v1/applications/{application-id}/inbound-protocols/oidc/secrets/{secret-id}' \
-            -H 'accept: application/json' \
-            -H 'Authorization: Bearer {bearer_token}'
-    delete:
-      tags:
-        - Inbound Protocols - OAuth / OIDC
-      summary: Delete a specific OAuth2/OIDC client secret.
-      description: |
-        This API deletes the client secret identified by `secretId`. The application's latest client
-        secret cannot be deleted — at least one client secret must remain per application. <br>
-          <b>Scope(Permission) required:</b> `internal_org_application_mgt_client_secret_delete`
-      operationId: deleteOAuthClientSecret
-      parameters:
-        - name: applicationId
-          in: path
-          description: ID of the application
-          required: true
-          schema:
-            type: string
-        - name: secretId
-          in: path
-          description: ID of the client secret to delete
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Client secret deleted.
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '409':
-          description: Conflict — cannot delete the last active client secret.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-      x-codeSamples:
-        - lang: Curl
-          source: |
-            curl -X 'DELETE' \
-            'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v1/applications/{application-id}/inbound-protocols/oidc/secrets/{secret-id}' \
-            -H 'accept: */*' \
-            -H 'Authorization: Bearer {bearer_token}'
   /applications/meta/inbound-protocols:
     get:
       tags:
@@ -1257,7 +981,7 @@ paths:
         - lang: Curl
           source: |
             curl -X 'GET' \
-            'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v1/applications/meta/inbound-protocols?customOnly=true' \
+            'https://localhost:9443/o/api/server/v1/applications/meta/inbound-protocols?customOnly=true' \
             -H 'accept: application/json' \
             -H 'Authorization: Bearer {bearer_token}'
 components:
@@ -1307,6 +1031,7 @@ components:
         Note that 'and' and 'or' operators in filters follow the general precedence of logical operators.
         For example, A and B or C and D = (A and B) or (C and D)).
         Currently supports only filtering based on the 'name', the 'clientId', and the 'issuer' attributes.
+
         /applications?filter=name+eq+user_portal
         <br>
         /applications?filter=name+co+prod+or+clientId+co+123
@@ -1341,6 +1066,7 @@ components:
         Specifies the required parameters in the response.
         Only 'advancedConfigurations', 'templateId', 'templateVersion', 'clientId', 'issuer', 
         and 'associatedRoles.allowedAudience' attributes are currently supported.
+
         /applications?attributes=advancedConfigurations,templateId,templateVersion,clientId,issuer,
         associatedRoles.allowedAudience
       schema:
@@ -1352,6 +1078,7 @@ components:
       description: |
         Specifies whether to include or exclude system portals in the response. 
         Default will be treated as false if parameter is not preset in the request.
+
         /applications?excludeSystemPortals=true
       schema:
         type: boolean
@@ -1402,8 +1129,8 @@ components:
       type: oauth2
       flows:
         authorizationCode:
-          authorizationUrl: 'https://api.asgardeo.io/t/{root-organization-name}/oauth2/authorize'
-          tokenUrl: 'http://api.asgardeo.io/t/{root-organization-name}/oauth2/token'
+          authorizationUrl: 'https://localhost:9443/oauth2/authorize'
+          tokenUrl: 'http://localhost:9443/oauth2/token'
           scopes: {}
   schemas:
     Link:
@@ -1458,7 +1185,7 @@ components:
           example: 'https://example.com/logo/my-logo.png'
         clientId:
           type: string
-          example: 'SmrrDNXRYf1lMmDlnleeHTuXx_Ea'
+          example: 'fd52e37f-1b8b-44f5-ad1a-5d846ad03b18'
         realm:
           type: string
           example: 'PassiveSTSSampleApp'
@@ -1470,7 +1197,7 @@ components:
           default: READ
         self:
           type: string
-          example: "t/{root-organization-name}/o/api/server/v1/applications/85e3f4b8-0d22-4181-b1e3-1651f71b88bd"
+          example: "/t/wso2.com/api/server/v1/applications/85e3f4b8-0d22-4181-b1e3-1651f71b88bd"
         advancedConfigurations:
           $ref: '#/components/schemas/AdvancedApplicationConfiguration'
         associatedRoles:
@@ -1529,7 +1256,7 @@ components:
           example: 'https://example.com/logo/my-logo.png'
         clientId:
           type: string
-          example: 'SmrrDNXRYf1lMmDlnleeHTuXx_Ea'
+          example: 'fd52e37f-1b8b-44f5-ad1a-5d846ad03b18'
         isManagementApp:
           type: boolean
           example: false
@@ -1642,6 +1369,8 @@ components:
         jit:
           type: boolean
           example: false
+      description: >-
+        This property is disabled by default as of Identity Server version 7.0 onwards.
     ConfiguredAuthenticatorsModal:
       type: object
       properties:
@@ -2115,16 +1844,6 @@ components:
           type: string
         clientSecret:
           type: string
-        clientSecretExpiresAt:
-          type: integer
-          format: int64
-          description: The expiration time of the latest client secret, expressed in Unix epoch seconds. A value of 0 indicates that the secret never expires.
-          example: 2082758400
-        multipleClientSecretsConfigured:
-          type: boolean
-          readOnly: true
-          description: Indicates if the application has more than one client secret.
-          example: true
         state:
           type: string
           enum:
@@ -2203,23 +1922,22 @@ components:
           example: 3600
         bindingType:
           type: string
-          description: "OAuth2 access token and refresh token can be bound to an external attribute during the token generation so that it can be optionally validated during the API invocation."
+          description: "OAuth2 access token and refresh token can be bound to an external attribute during the token
+          generation so that it can be optionally validated during the API invocation."
           default: "None"
           example: cookie
         revokeTokensWhenIDPSessionTerminated:
           type: boolean
-          description: "If enabled, when the IDP session is terminated, all the access tokens bound to the session will get revoked."
+          description: "If enabled, when the IDP session is terminated, all the access tokens bound to the session
+          will get revoked."
         validateTokenBinding:
           type: boolean
-          description: "If enabled, both access token and the token binding needs to be present for a successful API invocation."
+          description: "If enabled, both access token and the token binding needs to be present for a successful API
+          invocation."
         accessTokenAttributes:
           type: array
           items:
             type: string
-        enableJwtScopeAsArray:
-          type: boolean
-          description: "If enabled, the scope claim in JWT access tokens will be formatted as a JSON array instead of a space-separated string."
-          example: false
     RefreshTokenConfiguration:
       type: object
       properties:
@@ -2272,65 +1990,6 @@ components:
         method:
           type: string
           example: A128CBC+HS256
-    ClientSecretCreationRequest:
-      type: object
-      description: Request payload for creating a new client secret.
-      properties:
-        expiresAt:
-          type: integer
-          format: int64
-          description: Expiry time as Unix epoch seconds; must be a future time. 0 or omitted for a non-expiring secret.
-          example: 2082758400
-    ClientSecretResponse:
-      type: object
-      description: Client secret details.
-      required:
-        - secretId
-        - expiresAt
-        - status
-        - latest
-      properties:
-        secretId:
-          type: string
-          description: Identifier of the secret.
-          example: "4a7f9b23-c1e0-4d86-b5fa-28c93a71b4ef"
-        secretValue:
-          type: string
-          description: The client secret value, as maintained in the configured client secret persistence mode.
-          example: "AbCd1234EfGh5678IjKlMnOp"
-        expiresAt:
-          type: integer
-          format: int64
-          description: Expiry time as Unix epoch seconds; 0 if the secret never expires.
-          example: 2082758400
-        createdAt:
-          type: integer
-          format: int64
-          description: Creation time as Unix epoch seconds.
-          example: 1761568483
-        status:
-          type: string
-          enum:
-            - ACTIVE
-            - EXPIRED
-          description: Status of the secret.
-          example: ACTIVE
-        latest:
-          type: boolean
-          description: Whether this is the latest client secret of the application. The latest client secret cannot be deleted.
-          example: true
-    ClientSecretList:
-      type: object
-      description: List of client secrets attached to an application.
-      properties:
-        count:
-          type: integer
-          description: Number of client secrets returned.
-          example: 2
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientSecretResponse'
     ClientAuthenticationConfiguration:
       type: object
       properties:
@@ -2387,16 +2046,68 @@ components:
         frontChannelLogoutUrl:
           type: string
           example: 'https://app.example.com/frontchannel/callback'
+    PassiveStsConfiguration:
+      type: object
+      required:
+        - realm
+        - replyTo
+      properties:
+        realm:
+          type: string
+        replyTo:
+          type: string
+        replyToLogout:
+          type: string
+    WSTrustConfiguration:
+      type: object
+      required:
+        - audience
+        - certificateAlias
+      properties:
+        audience:
+          type: string
+          description: Audience value of the trusted service
+          example: https://wstrust.endpoint.com
+        certificateAlias:
+          type: string
+          example: "wso2carbon"
+    CustomInboundProtocolConfiguration:
+      type: object
+      required:
+        - name
+        - configName
+      properties:
+        name:
+          type: string
+          example: cas
+        configName:
+          type: string
+          example: cas
+        properties:
+          type: array
+          items:
+            $ref: '#/components/schemas/PropertyModel'
+    PropertyModel:
+      type: object
+      properties:
+        key:
+          type: string
+          example: app-identifier
+        value:
+          type: string
+          example: 'http://app.wso2.com/employeeApp'
+        friendlyName:
+          type: string
+          example: Application Identifier
     AuthenticationSequence:
       type: object
       properties:
         type:
           type: string
           description: "
-            <ul>
-              <li> <b>DEFAULT</b> type indicates that the application will use the default authentication sequence specified at the organization level. When the DEFAULT type is used, the information given in the other fields of the `AuthenticationSequence` will be ignored and overridden with values defined at the organization level.</li>
-              <li> <b>USER_DEFINED</b> type indicates that the application will use a user-defined authentication sequence.</li>
-            </ul>"
+          - DEFAULT type indicates that the application will use the default authentication sequence specified at the tenant level. When the DEFAULT type is used, the information given in the other fields of the AuthenticationSequence will be ignored and overridden with values defined at the tenant level.
+
+           - USER_DEFINED type indicates that the application will use a user-defined authentication sequence."
           enum:
             - DEFAULT
             - USER_DEFINED
@@ -2868,9 +2579,9 @@ components:
           type: string
           example: '/t/wso2.com/api/server/v1/organizations/b4526d91-a8bf-43d2-8b14-c548cf73065b'
 servers:
-  - url: 'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v1'
+  - url: 'https://{serverUrl}/t/{tenantDomain}/o/api/server/v1'
     variables:
       serverUrl:
-        default: "https://api.asgardeo.io/t/{root-organization-name}/o/"
-      root-organization-name:
-        default: "{root-organization-name}"
+        default: "localhost:9443"
+      tenantDomain:
+        default: "carbon.super"

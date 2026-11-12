@@ -1,6 +1,6 @@
 ---
 title: Enable user attributes for SAML apps
-description: WSO2 Identity Platform can share user attributes with applications.  # generated from the first paragraph; a writer should improve it
+description: WSO2 Identity Server can share user attributes with applications.  # generated from the first paragraph; a writer should improve it
 type: how-to
 sidebar_label: Enable attributes for SAML apps
 sidebar_position: 3
@@ -27,11 +27,11 @@ To add user attributes to the app:
 3. Click **Update** and go to the **User Attributes** tab.
 3. Click **Add User Attribute** if you don't have any attributes already added.
 
-    <Edition only="cloud"><img src={require("../../../../assets/cloud/img/guides/applications/attributes/add-user-attributes.png").default} alt="Add user attributes to a SAML app in WSO2 Identity Platform" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/self-hosted/img/guides/applications/attributes/add-user-attributes.png").default} alt="Add user attributes to a SAML app in WSO2 Identity Server" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+    <img src={require("../../../../assets/img/guides/applications/attributes/add-user-attributes.png").default} alt="Add user attributes to a SAML app in WSO2 Identity Server" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 4. Select the required attributes from the list as shown below.
 
-    <Edition only="cloud"><img src={require("../../../../assets/img/guides/applications/attributes/select-user-attributes.png").default} alt="Add user attributes in WSO2 Identity Platform" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/img/guides/applications/attributes/select-user-attributes.png").default} alt="Add user attributes in WSO2 Identity Server" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+    <img src={require("../../../../assets/img/guides/applications/attributes/select-user-attributes.png").default} alt="Add user attributes in WSO2 Identity Server" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 5. Click **Save** to return to the **User Attributes** tab and then click **Update**.
 
@@ -63,7 +63,7 @@ To make an attribute mandatory:
 
 3. Expand the relevant scope and out of the selected attributes for the application, select the mandatory attributes by selecting the **Mandatory** checkbox next to them.
 
-<Edition only="cloud"><img src={require("../../../../assets/cloud/img/guides/applications/attributes/saml/add-mandatory-user-attributes.png").default} alt="Add mandatory user attributes in WSO2 Identity Platform" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/self-hosted/img/guides/applications/attributes/saml/add-mandatory-user-attributes.png").default} alt="Add mandatory user attributes in WSO2 Identity Server" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+<img src={require("../../../../assets/img/guides/applications/attributes/saml/add-mandatory-user-attributes.png").default} alt="Add mandatory user attributes in WSO2 Identity Server" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 ### Select the subject attribute
 
@@ -76,7 +76,7 @@ To define a different attribute as the subject:
 1. [Select it as a user attribute](#select-user-attributes).
 2. Go to the **Subject** section under **User Attributes**.
 
-    <Edition only="cloud"><img src={require("../../../../assets/cloud/img/guides/applications/attributes/saml/select-sub-attribute.png").default} alt="Select subject attribute in WSO2 Identity Platform" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/self-hosted/img/guides/applications/attributes/saml/select-sub-attribute.png").default} alt="Select subject attribute in WSO2 Identity Server" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+    <img src={require("../../../../assets/img/guides/applications/attributes/saml/select-sub-attribute.png").default} alt="Select subject attribute in WSO2 Identity Server" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 3. Select an attribute as the subject from the **Subject attribute** list.
 4. Click **Update**.
@@ -87,7 +87,7 @@ Let's see how this flow works in {edition.productName}.
 
 Once you have configured the user attributes that are required for your application, {edition.productName} implements the following process when a user tries to log in to your app.
 
-<Edition only="cloud"><img src={require("../../../../assets/cloud/img/guides/applications/attributes/saml/how-it-works.png").default} alt="Provides consent for attributes in WSO2 Identity Platform" width="800" style={{display: "block", margin: "0"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/self-hosted/img/guides/applications/attributes/saml/how-it-works.png").default} alt="Provides consent for attributes in WSO2 Identity Server" width="800" style={{display: "block", margin: "0"}} /></Edition>
+<img src={require("../../../../assets/img/guides/applications/attributes/saml/how-it-works.png").default} alt="Provides consent for attributes in WSO2 Identity Server" width="800" style={{display: "block", margin: "0"}} />
 
 ### {edition.productName} checks for mandatory attributes
 

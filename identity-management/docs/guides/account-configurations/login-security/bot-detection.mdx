@@ -7,8 +7,6 @@ sidebar_position: 3
 
 This guide explains how you can enable bot detection for your applications to mitigate abuse from bots and other automated attacks. {edition.productName} supports [reCAPTCHA](https://developers.google.com/recaptcha/), a service provided by Google which can protect your applications from spam or other forms of internet abuse by distinguishing human requests from automated ones.
 
-<Edition only="self-hosted">
-
 ## Types of reCAPTCHA
 
 Google allows you to configure two types of reCAPTCHA.
@@ -47,7 +45,7 @@ To configure the API keys,
     - Select either the `Score based (v3)` or the `Challenge (v2)` option.
     - **Domains:** is.wso2.com  
 
-        <img src={require("../../../../assets/self-hosted/img/guides/account-configurations/recaptcha-new-sso.png").default} alt="Configure reCAPTCHA in Google" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+        <img src={require("../../../../assets/img/guides/account-configurations/recaptcha-new-sso.png").default} alt="Configure reCAPTCHA in Google" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 4. Click **Submit**.
 
@@ -94,7 +92,7 @@ Follow the steps below to configure reCAPTHCA in {edition.productName}.
 
 {/* ## Selectively enable reCAPTCHA
 
-WSO2 Identity Platform allows you to selectively configure reCAPTCHA for various flows. Open the `deployment.toml` file found in the `<IS_HOME>/repository/conf/` directory, add the required configurations and restart WSO2 Identity Platform.
+WSO2 Identity Server allows you to selectively configure reCAPTCHA for various flows. Open the `deployment.toml` file found in the `<IS_HOME>/repository/conf/` directory, add the required configurations and restart WSO2 Identity Server.
 
 ### Single sign-on
 
@@ -143,8 +141,6 @@ enable_recaptcha= true
      forcefully_enabled_for_all_tenants=true
      ``` */}
 
-</Edition>
-
 ## Enable reCAPTCHA from the Console
 
 To enable bot detection, proceed with the following:
@@ -152,7 +148,7 @@ To enable bot detection, proceed with the following:
 1. On the {edition.productName} Console, go to **Login & Registration** > **Login Security** > **Bot Detection**.
 2. Toggle the switch on to activate reCAPTCHA for your organization.
 
-<Edition only="cloud"><img src={require("../../../../assets/cloud/img/guides/account-configurations/bot-detection.png").default} alt="Bot Detection Configuration" width="900" style={{display: "block", margin: "0"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/self-hosted/img/guides/account-configurations/bot-detection.png").default} alt="Bot Detection Configuration" width="900" style={{display: "block", margin: "0"}} /></Edition>
+<img src={require("../../../../assets/img/guides/account-configurations/bot-detection.png").default} alt="Bot Detection Configuration" width="900" style={{display: "block", margin: "0"}} />
 
 :::tip
 Bot detection enables reCAPTCHA for the following flows:

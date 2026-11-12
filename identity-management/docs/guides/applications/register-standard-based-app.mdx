@@ -1,6 +1,6 @@
 ---
 title: Register a standard-based application
-description: To integrate an application with WSO2 Identity Platform, you need to register it through the WSO2 Identity Platform Console.  # generated from the first paragraph; a writer should improve it
+description: To integrate an application with WSO2 Identity Server, you need to register it through the WSO2 Identity Server Console.  # generated from the first paragraph; a writer should improve it
 type: how-to
 sidebar_label: Register a standard-based app
 sidebar_position: 5
@@ -9,17 +9,7 @@ sidebar_position: 5
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-<Edition only="cloud">
-
-To integrate an application with {edition.productName}, you need to register it through the {edition.productName} Console. Registering a standard-based application lets you configure protocol settings (OIDC, SAML) from scratch.
-
-</Edition>
-
-<Edition only="self-hosted">
-
 To integrate an application with {edition.productName}, you need to register it through the {edition.productName} Console. Registering a standard-based application lets you configure protocol settings (OIDC, SAML , WS-Fed) from scratch.
-
-</Edition>
 
 ## Register an application
 
@@ -28,46 +18,7 @@ To register an application:
 1. On the {edition.productName} Console, go to **Applications**.
 2. Click **New Application** and select **Standard-Based Application**.
 
-    <Edition only="cloud"><img src={require("../../../assets/cloud/img/guides/applications/register-an-sba.png").default} alt="Register a standard-based application" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../assets/self-hosted/img/guides/applications/register-an-sba.png").default} alt="Register a standard-based application" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
-
-<Edition only="cloud">
-
-3. Provide an application name and select the other options based on your requirements.
-
-    :::note
-    - You can choose OIDC or SAML as the standard protocol for your application. See the complete list of [OIDC](../../references/app-settings/oidc-settings-for-app.mdx) and [SAML](../../references/app-settings/saml-settings-for-app.mdx)  configurations.
-    - If you use OIDC, you can configure a management app, which can access the management APIs in {edition.productName}. Learn about [invoking management APIs](../../apis/index.mdx).
-    :::
-
-4. Click **Register** to complete the registration.
-
-    :::note
-    If you have enabled **Allow sharing with organizations** while registering the application, you will see a popup window with the following options.
-
-    <img src={require("../../../assets/img/guides/applications/share-application.png").default} alt="Share the application with organizations" width="500" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
-
-    | Option | Description |
-    | --- | --- |
-    | Share with all organizations | If selected, the application will be shared with all existing organizations and any new organizations you may create in the future. |
-    | Share with only selected organizations | If selected, you can select the organizations you wish to share the application with. |
-    :::
-
-    :::note
-    If you are planning to enable the Authorization Code grant type for standard-based applications, please note the following when adding the authorized redirect URL. The authorized redirect URL should be defined based on the type of application you are using:
-
-    - Web-based applications: Use exact URLs or implement logic to dynamically register specific redirect URIs as needed.
-
-    - Mobile apps with deep links: Wildcard support may be acceptable, but it must be implemented securely and restricted to well-defined patterns to limit its scope.
-    :::
-
-## What's Next?
-
-- [Configuring an OIDC application](../../references/app-settings/oidc-settings-for-app.mdx)
-- [Configuring a SAML application](../../references/app-settings/saml-settings-for-app.mdx)
-
-</Edition>
-
-<Edition only="self-hosted">
+    <img src={require("../../../assets/img/guides/applications/register-an-sba.png").default} alt="Register a standard-based application" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 3. Provide an application name.
 
@@ -140,5 +91,3 @@ Now that you've registered your standard-based application with basic settings, 
 - [OIDC configurations](../../references/app-settings/oidc-settings-for-app.mdx)
 - [SAML configurations](../../references/app-settings/saml-settings-for-app.mdx)
 - [WS-Federation configurations](../../references/app-settings/ws-federation-settings-for-app.mdx)
-
-</Edition>

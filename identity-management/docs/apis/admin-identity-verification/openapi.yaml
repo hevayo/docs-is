@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Identity Verification API
-  description: This is the RESTful API for admins to manage users' identity verification information stored in WSO2 Identity Platform.
+  description: This is the RESTful API for admins to manage users' identity verification information stored in WSO2 Identity Server.
   version: 1.0.0
 servers:
   - url: https://api.asgardeo.io/t/{organization-name}/api/users/v1
@@ -440,7 +440,7 @@ components:
     claimMetadata:
       type: object
       additionalProperties: true
-      example: '{"source": "Provider", "trackingId": "123e4567-****-****-a456-556642440000" }'
+      example: '{"source": "ONFIDO", "trackingId": "123e4567-e89b-12d3-a456-556642440000" }'
     verificationClaimPostRequest:
       type: array
       items:

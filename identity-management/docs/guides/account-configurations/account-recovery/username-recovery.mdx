@@ -2,8 +2,7 @@
 title: Username recovery
 description: You may enable self-service username recovery for users so that they may reset their forgotten usernames right from the login page.  # generated from the first paragraph; a writer should improve it
 type: how-to
-sidebar_position: 1
-editions: self-hosted
+sidebar_position: 2
 ---
 
 You may enable self-service username recovery for users so that they may reset their forgotten usernames right from the login page. Once enabled, users can click the `Forgot username?` option and proceed to recover their usernames.
@@ -17,7 +16,7 @@ To do so,
 
 3. Click **Update** to save the changes.
 
-<img src={require("../../../../assets/self-hosted/img/guides/account-configurations/username-recovery.png").default} alt="Username Recovery Configuration" width="800" style={{display: "block", margin: "0"}} />
+<img src={require("../../../../assets/img/guides/account-configurations/username-recovery.png").default} alt="Username Recovery Configuration" width="800" style={{display: "block", margin: "0"}} />
 
 :::note[Send recovery emails to non-unique users]
 When a user attempts to recover the username, {edition.productName} requests for the first name, last name and either the email address or mobile number. If based on the details, a unique user is found, an email will be sent to the registered email address. If a unique user is not found, no action will be taken.

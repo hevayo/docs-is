@@ -1,6 +1,6 @@
 ---
-title: Migrate user accounts to {edition.productName}
-description: This guide explains how you may prepare and execute a user migration from another Identity Provider (IdP) to WSO2 Identity Platform.  # generated from the first paragraph; a writer should improve it
+title: Migrate user accounts to WSO2 Identity Server
+description: This guide explains how you may prepare and execute a user migration from another Identity Provider (IdP) to WSO2 Identity Server.  # generated from the first paragraph; a writer should improve it
 type: how-to
 sidebar_label: Migrate user accounts
 sidebar_position: 2
@@ -49,19 +49,7 @@ With a clear and concise plan in place, you are ready to move on to the implemen
 
 ## Migrate user accounts
 
-<Edition only="cloud">
-
-Contact the WSO2 Identity Platform team at **asgardeo-help@wso2.com** for support on migrating your existing user base to WSO2 Identity Platform. Additionally, inform the team how you would like to [migrate user passwords](./migrate-passwords.mdx).
-
-:::note
-Make sure to request using the email address registered with an owner account or an administrator account.
-:::
-
-</Edition>
-
-<Edition only="self-hosted">
-
-{edition.productName} supports bulk importing multiple users, which can be used for the user migration. See how to [onboard multiple users](../users/manage-users.mdx). However this will ask users to set their own passwords for the new system.
+{edition.productName} supports bulk importing multiple users, which can be used for the user migration. See how to [onboard multiple users](../manage-users.mdx#onboard-multiple-users). However this will ask users to set their own passwords for the new system.
 
 If you need to migrate existing user passwords as well, {edition.productName} supports [on-demand silent password migration](./migrate-passwords.mdx#migrate-with-on-demand-silent-migration) which allows users to log in with their existing passwords and silently migrate them to the new system. For this you can use the [SCIM 2.0 Bulk API](../../../apis/scim2-bulk-rest-api/index.mdx). Below is a sample request to import the users.
 
@@ -98,6 +86,3 @@ curl -i -X POST --location 'https://localhost:9443/scim2/Bulk' \
 :::note
 This method requires setting a random password for the user accounts initially. We recommend setting a strong random password for each user account that will get updated during the silent password migration process.
 :::
-
-</Edition>
-

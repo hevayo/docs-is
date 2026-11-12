@@ -4,7 +4,7 @@ description: This section provides the list of product-level security guidelines
 type: reference
 sidebar_label: Product-level
 sidebar_position: 2
-editions: self-hosted
+slug: "/deploy/security/security-guidelines/product-level-security-guidelines"
 ---
 
 This section provides the list of product-level security guidelines that are recommended for your production environment.
@@ -50,7 +50,7 @@ For instructions on changing default ports, see [Change the default port offset]
 
 To have strong transport-level security, use **TLS 1.3** (recommended) or at minimum **TLS 1.2**, and disable SSL, TLS 1.0, and 1.1.
 
-A set of secure cipher suites is enabled by default. If you need to customize them, use the [Mozilla SSL Configuration Generator](https://ssl-config.mozilla.org/#server=tomcat&version=9.0.58&config=intermediate&guideline=5.6) to select a suitable list for your environment.
+Use the [Mozilla SSL Configuration Generator](https://ssl-config.mozilla.org/#server=tomcat&version=9.0.58&config=intermediate&guideline=5.6) to get an up-to-date list of recommended cipher suites for Tomcat.
 
 :::note
 When deciding on TLS protocol and ciphers, consider compatibility with existing client applications. Imposing maximum security might cause functional problems with older clients.
@@ -120,7 +120,7 @@ As all permissions are generally granted to the root user, do not use the root u
 
 ### Admin credentials
 
-[Update the default password](../../../guides/user-self-service/self-service-portal/change-password.mdx) of the administrator account. By default, WSO2 Identity Server has the Administrator account configured.
+[Update the default password](../../../guides/user-self-service/my-account-portal/explore-self-service-features/change-password.mdx) of the administrator account. By default, WSO2 Identity Server has the Administrator account configured.
 
 {/* TODO !!! info
     For more information, see <a href="{{base_path}}/guides/password-mgt/forced-password-reset/">Forced Password Reset</a>. */}

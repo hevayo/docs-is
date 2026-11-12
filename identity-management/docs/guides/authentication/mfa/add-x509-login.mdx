@@ -4,7 +4,6 @@ description: This page guides you through configuring the X509 certificate authe
 type: how-to
 sidebar_label: Add x509 login
 sidebar_position: 8
-editions: self-hosted
 ---
 
 import Tabs from '@theme/Tabs';
@@ -327,7 +326,7 @@ and use the following details for the claim addition.
 - Attribute name : userCertificate
 - Attribute Display Name : User Certificate
 ```
-<img src={require("../../../../assets/self-hosted/img/guides/authentication/mfa/add-user-certificate-attribute.png").default} alt="add-user-certificate-attribute" width="600" style={{display: "block", border: "0.3px solid lightgrey"}} />
+<img src={require("../../../../assets/img/guides/authentication/mfa/add-user-certificate-attribute.png").default} alt="add-user-certificate-attribute" width="600" style={{display: "block", border: "0.3px solid lightgrey"}} />
 
 This will create the **OpenID Connect** and **SCIM 2.0** protocol mappings as well. When storing the certificate in a user attribute, you will 
 need to update the column size of the `VALUE` column of the `UM_USER_ATTRIBUTES` table to a suitable value.
@@ -337,28 +336,28 @@ need to update the column size of the `VALUE` column of the `UM_USER_ATTRIBUTES`
 -   **Chrome**
     1.  In your browser, go to **Settings** > **Privacy and security** > **Manage certificates** > **Your certificates**.
 
-        <img src={require("../../../../assets/self-hosted/img/guides/authentication/mfa/manage-certificates-chrome.png").default} alt="manage-cert-chrome" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+        <img src={require("../../../../assets/img/guides/authentication/mfa/manage-certificates-chrome.png").default} alt="manage-cert-chrome" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
     2.  Click on **Import,** select the **localhost.p12** file, and then
     click **Open**. Note that you may have to enter the password that
     you used to generate the p12 file, (browserpwd) to open it.
 
-        <img src={require("../../../../assets/self-hosted/img/guides/authentication/mfa/import-certificate-chrome.png").default} alt="import-cert-chrome" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+        <img src={require("../../../../assets/img/guides/authentication/mfa/import-certificate-chrome.png").default} alt="import-cert-chrome" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 -   **Firefox**
     1.  Click on the menu option on the right of the screen and select
         **Settings**.  
 
-        <img src={require("../../../../assets/self-hosted/img/guides/authentication/mfa/settings-firefox.png").default} alt="settings-firefox" width="300" height="500" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+        <img src={require("../../../../assets/img/guides/authentication/mfa/settings-firefox.png").default} alt="settings-firefox" width="300" height="500" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
     2.  Click **Privacy & Security** in the left navigation and scroll down to
         the **Certificates** section. Click **View Certificates**.  
 
-        <img src={require("../../../../assets/self-hosted/img/guides/authentication/mfa/view-certificates-firefox.png").default} alt="view-certificates" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+        <img src={require("../../../../assets/img/guides/authentication/mfa/view-certificates-firefox.png").default} alt="view-certificates" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
     3.  Go to **Your Certificates** in the window that appears, click **Import**.  
 
-        <img src={require("../../../../assets/self-hosted/img/guides/authentication/mfa/import-certificated-firefox.png").default} alt="import-firefox" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+        <img src={require("../../../../assets/img/guides/authentication/mfa/import-certificated-firefox.png").default} alt="import-firefox" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
     4.  Select the **localhost.p12** file, and then click **Open**. Note
         that you may have to enter the password that you used to generate
@@ -372,11 +371,11 @@ The next step is to configure the application.
 
 2. Go to **Login Flow** of the created app, select **Start with default configuration** option.
 
-    <img src={require("../../../../assets/self-hosted/img/guides/authentication/mfa/app-login-flow.png").default} alt="app-login-flow" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../assets/img/guides/authentication/mfa/app-login-flow.png").default} alt="app-login-flow" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 3. Remove the default **Username & Password** authenticator, add **X509 Certificate** and **Update**.
 
-    <img src={require("../../../../assets/self-hosted/img/guides/authentication/mfa/add-x509-authenticator.png").default} alt="add-x509-authenticator" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../assets/img/guides/authentication/mfa/add-x509-authenticator.png").default} alt="add-x509-authenticator" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 4. Finally, click on **Update** to finish the application configurations.
 
@@ -389,6 +388,6 @@ in Onboard single user to onboard a user with the username `wso2is.com` (This is
 
 Try to login to the application you have configured. You will be prompted to send the certificate.
 
-<img src={require("../../../../assets/self-hosted/img/guides/authentication/mfa/certificate-send.png").default} alt="send-certificate" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+<img src={require("../../../../assets/img/guides/authentication/mfa/certificate-send.png").default} alt="send-certificate" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 Once the authentication is successful, you will be redirected to the configured callback location of the application.

@@ -4,7 +4,7 @@ description: Active Directory Federation Service (AD FS) enables federated ident
 type: how-to
 sidebar_label: Add AD FS login
 sidebar_position: 3
-editions: self-hosted
+slug: "/guides/authentication/enterprise-login/add-ad-fs-login"
 ---
 
 Active Directory Federation Service (AD FS) enables federated identity and access management by securely sharing digital identity and entitlements rights across organizational and security boundaries.
@@ -22,29 +22,29 @@ Follow the steps below on your AD to register {edition.productName} as a relying
 1. Open the **Server Manager** application.
 2. Click on **Tools** and select **AD FS Management** to open the AD FS Management Console.
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/idp/ad-fs-idp/open-server-management-console.png").default} alt="Open the AD FS Management Console" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/idp/ad-fs-idp/open-server-management-console.png").default} alt="Open the AD FS Management Console" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 3. Under **AD FS**, right-click **Relying Party Trusts** and select **Add Relying Party Trust**.
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/idp/ad-fs-idp/add-relying-party-trust.png").default} alt="Add relying party trust" width="300" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/idp/ad-fs-idp/add-relying-party-trust.png").default} alt="Add relying party trust" width="300" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 4. In the wizard that opens, select **Claims aware** and click **Start**.
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/idp/ad-fs-idp/select-claims-aware.png").default} alt="Select claims aware" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/idp/ad-fs-idp/select-claims-aware.png").default} alt="Select claims aware" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 5. Select **Enter data about the relying party manually** and click **Next**.
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/idp/ad-fs-idp/enter-data-manually.png").default} alt="Enter data about the relying party manually" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/idp/ad-fs-idp/enter-data-manually.png").default} alt="Enter data about the relying party manually" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 6. Enter a preferred display name to represent {edition.productName} as the relying party. For this tutorial, we will be using the name **WSO2 Identity Server**. Optionally, you may also add notes about the relying party.
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/idp/ad-fs-idp/enter-display-name.png").default} alt="Enter relying party display name" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/idp/ad-fs-idp/enter-display-name.png").default} alt="Enter relying party display name" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 7. Click **Next**.
 8. On the encryption certificate page, click **Next** again as an encryption profile is not necessary.
 9. Select **Enable support for the SAML 2.0 WebSSO protocol** and set the **Relying party SAML 2.0 SSO Service URL** to `https://<IS_HOST>:<PORT>/commonauth`.
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/idp/ad-fs-idp/configure-saml-sso.png").default} alt="Configure SAML SSO" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/idp/ad-fs-idp/configure-saml-sso.png").default} alt="Configure SAML SSO" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 10. Enter a preferred value for the **relying party trust identifier** and click **Add**. 
 
@@ -52,18 +52,18 @@ Follow the steps below on your AD to register {edition.productName} as a relying
     This is the value that will be used as the service provider entity id later when configuring the federated authenticator connection in WSO2 Identity Server, therefore take note of this value.
     :::
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/idp/ad-fs-idp/set-trust-identifier.png").default} alt="Set relying party trust identifier" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/idp/ad-fs-idp/set-trust-identifier.png").default} alt="Set relying party trust identifier" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 11. Click **Next**.
 12. Set the access policy as necessary. For this tutorial, we will be using **Permit everyone**.
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/idp/ad-fs-idp/set-access-policy.png").default} alt="Set relying party access policy" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/idp/ad-fs-idp/set-access-policy.png").default} alt="Set relying party access policy" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 13. Click **Next**.
 14. Review the details of the trust and click **Next**.
 15. Click **Close** to finish adding the relying party trust.
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/idp/ad-fs-idp/complete-adding-relying-party-trust.png").default} alt="Complete adding relying party trust" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/idp/ad-fs-idp/complete-adding-relying-party-trust.png").default} alt="Complete adding relying party trust" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 ## Step 2: Configure the claim issuance policies for the relying party trust
 
@@ -73,19 +73,19 @@ Follow the steps below on your AD to configure the claims that AD FS will send t
 2. Click **Add Rule**.
 3. Set the claim rule template to **Send LDAP Attributes as Claims** and click **Next**.
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/idp/ad-fs-idp/send-ldap-attributes-as-claims.png").default} alt="Select rule template to send LDAP Attributes as claims" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/idp/ad-fs-idp/send-ldap-attributes-as-claims.png").default} alt="Select rule template to send LDAP Attributes as claims" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 4. Enter a suitable value for the name of the claim rule.
 5. Set the **Active Directory** as the attribute store.
 6. Map the **SAM-Account-Name** LDAP attribute with the **E-Mail Address** outgoing claim type.
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/idp/ad-fs-idp/map-ldap-attribute-to-claim.png").default} alt="Map LDAP attribute with claim" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/idp/ad-fs-idp/map-ldap-attribute-to-claim.png").default} alt="Map LDAP attribute with claim" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 7. Click **Finish** to add the first rule.
 8. Click **Add Rule** again.
 9. Set the claim rule template to **Transform an Incoming Claim** and click **Next**.
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/idp/ad-fs-idp/transform-an-incoming-claim.png").default} alt="Select rule template to transform an incoming claim" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/idp/ad-fs-idp/transform-an-incoming-claim.png").default} alt="Select rule template to transform an incoming claim" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 10. Enter a suitable value for the name of the claim rule.
 11. Select **E-Mail Address** as the incoming claim type.
@@ -93,7 +93,7 @@ Follow the steps below on your AD to configure the claims that AD FS will send t
 13. Set **Unspecified** as the outgoing name ID format.
 14. Check **Pass through all claim values** and click **Finish**.
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/idp/ad-fs-idp/map-incoming-claim-with-outgoing-claim.png").default} alt="Map incoming claim with outgoing claim" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/idp/ad-fs-idp/map-incoming-claim-with-outgoing-claim.png").default} alt="Map incoming claim with outgoing claim" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 12. Click **Apply**.
 
@@ -118,7 +118,7 @@ This step extracts the public key from the {edition.productName} keystore which 
     2. In the left-hand menu, under **Main > Manage > Keystores**, click on **List**.
     3. Click **Public Key** to download the public certificate of the tenant.
 
-        <img src={require("../../../../../assets/self-hosted/img/guides/idp/ad-fs-idp/export-tenant-public-certificate.png").default} alt="Export the public certificate of the tenant" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+        <img src={require("../../../../../assets/img/guides/idp/ad-fs-idp/export-tenant-public-certificate.png").default} alt="Export the public certificate of the tenant" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 In this guide, we are using an application created in the super tenant and the default keystore remains unchanged. As a result, the default `wso2carbon` certificate located in the `<IS_HOME>/repository/resources/security` directory is used.
 
@@ -128,13 +128,13 @@ AD FS uses the public certificate of {edition.productName} to verify the signatu
 
 1. On the AD FS management console, right-click the relying party trust "WSO2 Identity Server" and select **Properties**.
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/idp/ad-fs-idp/configure-relying-party-properties.png").default} alt="Configure relying party properties" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/idp/ad-fs-idp/configure-relying-party-properties.png").default} alt="Configure relying party properties" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 2. Open the **Signature** tab and click **Add**.
 
 3. Upload the certificate that was exported in the previous step.
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/idp/ad-fs-idp/add-certificate.png").default} alt="Upload the public certificate" width="300" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/idp/ad-fs-idp/add-certificate.png").default} alt="Upload the public certificate" width="300" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 4. Click **Apply**.
 
@@ -148,7 +148,7 @@ This step involves establishing the specific URLs and protocols AD FS will use t
 7. Set the **Trusted URL** as `https://<AD_FS_server>/adfs/ls`.
 8. Set the **Response URL** as the `https://<IS_HOST>:<IS_PORT>/commonauth` endpoint of WSO2 IS.
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/idp/ad-fs-idp/configure-saml-endpoint.png").default} alt="Configure the SAML Endpoint" width="400" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/idp/ad-fs-idp/configure-saml-endpoint.png").default} alt="Configure the SAML Endpoint" width="400" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 9. Click **OK**, then **Apply**.
 
@@ -158,16 +158,16 @@ This step involves establishing the specific URLs and protocols AD FS will use t
 
 1. On the AD FS management console, under AD FS, expand **Service**.
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/idp/ad-fs-idp/ad-fs-services.png").default} alt="Expand services configurations" width="300" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/idp/ad-fs-idp/ad-fs-services.png").default} alt="Expand services configurations" width="300" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 2. Click **Certificates**.
 3. Right-click on the token-signing certificate and select **View Certificate**.
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/idp/ad-fs-idp/ad-fs-certificates.png").default} alt="Expand services configurations" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/idp/ad-fs-idp/ad-fs-certificates.png").default} alt="Expand services configurations" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 4. Open the **Details** tab and click **Copy to File**.
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/idp/ad-fs-idp/certificate-details.png").default} alt="Certificate Details" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/idp/ad-fs-idp/certificate-details.png").default} alt="Certificate Details" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 5. In the wizard that opens, click **Next**.
 6. Select the **Base-64 encoded X.509 (.CER)** option and click **Next**.
@@ -175,7 +175,7 @@ This step involves establishing the specific URLs and protocols AD FS will use t
 8. Click **Browser** to select the desired location to which the certificate should be saved. If no location is set, the certificate is saved to `C:Windows\ADFS` by default. 
 9. Click **Next > Finish**.
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/idp/ad-fs-idp/export-token-signing-certificate.png").default} alt="Export token signing certificate" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/idp/ad-fs-idp/export-token-signing-certificate.png").default} alt="Export token signing certificate" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 ## Step 6: Configure AD FS as a connection
 
@@ -184,15 +184,15 @@ Now that you have successfully configured {edition.productName} as a relying par
 1. Log in to the {edition.productName} Console at `https://<IS_HOST>:<IS_PORT>/console` as an admin.
 2. Navigate to **Connections** and click **New Connection**.
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/idp/ad-fs-idp/open-connections-page.png").default} alt="Open connections page" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/idp/ad-fs-idp/open-connections-page.png").default} alt="Open connections page" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 3. Under **Standard-Based IdP**, click **Create**.
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/idp/ad-fs-idp/create-standard-based-idp.png").default} alt="Create Standard-based IdP" width="300" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/idp/ad-fs-idp/create-standard-based-idp.png").default} alt="Create Standard-based IdP" width="300" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 4. Enter a suitable name for the connection and select **SAML** as the protocol. 
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/idp/ad-fs-idp/configure-saml-idp.png").default} alt="Configure SAML IdP" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/idp/ad-fs-idp/configure-saml-idp.png").default} alt="Configure SAML IdP" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 5. Click **Next**.
 6. Enter the **Service Provider Entity ID**. This should be the same value configured as the relying party trust identifier in step 1.
@@ -200,23 +200,23 @@ Now that you have successfully configured {edition.productName} as a relying par
 8. Enter the **Identity provider Single Sign-On URL**, usually in the format `http://<AD_FS_server>/adfs/ls`.
 9. Enter the **Identity provider entity ID**. This can be found in `https://<AD_FS_server>/FederationMetadata/2007-06/FederationMetadata.xml` under the `entityID` attribute and usually takes the form `http://<AD_FS_server>/adfs/services/trust`.
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/idp/ad-fs-idp/federation-metadata.png").default} alt="Entity ID in the Federation Metadata" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/idp/ad-fs-idp/federation-metadata.png").default} alt="Entity ID in the Federation Metadata" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 10. Click **Next**.
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/idp/ad-fs-idp/configure-saml-idp-values.png").default} alt="Configure SAML IdP values" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/idp/ad-fs-idp/configure-saml-idp-values.png").default} alt="Configure SAML IdP values" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 11. Upload the token signing certificate exported in step 5 and click **Finish**.
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/idp/ad-fs-idp/upload-token-signing-certificate.png").default} alt="Upload the token signing certificate" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/idp/ad-fs-idp/upload-token-signing-certificate.png").default} alt="Upload the token signing certificate" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 12. Switch to the **Settings** tab in the newly created connection.
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/idp/ad-fs-idp/connection-settings.png").default} alt="Connection settings" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/idp/ad-fs-idp/connection-settings.png").default} alt="Connection settings" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 13. Scroll down to the **Request & Response Signing** settings and check **Logout request signing**.
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/idp/ad-fs-idp/enable-logout-request-signing.png").default} alt="Enable logout request signing" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/idp/ad-fs-idp/enable-logout-request-signing.png").default} alt="Enable logout request signing" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 14. Click **Update** to save the changes.
 
@@ -227,16 +227,16 @@ Now that you have registered AD FS as a connection in {edition.productName}, let
 1. On the left-hand menu, click **Applications**.
 2. Click on the settings icon corresponding to **My Account**.
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/idp/ad-fs-idp/my-account-application.png").default} alt="My Account application settings" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/idp/ad-fs-idp/my-account-application.png").default} alt="My Account application settings" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 3. Switch to the **Login Flow** tab of the application.
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/idp/ad-fs-idp/my-account-login-flow.png").default} alt="My Account login flow" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/idp/ad-fs-idp/my-account-login-flow.png").default} alt="My Account login flow" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 4. Click **Add Sign-in Option**.
 5. Select the AD FS connection and click **Add**.
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/idp/ad-fs-idp/add-ad-fs-sign-in.png").default} alt="Add My Account sign-in option" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/idp/ad-fs-idp/add-ad-fs-sign-in.png").default} alt="Add My Account sign-in option" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 6. Click **Update**.
 
@@ -244,9 +244,9 @@ Now that you have registered AD FS as a connection in {edition.productName}, let
 
 7. Now open the my account page at `https://<IS_HOST>:<IS_PORT>/t/<tenantdomain>/myaccount`.
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/idp/ad-fs-idp/my-account-sign-in-page.png").default} alt="My Account sign-in page" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/idp/ad-fs-idp/my-account-sign-in-page.png").default} alt="My Account sign-in page" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 8. Click **Sign In With AD FS IdP**.
 9. You will be successfully redirected to the AD FS sign in page.
 
-    <img src={require("../../../../../assets/self-hosted/img/guides/idp/ad-fs-idp/ad-fs-sign-in-page.png").default} alt="AD FS sign-in page" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../../assets/img/guides/idp/ad-fs-idp/ad-fs-sign-in-page.png").default} alt="AD FS sign-in page" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />

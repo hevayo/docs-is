@@ -4,7 +4,6 @@ description: A local authenticator in WSO2 identity server authenticates users, 
 type: reference
 sidebar_label: Write a custom local authenticator
 sidebar_position: 3
-editions: self-hosted
 ---
 
 import Tabs from '@theme/Tabs';
@@ -85,16 +84,12 @@ To deploy the custom local authenticator:
     enable = true
     ```
 
-<Edition selfHostedFrom="next">
-
 4. To ensure the custom local authenticator appears as a first-factor option in the {edition.productName} Console login flow UI, add the following configuration to the  `<IS_HOME>/repository/conf/deployment.toml` file.
 
     ```toml
     [console.ui]
     login_flow_custom_first_factor_authenticators = [ "SampleLocalAuthenticator" ]
     ```
-
-</Edition>
 
 ---
 
@@ -103,7 +98,7 @@ To deploy the custom local authenticator:
 This section guides you on how to configure the identity server to use the custom local authenticator.
 
 ### Prerequisites
-- You need to [set up the sample](../../../quick-starts/try-samples/web-apps/qsg-oidc-webapp-java-ee.mdx) application.
+- You need to [set up the sample](../../../get-started/try-samples/web-apps/qsg-oidc-webapp-java-ee.mdx) application.
 
 ### Configure the application with the custom local authenticator
 
@@ -123,7 +118,7 @@ To configure the custom local authenticator for the application:
 
     2. Remove the existing **Username & Password** authenticator and click **Add Authentication** on the step, select your custom local authenticator, and click **Add**.
 
-        <img src={require("../../../../assets/self-hosted/img/guides/idp/custom-connector/add-custom-local-authenticator-with-classic-editor.png").default} alt="Add custom federated authenticator" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+        <img src={require("../../../../assets/img/guides/idp/custom-connector/add-custom-local-authenticator-with-classic-editor.png").default} alt="Add custom federated authenticator" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
     </TabItem>
     <TabItem value="visual-editor" label="Visual Editor">
@@ -134,7 +129,7 @@ To configure the custom local authenticator for the application:
 
     2. Remove the existing **Username & Password** authenticator and click on `+ Add Sign In Option` to add a new authenticator to the same step and select your custom local authenticator.
 
-        <img src={require("../../../../assets/self-hosted/img/guides/idp/custom-connector/add-custom-local-authenticator-with-visual-editor.png").default} alt="Add custom local authenticator using the Visual Editor" width="500" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+        <img src={require("../../../../assets/img/guides/idp/custom-connector/add-custom-local-authenticator-with-visual-editor.png").default} alt="Add custom local authenticator using the Visual Editor" width="500" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
     </TabItem>
     </Tabs>

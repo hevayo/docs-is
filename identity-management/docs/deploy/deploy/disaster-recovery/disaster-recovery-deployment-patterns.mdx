@@ -4,7 +4,7 @@ description: The following disaster recovery mechanism describes an implementati
 type: reference
 sidebar_label: Deployment Patterns
 sidebar_position: 2
-editions: self-hosted
+slug: "/deploy/disaster-recovery/disaster-recovery-deployment-patterns"
 ---
 
 import Tabs from '@theme/Tabs';
@@ -21,7 +21,7 @@ Server deployment, and does not provide information on how to set up the deploym
 For information on how to deploy WSO2 Identity Server, see [here](../deployment-overview/deployment-guide.mdx).
 :::
 
-<img src={require("../../../../assets/self-hosted/img/setup/deploy/disaster-recovery/disaster-recovery-azure-normal-operation.png").default} alt="Disaster recovery normal operation in Azure" width="800" style={{display: "block", margin: "0"}} />
+<img src={require("../../../../assets/img/setup/deploy/disaster-recovery/disaster-recovery-azure-normal-operation.png").default} alt="Disaster recovery normal operation in Azure" width="800" style={{display: "block", margin: "0"}} />
 
 The above diagram depicts the normal operation of the deployment where the primary region actively 
 receives traffic and the data is replicated to the DR passive region. The DR region is running in 
@@ -94,7 +94,7 @@ of RPO/RTO at different costs.
 
 This pattern is suitable when a fully fledged Identity Server system which **makes use of multi-tenancy and secondary userstores**, and when **retaining sessions is critical** even in the event of a disaster, is required.
 
-<img src={require("../../../../assets/self-hosted/img/setup/deploy/disaster-recovery/disaster-recovery-pattern-1.png").default} alt="Pattern 1" width="300" /><br />
+<img src={require("../../../../assets/img/setup/deploy/disaster-recovery/disaster-recovery-pattern-1.png").default} alt="Pattern 1" width="300" /><br />
 
 </TabItem>
 <TabItem value="variant-2" label="Variant 2">
@@ -103,7 +103,7 @@ This pattern is suitable when a fully fledged Identity Server system which **mak
 
 This pattern is applicable for a fully fledged Identity Server system which **makes use of multi-tenancy and secondary userstores**, where **losing session data** in the event of a disaster is deemed acceptable. This is the **most commonly used** pattern as it preserves all functionality of the Identity Server with good RPO/RTO values, and losing session data during disaster recovery, which occurs rarely, could be acceptable to most businesses.
 
-<img src={require("../../../../assets/self-hosted/img/setup/deploy/disaster-recovery/disaster-recovery-pattern-2.png").default} alt="Pattern 2" width="300" /><br />
+<img src={require("../../../../assets/img/setup/deploy/disaster-recovery/disaster-recovery-pattern-2.png").default} alt="Pattern 2" width="300" /><br />
 
 </TabItem>
 <TabItem value="variant-3" label="Variant 3">
@@ -112,7 +112,7 @@ This pattern is applicable for a fully fledged Identity Server system which **ma
 
 This pattern is applicable for an Identity Server system which **does not make use of multi-tenancy or secondary userstores**, but **session retention even during disaster events is critical**.
 
-<img src={require("../../../../assets/self-hosted/img/setup/deploy/disaster-recovery/disaster-recovery-pattern-3.png").default} alt="Pattern 3" width="300" /><br />
+<img src={require("../../../../assets/img/setup/deploy/disaster-recovery/disaster-recovery-pattern-3.png").default} alt="Pattern 3" width="300" /><br />
 
 </TabItem>
 <TabItem value="variant-4" label="Variant 4">
@@ -121,7 +121,7 @@ This pattern is applicable for an Identity Server system which **does not make u
 
 This pattern is suitable for an Identity Server system which **does not make use of multi-tenancy or secondary userstores**, and **session retention during disaster events is not required**. This is the cheapest option, and it also offers the lowest RPO/RTO values at the cost of some functionality.
 
-<img src={require("../../../../assets/self-hosted/img/setup/deploy/disaster-recovery/disaster-recovery-pattern-4.png").default} alt="Pattern 4" width="300" /><br />
+<img src={require("../../../../assets/img/setup/deploy/disaster-recovery/disaster-recovery-pattern-4.png").default} alt="Pattern 4" width="300" /><br />
 
 </TabItem>
 </Tabs>
@@ -135,4 +135,4 @@ are ready, updating loadbalancer to direct traffic to the new DR region would ta
 another 5 mins (RTO + 5). The diagram below shows the new state of the deployment once
 failover is complete.
 
-<img src={require("../../../../assets/self-hosted/img/setup/deploy/disaster-recovery/disaster-recovery-azure-disaster-operation.png").default} alt="Disaster recovery disaster operation in Azure" width="800" style={{display: "block", margin: "0"}} />
+<img src={require("../../../../assets/img/setup/deploy/disaster-recovery/disaster-recovery-azure-disaster-operation.png").default} alt="Disaster recovery disaster operation in Azure" width="800" style={{display: "block", margin: "0"}} />

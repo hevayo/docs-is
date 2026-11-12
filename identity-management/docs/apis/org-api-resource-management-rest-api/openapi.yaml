@@ -1,15 +1,21 @@
 openapi: 3.0.0
 info:
   description: >
-    This document explains the RESTful API for API Resource Management in WSO2 Identity Platform.
+    This document specifies an **API Resource Management RESTful API of Organizations** for **WSO2
+    Identity Server**.
   version: "v1"
-  title: WSO2 Identity Platform - API Resource Management Rest API
+  title: API Resource Management Rest API
 
 security:
   - OAuth2: []
 
 servers:
-  - url: 'https://api.asgardeo.io/t/{organization-name}/o/api/server/v1'
+  - url: 'https://{server-url}/t/{tenant-domain}/o/api/server/v1'
+    variables:
+      tenant-domain:
+        default: "carbon.super"
+      server-url:
+        default: "localhost:9443"
 
 paths:
   /api-resources:
@@ -48,7 +54,7 @@ paths:
       x-codeSamples:
         - lang: Curl
           source: |
-            curl --location 'https://api.asgardeo.io/t/{organization-name}/o/api/server/v1/api-resources' \
+            curl --location 'https://localhost:9443/o/api/server/v1/api-resources' \
             -H 'Accept: application/json' \
             -H 'Authorization: Bearer {bearer_token}'
   /api-resources/{apiResourceId}:
@@ -82,7 +88,7 @@ paths:
       x-codeSamples:
         - lang: Curl
           source: |
-            curl --location 'https://api.asgardeo.io/t/{organization-name}/o/api/server/v1/api-resources/{apiResourceId}' \
+            curl --location 'https://localhost:9443/o/api/server/v1/api-resources/{apiResourceId}' \
             -H 'Accept: application/json' \
             -H 'Authorization: Bearer {bearer_token}'
   /api-resources/{apiResourceId}/scopes:
@@ -124,7 +130,7 @@ paths:
       x-codeSamples:
         - lang: Curl
           source: |
-            curl --location 'https://api.asgardeo.io/t/{organization-name}/o/api/server/v1/api-resources/{apiResourceId}/scopes' \
+            curl --location 'https://localhost:9443/o/api/server/v1/api-resources/{apiResourceId}/scopes' \
             -H 'Accept: application/json' \
             -H 'Authorization: Bearer {bearer_token}'
   /scopes:
@@ -166,7 +172,7 @@ paths:
       x-codeSamples:
         - lang: Curl
           source: |
-            curl --location 'https://api.asgardeo.io/t/{organization-name}/o/api/server/v1/scopes' \
+            curl --location 'https://localhost:9443/o/api/server/v1/scopes' \
             -H 'Accept: application/json' \
             -H 'Authorization: Bearer {bearer_token}'
 components:

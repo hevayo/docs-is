@@ -4,7 +4,7 @@ description: When you have Carbon servers fronted by a load balancer, you have t
 type: reference
 sidebar_label: Configure TLS termination
 sidebar_position: 2
-editions: self-hosted
+slug: "/deploy/configure-tls-termination"
 ---
 
 When you have Carbon servers fronted by a load balancer, you have the option of terminating SSL for HTTPS requests. This means that the load balancer will decrypt incoming HTTPS messages and forward them to WSO2 Identity Server again with HTTPS using private or self-signed certificates. Also, make sure that the load balancer is configured with TLS termination and the Tomcat `RemoteIpValve` is enabled for Carbon servers.

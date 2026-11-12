@@ -2,8 +2,8 @@
 title: PBKDF2 hashing
 description: Password-Based Key Derivation Function 2 (PBKDF2) is a modern hashing algorithm recommended by NIST.  # generated from the first paragraph; a writer should improve it
 type: reference
-unlisted: true
-editions: self-hosted
+sidebar_label: Secure a JDBC user store with PBKDF2 hashing
+sidebar_position: 3
 ---
 
 Password-Based Key Derivation Function 2 (PBKDF2) is a modern hashing algorithm recommended by NIST. The PBKDF2 hashing method enables secure storage of user passwords in user stores and reduces the risk of brute-force attacks caused by insecure passwords.
@@ -37,8 +37,8 @@ To configure PBKDF2 hashing on a JDBC user store:
     :::note[Existing user stores]
     - You may also use an existing user store which does not have any users in it. If you already have users in the user store, once the hashing algorithm is configured these users will not be able to get authenticated.
     - Such cases will impact with bad user experience as the users will not get authenticated even when they try to login using the correct credentials. Admins may use the following approaches to reset the user passwords after configuring the PBKDF2 hashing algorithm on an existing user store:
-        - Ask users to [reset their own passwords](../../../guides/user-self-service/self-service-portal/configure-self-service-portal.mdx).
-        - Trigger password reset for all accounts of the user store using [admin initiated password reset](../../../guides/users/users/manage-users.mdx#reset-the-users-password).
+        - Ask users to [reset their own passwords](../../../guides/user-self-service/my-account-portal/configure-self-service-portal.mdx).
+        - Trigger password reset for all accounts of the user store using [admin initiated password reset](../../../guides/users/manage-users.mdx#reset-the-users-password).
     :::
 
 2. Navigate to  **User Attributes & Stores** > **User Stores**, select the secondary JDBC user store you have created.
