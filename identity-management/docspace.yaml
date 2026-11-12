@@ -1,0 +1,62 @@
+# Doc space manifest of Identity Management (schemas/docspace.schema.json in the Platform).
+# Cloud is today's wso2.com/identity-platform/docs/ (docs-is en/asgardeo); the Self-hosted
+# Editions are Identity Server's released versions. Edited by hand on docs-v2/main.
+schemaVersion: 1
+slug: identity-management
+displayName: Identity Management
+formerNames:
+  - Asgardeo
+  - Identity Platform
+editionNames:
+  cloud: Identity Management
+  selfHosted: Identity Server {version}
+home: identity-management
+owners:
+  team: identity-management-docs
+repo: hevayo/docs-is
+issues:
+  repo: wso2/docs-is
+editLinks: true
+latest: 7.3.0
+editions:
+  - id: cloud
+    branch: docs-v2/main
+  - id: 7.3.0
+    branch: docs-v2/identity-management/release/7.3.0
+  - id: 7.2.0
+    branch: docs-v2/identity-management/release/7.2.0
+  - id: 7.1.0
+    branch: docs-v2/identity-management/release/7.1.0
+  - id: 7.0.0
+    branch: docs-v2/identity-management/release/7.0.0
+  - id: 6.1.0
+    branch: docs-v2/identity-management/release/6.1.0
+  - id: 6.0.0
+    branch: docs-v2/identity-management/release/6.0.0
+  - id: 5.11.0
+    branch: docs-v2/identity-management/release/5.11.0
+  - id: 5.10.0
+    branch: docs-v2/identity-management/release/5.10.0
+  - id: 5.9.0
+    branch: docs-v2/identity-management/release/5.9.0
+legacyVersions:
+  - id: 5.8.0
+    url: https://wso2docs.atlassian.net/wiki/spaces/IS580/overview
+  - id: 5.7.0
+    url: https://wso2docs.atlassian.net/wiki/spaces/IS570/overview
+  - id: 5.6.0
+    url: https://wso2docs.atlassian.net/wiki/spaces/IS560/overview
+  - id: 5.5.0
+    url: https://wso2docs.atlassian.net/wiki/spaces/IS550/overview
+  - id: 5.4.1
+    url: https://wso2docs.atlassian.net/wiki/spaces/IS541/overview
+  - id: 5.4.0
+    url: https://wso2docs.atlassian.net/wiki/spaces/IS540/overview
+  - id: 5.3.0
+    url: https://wso2docs.atlassian.net/wiki/spaces/IS530/overview
+  - id: 5.2.0
+    url: https://wso2docs.atlassian.net/wiki/spaces/IS520/overview
+  - id: 5.1.0
+    url: https://wso2docs.atlassian.net/wiki/spaces/IS510/overview
+  - id: 5.0.0
+    url: https://wso2docs.atlassian.net/wiki/spaces/IS500/overview
