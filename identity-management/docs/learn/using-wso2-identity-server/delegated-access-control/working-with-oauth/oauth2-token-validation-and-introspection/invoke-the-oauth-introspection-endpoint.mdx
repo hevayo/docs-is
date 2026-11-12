@@ -1,0 +1,578 @@
+---
+title: Invoke the OAuth Introspection Endpoint
+description: 'The OAuth Introspection endpoint is as follows:'  # generated from the first paragraph; a writer should improve it
+type: reference
+sidebar_position: 2
+slug: "/learn/invoke-the-oauth-introspection-endpoint"
+---
+
+The OAuth Introspection endpoint is as follows:
+
+```text
+https://localhost:9443/oauth2/introspect
+```
+OAuth 2.0 Token Introspection defines a protocol that allows authorized
+protected resources to query the authorization server to determine the
+set of metadata for a given token that was presented to them by an OAuth
+Client. This metadata includes whether the token is currently **active**
+(or if it has **expired** or otherwise been **revoked** ), what rights
+of access the token carries (usually conveyed through OAuth 2.0 scopes),
+and the authorization context in which the token was granted (including
+who authorized the token and which client it was issued to). Token
+introspection allows a protected resource to query this information
+regardless of whether it is carried in the token itself, allowing this
+method to be used along with or independently of structured token
+values.
+
+The states and descriptions of authorization codes and access tokens are
+as follows.
+
+-   **Authorization codes:**
+
+    1.  `             ACTIVE            ` - Valid and yet to be
+        exchanged for an access token.
+    2.  `             INACTIVE            ` - Invalid and already being
+        exchanged for an access token.
+    3.  `             EXPIRED            ` - Invalid as it got expired
+        before being exchanged to an access token.
+
+-   **Access tokens:**
+
+    1.  `             ACTIVE            ` - Valid access token. Although
+        the state is ACTIVE, the `             timestamp            `
+        calculation may reveal it to be
+        `             EXPIRED            `, but this happens only
+        during the first access token request or token validation
+        request after expiration.
+    2.  `             INACTIVE            ` - Refreshed using
+        `             refresh_token            ` grant type before
+        expiration. Also, this state is used in cases when users and
+        user stores are deleted, user passwords are updated, etc.
+    3.  `             EXPIRED            ` - Invalid and expired access
+        token. Refresh token can still be valid though.
+    4.  `             REVOKED            ` - Revoked access token.
+        Refresh token also gets revoked along with access token. Access
+        token could have been in `             ACTIVE            ` or
+        `             EXPIRED            ` state while revoking.
+
+## Invoking the endpoint for the super tenant
+
+Use the following cURL commands given in the following sections to
+invoke the OAuth introspection endpoint for the super tenant users.
+
+:::note
+-   For requests that require
+    `          CLIENT_ID:CLIENT_SECRET         `, use the client ID and
+    client secret of the OAuth service provider. For more information on
+    creating an OAuth service provider, see [Configuring Inbound
+    Authentication for a Service
+    Provider](../../../identity-bus/adding-and-configuring-a-service-provider/configuring-inbound-authentication-for-a-service-provider.mdx).
+-   For requests that require `           USERNAME:PASSWORD          `,
+    by default you can use credentials of any user with
+    "/permission/admin/manage/identity/applicationmgt/view" permissions.
+    To allow users with other permissions to send validation requests,
+    the permissions can be added to the `<IS_HOME>/repository/conf/deployment.toml`         \`
+    file.
+
+    ```toml
+    [resource_access_control.introspect]
+    permissions = ["/permission/admin/manage/identity/applicationmgt/view","/permission/admin/login"]
+    ```
+
+-   Token introspection across tenant domains is enabled by default. To disable cross tenant token validation,
+    add the following configuration to the `<IS_HOME>/repository/conf/deployment.toml` file and restart the server.
+
+    ```toml
+    [oauth.introspect]
+    allow_cross_tenant = false
+    ```
+:::
+
+### Get a valid token
+
+<table>
+  <tbody>
+    <tr>
+      <td>Request</td>
+      <td>
+
+        **Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -v -X POST --basic -u <CLIENT_ID>:<CLIENT_SECRET> -H 'Content-Type: application/x-www-form-urlencoded;charset=UTF-8' -k -d 'grant_type=client_credentials' https://localhost:9443/oauth2/token
+        ```
+
+        **Sample cURL**
+
+        <Anchor id="cb2" />
+
+        ```text
+        curl -v -X POST --basic -u rgfKVdnMQnJSSr_pKFTxj3apiwYa:BRebJ0aqfclQB9v7yZwhj0JfW0ga -H 'Content-Type: application/x-www-form-urlencoded;charset=UTF-8' -k -d 'grant_type=client_credentials' https://localhost:9443/oauth2/token
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>Response</td>
+      <td>
+
+        <Anchor id="cb3" />
+
+        ```text
+        {"token_type":"Bearer","expires_in":3600,"access_token":"fbc4e794-23db-3394-b1e5-f2c3e511d01f"}
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### Validate the token
+
+<table>
+  <tbody>
+    <tr>
+      <td>Request</td>
+      <td>
+
+        **Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -k -u <USERNAME>:<PASSWORD> -H 'Content-Type: application/x-www-form-urlencoded' -X POST --data 'token=<ACCESS_TOKEN>' https://localhost:9443/oauth2/introspect
+        ```
+
+        **Sample cURL**
+
+        <Anchor id="cb2" />
+
+        ```text
+        curl -k -u admin:admin -H 'Content-Type: application/x-www-form-urlencoded' -X POST --data 'token=fbc4e794-23db-3394-b1e5-f2c3e511d01f' https://localhost:9443/oauth2/introspect
+        ```
+
+        You can pass the token type as an optional parameter in the request (e.g., `token_type_hint=access_token ` or `token_type_hint=refresh_token`).
+
+      </td>
+    </tr>
+    <tr>
+      <td>Response</td>
+      <td>
+
+        <Anchor id="cb3" />
+
+        ```text
+        {"exp":1464161608,"username":"admin@carbon.super","active":true,"token_type":"Bearer","client_id":"rgfKVdnMQnJSSr_pKFTxj3apiwYa","iat":1464158008}
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### Get a valid token with a scope
+
+<table>
+  <tbody>
+    <tr>
+      <td>Request</td>
+      <td>
+
+        **Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -v -X POST --basic -u <CLIENT_ID>:<CLIENT_SECRET> -H 'Content-Type: application/x-www-form-urlencoded;charset=UTF-8' -k -d 'grant_type=client_credentials&scope=test1 test2' https://localhost:9443/oauth2/token
+        ```
+
+        **Sample cURL**
+
+        <Anchor id="cb2" />
+
+        ```text
+        curl -v -X POST --basic -u rgfKVdnMQnJSSr_pKFTxj3apiwYa:BRebJ0aqfclQB9v7yZwhj0JfW0ga -H 'Content-Type: application/x-www-form-urlencoded;charset=UTF-8' -k -d 'grant_type=client_credentials&scope=test1 test2' https://localhost:9443/oauth2/token
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>Response</td>
+      <td>
+
+        <Anchor id="cb3" />
+
+        ```text
+        {"access_token":"34060588-dd4e-36a5-ad93-440cc77a1cfb","scope":"test1 test2","token_type":"Bearer","expires_in":3600}
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### Validate the token {#validate-the-token_1}
+
+<table>
+  <tbody>
+    <tr>
+      <td>Request</td>
+      <td>
+
+        **Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -k -u <USERNAME>:<PASSWORD> -H 'Content-Type: application/x-www-form-urlencoded' -X POST --data 'token=<ACCESS_TOKEN>' https://localhost:9443/oauth2/introspect
+        ```
+
+        **Sample cURL**
+
+        <Anchor id="cb2" />
+
+        ```text
+        curl -k -u admin:admin -H 'Content-Type: application/x-www-form-urlencoded' -X POST --data 'token=334060588-dd4e-36a5-ad93-440cc77a1cfb' https://localhost:9443/oauth2/introspect
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>Response</td>
+      <td>
+
+        <Anchor id="cb3" />
+
+        ```text
+        {"exp":1464161560,"username":"admin@carbon.super","scope":"test1 test2","active":true,"token_type":"Bearer","client_id":"rgfKVdnMQnJSSr_pKFTxj3apiwYa","iat":1464157960}
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### Invalid token
+
+If the token that you used is invalid, you get the following response:
+
+```java
+{'active':false}
+```
+
+### Empty token
+
+If you leave the token parameter empty as shown below, you get the 
+following response :
+
+<table>
+  <tbody>
+    <tr>
+      <td>Request</td>
+      <td>
+
+        **Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -k -u <USERNAME>:<PASSWORD> -H 'Content-Type: application/x-www-form-urlencoded' -X POST --data 'token=' https://localhost:9443/oauth2/introspect
+        ```
+
+        **Sample cURL**
+
+        <Anchor id="cb2" />
+
+        ```text
+         curl -k -u admin:admin -H 'Content-Type: application/x-www-form-urlencoded' -X POST --data 'token=' https://localhost:9443/oauth2/introspect
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>Response</td>
+      <td>
+
+        <Anchor id="cb3" />
+
+        ```text
+        {'error': 'Invalid input'}
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Invoking the endpoint for tenants
+
+Use the following cURL commands given in the following sections to
+invoke the OAuth introspection endpoint for tenant users.
+
+:::note
+-   For requests that require
+    `          CLIENT_ID:CLIENT_SECRET         `, use the client ID and
+    client secret of the OAuth service provider. For more information on
+    creating an OAuth service provider, see [Configuring Inbound
+    Authentication for a Service
+    Provider](../../../identity-bus/adding-and-configuring-a-service-provider/configuring-inbound-authentication-for-a-service-provider.mdx)
+    .
+-   For requests that require
+    `           USERNAME@TENANT_DOMAIN:PASSWORD          `, by default
+    you can use credentials of any user with
+    "/permission/admin/manage/identity/applicationmgt/view" permissions.
+:::
+
+### Get a valid token {#get-a-valid-token_1}
+
+<table>
+  <tbody>
+    <tr>
+      <td>Request</td>
+      <td>
+
+        **Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -v -X POST --basic -u <CLIENT_ID>:<CLIENT_SECRET> -H 'Content-Type: application/x-www-form-urlencoded;charset=UTF-8' -k -d 'grant_type=client_credentials' https://localhost:9443/oauth2/token
+        ```
+
+        **Sample cURL**
+
+        <Anchor id="cb2" />
+
+        ```text
+        curl -v -X POST --basic -u rgfKVdnMQnJSSr_pKFTxj3apiwYa:BRebJ0aqfclQB9v7yZwhj0JfW0ga -H 'Content-Type: application/x-www-form-urlencoded;charset=UTF-8' -k -d 'grant_type=client_credentials' https://localhost:9443/oauth2/token
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>Response</td>
+      <td>
+
+        <Anchor id="cb3" />
+
+        ```text
+        {"token_type":"Bearer","expires_in":3600,"access_token":"fbc4e794-23db-3394-b1e5-f2c3e511d01f"}
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### Validate the token {#validate-the-token_2}
+
+<table>
+  <tbody>
+    <tr>
+      <td>Request</td>
+      <td>
+
+        You can use any of the request formats given below:
+
+        **Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -k -u <USERNAME>@<TENAND_DOMAIN>:<PASSWORD> -H 'Content-Type: application/x-www-form-urlencoded' -X POST --data 'token=<ACCESS_TOKEN>' https://localhost:9443/t/<TENANT_DOMAIN>/oauth2/introspect
+        ```
+
+        Or
+
+        **Request**
+
+        <Anchor id="cb2" />
+
+        ```text
+        curl -v -k -H 'Authorization: Basic <BASE64ENCODED(USERNAME@TENAND_DOMAIN:PASSWORD)>' -H 'Content-Type: application/x-www-form-urlencoded' -X POST --data 'token=<ACCESS_TOKEN>' https://localhost:9443/t/<TENANT_DOMAIN>/oauth2/introspect
+        ```
+
+        You can pass the token type as an optional parameter in the request (e.g., `token_type_hint=access_token ` or `token_type_hint=refresh_token`).
+
+        **Sample cURL**
+
+        <Anchor id="cb3" />
+
+        ```text
+        curl -k -u admin@foo.com:admin -H 'Content-Type: application/x-www-form-urlencoded' -X POST --data 'token=fbc4e794-23db-3394-b1e5-f2c3e511d01f' https://localhost:9443/t/foo.com/oauth2/introspect
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>Response</td>
+      <td>
+
+        <Anchor id="cb4" />
+
+        ```text
+        {"active":true,"token_type":"Bearer","exp":1517922556,"iat":1517918956,"client_id":"okaN2IXAsLx5SBH9Los1C6zX1RIa","username":"admin@foo.com”}
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### Get a valid token with a scope {#get-a-valid-token-with-a-scope_1}
+
+<table>
+  <tbody>
+    <tr>
+      <td>Request</td>
+      <td>
+
+        **Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -v -X POST --basic -u <CLIENT_ID>:<CLIENT_SECRET> -H 'Content-Type: application/x-www-form-urlencoded;charset=UTF-8' -k -d 'grant_type=client_credentials&scope=test1 test2' https://localhost:9443/oauth2/token
+        ```
+
+        **Sample cURL**
+
+        <Anchor id="cb2" />
+
+        ```text
+        curl -v -X POST --basic -u rgfKVdnMQnJSSr_pKFTxj3apiwYa:BRebJ0aqfclQB9v7yZwhj0JfW0ga -H 'Content-Type: application/x-www-form-urlencoded;charset=UTF-8' -k -d 'grant_type=client_credentials&scope=test1 test2' https://localhost:9443/oauth2/token
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>Response</td>
+      <td>
+
+        <Anchor id="cb3" />
+
+        ```text
+        {"access_token":"34060588-dd4e-36a5-ad93-440cc77a1cfb","scope":"test1","token_type":"Bearer","expires_in":3600}
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### Validate the token {#validate-the-token_3}
+
+<table>
+  <tbody>
+    <tr>
+      <td>Request</td>
+      <td>
+
+        You can use any of the request formats given below:
+
+        **Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -k -u <USERNAME>@<TENANT_DOMAIN>:<PASSWORD> -H 'Content-Type: application/x-www-form-urlencoded' -X POST --data 'token=<ACCESS_TOKEN>' https://localhost:9443/t/<TENANT_DOMAIN>/oauth2/introspect
+        ```
+
+        Or
+
+        **Request**
+
+        <Anchor id="cb2" />
+
+        ```text
+        curl -v -k -H 'Authorization: Basic <BASE64ENCODED(USERNAME@TENANT_DOMAIN:PASSWORD)>' -H 'Content-Type: application/x-www-form-urlencoded' -X POST --data 'token=<ACCESS_TOKEN>' https://localhost:9443/t/<TENANT_DOMAIN>/oauth2/introspect
+        ```
+
+        **Sample cURL**
+
+        <Anchor id="cb3" />
+
+        ```text
+        curl -k -u admin@foo.com:admin -H 'Content-Type: application/x-www-form-urlencoded' -X POST --data 'token=334060588-dd4e-36a5-ad93-440cc77a1cfb' https://localhost:9443/t/foo.com/oauth2/introspect
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>Response</td>
+      <td>
+
+        <Anchor id="cb4" />
+
+        ```text
+        {"scope":"1 test","active":true,"token_type":"Bearer","exp":1517922663,"iat":1517919063,"client_id":"okaN2IXAsLx5SBH9Los1C6zX1RIa","username":"admin@foo.com"}
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### Invalid token {#invalid-token_1}
+
+If the token that you used is invalid, you get the following response:
+
+**Response**
+
+```java
+{'active':false}
+```
+
+### Empty token {#empty-token_1}
+
+If you leave the token parameter empty as shown below, you get the
+following response:
+
+<table>
+  <tbody>
+    <tr>
+      <td>Request</td>
+      <td>
+
+        Example:
+
+        **Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -k -u <USERNAME>@<TENANT_DOMAIN>:<PASSWORD> -H 'Content-Type: application/x-www-form-urlencoded' -X POST --data 'token=' https://localhost:9443/t/<TENANT_DOMAIN>/oauth2/introspect
+        ```
+
+        **Sample cURL**
+
+        <Anchor id="cb2" />
+
+        ```text
+         curl -k -u admin:admin -H 'Content-Type: application/x-www-form-urlencoded' -X POST --data 'token=' https://localhost:9443/oauth2/introspect
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>Response</td>
+      <td>
+
+        <Anchor id="cb3" />
+
+        ```text
+        {'error': 'Invalid input'}
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+:::tip
+Above samples only explains validating a token obtained for
+Client credentials grant using the **introspect endpoint**. Similarly, you may [invoke introspection endpoint](#validate-the-token) with a token
+obtained from any other grant type as well.
+:::

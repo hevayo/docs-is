@@ -1,0 +1,140 @@
+---
+title: Validating OAuth Access Token Scope Using XACML Policies During Token Issuance
+description: To provide fine-grained access control to APIs, WSO2 Identity Server allows validating the scope of an OAuth access token using XACML policies during the…  # generated from the first paragraph; a writer should improve it
+type: reference
+sidebar_position: 5
+slug: "/learn/validating-oauth-access-token-scope-using-xacml-policies-during-token-issuance"
+---
+
+To provide fine-grained access control to APIs, WSO2 Identity Server allows validating the scope of an OAuth access token using XACML policies during the token issuing phase.
+
+If you want the XACML scope validator to execute when issuing an access token in an OAuth access token issuing flow, you can select the scope validator as XACML when you configure a service provider. This provides fine-grained access control to APIs.
+
+Follow the steps below to configure WSO2 Identity Server to validate OAuth access tokens scopes using XACML policies. 
+
+## Configuring the service provider
+
+To configure the client application as a service provider in WSO2 Identity Server: 
+
+1. On the **Main** menu of the [Management Console](../../../../setup/install/getting-started-with-the-management-console/getting-started-with-the-management-console.mdx), click **Identity \> Service Provider \> Add**.
+
+   <img src={require("../../../../../assets/img/tutorials/add-sp-menu-item.jpeg").default} width="200" />
+
+   The **Add New Service Provider** screen appears.
+
+   <img src={require("../../../../../assets/img/tutorials/add-sp-screen.jpeg").default} width="600" />
+
+2. Enter a meaningful name for the client application in the **Service Provider Name** text box and click **Register**. The **Service Providers** screen appears.
+
+   <img src={require("../../../../../assets/img/tutorials/service-providers.jpeg").default} width="600" />
+
+3. Under the **Inbound Authentication Configuration** section, click **OAuth/OpenID Connect Configuration \> Configure**.
+
+   &lt;<img src={require("../../../../../assets/img/tutorials/inbound-auth-config.jpeg").default} width="500" />
+
+   The **Register New Application** screen appears.
+
+   <img src={require("../../../../../assets/img/tutorials/register-new-app.png").default} width="600" />
+
+4. Enter the `callback URL` or your application in the **Callback Url** text box.
+
+5. Select the **XACML Scope Validator** check box under **Scope Validators**.
+
+6. Click **Add**.
+
+You have successfully added and configured the service provider. Next, we will learn how to configure a XACML policy to validate the OAuth access token scopes that are used to authenticate the access requests for the client application. 
+
+## Setting up the XACML policy
+
+To publish a XACML policy using a default XACML policy template in WSO2 Identity Server:
+
+1. On the **Main** menu of the Management Console, click **Entitlement \> PAP \> Policy Administration**.
+
+   <img src={require("../../../../../assets/img/tutorials/policy-admin-menu-item.jpeg").default} width="200" />
+
+   The **Policy Administration** screen appears.
+
+   <img src={require("../../../../../assets/img/tutorials/policy-admin-screen.jpeg").default} width="600" />
+
+2. Click **Edit** of the **scope_based_token_issuance_policy_template** policy.
+
+   <img src={require("../../../../../assets/img/tutorials/policy-edit.jpeg").default} width="600" />
+
+   The **Policy Editor** appears with the pre-configured template with place holders.
+
+   <img src={require("../../../../../assets/img/tutorials/policy-editor.jpeg").default} width="600" />
+
+3. Edit the policy as required including the **PolicyId** and click **Save**.
+
+   A new policy with the changes you made to the template appears with the policy ID you added. (The original policy is intact)
+
+4. Click **Publish To My PDP** of the new policy. The **Publish Policy** screen appears.
+
+   <img src={require("../../../../../assets/img/tutorials/publish-policy-screen.jpeg").default} width="600" />
+
+5. Leave the default values as they are and click **Publish**.
+
+   :::tip
+   To ensure that the policy has been successfully published:
+
+   1. On the **Main** menu, click **Entitlement &gt; PDP &gt; Policy View**.
+
+      <img src={require("../../../../../assets/img/tutorials/policy-view-menu-item.jpeg").default} width="200" />
+
+   2. Check whether the published policy is listed.
+   :::
+
+   :::info
+   1. For more information on Policy Administration Point (PAP), see \[Configuring the Policy [Administration Point](./configuring-the-policy-administration-point/configuring-the-policy-administration-point.mdx).
+   2. For more information on publishing XACML policies, see [Publishing a XACML Policy](./configuring-the-policy-administration-point/publishing-a-xacml-policy.mdx).
+   :::
+
+You have successfully published a XACML policy. Let's test the policy to evaluate whether the XACML scope is validated during OAuth token issuance.
+
+## Try it out
+
+The XACML TryIt tool allows you to test the policies easily without having to create and send authorization requests to WSO2 Identity Server. It is a tool through which authorization requests can be created and evaluated against the available policies. You can write simple XACML 3.0 requests in XML format and try them using the web UI of the TryIt tool. 
+
+To try out the policy using the XACML TryIt tool: 
+
+1. On the **Tools** menu of the Management Console, click **XACML \> TryIt**.
+
+   <img src={require("../../../../../assets/img/tutorials/try-it.jpeg").default} width="200" />
+
+2. The **TryIt** screen appears.
+
+   <img src={require("../../../../../assets/img/tutorials/tryit-screen.jpeg").default} width="500" />
+
+3. Click **Create Request Using Editor**. The **Evaluate Entitlement Policy** screen appears.
+
+   <img src={require("../../../../../assets/img/tutorials/evaludate-entitlement-policy.jpeg").default} width={"400\""} />
+
+4. Enter the following as the sample request and click **Evaluate With PDP**.
+
+   &lt;request&gt;
+
+   &lt;attributes&gt;
+
+   &lt;attribute&gt;
+
+   &lt;attributevalue&gt;playground2
+
+   &lt;attributes&gt;
+
+   &lt;attribute&gt;
+
+   &lt;attributevalue&gt;scope_validation
+
+   &lt;attributes&gt;
+
+   &lt;attribute&gt;
+
+   &lt;attributevalue&gt;SCOPE_1
+
+   A response message with either Permit or Deny appears based on the XACML scope validation during token issuance.
+
+   :::note
+   For backward compatibility, you can disable this validation by setting the following property value to true in the `deployment.toml` file in the `[IS_HOME]/repository/conf` directory.
+
+   \`\`\` \[oauth.scope_validator.authz_implicit\] enable = false \`\`\`
+   :::

@@ -1,0 +1,288 @@
+---
+title: Error Catalog
+description: This document describes all the REST API error codes that are used in WSO2 Identity Server.  # generated from the first paragraph; a writer should improve it
+type: reference
+sidebar_position: 6
+---
+
+This document describes all the REST API error codes that are used in WSO2 Identity Server. 
+
+## Common Errors
+
+| Error Code | HTTP Status Code | Error Message | Possible Cause |
+| --- | --- | --- | --- |
+| UE-10000 | 400 | Invalid Request | Provided request body content is not in the expected format. |
+| SE-50000 | 500 | Unexpected processing error | Server encountered an error while serving the request. |
+
+## Challenge Question Management
+
+<table>
+  <thead>
+    <tr>
+      <th>Error Code</th>
+      <th>HTTP Status Code</th>
+      <th>Error Message</th>
+      <th>Possible Cause</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>CQM-10002</td>
+      <td>500</td>
+      <td>Unable to retrieve challenges for the user</td>
+      <td>Server encountered an error while retrieving challenges for the user.</td>
+    </tr>
+    <tr>
+      <td>CQM-10003</td>
+      <td>500</td>
+      <td>Unable to retrieve all user challenge answers</td>
+      <td>Server encountered an error while retrieving challenge answers of the user.</td>
+    </tr>
+    <tr>
+      <td>CQM-10004</td>
+      <td>500</td>
+      <td>Unable to retrieve the user challenge answer of a specific challenge</td>
+      <td>Server encountered an error while retrieving the challenge answer of a specific challenge.</td>
+    </tr>
+    <tr>
+      <td>CQM-10005</td>
+      <td>500</td>
+      <td>Unable to set user challenge answers.</td>
+      <td>Server encountered an error while setting answers to the user challenges.</td>
+    </tr>
+    <tr>
+      <td>CQM-20053</td>
+      <td>400</td>
+      <td>Unable to set user challenge answers.</td>
+      <td>Validation error. Cannot answer two questions from the same question set claim uri.</td>
+    </tr>
+    <tr>
+      <td>CQM-10006</td>
+      <td>500</td>
+      <td>Unable to update user challenge answer.</td>
+      <td>Server encountered an error while updating the answers to the user challenges.</td>
+    </tr>
+    <tr>
+      <td>CQM-10007</td>
+      <td>500</td>
+      <td>Unable to remove user challenge answers.</td>
+      <td>Server encountered an error while removing answers of the user challenges.</td>
+    </tr>
+    <tr>
+      <td>CQM-10008</td>
+      <td>500</td>
+      <td>Unable to update user challenge answer.</td>
+      <td>Server encountered an error while updating the answer of a specific user challenge.</td>
+    </tr>
+    <tr>
+      <td>CQM-10009</td>
+      <td>500</td>
+      <td>Unable to update user challenge answer.</td>
+      <td>Server encountered an error while updating the answer of the user challenge.</td>
+    </tr>
+    <tr>
+      <td>CQM-10010</td>
+      <td>500</td>
+      <td>Unable to remove user challenge answer.</td>
+      <td>Server encountered an error while removing answer of the user challenge.</td>
+    </tr>
+    <tr>
+      <td>CQM-10011</td>
+      <td>400</td>
+      <td>Invalid Request.</td>
+      <td>Challenge question is missing in the user challenge answer request.</td>
+    </tr>
+    <tr>
+      <td>CQM-10012</td>
+      <td>409</td>
+      <td>Challenge questions are already answered.</td>
+      <td>User has already answered some challenges. Hence, the system is unable to add new answers.</td>
+    </tr>
+    <tr>
+      <td>CQM-10013</td>
+      <td>404</td>
+      <td>Challenge answers not set</td>
+      <td>User has not answered any challenges. Hence, the system is unable to process.</td>
+    </tr>
+    <tr>
+      <td>CQM-10014</td>
+      <td>409</td>
+      <td>Challenge answer already set</td>
+      <td>User has already answered this challenge. Hence, the system is unable to add a new challenge answer.</td>
+    </tr>
+    <tr>
+      <td>CQM-10015</td>
+      <td>404</td>
+      <td>Challenge answer not set</td>
+      <td>User has not answered this challenge. Hence, the system is unable to process.</td>
+    </tr>
+    <tr>
+      <td>CQM-20054</td>
+      <td>400</td>
+      <td>Unable to set user challenge answer(s).</td>
+      <td>
+
+        Invalid Locale value provided :
+
+        &lt;locale&gt;.
+
+      </td>
+    </tr>
+    <tr>
+      <td>CQM-20056</td>
+      <td>400</td>
+      <td>Unable to add challenge set.</td>
+      <td>ChallengeSetId contains non alpha-numeric characters.</td>
+    </tr>
+    <tr>
+      <td>CQM-18017</td>
+      <td>400</td>
+      <td>Unable to set user challenge answers.</td>
+      <td>
+
+        No challenge question found. Error persisting user challenge answers for user. Challenge question answered is not registered with
+
+        &lt;tenant&gt; domain.
+
+      </td>
+    </tr>
+    <tr>
+      <td>CQM-20057</td>
+      <td>500</td>
+      <td></td>
+      <td>Error when deleting challenge question sets.</td>
+    </tr>
+    <tr>
+      <td>CQM-50002</td>
+      <td>500</td>
+      <td>Unable to get challenge</td>
+      <td>Server encountered an error while retrieving a specific challenge.</td>
+    </tr>
+    <tr>
+      <td>CQM-50003</td>
+      <td>500</td>
+      <td>Unable to get the challenges</td>
+      <td>Server encountered an error while retrieving all challenges.</td>
+    </tr>
+    <tr>
+      <td>CQM-50004</td>
+      <td>500</td>
+      <td>Unable to add challenge set</td>
+      <td>Server encountered an error while setting answers to the user challenges.</td>
+    </tr>
+    <tr>
+      <td>CQM-50005</td>
+      <td>500</td>
+      <td>Unable to update challenge set</td>
+      <td>Server encountered an error while updating answers to the user challenges.</td>
+    </tr>
+    <tr>
+      <td>CQM-50006</td>
+      <td>500</td>
+      <td>Unable to add a new challenge question</td>
+      <td>Server encountered an error while adding a new question to the set.</td>
+    </tr>
+    <tr>
+      <td>CQM-50007</td>
+      <td>500</td>
+      <td>Unable to remove challenges</td>
+      <td>Server encountered an error while removing the challenge set.</td>
+    </tr>
+    <tr>
+      <td>CQM-50008</td>
+      <td>500</td>
+      <td>Unable to remove challenge question</td>
+      <td>Server encountered an error while removing a specific challenge question.</td>
+    </tr>
+    <tr>
+      <td>CQM-50009</td>
+      <td>400</td>
+      <td>Patch operation not supported</td>
+      <td>Operation is not supported on the challenge set patch API.</td>
+    </tr>
+    <tr>
+      <td>CQM-50010</td>
+      <td>404</td>
+      <td>Challenge set does not exist</td>
+      <td>Specified challenge set does not exist in the system, hence unable to proceed.</td>
+    </tr>
+    <tr>
+      <td>CQM-20055</td>
+      <td>400</td>
+      <td>Unable to add challenge set</td>
+      <td>Attributes of hallenge question to be set cannot be empty.</td>
+    </tr>
+  </tbody>
+</table>
+
+## Human Task Approval Errors
+
+| Error Code | HTTP Status Code | Error Message | Possible Cause |
+| --- | --- | --- | --- |
+| HTA-10001 | 403 | Access denied. | You are not authorized to perform this task. |
+| HTA-10002 | 400 | Invalid input provided. | The provided Task ID is not in the correct format. |
+| HTA-10003 | 404 | Task does not exist. |  |
+| HTA-10004 | 400 | Invalid input data provided. |  |
+| HTA-10005 | 400 | Unacceptable input provided. | Only \[CLAIM, RELEASE, APPROVED, REJECTED\] are acceptable. |
+| HTA-10006 | 400 | Unable to change the approval status. | Invalid state change is requested for the given task. |
+| HTA-10007 | 400 | Unable to update the approval status. | Invalid state change is requested for the given task. |
+| HTA-15002 | 500 | Unable to retrieve approvals for the user. | Server encountered an error while retrieving approvals for user. |
+| HTA-15003 | 500 | Unable to retrieve the user approval. | Server encountered an error while retrieving information on the approval task. |
+| HTA-15004 | 500 | Unable to update the approval status. | Server encountered an error while updating the approval task status. |
+
+## OAuth Authorized Apps Errors
+
+| Error Code | HTTP Status Code | Error Message | Possible Cause |
+| --- | --- | --- | --- |
+| OAA-10001 | 404 | Invalid application ID. | An application with provided ID cannot be found for the user. |
+| OAA-10002 | 500 | Error retrieving authorized application. | A system error occurred while retrieving the provided authorized application for the user. |
+| OAA-10003 | 500 | Error retrieving authorized applications. | A system error occurred while retrieving authorized applications for the provided user. |
+| OAA-10004 | 500 | Error revoking authorized application. | A system error occurred while revoking the provided authorized application for the user. |
+| OAA-10005 | 500 | Error revoking authorized application. | A system error occurred while revoking authorized applications for the provided user. |
+
+## User Associations Errors
+
+| Error Code | HTTP Status Code | Error Message | Possible Cause |
+| --- | --- | --- | --- |
+| UAA-8500 | 400 | Error while adding associations of user | Valid username and password must be provided. |
+| UAA-8501 | 500 | Error while adding associations of user. | Error occurred while associating the user account. |
+| UAA-8503 | 500 | Error while deleting user association | Database error occurred while deleting user account association. |
+| UAA-8504 | 500 | Error while adding associations of user. | Database error occurred while creating user account association. |
+| UAA-8505 | 500 | Error while adding associations of user | Database error occurred while updating user account association. |
+| UAA-8506 | 500 | Error while deleting user association. | Database error occurred while validating user association. |
+| UAA-8507 | 500 | Error while deleting user association. | Database error occurred while deleting user account associations. |
+| UAA-8508 | 500 | Error while etting/creating/deleting associations of user. | Error occurred while getting the RealmService. |
+| UAA-8509 | 500 | Error while etting/creating/deleting associations of user. | Error occurred while accessing the RealmService. |
+| UAA-8510 | 500 | Error while etting/creating/deleting associations of user. | Error occurred while getting the RealmService. |
+| UAA-8511 | 500 | Error while getting associations of user. | Error occurred while getting tenant name from tenant id. |
+| UAA-8512 | 500 | Error while getting/creating/deleting associations of user | Error occurred while getting tenant id from tenant name. |
+| UAA-8512 | 400 | Error while getting/creating/deleting associations of user | Error occurred while getting tenant id from tenant name. |
+| UAA-8513 | 500 | Error while creating associations of user | Error occurred while authenticating user. |
+| UAA-8514 | 500 | Error while deleting user association. | Error occurred while deleting user account association for user \{\{user\}\}. |
+| UAA-8517 | 500 | Error while creating associations of user. | Error occurred while executing pre/post user authenticators. |
+| UAA-8524 | 400 | Error while getting/creating/deleting associations of user. | Invalid or inactivated tenant domain |
+| UAA-8525 | 409 | Error while adding associations of user | Provided user account is already associated to the logged in user |
+| UAA-8526 | 400 | Error while adding associations of user. | The user name or password you entered is incorrect. |
+| UAA-8527 | 500 | Error while deleting user association. | Error occurred while deleting the user account association. |
+| UAA-8528 | 500 | Error while deleting user association. | Error occurred while deleting the user account associations for tenant id \{\{tenant Id\}\}. |
+| UAA-8533 | 400 | Error while adding associations of user. | User can not associate logged in user account to itself. |
+| UAA-8535 | 500 | Error while deleting user association. | Database error occurred while deleting user association from \{\{user store domain\}\} domain in the tenant \{\{tenant\}\}. |
+| UAA-8536 | 500 | Error while adding associations of user. | Error occurred while updating user domain of account associations with domain \{\{user store domain\}\} |
+| UAA-8537 | 500 | Error while deleting user association. | Error occurred while deleting user account associations with domain \{\{user store domain\}\} . |
+| UAA-8538 | 500 | Error while getting associations of user | Database error occurred while retrieving account associations of user \{\{user\}\} |
+| UAA-8539 | 500 | Error while getting/creating/deleting associations of user. | Error while retrieving tenant ID of user \{\{user\}\}. |
+
+## Session Management Errors
+
+| Error Code | HTTP Status Code | Error Message | Possible Cause |
+| --- | --- | --- | --- |
+| USM-15001 | 500 | Unable to retrieve session information. | Server encountered an error while retrieving session information. |
+| USM-15002 | 500 | Unable to retrieve sessions. | Server encountered an error while retrieving session list of user, \{userid/username\}. |
+| USM-10003 | 501 | Pagination not supported. | Pagination capabilities are not supported in this version of the API. |
+| USM-10004 | 501 | Filtering not supported. | Filtering capability is not supported in this version of the API. |
+| USM-10005 | 501 | Sorting not supported. | Sorting capability is not supported in this version of the API. |
+| USM-15006 | 500 | Unable to validate user. | Server encountered an error while authorizing user, \{userid/username\}. |
+| USM-10007 | 403 | Action forbidden. | User is not authorized to terminate this session. |
+| USM-10008 | 400 | Invalid user. | User is not provided to perform session management tasks. |
+| USM-10009 | 400 | Invalid session. | Session ID is not provided to perform session termination. |
+| USM-10010 | 403 | Action Forbidden. | User is not authorized to terminate the session/s. |

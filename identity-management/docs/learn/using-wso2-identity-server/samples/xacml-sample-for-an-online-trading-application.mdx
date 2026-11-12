@@ -1,0 +1,96 @@
+---
+title: XACML Sample for an Online Trading Application
+description: The following sample demonstrates how to build a XACML driven authorization for an on-line trading application called “K-Martket”.  # generated from the first paragraph; a writer should improve it
+type: reference
+sidebar_position: 7
+slug: "/learn/xacml-sample-for-an-online-trading-application"
+---
+
+The following sample demonstrates how to build a XACML driven
+authorization for an on-line trading application called “K-Martket”.
+This sample is shipped with the [Balana XACML
+implementation](https://svn.wso2.org/repos/wso2/trunk/commons/balana).
+
+### Prerequisites
+
+Requires Java 1.8
+
+### Scenario
+
+-   K-Market is an online trading company. You can create a user account
+    with K-Market and user profile data store in their own JDBC user
+    store.
+-   K-Market enforces some control over online trading based on the
+    customer’s privileges which are determined by certain attributes of
+    the customer (age, email etc).
+-   In the initial phase of their access control system, K-Market has
+    included the following access control scenario:  
+    K-Market has three separate customer groups (i.e. Blue, Silver and
+    Gold) and have put limitations for each group when purchasing items
+    online:  
+
+    | Blue Customers | Silver Customers | Gold Customers |
+    | --- | --- | --- |
+    | Can not buy any liquor or medicine | Can not buy any liquor | Can purchase liquor and medicine |
+    | Maximum amount spent on a purchase is limited to $100 | Maximum amount spent on a purchase is limited to $500 | Maximum amount spent on a purchase is limited to $500 |
+    | Maximum amount spent on purchasing drinks is limited to $10 | Maximum amount spent on purchasing drinks is limited to $50 | Maximum amount spent on a purchasing liquor is limited to $10 |
+    | <br /> | Maximum amount spent on purchasing medicine is limited to $50 | <br /> |
+
+-   When the customer proceeds to the shopping cart checkout to enter
+    credit card details, the K-Market access control system is triggered
+    to check whether it is an authorized online purchase.
+
+### Executing the sample
+
+This sample can be modified further by editing the policy files or
+adding new policies. Follow the instructions below to test out the
+sample.
+
+1.  The code for the sample can be checked out from the GitHub
+    repository. To do this, follow the instructions on the [Downloading
+    a Sample](./downloading-a-sample.mdx) topic.
+
+2.  Start up [Identity Server](../../../setup/install/running-the-product.mdx) and log in to the
+    management console.
+3.  Upload the policy by following the first three steps found
+    [here](../../tutorials/access-control/working-with-entitlement/configuring-the-policy-administration-point/creating-a-xacml-policy.mdx)
+    and click on **Import Existing Policy**
+4.  Click **Choose File** and upload the three policies found
+    [here](https://svn.wso2.org/repos/wso2/people/asela/xacml/sample/kmarket/resources/)
+    (one by one) and click **Upload**. The policies can also be found
+    in your checked out folder in the
+    `          <Sample_Home>/kmarket-trading-sample/resources         `
+    directory.
+5.  Publish the policies in PDP runtime. More information on this can be
+    found in the [Publishing a XACML Policy
+    page](../../tutorials/access-control/working-with-entitlement/configuring-the-policy-administration-point/publishing-a-xacml-policy.mdx).
+6.  Navigate to the **Entitlement** menu. Click **Policy View** under
+    **PDP** and click **Enable** under the **Actions** section, for each
+    policy.
+7.  Implement PIP attribute finder module to retrieve the user's
+    attributes from custom JDBC user store of the "Kmarket". More
+    information on writing a custom PIP attribute finder module for this
+    scenario can be found [here](../../../develop/developer-guide/extending-the-identity-server/access-control-for-developers/writing-a-custom-policy-info-point.mdx).
+8.  Run the sample by navigating inside the `
+    <Sample_Home>/xacml/kmarket-trading-sample/ ` directory on the
+    command line and executing the **run** script.
+
+    :::info
+    UNIX: run.sh
+
+    Windows: run.bat
+
+    All dependant libraries can be found within the sample
+    :::
+
+    :::note
+    1. This sample contains dependancy for the [PEP agent
+    sample](https://svn.wso2.org/repos/wso2/people/asela/xacml/pep/simple-agent/)
+    . The PEP agent is an agent library that allows the client side API
+    to talk with the WSO2 Identity Server. It is still under development
+    however, this agent would work with this sample.
+
+    2\. This sample does not consider user authentication so you can enter
+    any value for the user's password. However, you can also advocate for
+    authentication using the WSO2 Identity Server API.
+    :::

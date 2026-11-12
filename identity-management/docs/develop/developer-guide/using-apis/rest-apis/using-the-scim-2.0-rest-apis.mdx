@@ -1,0 +1,3457 @@
+---
+title: Using the SCIM 2.0 REST APIs
+description: This REST API implements the SCIM 2.0 Protocol according to the SCIM 2.0 specification.  # generated from the first paragraph; a writer should improve it
+type: reference
+sidebar_label: SCIM 2.0
+sidebar_position: 16
+slug: "/develop/using-the-scim-2.0-rest-apis"
+---
+
+This REST API implements the SCIM 2.0 Protocol according to the [SCIM 2.0 specification.](https://tools.ietf.org/html/rfc7644) The following endpoints are supported with WSO2 Identity Server.
+
+:::note
+Prior to WSO2 Identity Server 5.4.0 version, SCIM 2.0 was supported as an external connector that could be plugged in to WSO2 Identity Server. 
+
+WSO2 Identity Server 5.9.0 supports SCIM 2.0 out-of-the-box.
+:::
+
+## Users endpoint
+
+This endpoint is used to create and manage users and their profile attributes.
+
+### POST/ Create User
+
+`           POST                       https://localhost:9443/t/{tenant-domain}/scim2/Users                     `
+
+This API creates a user and returns the user details along with the
+user's unique ID. It returns `           HTTP 201          ` if the user
+is successfully created.
+
+<table>
+  <colgroup>
+    <col style={{width: "100%"}} />
+  </colgroup>
+  <tbody>
+    <tr>
+      <td>
+
+        **Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -v -k --user [username]:[password] --data '{"schemas":[],"name":{"familyName":[last name],"givenName":[name]},"userName":[username],"password":[password],"emails":[{"primary":[true/false],"value":[email address],"type":[home/work]},{"value":[email address 2],"type":[home/work]}]}--header "Content-Type:application/json" https://localhost:9443/scim2/Users
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        **Sample cURL**
+
+        <Anchor id="cb2" />
+
+        ```text
+        curl -v -k --user admin:admin --data '{"schemas":[],"name":{"familyName":"jackson","givenName":"kim"},"userName":"kim","password":"kimwso2","emails":[{"primary":true,"value":"kim.jackson@gmail.com","type":"home"},{"value":"kim_j@wso2.com","type":"work"}]}' --header "Content-Type:application/json" https://localhost:9443/scim2/Users
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        **Response**
+
+        <Anchor id="cb3" />
+
+        ```text
+        {"emails":[{"type":"home","value":"kim.jackson@gmail.com","primary":true},{"type":"work","value":"kim_j@wso2.com"}],"meta":{"created":"2018-08-15T14:55:23Z","location":"https://localhost:9443/scim2/Users/c8c821ba-1200-495e-a775-79b260e717bd","lastModified":"2018-08-15T14:55:23Z","resourceType":"User"},"schemas":["urn:ietf:params:scim:schemas:core:2.0:User","urn:ietf:params:scim:schemas:extension:enterprise:2.0:User"],"name":{"familyName":"jackson","givenName":"kim"},"id":"c8c821ba-1200-495e-a775-79b260e717bd","userName":"kim"}
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+**Parameters**
+
+<table style={{width: "100%"}}>
+  <colgroup>
+    <col style={{width: "5%"}} />
+    <col style={{width: "11%"}} />
+    <col style={{width: "68%"}} />
+    <col style={{width: "6%"}} />
+    <col style={{width: "7%"}} />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Schema</th>
+      <th>Default Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Query</td>
+      <td>
+
+        attributes
+
+        (optional)
+
+      </td>
+      <td>
+
+        Attribute names of attributes that are to be included in the response.
+
+        All the of the users dialect and meta dialect are supported. For more information about this parameter, see [the SCIM 2.0 specification](https://tools.ietf.org/html/rfc7644#section-3.4.2.5) .
+
+        **Sample Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -v -k --user admin:admin --data '{"schemas":[],"name":{"familyName":"jackson","givenName":"kim"},"userName":"kim","password":"kimwso2","emails":[{"primary":true,"value":"kim.jackson@gmail.com","type":"home"},{"value":"kim_j@wso2.com","type":"work"}]}' --header "Content-Type:application/json" https://localhost:9443/scim2/Users?attributes=userName,name.familyName
+        ```
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Query</td>
+      <td>
+
+        excludedAttributes
+
+        (optional)
+
+      </td>
+      <td>
+
+        Attribute names of attributes that are to be exclused from the response.<br /> All the of the users dialect and meta dialect are supported. For more information about this parameter, see [the SCIM 2.0 specification](https://tools.ietf.org/html/rfc7644#section-3.4.2.5) .
+
+        **Sample Request**
+
+        <Anchor id="cb2" />
+
+        ```text
+        curl -v -k --user admin:admin --data '{"schemas":[],"name":{"familyName":"jackson","givenName":"kim"},"userName":"kim","password":"kimwso2","emails":[{"primary":true,"value":"kim.jackson@gmail.com","type":"home"},{"value":"kim_j@wso2.com","type":"work"}]}' --header "Content-Type:application/json" https://localhost:9443/scim2/Users?excludedAttributes=userName,name.familyName
+        ```
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Body</td>
+      <td>
+
+        body
+
+        (optional)
+
+      </td>
+      <td>
+
+        A JSON object that contains relevant values for creating a user.
+
+        **Sample Request**
+
+        <Anchor id="cb3" />
+
+        ```text
+        curl -v -k --user admin:admin --data '{"schemas":[],"name":{"familyName":"jackson","givenName":"kim"},"userName":"kim","password":"kimwso2","emails":[{"primary":true,"value":"kim.jackson@gmail.com","type":"home"},{"value":"kim_j@wso2.com","type":"work"}]}' --header "Content-Type:application/json" https://localhost:9443/scim2/Users
+        ```
+
+        <br />
+
+        <br />
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+**Responses**
+
+-   HTTP 201 - Valid user is created
+-   HTTP 401 - Unauthorized
+-   HTTP 404 - Invalid user
+
+:::tip
+To create a user in a particular user store, add the
+`{domainName}/` prefix in front of the user name.      
+
+```java
+curl -v -k --user admin:admin --data '{"schemas":[],"name":{"familyName":"jackson","givenName":"kim"},"userName":"WSO2/kim","password":"kimwso2","emails":[{"primary":true,"value":"kim.jackson@gmail.com","type":"home"},{"value":"kim_j@wso2.com","type":"work"}]}' --header "Content-Type:application/json" https://localhost:9443/scim2/Users
+```
+:::
+
+### GET/ Get User by ID
+
+This API is used to retrieve users by their user ID. It returns an `           HTTP 200          ` response if the user is found. 
+
+```text
+GET https://localhost:9443/t/{tenant-domain}/scim2/Users/{id}
+```
+
+<table>
+  <colgroup>
+    <col style={{width: "100%"}} />
+  </colgroup>
+  <tbody>
+    <tr>
+      <td>
+
+        **Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -v -k --user [username]:[password] https://localhost:9443/scim2/Users/[user ID]
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        **Sample cURL**
+
+        <Anchor id="cb2" />
+
+        ```text
+        curl -v -k --user admin:admin 'https://localhost:9443/scim2/Users/c8c821ba-1200-495e-a775-79b260e717bd'
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        **Response**
+
+        <Anchor id="cb3" />
+
+        ```text
+        {"emails":[{"type":"work","value":"kim_j@wso2.com"},{"type":"home","value":"kim.jackson@gmail.com"}],"meta":{"created":"2018-08-15T14:55:23Z","location":"https://localhost:9443/scim2/Users/c8c821ba-1200-495e-a775-79b260e717bd","lastModified":"2018-08-15T14:55:23Z","resourceType":"User"},"schemas":["urn:ietf:params:scim:schemas:core:2.0:User","urn:ietf:params:scim:schemas:extension:enterprise:2.0:User"],"roles":[{"type":"default","value":"Internal/everyone"}],"name":{"givenName":"kim","familyName":"jackson"},"id":"c8c821ba-1200-495e-a775-79b260e717bd","userName":"kim"}
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+**Parameters**
+
+<table style={{width: "100%"}}>
+  <colgroup>
+    <col style={{width: "4%"}} />
+    <col style={{width: "10%"}} />
+    <col style={{width: "68%"}} />
+    <col style={{width: "6%"}} />
+    <col style={{width: "8%"}} />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Schema</th>
+      <th>Default Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Path</td>
+      <td>
+
+        id
+
+        (required)
+
+      </td>
+      <td>
+
+        Unique ID of the resource type.
+
+        **Sample Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -v -k --user admin:admin 'https://localhost:9443/scim2/Users/c8c821ba-1200-495e-a775-79b260e717bd'
+        ```
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Query</td>
+      <td>
+
+        attributes
+
+        (optional)
+
+      </td>
+      <td>
+
+        Attribute names of attributes that are to be included in the response.
+
+        All the of the users dialect and meta dialect are supported. For more information about this parameter, see [the SCIM 2.0 specification](https://tools.ietf.org/html/rfc7644#section-3.4.2.5) .
+
+        **Sample Request**
+
+        <Anchor id="cb2" />
+
+        ```text
+        curl -v -k --user admin:admin 'https://localhost:9443/scim2/Users/c8c821ba-1200-495e-a775-79b260e717bd?attributes=userName,name.familyName’
+        ```
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Query</td>
+      <td>
+
+        excludedAttributes
+
+        (optional)
+
+      </td>
+      <td>
+
+        Attribute names of attributes that are to be exclused from the response.<br /> All the of the users dialect and meta dialect are supported. For more information about this parameter, see [the SCIM 2.0 specification](https://tools.ietf.org/html/rfc7644#section-3.4.2.5) .
+
+        **Sample Request**
+
+        <Anchor id="cb3" />
+
+        ```text
+        curl -v -k --user admin:admin 'https://localhost:9443/scim2/Users/c8c821ba-1200-495e-a775-79b260e717bd?excludedAttributes=userName,name.familyName’
+        ```
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+**Responses**
+
+-   HTTP 200 - Valid user is found
+-   HTTP 401 - Unauthorized
+-   HTTP 404 - Valid user is not found
+
+### DELETE/ Delete User by ID
+
+`           DELETE                       https://localhost:9443/t/{tenant-domain}/scim2/Users/{id                      }          `
+
+This API deletes a user using the user's unique ID. It returns
+`           HTTP 204          ` if the user is successfully deleted.
+
+<table>
+  <colgroup>
+    <col style={{width: "100%"}} />
+  </colgroup>
+  <tbody>
+    <tr>
+      <td>
+
+        **Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -v -k --user [username]:[password] -X DELETE https://localhost:9443/scim2/Users/[user ID] -H "Accept: application/scim+json"
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        **Sample cURL**
+
+        <Anchor id="cb2" />
+
+        ```text
+        curl -v -k --user admin:admin -X DELETE https://localhost:9443/scim2/Users/b228b59d-db19-4064-b637-d33c31209fae -H "Accept: application/scim+json"
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        **Response**
+
+        <Anchor id="cb3" />
+
+        ```text
+        HTTP/1.1 204 No Content
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+**Parameters**
+
+<table style={{width: "100%"}}>
+  <colgroup>
+    <col style={{width: "4%"}} />
+    <col style={{width: "10%"}} />
+    <col style={{width: "68%"}} />
+    <col style={{width: "6%"}} />
+    <col style={{width: "8%"}} />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Schema</th>
+      <th>Default Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Path</td>
+      <td>
+
+        id
+
+        (required)
+
+      </td>
+      <td>
+
+        Unique ID of the resource type.
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+**Responses**
+
+-   HTTP 204 - User has been successfully deleted
+-   HTTP 401 - Unauthorized
+-   HTTP 404 - Valid user is not found
+
+### GET/ Get Users (User Listing/Filtering)
+
+`           GET                       https://localhost:9443/t/{tenant-domain}/scim2/Users                                `
+
+This API returns users according to the filter, sort and pagination
+parameters. It returns an `           HTTP 404          ` response if
+the users are not found. Pagination is not supported across user stores
+and LDAP multi-attribute group filtering. However, filtering is
+supported across multiple user stores.
+
+<table>
+  <colgroup>
+    <col style={{width: "100%"}} />
+  </colgroup>
+  <tbody>
+    <tr>
+      <td>
+
+        **Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -v -k --user [username]:[password]  'https://localhost:9443/scim2/Users?startIndex=[value]&count=[value]&domain=[value]&filter=[query]&attributes=[attribute names]'
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        **Sample cURL**
+
+        <Anchor id="cb2" />
+
+        ```text
+        curl -v -k --user admin:admin 'https://localhost:9443/scim2/Users?startIndex=1&count=10&domain=PRIMARY&filter=userName+sw+ki+and+name.familyName+co+ack&attributes=userName,name.familyName'
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        **Response**
+
+        <Anchor id="cb3" />
+
+        ```text
+        {"totalResults":1,"startIndex":1,"itemsPerPage":1,"schemas":["urn:ietf:params:scim:api:messages:2.0:ListResponse"],"Resources":[{"emails":[{"type":"work","value":"kim_j@wso2.com"},{"type":"home","value":"kim.jackson@gmail.com"}],"meta":{"created":"2018-08-15T14:55:23Z","location":"https://localhost:9443/scim2/Users/c8c821ba-1200-495e-a775-79b260e717bd","lastModified":"2018-08-15T14:55:23Z","resourceType":"User"},"groups":[{"display":"admin","value":"74f4be74-36bc-4bec-8689-d03c36e4a106","$ref":"https://localhost:9443/scim2/Groups/74f4be74-36bc-4bec-8689-d03c36e4a106"}],"name":{"givenName":"kim","familyName":"jackson"},"id":"c8c821ba-1200-495e-a775-79b260e717bd","userName":"kim"}]}
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+**Parameters**
+
+<table style={{width: "100%"}}>
+  <colgroup>
+    <col style={{width: "4%"}} />
+    <col style={{width: "10%"}} />
+    <col style={{width: "68%"}} />
+    <col style={{width: "6%"}} />
+    <col style={{width: "8%"}} />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Schema</th>
+      <th>Default Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Query</td>
+      <td>
+
+        attributes
+
+        (optional)
+
+      </td>
+      <td>
+
+        Attribute names of attributes that are to be included in the response.
+
+        All the of the users dialect and meta dialect are supported. For more information about this parameter, see [the SCIM 2.0 specification](https://tools.ietf.org/html/rfc7644#section-3.4.2.5) .
+
+        **Sample Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -v -k --user admin:admin 'https://localhost:9443/scim2/Users?startIndex=1&count=10&domain=PRIMARY&attributes=userName,name.familyName'
+        ```
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Query</td>
+      <td>
+
+        excludedAttributes
+
+        (optional)
+
+      </td>
+      <td>
+
+        Attribute names of attributes that are to be exclused from the response.<br /> All the of the users dialect and meta dialect are supported. For more information about this parameter, see [the SCIM 2.0 specification](https://tools.ietf.org/html/rfc7644#section-3.4.2.5) .
+
+        **Sample Request**
+
+        <Anchor id="cb2" />
+
+        ```text
+        curl -v -k --user admin:admin 'https://localhost:9443/scim2/Users/c8c821ba-1200-495e-a775-79b260e717bd?excludedAttributes=userName,name.familyName’
+        ```
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Query</td>
+      <td>
+
+        filter
+
+        (optional)
+
+      </td>
+      <td>
+
+        A filter expression used to filter users.
+
+        Supported filter operators are ‘ ` EQ ` ’, ' ` EW' `, ‘ ` CO ` ’, ‘ ` SW ` ’, and ‘ ` AND ` ’.
+
+        :::tip
+        Operators are case-insensitive.
+        :::
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Query</td>
+      <td>
+
+        startIndex
+
+        (optional)
+
+      </td>
+      <td>The 1-based index of the first query result.</td>
+      <td>Integer</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Query</td>
+      <td>
+
+        count
+
+        (optional)
+
+      </td>
+      <td>
+
+        Specifies the desired maximum number of query results per page.
+
+        :::tip
+        This parameter is optional but it is recommended to include it in the request.
+
+        When this parameter is not included in the request, the response returns all users from a given domain or across all user stores.
+
+        When this parameter is set to 0 (zero) or is a negative value, no users are retrieved.
+        :::
+
+      </td>
+      <td>Integer</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Query</td>
+      <td>
+
+        sortBy
+
+        (optional)
+
+      </td>
+      <td>
+
+        Specifies the attribute whose value can be used to order the returned responses.
+
+        :::warning
+        This parameter is not supported for this version.
+        :::
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Query</td>
+      <td>
+
+        sortOrder
+
+        (optional)
+
+      </td>
+      <td>
+
+        The order in which the "sortBy" parameter is applied. (e.g., ascending order)
+
+        :::warning
+        This parameter is not supported for this version.
+        :::
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Query</td>
+      <td>
+
+        domain
+
+        (optional)
+
+      </td>
+      <td>The name of the user store to which filtering needs to be applied.</td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+**Responses**
+
+-   HTTP 200 - Valid users are found
+-   HTTP 401 - Unauthorized
+-   HTTP 404 - Valid users are not found
+
+:::tip
+There are two ways to retrieve users from a particular user store:
+
+1.  **Using the `              domain             ` query parameter**  
+    Filter or list users from a particular domain by setting the domain
+    query parameter as shown in the example below.
+
+    ```java
+    curl -v -k --user admin:admin 'https://localhost:9443/scim2/Users?startIndex=1&count=10&domain=WSO2
+    ```
+
+2.  **Adding the “ `              {domain}/             ` ” prefix in
+    front of the filter value**  
+    Filter or list users from a particular domain by specifying the
+    domain in front of the filter value as shown in the example below.  
+    Note that this feature can only be used with “userName” and “groups”
+    attributes.  
+    If the domain name is specified in both the query parameter and the
+    filter value, an ERROR is thrown if the two values are not equal.
+
+    ```java
+    curl -v -k --user admin:admin 'https://localhost:9443/scim2/Users?startIndex=1&count=10&filter=userName+sw+WSO2/ki'
+    ```
+:::
+
+### POST/ Search Users
+
+`           POST                       https://localhost:9443/t/{tenant-domain}/scim2/Users/.search                     `
+
+This API returns users according to the filter, sort and pagination
+parameters. It returns an `           HTTP 404          ` response if
+the users are not found.
+
+<table>
+  <colgroup>
+    <col style={{width: "100%"}} />
+  </colgroup>
+  <tbody>
+    <tr>
+      <td>
+
+        **Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -v -k --user [username]:[password] --data '{"schemas": ["urn:ietf:params:scim:api:messages:2.0:SearchRequest"],"attributes": [attribute names],"filter": [filter query],"domain": [domain name],"startIndex": [value],"count": [value]}' --header "Content-Type:application/scim+json"  'https://localhost:9443/scim2/Users/.search'
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        **Sample cURL**
+
+        <Anchor id="cb2" />
+
+        ```text
+        curl -v -k --user admin:admin --data '{"schemas": ["urn:ietf:params:scim:api:messages:2.0:SearchRequest"],"attributes": ["name.familyName", "userName"],"filter":"userName sw ki and name.familyName co ack","domain":"PRIMARY","startIndex": 1,"count": 10}' --header "Content-Type:application/scim+json"  'https://localhost:9443/scim2/Users/.search'
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        **Response**
+
+        <Anchor id="cb3" />
+
+        ```text
+        {"totalResults":1,"startIndex":1,"itemsPerPage":1,"schemas":["urn:ietf:params:scim:api:messages:2.0:ListResponse"],"Resources":[{"name":{"familyName":"jackson"},"id":"c8c821ba-1200-495e-a775-79b260e717bd","userName":"kim"}]}
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+**Parameters**
+
+<table style={{width: "100%"}}>
+  <colgroup>
+    <col style={{width: "4%"}} />
+    <col style={{width: "9%"}} />
+    <col style={{width: "77%"}} />
+    <col style={{width: "5%"}} />
+    <col style={{width: "4%"}} />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Schema</th>
+      <th>Default Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Body</td>
+      <td>
+
+        body
+
+        (optional)
+
+      </td>
+      <td>
+
+        This is a JSON object that contains relevant values used to search for a user.
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+**Responses**
+
+-   HTTP 200 - Valid users are found
+-   HTTP 401 - Unauthorized
+-   HTTP 404 - Valid users are not found
+
+### PATCH/ Update User
+
+`            PATCH                         https://localhost:9443/t/{tenant-domain}/scim2/Users/{id                        }           `
+
+This API updates user details and returns the updated user details using
+a PATCH operation. It returns an `            HTTP 404           `
+response if the user is not found.
+
+<table>
+  <colgroup>
+    <col style={{width: "100%"}} />
+  </colgroup>
+  <tbody>
+    <tr>
+      <td>
+
+        **Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -v -k --user [username]:[password] -X PATCH -d '{"schemas":[],"Operations":[{"op":[operation],"value":{[attributeName]:[attribute value]}}]}' --header "Content-Type:application/json" https://localhost:9443/scim2/Users/[user ID]
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        **Sample cURL**
+
+        <Anchor id="cb2" />
+
+        ```text
+        curl -v -k --user admin:admin -X PATCH -d '{"schemas":["urn:ietf:params:scim:api:messages:2.0:PatchOp"],"Operations":[{"op":"add","value":{"nickName":"shaggy"}}]}' --header "Content-Type:application/json" https://localhost:9443/scim2/Users/c8c821ba-1200-495e-a775-79b260e717bd
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        **Response**
+
+        <Anchor id="cb3" />
+
+        ```text
+        {"emails":[{"type":"work","value":"kim_j@wso2.com"},{"type":"home","value":"kim.jack@gmail.com"}],"meta":{"created":"2018-08-15T14:55:23Z","location":"https://localhost:9443/scim2/Users/c8c821ba-1200-495e-a775-79b260e717bd","lastModified":"2018-08-16T14:46:07Z","resourceType":"User"},"nickName":"shaggy","schemas":["urn:ietf:params:scim:schemas:core:2.0:User","urn:ietf:params:scim:schemas:extension:enterprise:2.0:User"],"roles":[{"type":"default","value":"Internal/everyone"}],"name":{"givenName":"kim","familyName":"jackson"},"id":"c8c821ba-1200-495e-a775-79b260e717bd","userName":"kim"}
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+**Parameters**
+
+<table style={{width: "100%"}}>
+  <colgroup>
+    <col style={{width: "4%"}} />
+    <col style={{width: "9%"}} />
+    <col style={{width: "75%"}} />
+    <col style={{width: "5%"}} />
+    <col style={{width: "4%"}} />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Schema</th>
+      <th>Default Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Path</td>
+      <td>
+
+        id
+
+        (required)
+
+      </td>
+      <td>
+
+        Unique ID of the resource type.
+
+        <br />
+
+        <br />
+
+        <br />
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Query</td>
+      <td>
+
+        attributes
+
+        (optional)
+
+      </td>
+      <td>
+
+        Attribute names of attributes that are to be included in the response.
+
+        All the of the users dialect and meta dialect are supported. For more information about this parameter, see [the SCIM 2.0 specification](https://tools.ietf.org/html/rfc7644#section-3.4.2.5) .
+
+        **Sample Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -v -k --user admin:admin -X PATCH -d '{"schemas":["urn:ietf:params:scim:api:messages:2.0:PatchOp"],"Operations":[{"op":"add","value":{"nickName":"shaggy"}}]}' --header "Content-Type:application/json" https://localhost:9443/scim2/Users/c8c821ba-1200-495e-a775-79b260e717bd?attributes=userName,name.familyName
+        ```
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Query</td>
+      <td>
+
+        excludedAttributes
+
+        (optional)
+
+      </td>
+      <td>
+
+        Attribute names of attributes that are to be exclused from the response.<br /> All the of the users dialect and meta dialect are supported. For more information about this parameter, see [the SCIM 2.0 specification](https://tools.ietf.org/html/rfc7644#section-3.4.2.5) .
+
+        **Sample Request**
+
+        <Anchor id="cb2" />
+
+        ```text
+        curl -v -k --user admin:admin -X PATCH -d '{"schemas":["urn:ietf:params:scim:api:messages:2.0:PatchOp"],"Operations":[{"op":"add","value":{"nickName":"shaggy"}}]}' --header "Content-Type:application/json" https://localhost:9443/scim2/Users/c8c821ba-1200-495e-a775-79b260e717bd?excludedAttributes=userName,name.familyName
+        ```
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Body</td>
+      <td>
+
+        body
+
+        (optional)
+
+      </td>
+      <td>This is a JSON object that contains relevant values used to search for a user.</td>
+      <td><br /></td>
+      <td><br /></td>
+    </tr>
+  </tbody>
+</table>
+
+**Responses**
+
+-   HTTP 200 - User has been successfully updated
+-   HTTP 401 - Unauthorized
+-   HTTP 404 - Valid user is not found
+
+### PUT/ Update User
+
+`            PUT                         https://localhost:9443/t/{tenant-domain}/scim2/Users/{id                        
+}                       `
+
+This API updates user details and returns the updated user details using
+a PUT operation. It returns an `            HTTP 404           `
+response if the user is not found.
+
+<table>
+  <colgroup>
+    <col style={{width: "100%"}} />
+  </colgroup>
+  <tbody>
+    <tr>
+      <td>
+
+        **Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -v -k --user [username]:[password] -X PUT -d '{"schemas":[],"name":{"familyName":[last name],"givenName":[name]},"userName":[username],"emails":[{"value":[email address],"type":[home/work]},{"value":[email address 2],"type":[home/work]}]}' --header "Content-Type:application/json" https://localhost:9443/scim2/Users/[user ID]
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        **Sample cURL**
+
+        <Anchor id="cb2" />
+
+        ```text
+        curl -v -k --user admin:admin -X PUT -d '{"schemas":[],"name":{"familyName":"jackson","givenName":"kim"},"userName":"kim","emails":[{"value":"kim_j@wso2.com","type":"work"},{"value":"kim.jack@gmail.com","type":"home"}]}' --header "Content-Type:application/json" https://localhost:9443/scim2/Users/c8c821ba-1200-495e-a775-79b260e717bd
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        **Response**
+
+        <Anchor id="cb3" />
+
+        ```text
+        {"emails":[{"type":"work","value":"kim_j@wso2.com"},{"type":"home","value":"kim.jack@gmail.com"}],"meta":{"created":"2018-08-15T14:55:23Z","location":"https://localhost:9443/scim2/Users/c8c821ba-1200-495e-a775-79b260e717bd","lastModified":"2018-08-16T14:24:00Z","resourceType":"User"},"schemas":["urn:ietf:params:scim:schemas:core:2.0:User","urn:ietf:params:scim:schemas:extension:enterprise:2.0:User"],"roles":[{"type":"default","value":"Internal/everyone"}],"name":{"givenName":"kim","familyName":"jackson"},"id":"c8c821ba-1200-495e-a775-79b260e717bd","userName":"kim"}
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+**Parameters**
+
+<table style={{width: "100%"}}>
+  <colgroup>
+    <col style={{width: "4%"}} />
+    <col style={{width: "9%"}} />
+    <col style={{width: "75%"}} />
+    <col style={{width: "5%"}} />
+    <col style={{width: "4%"}} />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Schema</th>
+      <th>Default Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Path</td>
+      <td>
+
+        id
+
+        (required)
+
+      </td>
+      <td>
+
+        Unique ID of the resource type.
+
+        <br />
+
+        <br />
+
+        <br />
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Query</td>
+      <td>
+
+        attributes
+
+        (optional)
+
+      </td>
+      <td>
+
+        Attribute names of attributes that are to be included in the response.
+
+        All the of the users dialect and meta dialect are supported. For more information about this parameter, see [the SCIM 2.0 specification](https://tools.ietf.org/html/rfc7644#section-3.4.2.5) .
+
+        **Sample Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -v -k --user admin:admin -X PATCH -d '{"schemas":["urn:ietf:params:scim:api:messages:2.0:PatchOp"],"Operations":[{"op":"add","value":{"nickName":"shaggy"}}]}' --header "Content-Type:application/json" https://localhost:9443/scim2/Users/c8c821ba-1200-495e-a775-79b260e717bd?attributes=userName,name.familyName
+        ```
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Query</td>
+      <td>
+
+        excludedAttributes
+
+        (optional)
+
+      </td>
+      <td>
+
+        Attribute names of attributes that are to be exclused from the response.<br /> All the of the users dialect and meta dialect are supported. For more information about this parameter, see [the SCIM 2.0 specification](https://tools.ietf.org/html/rfc7644#section-3.4.2.5) .
+
+        **Sample Request**
+
+        <Anchor id="cb2" />
+
+        ```text
+        curl -v -k --user admin:admin -X PATCH -d '{"schemas":["urn:ietf:params:scim:api:messages:2.0:PatchOp"],"Operations":[{"op":"add","value":{"nickName":"shaggy"}}]}' --header "Content-Type:application/json" https://localhost:9443/scim2/Users/c8c821ba-1200-495e-a775-79b260e717bd?excludedAttributes=userName,name.familyName
+        ```
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Body</td>
+      <td>
+
+        body
+
+        (optional)
+
+      </td>
+      <td>This is a JSON object that contains relevant values used to search for a user.</td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+**Responses**
+
+-   HTTP 200 - User has been successfully updated
+-   HTTP 401 - Unauthorized
+-   HTTP 404 - Valid users are not found
+
+## Groups endpoint
+
+This endpoint is used to create and manage groups and group members.
+
+:::note
+From WSO2 Identity Server 5.8.0 onwards, new configurations have been added to support filtering users and groups only from the PRIMARY domain. 
+
+If these properties are enabled, the responses received for the users endpoint and groups endpoint will change.
+:::
+
+### POST/ Create Group
+
+`           POST                       https://localhost:9443/t/{tenant-domain}/scim2/Groups                                `
+
+This API creates a group and returns the details of the created group
+including its unique ID. It returns an `           HTTP 201          `
+response if the group is successfully created.
+
+<table>
+  <colgroup>
+    <col style={{width: "100%"}} />
+  </colgroup>
+  <tbody>
+    <tr>
+      <td>
+
+        **Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -v -k --user [username]:[password] --data '{"schemas":["urn:ietf:params:scim:schemas:core:2.0:Group"],"displayName": [group name], "members": [{"value": [user ID],"$ref":[ref url],"display": [user name] }]}' --header "Content-Type:application/json" https://localhost:9443/scim2/Groups
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        **Sample cURL**
+
+        <Anchor id="cb2" />
+
+        ```text
+        curl -v -k --user admin:admin --data '{"displayName":"manager"}' --header "Content-Type:application/json" https://localhost:9443/scim2/Groups
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        **Response**
+
+        <Anchor id="cb3" />
+
+        ```text
+        {"displayName":"PRIMARY/manager","meta":{"created":"2018-08-16T15:27:42Z","location":"https://localhost:9443/scim2/Groups/a43fe003-d90d-43ca-ae38-d2332ecc0f36","lastModified":"2018-08-16T15:27:42Z","resourceType":"Group"},"schemas":["urn:ietf:params:scim:schemas:core:2.0:Group"],"id":"a43fe003-d90d-43ca-ae38-d2332ecc0f36"}
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+**Parameters**
+
+<table style={{width: "100%"}}>
+  <colgroup>
+    <col style={{width: "4%"}} />
+    <col style={{width: "9%"}} />
+    <col style={{width: "75%"}} />
+    <col style={{width: "5%"}} />
+    <col style={{width: "4%"}} />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Schema</th>
+      <th>Default Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Query</td>
+      <td>
+
+        attributes
+
+        (optional)
+
+      </td>
+      <td>
+
+        Attribute names of attributes that are to be included in the response.
+
+        All the of the users dialect and meta dialect are supported. For more information about this parameter, see [the SCIM 2.0 specification](https://tools.ietf.org/html/rfc7644#section-3.4.2.5) .
+
+        **Sample Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -v -k --user admin:admin --data '{"displayName":"manager"}' --header "Content-Type:application/json" https://localhost:9443/scim2/Groups?attributes=displayName
+        ```
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Query</td>
+      <td>
+
+        excludedAttributes
+
+        (optional)
+
+      </td>
+      <td>
+
+        Attribute names of attributes that are to be exclused from the response.<br /> All the of the users dialect and meta dialect are supported. For more information about this parameter, see [the SCIM 2.0 specification](https://tools.ietf.org/html/rfc7644#section-3.4.2.5) .
+
+        **Sample Request**
+
+        <Anchor id="cb2" />
+
+        ```text
+        curl -v -k --user admin:admin --data '{"displayName":"manager"}' --header "Content-Type:application/json" https://localhost:9443/scim2/Groups?excludedAttributes=displayName
+        ```
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Body</td>
+      <td>
+
+        body
+
+        (optional)
+
+      </td>
+      <td>
+
+        This is a JSON object that contains relevant values used to create a group.
+
+        **Sample Request**
+
+        <Anchor id="cb3" />
+
+        ```text
+        curl -v -k --user admin:admin --data '{"displayName":"manager"}' --header "Content-Type:application/json" https://localhost:9443/scim2/Groups
+        ```
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+**Responses**
+
+-   HTTP 201 - Valid group is created
+-   HTTP 401 - Unauthorized
+-   HTTP 404 - Invalid group
+
+:::tip
+To create a user in a particular user store, add the
+`{domainName}/` prefix in front of the user name as shown in the example
+below.
+
+```java
+curl -v -k --user admin:admin --data '{"displayName":"WSO2DOMAIN/manager"}' --header "Content-Type:application/json" https://localhost:9443/scim2/Groups
+```
+:::
+
+### GET/ Group by ID
+
+```text
+GET https://localhost:9443/t/{tenant-domain}/scim2/Groups/{id}
+```
+
+This API returns the group details of a particular group using its
+unique ID. It returns an `           HTTP 200          ` response if the
+group is found.
+
+<table>
+  <colgroup>
+    <col style={{width: "100%"}} />
+  </colgroup>
+  <tbody>
+    <tr>
+      <td>
+
+        **Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -v -k --user [username]:[password]  https://localhost:9443/scim2/Groups/[group ID]
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        **Sample cURL**
+
+        <Anchor id="cb2" />
+
+        ```text
+        curl -v -k --user admin:admin https://localhost:9443/scim2/Groups/a43fe003-d90d-43ca-ae38-d2332ecc0f36
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        **Response**
+
+        <Anchor id="cb3" />
+
+        ```text
+        {"displayName":"manager","meta":{"created":"2018-08-16T15:27:42Z","location":"https://localhost:9443/scim2/Groups/a43fe003-d90d-43ca-ae38-d2332ecc0f36","lastModified":"2018-08-16T15:27:42Z"},"schemas":["urn:ietf:params:scim:schemas:core:2.0:Group"],"id":"a43fe003-d90d-43ca-ae38-d2332ecc0f36"}
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+**Parameters**
+
+<table style={{width: "100%"}}>
+  <colgroup>
+    <col style={{width: "4%"}} />
+    <col style={{width: "9%"}} />
+    <col style={{width: "75%"}} />
+    <col style={{width: "5%"}} />
+    <col style={{width: "4%"}} />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Schema</th>
+      <th>Default Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Path</td>
+      <td>
+
+        id
+
+        (required)
+
+      </td>
+      <td>
+
+        Unique ID of the resource type.
+
+        <br />
+
+        <br />
+
+        <br />
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Query</td>
+      <td>
+
+        attributes
+
+        (optional)
+
+      </td>
+      <td>
+
+        Attribute names of attributes that are to be included in the response.
+
+        All the of the users dialect and meta dialect are supported. For more information about this parameter, see [the SCIM 2.0 specification](https://tools.ietf.org/html/rfc7644#section-3.4.2.5) .
+
+        **Sample Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -v -k --user admin:admin 'https://localhost:9443/scim2/Groups/a43fe003-d90d-43ca-ae38-d2332ecc0f36?attributes=displayName’
+        ```
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Query</td>
+      <td>
+
+        excludedAttributes
+
+        (optional)
+
+      </td>
+      <td>
+
+        Attribute names of attributes that are to be exclused from the response.<br /> All the of the users dialect and meta dialect are supported. For more information about this parameter, see [the SCIM 2.0 specification](https://tools.ietf.org/html/rfc7644#section-3.4.2.5) .
+
+        **Sample Request**
+
+        <Anchor id="cb2" />
+
+        ```text
+        curl -v -k --user admin:admin 'https://localhost:9443/scim2/Groups/a43fe003-d90d-43ca-ae38-d2332ecc0f36?excludedAttributes=displayName’
+        ```
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+**Responses**
+
+-   HTTP 200 - Valid group is found
+-   HTTP 401 - Unauthorized
+-   HTTP 404 - Valid group is not found
+
+### DELETE/ Delete Group By ID
+
+`           DELETE                       https://localhost:9443/t/{tenant-domain}/scim2/Groups/{id                      }          `
+
+This API deletes a particular group using its unique ID. It returns an
+`           HTTP 204          ` reponse if the group is successfully
+deleted.
+
+<table>
+  <colgroup>
+    <col style={{width: "100%"}} />
+  </colgroup>
+  <tbody>
+    <tr>
+      <td>
+
+        **Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -v -k --user [username]:[password] -X DELETE https://localhost:9443/scim2/Groups/[group ID] -H "Accept: application/json"
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        **Sample cURL**
+
+        <Anchor id="cb2" />
+
+        ```text
+        curl -v -k --user admin:admin -X DELETE https://localhost:9443/scim2/Groups/0d32c19e-7a74-4c22-b1ad-1d21317d5b04 -H "Accept:application/json"
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        **Response**
+
+        <Anchor id="cb3" />
+
+        ```text
+        HTTP/1.1 204 No Content
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+**Parameters**
+
+<table style={{width: "100%"}}>
+  <colgroup>
+    <col style={{width: "4%"}} />
+    <col style={{width: "9%"}} />
+    <col style={{width: "75%"}} />
+    <col style={{width: "5%"}} />
+    <col style={{width: "4%"}} />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Schema</th>
+      <th>Default Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Path</td>
+      <td>
+
+        id
+
+        (required)
+
+      </td>
+      <td>
+
+        Unique ID of the resource type.
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+**Responses**
+
+-   HTTP 204 - Valid group has been successfully deleted.
+-   HTTP 401 - Unauthorized
+-   HTTP 404 - Invalid group
+
+### GET/ Filter Groups
+
+`           GET                       https://localhost:9443/t/{tenant-domain}/scim2/Groups                                `
+
+This API filters groups using a given query. It returns an
+`           HTTP 200          ` reponse if filtered group list is successfully retrieved.
+
+<table>
+  <colgroup>
+    <col style={{width: "100%"}} />
+  </colgroup>
+  <tbody>
+    <tr>
+      <td>
+
+        **Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -v -k --user [username]:[password] 'https://localhost:9443/scim2/Groups?startIndex=[value]&count=[value]&filter=[query]&attributes=[attribute names]'
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        **Sample cURL**
+
+        <Anchor id="cb2" />
+
+        ```text
+        curl -v -k --user admin:admin 'https://localhost:9443/scim2/Groups?filter=displayName+eq+manager'
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        **Response**
+
+        <Anchor id="cb3" />
+
+        ```text
+        {"totalResults":1,"startIndex":1,"itemsPerPage":1,"schemas":["urn:ietf:params:scim:api:messages:2.0:ListResponse"],"Resources":[{"displayName":"PRIMARY/manager","meta":{"created":"2018-08-16T15:27:42Z","location":"https://localhost:9443/scim2/Groups/a43fe003-d90d-43ca-ae38-d2332ecc0f36","lastModified":"2018-08-16T15:27:42Z"},"members":[{"display":"kim","value":"b3c07363-f0ed-4798-97f9-0cb26d9d79c0"},{"display":"Kris","value":"81cbba1b-c259-485d-8ba4-79afb03e5bd1"}],"id":"a43fe003-d90d-43ca-ae38-d2332ecc0f36"}]}
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+**Parameters**
+
+<table style={{width: "100%"}}>
+  <colgroup>
+    <col style={{width: "4%"}} />
+    <col style={{width: "9%"}} />
+    <col style={{width: "75%"}} />
+    <col style={{width: "5%"}} />
+    <col style={{width: "4%"}} />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Schema</th>
+      <th>Default Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Query</td>
+      <td>
+
+        attributes
+
+        (optional)
+
+      </td>
+      <td>
+
+        Attribute names of attributes that are to be included in the response.
+
+        All the of the users dialect and meta dialect are supported. For more information about this parameter, see [the SCIM 2.0 specification](https://tools.ietf.org/html/rfc7644#section-3.4.2.5) .
+
+        **Sample Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -v -k --user admin:admin 'https://localhost:9443/scim2/Groups?filter=displayName+eq+manager&attributes=displayName'
+        ```
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Query</td>
+      <td>
+
+        excludedAttributes
+
+        (optional)
+
+      </td>
+      <td>
+
+        Attribute names of attributes that are to be exclused from the response.<br /> All the of the users dialect and meta dialect are supported. For more information about this parameter, see [the SCIM 2.0 specification](https://tools.ietf.org/html/rfc7644#section-3.4.2.5) .
+
+        **Sample Request**
+
+        <Anchor id="cb2" />
+
+        ```text
+        curl -v -k --user admin:admin 'https://localhost:9443/scim2/Groups?filter=displayName+eq+manager&excludedAttributes=displayName'
+        ```
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Query</td>
+      <td>
+
+        filter
+
+        (optional)
+
+      </td>
+      <td>
+
+        A filter expression used to filter groups.
+
+        Supported filter operators are ‘ ` EQ ` ’, ' ` EW' `, ‘ ` CO ` ’, ‘ ` SW ` ’, and ‘ ` AND ` ’.
+
+        :::note
+        Operators are case-insensitive.
+        :::
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Query</td>
+      <td>
+
+        startIndex
+
+        (optional)
+
+      </td>
+      <td>
+
+        The 1-based index of the first query result.
+
+        :::warning
+        Pagination is not supported.
+        :::
+
+      </td>
+      <td>Integer</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Query</td>
+      <td>
+
+        count
+
+        (optional)
+
+      </td>
+      <td>
+
+        Specifies the desired maximum number of query results per page.
+
+        :::warning
+        Pagination is not supported.
+        :::
+
+        :::note
+        When this parameter is not included in the request, the response returns all groups from the given domain or across all user stores. When the count is zero or any value less than zero, no groups are returned.
+        :::
+
+      </td>
+      <td>Integer</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Query</td>
+      <td>
+
+        sortBy
+
+        (optional)
+
+      </td>
+      <td>
+
+        Specifies the attribute whose value can be used to order the returned responses.
+
+        :::warning
+        This parameter is not supported for this version.
+        :::
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Query</td>
+      <td>
+
+        sortOrder
+
+        (optional)
+
+      </td>
+      <td>
+
+        The order in which the "sortBy" parameter is applied. (e.g., ascending order)
+
+        :::warning
+        This parameter is not supported for this version.
+        :::
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Query</td>
+      <td>
+
+        domain
+
+        (optional)
+
+      </td>
+      <td>The name of the user store to which filtering needs to be applied.</td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+**Responses**
+
+-   HTTP 200 - Filtered group list successfully returned.
+-   HTTP 403 - Unauthorized
+-   HTTP 500 - Invalid group
+
+:::tip
+There are two ways to retrieve users from a particular user store:
+
+1.  **Using the `              domain             ` query parameter**  
+    Setting the domain parameter enables both filtering and listing
+    groups in a specified user store.
+
+    **Sample Request**
+
+    ```java
+    curl -v -k --user admin:admin 'https://localhost:9443/scim2/Groups?domain=WSO2’
+    ```
+
+2.  **Adding the “ `              {domain}/             ` ” prefix in
+    front of the filter value**  
+    Filter or list users from a particular domain by specifying the
+    domain in front of the filter value as shown in the example below.  
+    Note that this feature can only be used with "displayName",
+    "members.display" and "members.value" attributes.  
+    If the domain name is specified in both the query parameter and the
+    filter value, an ERROR is thrown if the two values are not equal.
+
+    ```java
+    curl -v -k --user admin:admin 'https://localhost:9443/scim2/Groups?filter=displayName+eq+WSO2/manager'
+    ```
+:::
+
+### POST/ Search Groups
+
+`           POST                       https://localhost:9443/t/{tenant-domain}/scim2/Groups/.search                     `
+
+This API returns groups according to the specified filter, sort and
+pagination parameters. It returns an `           HTTP 404          `
+response if the groups are not found.
+
+<table>
+  <colgroup>
+    <col style={{width: "100%"}} />
+  </colgroup>
+  <tbody>
+    <tr>
+      <td>
+
+        **Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -v -k --user [username]:[password] --data '{"schemas": [],"startIndex": [value], "filter": [query]}' --header "Content-Type:application/scim+json" https://localhost:9443/scim2/Groups/.search
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        **Sample cURL**
+
+        <Anchor id="cb2" />
+
+        ```text
+        curl -v -k --user admin:admin --data '{"schemas": ["urn:ietf:params:scim:api:messages:2.0:SearchRequest"],"startIndex": 1, "filter": "displayName eq manager"}' --header "Content-Type:application/json" https://localhost:9443/scim2/Groups/.search
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        **Response**
+
+        <Anchor id="cb3" />
+
+        ```text
+        {"totalResults":1,"startIndex":1,"itemsPerPage":1,"schemas":["urn:ietf:params:scim:api:messages:2.0:ListResponse"],"Resources":[{"displayName":"PRIMARY/manager","meta":{"created":"2018-08-16T15:27:42Z","location":"https://localhost:9443/scim2/Groups/a43fe003-d90d-43ca-ae38-d2332ecc0f36","lastModified":"2018-08-16T15:27:42Z"},"members":[{"display":"kim","value":"b3c07363-f0ed-4798-97f9-0cb26d9d79c0"},{"display":"Kris","value":"81cbba1b-c259-485d-8ba4-79afb03e5bd1"}],"id":"a43fe003-d90d-43ca-ae38-d2332ecc0f36"}]}
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+**Parameters**
+
+<table style={{width: "100%"}}>
+  <colgroup>
+    <col style={{width: "4%"}} />
+    <col style={{width: "9%"}} />
+    <col style={{width: "75%"}} />
+    <col style={{width: "5%"}} />
+    <col style={{width: "4%"}} />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Schema</th>
+      <th>Default Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Body</td>
+      <td>
+
+        body
+
+        (optional)
+
+      </td>
+      <td>
+
+        This is a JSON object that contains relevant values used to search for a group.
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+**Responses**
+
+-   HTTP 200 - Valid groups are found
+-   HTTP 401 - Unauthorized
+-   HTTP 404 - Groups are not found
+
+### PATCH/ Update Group
+
+```text
+PATCH https://localhost:9443/t/{tenant-domain}/scim2/Groups/{id}
+```
+
+This API updates the group details and returns the updated group details using a PATCH operation. It returns an `HTTP 404` response if the group is not found.   
+
+<table>
+  <colgroup>
+    <col style={{width: "100%"}} />
+  </colgroup>
+  <tbody>
+    <tr>
+      <td>
+
+        **Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -v -k --user [username]:[password] -X PATCH -d '{"schemas":[],"Operations":[{"op": [operation],"value":{"members":[{"display": [name],"$ref": [ref],"value": [member user ID] }] } }]}' --header "Content-Type:application/json" https://localhost:9443/scim2/Groups/[group ID]
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        **Sample cURL**
+
+        <Anchor id="cb2" />
+
+        ```text
+        curl -v -k --user admin:admin -X PATCH -d '{"schemas":["urn:ietf:params:scim:api:messages:2.0:PatchOp"],"Operations":[{"op":"add","value":{"members":[{"display": "Kris","$ref":"https://localhost:9443/scim2/Users/81cbba1b-c259-485d-8ba4-79afb03e5bd1","value": "81cbba1b-c259-485d-8ba4-79afb03e5bd1"}]}}]}' --header "Content-Type:application/json" https://localhost:9443/scim2/Groups/a43fe003-d90d-43ca-ae38-d2332ecc0f36
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        **Response**
+
+        <Anchor id="cb3" />
+
+        ```text
+        {"displayName":"PRIMARY/manager","meta":{"created":"2018-08-16T15:27:42Z","location":"https://localhost:9443/scim2/Groups/a43fe003-d90d-43ca-ae38-d2332ecc0f36","lastModified":"2018-08-16T15:51:45Z"},"schemas":["urn:ietf:params:scim:schemas:core:2.0:Group"],"members":[{"display":"kim","value":"b3c07363-f0ed-4798-97f9-0cb26d9d79c0"},{"display":"Kris","value":"81cbba1b-c259-485d-8ba4-79afb03e5bd1","$ref":"https://localhost:9443/scim2/Users/81cbba1b-c259-485d-8ba4-79afb03e5bd1"}],"id":"a43fe003-d90d-43ca-ae38-d2332ecc0f36"}
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+**Parameters**
+
+<table style={{width: "100%"}}>
+  <colgroup>
+    <col style={{width: "4%"}} />
+    <col style={{width: "9%"}} />
+    <col style={{width: "75%"}} />
+    <col style={{width: "5%"}} />
+    <col style={{width: "4%"}} />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Schema</th>
+      <th>Default Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Path</td>
+      <td>
+
+        id
+
+        (required)
+
+      </td>
+      <td>
+
+        Unique ID of the resource type.
+
+        <br />
+
+        <br />
+
+        <br />
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Query</td>
+      <td>
+
+        attributes
+
+        (optional)
+
+      </td>
+      <td>
+
+        Attribute names of attributes that are to be included in the response.
+
+        All the of the users dialect and meta dialect are supported. For more information about this parameter, see [the SCIM 2.0 specification](https://tools.ietf.org/html/rfc7644#section-3.4.2.5) .
+
+        **Sample Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -v -k --user admin:admin -X PATCH -d '{"schemas":["urn:ietf:params:scim:api:messages:2.0:PatchOp"],"Operations":[{"op":"add","value":{"members":[{"display": "Kris","$ref":"https://localhost:9443/scim2/Users/81cbba1b-c259-485d-8ba4-79afb03e5bd1","value": "81cbba1b-c259-485d-8ba4-79afb03e5bd1"}]}}]}' --header "Content-Type:application/json" https://localhost:9443/scim2/Groups/a43fe003-d90d-43ca-ae38-d2332ecc0f36?attributes=displayName
+        ```
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Query</td>
+      <td>
+
+        excludedAttributes
+
+        (optional)
+
+      </td>
+      <td>
+
+        Attribute names of attributes that are to be exclused from the response.<br /> All the of the users dialect and meta dialect are supported. For more information about this parameter, see [the SCIM 2.0 specification](https://tools.ietf.org/html/rfc7644#section-3.4.2.5) .
+
+        **Sample Request**
+
+        <Anchor id="cb2" />
+
+        ```text
+        curl -v -k --user admin:admin -X PATCH -d '{"schemas":["urn:ietf:params:scim:api:messages:2.0:PatchOp"],"Operations":[{"op":"add","value":{"members":[{"display": "Kris","$ref":"https://localhost:9443/scim2/Users/81cbba1b-c259-485d-8ba4-79afb03e5bd1","value": "81cbba1b-c259-485d-8ba4-79afb03e5bd1"}]}}]}' --header "Content-Type:application/json" https://localhost:9443/scim2/Groups/a43fe003-d90d-43ca-ae38-d2332ecc0f36?excludedAttributes=displayName
+        ```
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Body</td>
+      <td>
+
+        body
+
+        (optional)
+
+      </td>
+      <td>This is a JSON object that contains relevant values used to search for a user.</td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+**Responses**
+
+-   HTTP 200 - Group has been successfully updated
+-   HTTP 401 - Unauthorized
+-   HTTP 404 - Valid group is not found
+
+### PATCH/ Remove Group Member
+
+This API removes group member and returns the updated group details using a PATCH operation. It returns an `HTTP 404` response if the group is not found. 
+
+```text
+PATCH https://localhost:9443/t/{tenant-domain}/scim2/Groups/{id}
+```
+
+**Parameters**
+
+<table style={{width: "100%"}}>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Schema</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Path</td>
+      <td>
+
+        id
+
+        (required)
+
+      </td>
+      <td>
+
+        Unique ID of the resource type.
+
+        <br />
+
+        <br />
+
+        <br />
+
+      </td>
+      <td>String</td>
+    </tr>
+    <tr>
+      <td>Query</td>
+      <td>
+
+        attributes
+
+        (optional)
+
+      </td>
+      <td>
+
+        Attribute names of attributes that are to be included in the response.
+
+        All the of the users dialect and meta dialect are supported. For more information about this parameter, see [the SCIM 2.0 specification](https://tools.ietf.org/html/rfc7644#section-3.4.2.5) .
+
+        <details>
+        <summary>Sample Request</summary>
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -v -k --user admin:admin https://localhost:9443/scim2/Groups?attributes=displayName
+        ```
+
+        </details>
+
+      </td>
+      <td>String</td>
+    </tr>
+    <tr>
+      <td>Query</td>
+      <td>
+
+        excludedAttributes
+
+        (optional)
+
+      </td>
+      <td>
+
+        Attribute names of attributes that are to be exclused from the response.<br /> All the of the users dialect and meta dialect are supported. For more information about this parameter, see [the SCIM 2.0 specification](https://tools.ietf.org/html/rfc7644#section-3.4.2.5) .
+
+        <details>
+        <summary>Sample Request</summary>
+
+        <Anchor id="cb2" />
+
+        ```text
+        curl -v -k --user admin:admin https://localhost:9443/scim2/Groups?excludedAttributes=members
+        ```
+
+        </details>
+
+      </td>
+      <td>String</td>
+    </tr>
+    <tr>
+      <td>Body</td>
+      <td>
+
+        body
+
+        (optional)
+
+      </td>
+      <td>This is a JSON object that contains relevant values used to search for a user.</td>
+      <td>String</td>
+    </tr>
+  </tbody>
+</table>
+
+**Request**
+
+```bash
+curl -v -k --user [user name]:[password] -X PATCH -d '{"schemas":["urn:ietf:params:scim:api:messages:2.0:PatchOp"],"Operations":[{"op":"[operation]","path":"members[display eq [user's user name],value eq [user Id]]"}]}' --header "Content-Type:application/json" https://localhost:9443/scim2/Groups/[group Id]
+```
+
+**Response**
+
+-   HTTP 200 - Group has been successfully updated
+-   HTTP 401 - Unauthorized
+-   HTTP 404 - Valid group is not found
+
+:::note[Example]
+```bash
+curl -v -k --user admin:admin -X PATCH -d '{"schemas":["urn:ietf:params:scim:api:messages:2.0:PatchOp"],"Operations":[{"op":"remove","path":"members[display eq kim,value eq 81ffe274-19a9-46aa-acfe-469a09cdd25a]"}]}' --header "Content-Type:application/json" https://localhost:9443/scim2/Groups/1b91c4ef-9834-4278-82e3-ed810a94403b
+```
+
+```bash
+{"displayName":"PRIMARY/testGroup","meta":{"created":"2019-12-06T09:34:52.250Z","location":"https://localhost:9443/scim2/Groups/1b91c4ef-9834-4278-82e3-ed810a94403b","lastModified":"2019-12-06T09:34:52.250Z"},"schemas":["urn:ietf:params:scim:schemas:core:2.0:Group"],"members":[{"display":"orange","value":"81ffe274-19a9-46aa-acfe-469a09cdd25a","$ref":"https://localhost:9443/scim2/Users/81ffe274-19a9-46aa-acfe-469a09cdd25a"}],"id":"1b91c4ef-9834-4278-82e3-ed810a94403b"}
+```
+:::
+
+### PUT/ Update Group
+
+`           PUT                       https://localhost:9443/t/{tenant-domain}/scim2/Groups/{id                      }                     `
+
+This API updates the group details and returns the updated group details
+using a PUT operation. It returns an `           HTTP 404          `
+reponse if the group is not found.
+
+<table>
+  <colgroup>
+    <col style={{width: "100%"}} />
+  </colgroup>
+  <tbody>
+    <tr>
+      <td>
+
+        **Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -v -k --user[username]:[password] -X PUT -d '{"displayName":[group name],"members":[{"value":[user ID],"display":[user's name]}]}' --header "Content-Type:application/json" https://localhost:9443/scim2/Groups/[group ID]
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        **Sample cURL**
+
+        <Anchor id="cb2" />
+
+        ```text
+        curl -v -k --user admin:admin -X PUT -d '{"displayName":"manager","members":[{"value":"b3c07363-f0ed-4798-97f9-0cb26d9d79c0","display":"kim"}]}' --header "Content-Type:application/json" https://localhost:9443/scim2/Groups/a43fe003-d90d-43ca-ae38-d2332ecc0f36
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        **Response**
+
+        <Anchor id="cb3" />
+
+        ```text
+        {"displayName":"PRIMARY/manager","meta":{"created":"2018-08-16T15:27:42Z","location":"https://localhost:9443/scim2/Groups/a43fe003-d90d-43ca-ae38-d2332ecc0f36","lastModified":"2018-08-16T15:42:56Z"},"schemas":["urn:ietf:params:scim:schemas:core:2.0:Group"],"members":[{"display":"kim","value":"b3c07363-f0ed-4798-97f9-0cb26d9d79c0"}],"id":"a43fe003-d90d-43ca-ae38-d2332ecc0f36"}
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+**Parameters**
+
+<table style={{width: "100%"}}>
+  <colgroup>
+    <col style={{width: "4%"}} />
+    <col style={{width: "9%"}} />
+    <col style={{width: "75%"}} />
+    <col style={{width: "5%"}} />
+    <col style={{width: "4%"}} />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Schema</th>
+      <th>Default Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Path</td>
+      <td>
+
+        id
+
+        (required)
+
+      </td>
+      <td>
+
+        Unique ID of the resource type.
+
+        <br />
+
+        <br />
+
+        <br />
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Query</td>
+      <td>
+
+        attributes
+
+        (optional)
+
+      </td>
+      <td>
+
+        Attribute names of attributes that are to be included in the response.
+
+        All the of the users dialect and meta dialect are supported. For more information about this parameter, see [the SCIM 2.0 specification](https://tools.ietf.org/html/rfc7644#section-3.4.2.5) .
+
+        **Sample Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -v -k --user admin:admin -X PUT -d '{"displayName":"manager","members":[{"value":"b3c07363-f0ed-4798-97f9-0cb26d9d79c0","display":"kim"}]}' --header "Content-Type:application/json" https://localhost:9443/scim2/Groups/a43fe003-d90d-43ca-ae38-d2332ecc0f36?attributes=displayName
+        ```
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Query</td>
+      <td>
+
+        excludedAttributes
+
+        (optional)
+
+      </td>
+      <td>
+
+        Attribute names of attributes that are to be exclused from the response.<br /> All the of the users dialect and meta dialect are supported. For more information about this parameter, see [the SCIM 2.0 specification](https://tools.ietf.org/html/rfc7644#section-3.4.2.5) .
+
+        **Sample Request**
+
+        <Anchor id="cb2" />
+
+        ```text
+        curl -v -k --user admin:admin -X PUT -d '{"displayName":"manager","members":[{"value":"b3c07363-f0ed-4798-97f9-0cb26d9d79c0","display":"kim"}]}' --header "Content-Type:application/json" https://localhost:9443/scim2/Groups/a43fe003-d90d-43ca-ae38-d2332ecc0f36?excludedAttributes=displayName
+        ```
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Body</td>
+      <td>
+
+        body
+
+        (optional)
+
+      </td>
+      <td>This is a JSON object that contains relevant values used to search for a user.</td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+**Responses**
+
+-   HTTP 200 - Group has been successfully updated
+-   HTTP 401 - Unauthorized
+-   HTTP 404 - Valid group is not found
+
+## Me Endpoint
+This endpoint is used to create and manage the currently authenticated user. 
+
+:::note[Prevent federated users from accessing the Me endpoint]
+To prevent federated users from accessing the Me endpoint, set the following property to true in `<IS_HOME>/repository/conf/deployment.toml` file.
+
+```toml
+[scim2]
+restrict_federated_user_access_to_me_endpoint = true
+```
+:::
+
+### POST/ Create Me
+`POST https://localhost:9443/t/{tenant-domain}/scim2/Me`
+
+This API is used to register a user anonymously. It returns an HTTP 201 response if the user is successfully created. These endpoints are secured by default. Therefore, to invoke this API anonymously, set the secured property for the SCIM2 resource in the identity.xml file to false. For more information, see [Authenticating and Authorizing REST APIs](./authenticating-and-authorizing-rest-apis.mdx). 
+
+```java
+curl -v -k  --data '{"schemas":[],"name:{"familyName":[last name],"givenName":[name]},"userName":[username],"password":[password],"emails":[{"primary":[true/false],"value":[email address],"type":[home/work]},{"value":[email address 2],"type":[home/work]}],"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User":{"employeeNumber":[employee ID],"manager":{"value":[manager's name]}}}' --header "Content-Type:application/json" https://localhost:9443/scim2/Me
+```
+
+```java
+curl -v -k --data '{"schemas":[],"name":{"familyName":"Johnson","givenName":"Alex"},"userName":"alex","password":"alexwso2","emails":[{"primary":true,"value":"alex.j@gmail.com","type":"home"},{"value":"alex_j@wso2.com","type":"work"}],"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User":{"employeeNumber":"123A","manager":{"value":"Taylor"}}}' --header "Content-Type:application/json" https://localhost:9443/scim2/Me
+```
+
+```java
+{"emails":[{"type":"home","value":"alex.j@gmail.com","primary":true},{"type":"work","value":"alex_j@wso2.com"}],"meta":{"created":"2018-08-17T10:34:29Z","location":"https://localhost:9443/scim2/Users/008bba85-451d-414b-87de-c03b5a1f4217","lastModified":"2018-08-17T10:34:29Z","resourceType":"User"},"schemas":["urn:ietf:params:scim:schemas:core:2.0:User","urn:ietf:params:scim:schemas:extension:enterprise:2.0:User"],"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User":{"manager":{"value":"Taylor"},"employeeNumber":"123A"},"name":{"familyName":"Johnson","givenName":"Alex"},"id":"008bba85-451d-414b-87de-c03b5a1f4217","userName":"alex"}
+```
+
+**Parameters**
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Schema</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Query</td>
+      <td>attributes (optional)</td>
+      <td>
+
+        Attribute names of attributes that are to be included in the response. When this parameter is included in the request, the response returns only the attributes that are specified in the request. All the attributes of the users dialect and meta dialect are supported. For more information about this parameter, see the SCIM 2.0 specification.
+
+        <details>
+        <summary>Click to see the Sample Request</summary>
+
+        `curl -v -k --data '{"schemas":[],"name":{"familyName":"Johnson","givenName":"Alex"},"userName":"alex","password":"alexwso2","emails":[{"primary":true,"value":"alex.j@gmail.com","type":"home"},{"value":"alex_j@wso2.com","type":"work"}],"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User":{"employeeNumber":"123A","manager":{"value":"Taylor"}}}' --header "Content-Type:application/json" https://localhost:9443/scim2/Me?attributes=userName,name.familyName`
+
+        </details>
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Query</td>
+      <td>excludedAttributes (optional)</td>
+      <td>
+
+        Attribute names of attributes that are to be excluded from the response. When this parameter is included in the request, the response returns all attributes except the excluded attributes that are specified in the request. All the attributes of the users dialect and meta dialect are supported. For more information about this parameter, see the SCIM 2.0 specification.
+
+        <details>
+        <summary>Click to see the Sample Request</summary>
+
+        `curl -v -k --data '{"schemas":[],"name":{"familyName":"Johnson","givenName":"Alex"},"userName":"alex","password":"alexwso2","emails":[{"primary":true,"value":"alex.j@gmail.com","type":"home"},{"value":"alex_j@wso2.com","type":"work"}],"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User":{"employeeNumber":"123A","manager":{"value":"Taylor"}}}' --header "Content-Type:application/json" https://localhost:9443/scim2/Me?excludedAttributes=userName,name.familyName`
+
+        </details>
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Body</td>
+      <td>body (optional)</td>
+      <td>A JSON object that contains relevant values for creating a user.</td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+**Responses**
+
+-    HTTP 201 - Valid user is created
+-    HTTP 401 - Unauthorized
+-    HTTP 404 - Invalid user
+
+### GET/ Get Me
+`GET https://localhost:9443/t/{tenant-domain}/scim2/Me`
+
+This API returns the user details of the currently authenticated user. These endpoints are secured by default. Therefore, to invoke this API anonymously, set the secured property for the SCIM2 resource in the identity.xml file to false. For more information, see [Authenticating and Authorizing REST APIs](./authenticating-and-authorizing-rest-apis.mdx).
+
+```cur
+curl -v -k --user [username]:[password] https://localhost:9443/scim2/Me
+```
+
+```bash
+curl -v -k --user kim:kimwso2 https://localhost:9443/scim2/Me
+```
+
+```bash
+{"schemas":["urn:ietf:params:scim:schemas:core:2.0:ResourceType"],"resourceType":[{"schema":"urn:ietf:params:scim:schemas:core:2.0:User","endpoint":"/Users","meta":{"location":"https://localhost:9443/scim2/ResourceType/User","resourceType":"ResourceType"},"name":"User","description":"User Account","schemaExtensions":{"schema":"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User","required":false},"id":"User"},{"schema":"urn:ietf:params:scim:schemas:core:2.0:Group","endpoint":"/Groups","meta":{"location":"https://localhost:9443/scim2/ResourceType/Group","resourceType":"ResourceType"},"name":"Group","description":"Group","id":"Group"}]}
+```
+
+**Parameters**
+None
+
+**Responses**
+
+-    HTTP 200 - Schema is found
+-    HTTP 401 - Unauthorized
+-    HTTP 404 - Schema is not found
+
+### DELETE/ Delete Me
+
+`DELETE https://localhost:9443/t/{tenant-domain}/scim2/Me`
+
+This API is used to delete the currently authenticated user. It returns `HTTP 204` if the user is successfully deleted.
+
+```bash
+curl -v -k --user  [username]:[password] -X DELETE https://localhost:9443/scim2/Me
+```
+
+```bash
+curl -v -k --user alex:alexwso2 -X DELETE https://localhost:9443/scim2/Me
+```
+
+```bash
+HTTP/1.1 204 NOT IMPLEMENTED
+```
+
+| Type | Name | Description | Schema | Default Value |
+| --- | --- | --- | --- | --- |
+| Path | id (required) | Unique ID of the resource type. | String | - |
+
+**Response** 
+-    HTTP 204 - User has been successfully deleted
+-    HTTP 401 - Unauthorized
+-    HTTP 404 - Valid user is not found
+
+### PATCH/ Update Me
+
+`PATCH https://localhost:9443/t/{tenant-domain}/scim2/Me`
+
+This API uses a PATCH operation to update user details Returns `HTTP 404` if the user is not found.
+
+```bash
+curl -v -k --user [username]:[password] -X PATCH -d '{"schemas":[],"Operations":[{"op":[operation],"value":{[attributeName]:[attribute value]}}]}' --header "Content-Type:application/json" https://localhost:9443/scim2/Me
+```
+
+```bash
+curl -v -k --user kim:kimwso2 -X PATCH -d '{"schemas":["urn:ietf:params:scim:api:messages:2.0:PatchOp"],"Operations":[{"op":"add","value":{"nickName":"shaggy"}}]}' --header "Content-Type:application/json" https://localhost:9443/scim2/Me
+```
+
+```bash
+{"emails":[{"type":"work","value":"jackson_k@wso2.com"},{"type":"home","value":"jacksonk@gmail.com"}],"meta":{"created":"2018-08-16T17:19:43Z","location":"https://localhost:9443/scim2/Users/f60e6ddd-8d04-411f-92b9-c7ba95fb0fa9","lastModified":"2018-08-17T11:43:34Z","resourceType":"User"},"nickName":"shaggy","schemas":["urn:ietf:params:scim:schemas:core:2.0:User","urn:ietf:params:scim:schemas:extension:enterprise:2.0:User"],"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User":{"manager":{"value":"Taylor"},"employeeNumber":"123A"},"roles":[{"type":"default","value":"manager,Internal/everyone,admin"}],"name":{"givenName":"Kim","familyName":"JacksonJohn"},"groups":[{"display":"manager","value":"a43fe003-d90d-43ca-ae38-d2332ecc0f36"}],"id":"f60e6ddd-8d04-411f-92b9-c7ba95fb0fa9","userName":"kim"}
+```
+
+**Parameters**
+
+<table>
+  <thead>
+  </thead>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th></th>
+      <td>Schema</td>
+      <th>Default Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Query</td>
+      <td>attributes (optional)</td>
+      <td>
+
+        Attribute names of attributes that are to be included in the response. When this parameter is included in the request, the response returns only the attributes that are specified in the request. All the attributes of the users dialect and meta dialect are supported. For more information about this parameter, see the SCIM 2.0 specification.
+
+        <details>
+        <summary>Click to see the sample request</summary>
+
+        `curl -v -k --user kim:kimwso2 -X PATCH -d '{"schemas":["urn:ietf:params:scim:api:messages:2.0:PatchOp"],"Operations":[{"op":"add","value":{"nickName":"shaggy"}}]}' --header "Content-Type:application/json" https://localhost:9443/scim2/Me?attributes=userName,name.familyName`
+
+        </details>
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Query</td>
+      <td>excludedAttributes (optional)</td>
+      <td>
+
+        Attribute names of attributes that are to be excluded from the response. When this parameter is included in the request, the response returns all attributes except the excludedattributes that are specified in the request. All the attributes of the users dialect and meta dialect are supported. For more information about this parameter, see the SCIM 2.0 specification.
+
+        <details>
+        <summary>Click to see the sample request</summary>
+
+        `curl -v -k --user kim:kimwso2 -X PATCH -d '{"schemas":["urn:ietf:params:scim:api:messages:2.0:PatchOp"],"Operations":[{"op":"add","value":{"nickName":"shaggy"}}]}' --header "Content-Type:application/json" https://localhost:9443/scim2/Me?excludedAttributes=userName,name.familyName`
+
+        </details>
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Body</td>
+      <td>body (optional)</td>
+      <td>This is a JSON object that contains relevant values used to search for a user.</td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+**Response**
+
+-    HTTP 200 - User has been successfully updated
+-    HTTP 401 - Unauthorized
+-    HTTP 404 - Valid user is not found 
+
+### PUT/ Update User {#put-update-user_1}
+
+`PUT https://localhost:9443/t/{tenant-domain}/scim2/Me`
+
+This API uses a PUT operation to update user details. It returns `HTTP 404` if the user is not found.
+
+```bash
+curl -v -k --user [username]:[password] -X PUT -d '{"schemas":[],"name":{"familyName":[last name],"givenName":[name]},"emails":[{"primary":[true/false],"value":[email address],"type":[home/work]},{"value":[email address 2],"type":[home/work]}]}' --header "Content-Type:application/json" https://localhost:9443/scim2/Me
+```
+
+```bash
+curl -v -k --user kim:kimwso2 -X PUT -d '{"schemas":[],"name":{"familyName":"JacksonJohn","givenName":"Kim"},"userName":"kim","emails":[{"primary":true,"value":"jacksonk@gmail.com","type":"home"},{"value":"jackson_k@wso2.com","type":"work"}],"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User":{"employeeNumber":"123A","manager":{"value":"Taylor"}}}' --header "Content-Type:application/json" https://localhost:9443/scim2/Me
+```
+
+```bash
+{"emails":[{"type":"work","value":"jackson_k@wso2.com"},{"type":"home","value":"jacksonk@gmail.com"}],"meta":{"created":"2018-08-16T17:19:43Z","location":"https://localhost:9443/scim2/Users/f60e6ddd-8d04-411f-92b9-c7ba95fb0fa9","lastModified":"2018-08-16T17:43:17Z","resourceType":"User"},"schemas":["urn:ietf:params:scim:schemas:core:2.0:User","urn:ietf:params:scim:schemas:extension:enterprise:2.0:User"],"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User":{"manager":{"value":"Taylor"},"employeeNumber":"123A"},"roles":[{"type":"default","value":"manager,Internal/everyone,admin"}],"name":{"givenName":"Kim","familyName":"JacksonJohn"},"groups":[{"display":"manager","value":"a43fe003-d90d-43ca-ae38-d2332ecc0f36"}],"id":"f60e6ddd-8d04-411f-92b9-c7ba95fb0fa9","userName":"kim"}
+```
+
+**Parameters**
+
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Schema</th>
+      <th>Default Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Query</td>
+      <td>attributes (optional)</td>
+      <td>
+
+        Attribute names of attributes that are to be included in the response. When this parameter is included in the request, the response returns only the attributes that are specified in the request. All the attributes of the users dialect and meta dialect are supported. For more information about this parameter, see the SCIM 2.0 specification.
+
+        <details>
+        <summary>Click to see the sample request</summary>
+
+        `curl -v -k --user kim:kimwso2 -X PUT -d '{"schemas":[],"name":{"familyName":"JacksonJohn","givenName":"Kim"},"userName":"kim","emails":[{"primary":true,"value":"jacksonk@gmail.com","type":"home"},{"value":"jackson_k@wso2.com","type":"work"}],"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User":{"employeeNumber":"123A","manager":{"value":"Taylor"}}}' --header "Content-Type:application/json" https://localhost:9443/scim2/Meattributes=userName,name.familyName`
+
+        </details>
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Query</td>
+      <td>excludedAttributes (optional)</td>
+      <td>
+
+        Attribute names of attributes that are to be excluded from the response. When this parameter is included in the request, the response returns all attributes except the excluded attributes that are specified in the request. All the attributes of the users dialect and meta dialect are supported. For more information about this parameter, see the SCIM 2.0 specification.
+
+        <details>
+        <summary>Click to see the sample request</summary>
+
+        `curl -v -k --user kim:kimwso2 -X PUT -d '{"schemas":[],"name":{"familyName":"JacksonJohn","givenName":"Kim"},"userName":"kim","emails":[{"primary":true,"value":"jacksonk@gmail.com","type":"home"},{"value":"jackson_k@wso2.com","type":"work"}],"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User":{"employeeNumber":"123A","manager":{"value":"Taylor"}}}' --header "Content-Type:application/json" https://localhost:9443/scim2/MeexcludedAttributes=userName,name.familyName`
+
+        </details>
+
+      </td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Body</td>
+      <td>body (optional)</td>
+      <td>This is a JSON object that contains relevant values used to search for a user.</td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+**Responses**
+
+-    HTTP 200 - User has been successfully updated
+-    HTTP 401 - Unauthorized
+-    HTTP 404 - Valid users are not found
+
+## Bulk Endpoint
+
+### POST/ Create Users in Bulk
+
+`           POST                       https://localhost:9443/t/{tenant-domain}/scim2/Bulk                     `
+
+This API is used to create multiple users at once. It returns an
+`           HTTP 201          ` response if the users are successfully
+created.
+
+<table>
+  <colgroup>
+    <col style={{width: "100%"}} />
+  </colgroup>
+  <tbody>
+    <tr>
+      <td>
+
+        **Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -v -k --user [username]:[password] --data '{"failOnErrors": [value],"schemas":[],"Operations":[{"method": [request type],"path": [end point],"bulkId": [bulk id],"data": [input user details] }] }' --header "Content-Type:application/scim+json" https://localhost:9443/scim2/Bulk
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        **Sample cURL**
+
+        <Anchor id="cb2" />
+
+        ```text
+        curl -v -k --user admin:admin --data '{"failOnErrors":1,"schemas":["urn:ietf:params:scim:api:messages:2.0:BulkRequest"],"Operations":[{"method": "POST","path": "/Users","bulkId": "qwerty","data":{"schemas":["urn:ietf:params:scim:schemas:core:2.0:User"],"userName": "Kris","password":"krispass"}},{"method": "POST","path": "/Users","bulkId":"ytrewq","data":{"schemas":["urn:ietf:params:scim:schemas:core:2.0:User","urn:ietf:params:scim:schemas:extension:enterprise:2.0:User"],"userName":"Jesse","password":"jessepass","urn:ietf:params:scim:schemas:extension:enterprise:2.0:User":{"employeeNumber": "11250","manager": {"value": "bulkId:qwerty"}}}}]}' --header "Content-Type:application/scim+json" https://localhost:9443/scim2/Bulk
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        **Response**
+
+        <Anchor id="cb3" />
+
+        ```text
+        {"schemas":["urn:ietf:params:scim:api:messages:2.0:BulkResponse"],"Operations":[{"bulkId":"qwerty","method":"POST","location":"https://localhost:9443/scim2/Users/81cbba1b-c259-485d-8ba4-79afb03e5bd1","status":{"code":201}},{"bulkId":"ytrewq","method":"POST","location":"https://localhost:9443/scim2/Users/b489dacc-fc89-449c-89f6-7acc37422031","status":{"code":201}}]}
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+**Parameters**
+
+<table style={{width: "100%"}}>
+  <colgroup>
+    <col style={{width: "4%"}} />
+    <col style={{width: "9%"}} />
+    <col style={{width: "75%"}} />
+    <col style={{width: "5%"}} />
+    <col style={{width: "4%"}} />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Schema</th>
+      <th>Default Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Body</td>
+      <td>
+
+        body
+
+        (optional)
+
+      </td>
+      <td>This is a JSON object that contains relevant values used to create the users.</td>
+      <td>String</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+**Responses**
+
+-   HTTP 200 - Valid users are created
+-   HTTP 401 - Unauthorized
+-   HTTP 404 - Invalid users
+
+## ResourceType Endpoint
+
+### GET/ Get Resource Types
+
+`           GET                       https://localhost:9443/t/{tenant-domain}/scim2/ResourceType                     `
+
+This API lists and returns metadata about resource types. It returns an
+`           HTTP 200          ` response if the schema is found.
+
+<table>
+  <colgroup>
+    <col style={{width: "100%"}} />
+  </colgroup>
+  <tbody>
+    <tr>
+      <td>
+
+        **Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -v -k --user [username]:[password] https://localhost:9443/scim2/ResourceType
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        **Sample cURL**
+
+        <Anchor id="cb2" />
+
+        ```text
+        curl -v -k --user admin:admin https://localhost:9443/scim2/ResourceType
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        **Response**
+
+        <Anchor id="cb3" />
+
+        ```text
+        {"schemas":["urn:ietf:params:scim:schemas:core:2.0:ResourceType"],"resourceType":[{"schema":"urn:ietf:params:scim:schemas:core:2.0:User","endpoint":"/Users","meta":{"location":"https://localhost:9443/scim2/ResourceType/User","resourceType":"ResourceType"},"name":"User","description":"User Account","schemaExtensions":{"schema":"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User","required":false},"id":"User"},{"schema":"urn:ietf:params:scim:schemas:core:2.0:Group","endpoint":"/Groups","meta":{"location":"https://localhost:9443/scim2/ResourceType/Group","resourceType":"ResourceType"},"name":"Group","description":"Group","id":"Group"}]}
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+**Parameters**
+
+None
+
+**Responses**
+
+-   HTTP 200 - Schema is found
+-   HTTP 401 - Unauthorized
+-   HTTP 404 - Schema is not found
+
+## ServiceProviderConfig Endpoint
+
+### GET/ Get Service Provider Config
+
+`           GET                       https://localhost:9443/t/{tenant-domain}/scim2/ServiceProviderConfig                     `
+
+This API is used to create multiple users at once. It returns an
+`           HTTP 201          ` response if the users are successfully
+created.
+
+<table>
+  <colgroup>
+    <col style={{width: "100%"}} />
+  </colgroup>
+  <tbody>
+    <tr>
+      <td>
+
+        **Request**
+
+        <Anchor id="cb1" />
+
+        ```text
+        curl -v -k --user [username]:[password]  https://localhost:9443/scim2/ServiceProviderConfig
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        **Sample cURL**
+
+        <Anchor id="cb2" />
+
+        ```text
+        curl -v -k --user admin:admin  https://localhost:9443/scim2/ServiceProviderConfig
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        **Response**
+
+        <Anchor id="cb3" />
+
+        ```text
+        {"patch":{"supported":true},"filter":{"maxResults":200,"supported":true},"documentationUri":"http://example.com/help/scim.html","authenticationSchemes":[{"name":"OAuth Bearer Token","description":"Authentication scheme using the OAuth Bearer Token Standard","specUri":"http://www.rfc-editor.org/info/rfc6750","type":"oauthbearertoken","primary":true},{"name":"HTTP Basic","description":"Authentication scheme using the HTTP Basic Standard","specUri":"http://www.rfc-editor.org/info/rfc2617","type":"httpbasic","primary":false}],"schemas":["urn:ietf:params:scim:schemas:core:2.0:ServiceProviderConfig"],"etag":{"supported":false},"sort":{"supported":false},"bulk":{"maxPayloadSize":1048576,"maxOperations":1000,"supported":true},"changePassword":{"supported":false}}
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+**Parameters**
+
+None
+
+**Responses**
+
+-   HTTP 200 - Schema is found
+-   HTTP 401 - Unauthorized
+-   HTTP 404 - Schema is not found
+
+## Permissions
+
+Following are the default permissions that are required to access each resource in SCIM 2.0.
+
+<table>
+  <thead>
+    <tr>
+      <th>Endpoint</th>
+      <th>HTTP Method</th>
+      <th>Permission</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>/scim2/Users</td>
+      <td>
+
+        ```text
+        POST
+                
+        ```
+
+      </td>
+      <td>
+
+        ```text
+        /permission/admin/manage/identity/usermgt/create
+                
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        ```text
+        /scim2/Users
+                
+        ```
+
+      </td>
+      <td>
+
+        ```text
+        GET
+                
+        ```
+
+      </td>
+      <td>
+
+        ```text
+        /permission/admin/manage/identity/usermgt/list
+                
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        ```text
+        /scim2/Groups
+                
+        ```
+
+      </td>
+      <td>
+
+        ```text
+        POST
+                
+        ```
+
+      </td>
+      <td>
+
+        ```text
+        /permission/admin/manage/identity/rolemgt/create
+                
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        ```text
+        /scim2/Groups
+                
+        ```
+
+      </td>
+      <td>
+
+        ```text
+        GET
+                
+        ```
+
+      </td>
+      <td>
+
+        ```text
+        /permission/admin/manage/identity/rolemgt/view
+                
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        ```text
+        /scim2/Users/(.*)
+                
+        ```
+
+      </td>
+      <td>
+
+        ```text
+        GET
+                
+        ```
+
+      </td>
+      <td>
+
+        ```text
+        /permission/admin/manage/identity/usermgt/view
+                
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        ```text
+        /scim2/Users/(.*)
+                
+        ```
+
+      </td>
+      <td>PUT</td>
+      <td>
+
+        ```text
+        /permission/admin/manage/identity/usermgt/update
+                
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        ```text
+        /scim2/Users/(.*)
+                
+        ```
+
+      </td>
+      <td>PATCH</td>
+      <td>
+
+        ```text
+        /permission/admin/manage/identity/usermgt/update
+                
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        ```text
+        /scim2/Users/(.*)
+                
+        ```
+
+      </td>
+      <td>DELETE</td>
+      <td>
+
+        ```text
+        /permission/admin/manage/identity/usermgt/delete
+                
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        ```text
+        /scim2/Groups/(.*)
+                
+        ```
+
+      </td>
+      <td>
+
+        ```text
+        GET
+                
+        ```
+
+      </td>
+      <td>
+
+        ```text
+        /permission/admin/manage/identity/rolemgt/view
+                
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        ```text
+        /scim2/Groups/(.*)
+                
+        ```
+
+      </td>
+      <td>PUT</td>
+      <td>
+
+        ```text
+        /permission/admin/manage/identity/rolemgt/update
+                
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        ```text
+        /scim2/Groups/(.*)
+                
+        ```
+
+      </td>
+      <td>PATCH</td>
+      <td>
+
+        ```text
+        /permission/admin/manage/identity/rolemgt/update
+                
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        ```text
+        /scim2/Groups/(.*)
+                
+        ```
+
+      </td>
+      <td>DELETE</td>
+      <td>
+
+        ```text
+        /permission/admin/manage/identity/rolemgt/delete
+                
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        ```text
+        /scim2/Me
+                
+        ```
+
+      </td>
+      <td>GET</td>
+      <td>
+
+        ```text
+        /permission/admin/login
+                
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        ```text
+        /scim2/Me
+                
+        ```
+
+      </td>
+      <td>DELETE</td>
+      <td>
+
+        ```text
+        /permission/admin/login
+                
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        ```text
+        /scim2/Me
+                
+        ```
+
+      </td>
+      <td>PUT</td>
+      <td>
+
+        ```text
+        /permission/admin/login
+                
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        ```text
+        /scim2/Me
+                
+        ```
+
+      </td>
+      <td>PATCH</td>
+      <td>
+
+        ```text
+        /permission/admin/login
+                
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        ```text
+        /scim2/Me
+                
+        ```
+
+      </td>
+      <td>POST</td>
+      <td>
+
+        ```text
+        /permission/admin/manage/identity/usermgt/create
+                
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        ```text
+        /scim2/ServiceProviderConfig
+                
+        ```
+
+      </td>
+      <td>all</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>
+
+        ```text
+        /scim2/ResourceType
+                
+        ```
+
+      </td>
+      <td>all</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>
+
+        ```text
+        /scim2/Bulk
+                
+        ```
+
+      </td>
+      <td>all</td>
+      <td>
+
+        ```text
+        /permission/admin/manage/identity/usermgt
+                
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+:::info
+More information about how to secure the REST APIs and configure authorization level, see [Authenticating and Authorizing REST APIs](./authenticating-and-authorizing-rest-apis.mdx).
+:::

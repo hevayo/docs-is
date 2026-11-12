@@ -1,0 +1,263 @@
+---
+title: Working with Properties of User Stores
+description: The following table provides descriptions of the key properties you use to configure primary user stores.  # generated from the first paragraph; a writer should improve it
+type: reference
+sidebar_position: 5
+slug: "/setup/working-with-properties-of-user-stores"
+---
+
+The following table provides descriptions of the key properties you use
+to configure primary user stores.
+
+<table>
+  <thead>
+    <tr>
+      <th>
+
+        Property Id
+
+      </th>
+      <th>
+
+        Primary User Store Property
+
+      </th>
+      <th>
+
+        Description
+
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>` MaxUserNameListLength `</td>
+      <td>` max_user_name_list_length `</td>
+      <td>Controls the number of users listed in the user store of a WSO2 product. This is useful when you have a large number of users and don't want to list them all. Setting this property to 0 displays all users.</td>
+    </tr>
+    <tr>
+      <td>` ConnectionURL `</td>
+      <td>` connection_url `</td>
+      <td>
+
+        Connection URL to the user store server. In the case of default LDAP in Carbon, the port is specified in the ` carbon.xml ` file, and a reference to that port is included in this configuration.
+
+      </td>
+    </tr>
+    <tr>
+      <td>` ConnectionName `</td>
+      <td>` connection_name `</td>
+      <td>
+
+        The username used to connect to the database and perform various operations. This user does not have to be an administrator in the user store or have an administrator role in the WSO2 product that you are using, but this user MUST have permissions to read the user list and users' attributes and to perform search operations on the user store. The value you specify is used as the DN ( ` Distinguish Name ` ) attribute of the user. This property is mandatory.
+
+      </td>
+    </tr>
+    <tr>
+      <td>` ConnectionPassword `</td>
+      <td>` connection_password `</td>
+      <td>Password for the ` ConnectionName ` user.</td>
+    </tr>
+    <tr>
+      <td>` DisplayNameAttribute `</td>
+      <td>`display_name_attribute`</td>
+      <td>This is an optional property. The Display Name Attribute is the name by which users will be listed when you search for users in the management console (Go to **Configuration -&gt; Users** tab).</td>
+    </tr>
+    <tr>
+      <td>` PasswordHashMethod `</td>
+      <td>`password_hash_method`</td>
+      <td>Password hash method to use when storing user entries in the user store.</td>
+    </tr>
+    <tr>
+      <td>` UserNameListFilter `</td>
+      <td>` user_name_list_filter `</td>
+      <td>
+
+        Filtering criteria for listing all the user entries in the user store. This query or filter is used when doing search operations on users. In this case, the search operation only provides the objects created from the specified class. This query is the same as listing out all the available users in the management console.
+
+      </td>
+    </tr>
+    <tr>
+      <td>` UserEntryObjectClass `</td>
+      <td>`user_entry_object_class`</td>
+      <td>Object class used to construct user entries. By default, it is a custom object class defined with the name ` wso2Person ` .</td>
+    </tr>
+    <tr>
+      <td>` UserSearchBase `</td>
+      <td>`user_search_base`</td>
+      <td>
+
+        DN of the context or object under which the user entries are stored in the user store. In this case, it is the "users" container. When the user store searches for users, it will start from this location of the directory.
+
+        Different databases have different search bases.
+
+      </td>
+    </tr>
+    <tr>
+      <td>` UserNameSearchFilter `</td>
+      <td>`user_name_search_filter`</td>
+      <td>Filtering criteria used to search for a particular user entry.</td>
+    </tr>
+    <tr>
+      <td>` UserNameAttribute `</td>
+      <td>`user_name_attribute`</td>
+      <td>
+
+        The attribute used for uniquely identifying a user entry. Users can be authenticated using their email address, UID, etc.
+
+        The name of the attribute is considered as the username.
+
+        For information on using email address to authenticate users, click here .
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        ` PasswordJavaScriptRegEx `
+
+      </td>
+      <td>`password_java_script_regex`</td>
+      <td>Policy that defines the password format.</td>
+    </tr>
+    <tr>
+      <td>` UsernameJavaScriptRegEx `</td>
+      <td>`username_java_script_regex`</td>
+      <td>The regular expression used by the front-end components for username validation.</td>
+    </tr>
+    <tr>
+      <td>` UsernameJavaRegEx `</td>
+      <td>`username_java_regex`</td>
+      <td>
+
+        A regular expression to validate usernames. By default, strings have a length of 5 to 30. Only non-empty characters are allowed. You can provide ranges of alphabets, numbers and also ranges of ASCII values in the RegEx properties.
+
+        <Anchor id="cb2" />
+
+        ```text
+        <Property name="UsernameJavaRegEx">[a-zA-Z0-9._\-|/]{3,30}$</Property>
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>` ReadGroups `</td>
+      <td>`read_groups`</td>
+      <td>Specifies whether groups should be read from the user store. If this is disabled by setting it to ` false `, none of the groups in the user store can be read, and the following group configurations are NOT mandatory: ` GroupSearchBase `, ` GroupNameListFilter `, or ` GroupNameAttribute ` .</td>
+    </tr>
+    <tr>
+      <td>` WriteGroups `</td>
+      <td>`write_groups`</td>
+      <td>Specifies whether groups should be written to user store.</td>
+    </tr>
+    <tr>
+      <td>` GroupSearchBase `</td>
+      <td>`group_search_base`</td>
+      <td>DN of the context under which user entries are stored in the user store.</td>
+    </tr>
+    <tr>
+      <td>` GroupNameListFilter `</td>
+      <td>`group_name_list_filter`</td>
+      <td>Filtering criteria for listing all the group entries in the user store. Groups are created in LDAP using the " ` groupOfName ` " class. The group search operation only returns objects created from this class.</td>
+    </tr>
+    <tr>
+      <td>` GroupEntryObjectClass `</td>
+      <td>`group_entry_object_class`</td>
+      <td>Object class used to construct group entries.</td>
+    </tr>
+    <tr>
+      <td>` GroupNameSearchFilter `</td>
+      <td>`group_name_search_filter`</td>
+      <td>Filtering criteria used to search for a particular group entry.</td>
+    </tr>
+    <tr>
+      <td>` GroupNameAttribute `</td>
+      <td>`group_name_attribute`</td>
+      <td>Attribute used for uniquely identifying a user entry. This attribute is to be treated as the group name.</td>
+    </tr>
+    <tr>
+      <td>` MembershipAttribute `</td>
+      <td>`membership_attribute`</td>
+      <td>Attribute used to define members of groups.</td>
+    </tr>
+    <tr>
+      <td>` MembershipAttributeRange `</td>
+      <td>`membership_attribute_range`</td>
+      <td>Attribute used by Active Directories where they need limit membership attributes. The default value for this is 1500.</td>
+    </tr>
+    <tr>
+      <td>` UserRolesCacheEnabled `</td>
+      <td>`user_roles_cache_enabled`</td>
+      <td>This is to indicate whether to cache the role list of a user. By default this is set to ` true ` . Set it to ` false ` if the user roles are changed by external means and those changes should be instantly reflected in the Carbon instance.</td>
+    </tr>
+    <tr>
+      <td>` UserDNPattern `</td>
+      <td>`user_dn_pattern`</td>
+      <td>(LDAP) The patten for the user's DN, which can be defined to improve the search. When there are many user entries in the LDAP user store, defining a ` UserDNPattern ` provides more impact on performances as the LDAP does not have to travel through the entire tree to find users.</td>
+    </tr>
+    <tr>
+      <td>` ReplaceEscapeCharactersAtUserLogin `</td>
+      <td>`replace_escape_characters_at_user_login`</td>
+      <td>(LDAP) If the user name has special characters it replaces it to validate the user logging in. Only " **\\** " and " **\\\\** " are identified as escape characters.</td>
+    </tr>
+    <tr>
+      <td>
+
+        ` PasswordJavaRegEx `
+
+      </td>
+      <td>`password_java_regex`</td>
+      <td>
+
+        (LDAP and JDBC) A regular expression to validate passwords. By default, strings having a length between 5 to 30 with non-empty characters are allowed.
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        ` PasswordJavaScriptRegEx `
+
+      </td>
+      <td>`password_java_script_regex`</td>
+      <td>The regular expression used by the front-end components for password validation.</td>
+    </tr>
+    <tr>
+      <td>
+
+        ` UsernameJavaRegEx `
+
+      </td>
+      <td>`username_java_regex`</td>
+      <td>A regular expression to validate usernames. By default, strings having a length 5 to 30 between with non-empty characters are allowed.</td>
+    </tr>
+    <tr>
+      <td>` UsernameJavaScriptRegEx `</td>
+      <td>`username_java_script_regex`</td>
+      <td>The regular expression used by the front-end components for username validation.</td>
+    </tr>
+    <tr>
+      <td>
+
+        ` RolenameJavaRegEx `
+
+      </td>
+      <td>`rolename_java_regex`</td>
+      <td>A regular expression to validate role names. By default, strings having a length between 5 to 30 with non-empty characters are allowed.</td>
+    </tr>
+    <tr>
+      <td>`MultiTenantRealmConfigBuilder`</td>
+      <td>`config_builder`</td>
+      <td>Tenant Manager specific realm config parameter. Can be used to build different types of realms for the tenant.</td>
+    </tr>
+    <tr>
+      <td>
+
+        ` LDAPConnectionTimeout `
+
+      </td>
+      <td>`ldap_connection_timeout`</td>
+      <td>If the connection to an LDAP is inactive for the length of time (in milliseconds) specified by this property, the connection will be terminated.</td>
+    </tr>
+  </tbody>
+</table>
