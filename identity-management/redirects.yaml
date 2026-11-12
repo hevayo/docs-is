@@ -1,0 +1,3 @@
+# Page moves (from → to, both page paths). Old site addresses are mapped in the onboarding
+# workspace's identity-management-redirects.json until the cutover.
+moves: []

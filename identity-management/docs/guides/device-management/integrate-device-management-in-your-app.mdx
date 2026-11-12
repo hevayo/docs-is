@@ -1,0 +1,160 @@
+---
+title: Integrate device management in your app
+description: This guide explains what a native mobile or desktop application must do to register a device with WSO2 Identity Platform and to present the registered…  # generated from the first paragraph; a writer should improve it
+type: how-to
+sidebar_position: 8
+selfHostedFrom: next
+---
+
+This guide explains what a native mobile or desktop application must do to register a device with {edition.productName} and to present the registered device when the user signs in.
+
+The application is responsible for three things:
+
+- Generating and protecting a device key.
+- Registering the device at the **Device Registration** step of a registration flow.
+- Sending a signed device token when the user signs in.
+
+## Before you begin
+
+<Edition only="self-hosted">
+
+- [Enable device management](./index.mdx#enable-device-management).
+
+</Edition>
+
+- [Add the Device Registration step](./configure-device-registration.mdx) to a registration flow, and make sure your application can run that flow with the [Flow Execution API](../flows/flow-execution-api.mdx).
+- If your policies use attestation, [configure client attestation](./device-attestation.mdx#configure-attestation) for the application.
+
+## Generate a device key
+
+Generate an elliptic curve (EC) key pair on the device, for example on the P-256 curve, and keep the private key in the secure hardware of the device, such as the Android Keystore, the Secure Enclave, or a TPM. The private key must never leave the device. The device uses this key to sign the registration challenge, the device data, and every device token.
+
+## Register the device
+
+When the flow reaches the **Device Registration** step, the Flow Execution API returns a response of type `INTERNAL_PROMPT`.
+
+```json
+{
+  "flowId": "c8e06de8-7123-44ac-8209-02be5b55387e",
+  "flowStatus": "INCOMPLETE",
+  "type": "INTERNAL_PROMPT",
+  "data": {
+    "requiredParams": ["publicKey", "signature", "deviceData"],
+    "additionalData": {
+      "registrationId": "74070bae-df8c-42bf-8754-5173c237c936",
+      "challenge": "q3x3Zp3j0JvFf1m7m3kF5G8W2sV6l9d0QhYp4n1eT0Y"
+    }
+  }
+}
+```
+
+- `registrationId` - The ID that the device gets once it is registered. Store it on the device. You need it to [send a device token at login](#send-a-device-token-at-login).
+- `challenge` - A one-time, base64url-encoded random value that the device must sign.
+- `requiredParams` - The inputs to send back. `deviceData` is required only when a device assurance policy is set on the step.
+
+Continue the flow with the following inputs.
+
+```json
+{
+  "flowId": "c8e06de8-7123-44ac-8209-02be5b55387e",
+  "inputs": {
+    "publicKey": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE...",
+    "signature": "MEUCIQDf3k...",
+    "deviceModel": "Pixel 8",
+    "deviceData": "eyJhbGciOiJFUzI1NiJ9..."
+  }
+}
+```
+
+| Input | Description |
+| --- | --- |
+| `publicKey` | The public key of the device, as a base64-encoded X.509 `SubjectPublicKeyInfo` structure. |
+| `signature` | A base64-encoded `SHA256withECDSA` signature, in DER format, over the decoded bytes of `challenge`, made with the private key of the device. |
+| `deviceModel` | Optional. The hardware model of the device. It is shown to the user and to administrators, and is used to build the default device name. |
+| `deviceData` | Required when a policy is set on the step. A JWT signed with the private key of the device that carries the device attributes. See [Report device attributes](#report-device-attributes). |
+
+If the signature is valid and the device complies with the policy, the flow moves to the next step. The device is registered to the user when the flow completes.
+
+## Report device attributes
+
+The device reports its attributes in a JWT signed with its private key, using an ECDSA algorithm that matches the key, such as `ES256`. Use a standard JWT library to create it. Note that the JWT signature uses the raw format defined by the JWS specification, unlike the DER-encoded registration `signature`. The claims of the JWT are the [device attributes](./device-attributes.mdx) that your policies use, plus the following:
+
+| Claim | Description |
+| --- | --- |
+| `jti` | Required. A unique identifier for the token. {edition.productName} rejects a token whose `jti` was already used. |
+| `iat` | Required. The time the token was issued. {edition.productName} accepts the token for five minutes after this time. |
+| `platform` | The platform of the device: `android`, `ios`, `macos`, or `windows`. It selects the policy rule that applies. |
+| `attestationToken` | Optional. The Play Integrity token (Android) or App Attest object (iOS) of the device. See [Device attestation](./device-attestation.mdx). |
+
+The following is an example of the claims for an Android device.
+
+```json
+{
+  "jti": "1f0c6a52-6a3e-4b7f-9b8e-2f5c3c9d7a10",
+  "iat": 1767225600,
+  "platform": "android",
+  "androidOsVersion": "15",
+  "isRooted": "false",
+  "lockScreen": "true",
+  "diskEncryption": "true",
+  "attestationToken": "eyJhbGciOiJBMjU2S1ciLCJlbmMiOiJBMjU2R0NNIn0..."
+}
+```
+
+## Send a device token at login
+
+When the user signs in, the application sends a device token so that {edition.productName} can identify the registered device and evaluate policies against it. The device token is a JWT with the same claims as the [device data](#report-device-attributes), signed with the private key of the device, with the following header parameter:
+
+- `deviceId` - The `registrationId` that the device received during registration.
+
+```json
+{
+  "alg": "ES256",
+  "typ": "JWT",
+  "deviceId": "74070bae-df8c-42bf-8754-5173c237c936"
+}
+```
+
+Send the token in one of the following ways:
+
+<Edition only="cloud">
+
+- In the `X-Device-Token` header of the authorization request, when the application uses [app-native authentication](../authentication/app-native-authentication/index.mdx).
+
+    ```bash
+    curl --location 'https://api.asgardeo.io/t/{organization_name}/oauth2/authorize' \
+    --header 'Content-Type: application/x-www-form-urlencoded' \
+    --header 'Accept: application/json' \
+    --header 'X-Device-Token: <device_token>' \
+    --data-urlencode 'client_id=<client_id>' \
+    --data-urlencode 'response_type=code' \
+    --data-urlencode 'redirect_uri=<redirect_uri>' \
+    --data-urlencode 'scope=openid' \
+    --data-urlencode 'response_mode=direct'
+    ```
+
+</Edition>
+
+<Edition only="self-hosted">
+
+- In the `X-Device-Token` header of the authorization request, when the application uses [app-native authentication](../authentication/app-native-authentication/index.mdx).
+
+    ```bash
+    curl --location 'https://localhost:9443/oauth2/authorize' \
+    --header 'Content-Type: application/x-www-form-urlencoded' \
+    --header 'Accept: application/json' \
+    --header 'X-Device-Token: <device_token>' \
+    --data-urlencode 'client_id=<client_id>' \
+    --data-urlencode 'response_type=code' \
+    --data-urlencode 'redirect_uri=<redirect_uri>' \
+    --data-urlencode 'scope=openid' \
+    --data-urlencode 'response_mode=direct'
+    ```
+
+</Edition>
+
+- In the `device_token` query parameter of the authorization request, when the application opens a browser for a redirect-based sign-in.
+
+:::note
+Create a new device token, with a new `jti` and a current `iat`, for every sign-in attempt, including retries. A token is accepted only once and only for five minutes. If the token is invalid, expired, or reused, or if the device was deleted or is inactive, the sign-in continues without device data, and any policy check in the login flow reports the device data as unavailable.
+:::

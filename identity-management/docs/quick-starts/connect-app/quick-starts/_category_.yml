@@ -1,0 +1,4 @@
+label: Vue
+position: 2
+customProps:
+  icon: fontawesome/brands/vuejs

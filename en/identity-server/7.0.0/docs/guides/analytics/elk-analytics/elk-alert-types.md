@@ -1,1 +1,0 @@
-{% include "../../../../../../includes/guides/analytics/elk-analytics/elk-alert-types.md" %}

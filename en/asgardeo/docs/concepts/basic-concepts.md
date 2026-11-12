@@ -1,1 +1,0 @@
-{% include "../../../includes/concepts/basic-concepts.md" %}

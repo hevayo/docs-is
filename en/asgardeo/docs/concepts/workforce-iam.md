@@ -1,1 +1,0 @@
-{% include "../../../includes/concepts/workforce-iam.md" %}

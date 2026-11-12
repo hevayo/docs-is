@@ -1,0 +1,4 @@
+label: Password Reset Enforcer
+position: 4
+customProps:
+  icon: octicons/repo-locked-16
