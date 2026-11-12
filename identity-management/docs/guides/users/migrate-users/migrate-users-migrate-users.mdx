@@ -51,7 +51,7 @@ With a clear and concise plan in place, you are ready to move on to the implemen
 
 {edition.productName} supports bulk importing multiple users, which can be used for the user migration. See how to [onboard multiple users](../manage-users.mdx#onboard-multiple-users). However this will ask users to set their own passwords for the new system.
 
-If you need to migrate existing user passwords as well, {edition.productName} supports [on-demand silent password migration](./migrate-passwords.mdx#migrate-with-on-demand-silent-migration) which allows users to log in with their existing passwords and silently migrate them to the new system. For this you can use the [SCIM 2.0 Bulk API](../../../apis/scim2-bulk-rest-api/index.mdx). Below is a sample request to import the users.
+If you need to migrate existing user passwords as well, {edition.productName} supports [on-demand silent password migration](./migrate-passwords.mdx#migrate-with-on-demand-silent-migration) which allows users to log in with their existing passwords and silently migrate them to the new system. For this you can use the [SCIM 2.0 Bulk API](../../../apis/scim2/scim2-bulk-rest-api/index.mdx). Below is a sample request to import the users.
 
 ```java
 curl -i -X POST --location 'https://localhost:9443/scim2/Bulk' \
