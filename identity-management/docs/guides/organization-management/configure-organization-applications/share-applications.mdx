@@ -66,11 +66,11 @@ Once you have shared the application with an organization, check if the followin
 
 - For registered applications, ensure the **SSO** authenticator is added to the login flow of the application. This adds the **Sign in with SSO** option to the application login screen so that organization users can log in using their credentials. Check its availability in the **Login Flow** tab of the application.
 
-    <Edition only="cloud"><img src={require("../../../../assets/cloud/img/guides/organization/manage-organizations/sso-signin-method.png").default} alt="Sign-in-method-options" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/self-hosted/img/guides/organization/manage-organizations/sso-signin-method.png").default} alt="Sign-in-method-options" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+    <img src={require("../../../../assets/img/guides/organization/manage-organizations/sso-signin-method.png").default} alt="Sign-in-method-options" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 - Ensure the application is available in the organization. To check this, switch to the organization and verify that the application is listed in the **Applications** section.
 
-    <Edition only="cloud"><img src={require("../../../../assets/cloud/img/guides/organization/manage-organizations/fragmented-app.png").default} alt="Shared Guardio Insurance Application" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/self-hosted/img/guides/organization/manage-organizations/fragmented-app.png").default} alt="Shared Guardio Insurance Application" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+    <img src={require("../../../../assets/img/guides/organization/manage-organizations/fragmented-app.png").default} alt="Shared Guardio Insurance Application" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 - While in the organization, select the shared application and ensure the username and password authenticator is enabled in the login flow. The organization users can then use the **Sign In with SSO** option to log in using their credentials.
 :::
@@ -78,8 +78,6 @@ Once you have shared the application with an organization, check if the followin
 ### Share application with all organizations
 
 Enable sharing for **all existing and future organizations**. New organizations automatically inherit shared access.
-
-<img src={require("../../../../assets/img/guides/organization/manage-organizations/share-with-all-organizations.png").default} alt="Share with all organizations" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 **Why use this option?** When application's access is needed for all organizations without any restrictions.
 
@@ -91,15 +89,11 @@ Share **specific roles only** with all organizations:
 
 2. Select the roles you want to share
 
-<img src={require("../../../../assets/img/guides/organization/manage-organizations/share-a-subset-of-roles-with-all-organizations.png").default} alt="Share a subset of roles with all organizations" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
-
 **Why use advanced mode?** This gives you precise control over application access. You select which roles to share initially, and these become the default for all organizations. Later, you can customize access by adding or removing specific roles for individual organizations.
 
 ### Share application with selected organizations
 
 Enable sharing for **specific organizations only**. This gives you granular control over application access.
-
-<img src={require("../../../../assets/img/guides/organization/manage-organizations/share-with-selected-organizations.png").default} alt="Share with selected organizations" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 **Why use this option?** Control exactly which organizations access your application and which roles they receive.
 
@@ -120,8 +114,6 @@ Click **Share All Roles** to automatically share every role with selected organi
 
 Enable **Share application and roles with future child organizations** to automatically share with new child organizations under your selected organization.
 
-<img src={require("../../../../assets/img/guides/organization/manage-organizations/share-with-selected-and-all-organizations.png").default} alt="Share application and roles with future child organizations" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
-
 **Why use inheritance?** New child organizations get access without manual configuration.
 
 :::warning
@@ -130,34 +122,19 @@ If you remove a role that has been shared already, it will remove that role from
 
 ## Share the My Account Portal
 
-The My Account portal is the self-service portal provided by {edition.productName} for users of the root organization. Through the portal, root organization users have access to services such as updating user information, registering biometrics for authentication and more. By sharing the portal with child organizations, you enable child organization users to access all My Account services within the context of their respective organizations.
+The My Account portal is the self-service portal provided by {edition.productName} for users of an organization. Through the portal, organization users have access to services such as updating user information, registering biometrics for authentication and more.
 
-Once shared, the My Account portal will be available for organization users through the following link:
-
-<Edition only="cloud">
-
-```bash
-https://myaccount.asgardeo.io/t/{root-organization-name}/o/{organization-id}
-```
-
-</Edition>
-
-<Edition only="self-hosted">
+The My Account portal is, by default, shared with your organizations and users may access the My Account portal through the following link:
 
 ```bash
 https://localhost:9443/t/carbon.super/o/{organization-id}/myaccount
 ```
 
-</Edition>
-
 :::note
-- Learn more about the [My Account portal](../../user-self-service/self-service-portal/configure-self-service-portal.mdx)
-- If you decide not to share the My Account portal with customer/partner organizations, be sure to
-    - remove any references to the My Account portal from your email templates. See [customizing email templates](../../customizations/branding/customize-email-templates.mdx) for instructions.
-    - set up an access URL for your B2B application so that once users complete password reset flows, they are redirected to it instead of the My Account portal.
+Learn more about the [My Account portal](../../user-self-service/my-account-portal/configure-self-service-portal.mdx)
 :::
 
-To share the My Account portal with organizations,
+If you wish to restrict access to the My Account portal to some or all organizations,
 
 1. Login to the root organization on the {edition.productName} Console.
 
@@ -181,7 +158,7 @@ To share the My Account portal with organizations,
 
     By default, {edition.productName} shares the **Console application with all organizations** using all available roles.
 
-    <Edition only="cloud"><img src={require("../../../../assets/cloud/img/guides/organization/manage-organizations/share-console-application.png").default} alt="Share Console application" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/self-hosted/img/guides/organization/manage-organizations/share-console-application.png").default} alt="Share Console application" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+    
 
     **Why use this default?** All organizations get consistent access to Console features without any restriction
 
@@ -193,7 +170,7 @@ To share the My Account portal with organizations,
 
     2. Choose which roles to share across organizations
 
-    <Edition only="cloud"><img src={require("../../../../assets/cloud/img/guides/organization/manage-organizations/share-console-application-roles-selectively.png").default} alt="Share Console application roles selectively" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/self-hosted/img/guides/organization/manage-organizations/share-console-application-roles-selectively.png").default} alt="Share Console application roles selectively" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+    
 
     **Why use advanced mode?** Control which Console features organizations can access through specific roles. Selected roles share with all organizations by default. Later, you can customize access by adding or removing specific roles for individual organizations.
 

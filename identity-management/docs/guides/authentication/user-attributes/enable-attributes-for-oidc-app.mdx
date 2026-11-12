@@ -25,17 +25,17 @@ To add user attributes to the app:
 1. On the {edition.productName} console, go to **Applications**.
 2. Select your application and go to its **User Attributes** tab. The most common user attributes are listed according to the relevant scope.
 
-    <Edition only="cloud"><img src={require("../../../../assets/cloud/img/guides/applications/attributes/oidc/add-user-attributes-list-grouped-user-attributes.png").default} alt="Add user attributes in WSO2 Identity Platform" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/self-hosted/img/guides/applications/attributes/oidc/add-user-attributes-list-grouped-user-attributes.png").default} alt="Add user attributes in WSO2 Identity Server" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+    <img src={require("../../../../assets/img/guides/applications/attributes/oidc/add-user-attributes-list-grouped-user-attributes.png").default} alt="Add user attributes in WSO2 Identity Server" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 3. You can select user attributes using the following methods:
 
     - Add all user attributes for a given scope by selecting the checkbox in front of that scope.
 
-        <Edition only="cloud"><img src={require("../../../../assets/cloud/img/guides/applications/attributes/oidc/add-user-attribute-select-scope.png").default} alt="Add user attributes in WSO2 Identity Platform" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/self-hosted/img/guides/applications/attributes/oidc/add-user-attribute-select-scope.png").default} alt="Add user attributes in WSO2 Identity Server" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+        <img src={require("../../../../assets/img/guides/applications/attributes/oidc/add-user-attribute-select-scope.png").default} alt="Add user attributes in WSO2 Identity Server" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
     - Add user attributes by expanding a scope and selecting only the necessary user attributes.
 
-        <Edition only="cloud"><img src={require("../../../../assets/cloud/img/guides/applications/attributes/oidc/add-user-attribute-select-user-attribute.png").default} alt="Add user attributes in WSO2 Identity Platform" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/self-hosted/img/guides/applications/attributes/oidc/add-user-attribute-select-user-attribute.png").default} alt="Add user attributes in WSO2 Identity Server" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+        <img src={require("../../../../assets/img/guides/applications/attributes/oidc/add-user-attribute-select-user-attribute.png").default} alt="Add user attributes in WSO2 Identity Server" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 4. Click **Update** once you are done.
 
@@ -57,29 +57,6 @@ To define a different attribute as the subject:
 
 3. Click **Update**.
 
-<Edition only="self-hosted" selfHostedFrom="next">
-
-:::note[UserInfo `sub` and token reissue, for alternate subject identifiers]
-When an alternate subject identifier is configured, the `sub` value returned by the [userinfo endpoint](#userinfo-response) is determined when the access token is issued and remains unchanged for the lifetime of that token.
-
-If the underlying attribute changes later, for example, if the user updates their email address, and the same valid access token is reused, the newly issued ID token reflects the updated value. However, the userinfo response continues to return the sub value associated with the access token when it was originally issued.
-
-To have the userinfo endpoint recompute `sub` from the attribute's current value on every request, enable the following `deployment.toml` configuration and restart the server:
-
-```toml
-[oauth.userinfo]
-recompute_subject_claim_for_alternate_subject_identifier = true
-```
-
-This setting is disabled by default. When enabled, a client that requires matching sub values in the ID token and userinfo response must request a new access token after the attribute used as the subject changes.
-
-Previously issued ID tokens are not updated retroactively because they are signed and immutable.
-
-This setting applies only to applications configured with an alternate subject identifier. It has no effect on other applications.
-:::
-
-</Edition>
-
 :::warning[Deprecated `sub` attribute behavior in application access tokens]
 Application access tokens are tokens generated to represent the application rather than an individual user. Such tokens are generated during grant types such as [client_credential](../../../references/iam-concepts/grant-types.mdx#client-credentials-grant).
 
@@ -87,8 +64,6 @@ Previously, the `sub` attribute of application access tokens contained the `user
 
 Once updated, the `sub` attribute will return the `client_id`. Therefore, before updating, ensure that your application does not rely on the `sub` attribute and remove any such dependencies.
 :::
-
-<Edition only="self-hosted">
 
 ### Include the user store and organization domains in the subject
 
@@ -104,15 +79,13 @@ Assuming the subject identifier is the user ID `e46ffa67-100d-4329-9460-b8251d44
 
 - **Include organization name** - appends the organization name of the user, for example, `e46ffa67-100d-4329-9460-b8251d446518@carbon.super`.
 
-For OpenID Connect applications, these two options appear only after you enable **Assign alternate subject identifier**. They also remain hidden until at least one user attribute is selected for the application.
+For OpenID Connect applications, these two options appear only after you enable **Assign alternate subject identifier**.
 
 :::warning[These options change the `sub` claim]
 These options apply to the subject identifier itself, so an option that takes effect changes the `sub` claim of the ID token on every login to the application. As noted above, **Include user domain** has no effect for users in the primary user store. Make sure the application can handle the new `sub` value before you enable either option.
 :::
 
 These options also control the `username` field of the OAuth2 introspection response, but only when `build_subject_identifier_from_sp_config` is enabled at the server level. In the introspection response, the value is built from the user's username rather than from the subject attribute. For details, see [Validate tokens at a resource server](../configure-oidc-flows/tokens-and-validation/token-validation-resource-server.mdx#username-format).
-
-</Edition>
 
 ### Define mandatory user attributes
 
@@ -127,9 +100,7 @@ To make an attribute mandatory:
 
 3. Expand the relevant scope and out of the selected attributes for the application, select the mandatory attributes by selecting the **Mandatory** checkbox next to them.
 
-    <Edition only="cloud"><img src={require("../../../../assets/cloud/img/guides/applications/attributes/oidc/add-mandatory-user-attributes.png").default} alt="Add madatory user attributes in WSO2 Identity Platform" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/self-hosted/img/guides/applications/attributes/oidc/add-mandatory-user-attributes.png").default} alt="Add madatory user attributes in WSO2 Identity Server" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
-
-<Edition only="self-hosted">
+    <img src={require("../../../../assets/img/guides/applications/attributes/oidc/add-mandatory-user-attributes.png").default} alt="Add madatory user attributes in WSO2 Identity Server" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 ## Configure the subject identifier
 
@@ -153,17 +124,15 @@ Follow the steps below to configure the subject identifier type:
     The sector identifier URI is used to group clients belonging to the same security domain so that the same pairwise identifier is used for a given user accessing these clients.
     :::
 
-    ![Enter a sector identifier for pairwise subject identifier](../../../../assets/self-hosted/img/guides/applications/fapi-compliant-apps/fapi-compliant-subject-identifier.png)
+    ![Enter a sector identifier for pairwise subject identifier](../../../../assets/img/guides/applications/fapi-compliant-apps/fapi-compliant-subject-identifier.png)
 
 4. Click **Update** to save the changes.
-
-</Edition>
 
 ## How it works
 
 The following diagram depicts the process {edition.productName} implements when a user tries to log in to an application.
 
-<Edition only="cloud"><img src={require("../../../../assets/cloud/img/guides/applications/attributes/oidc/how-it-works.png").default} alt="Provides consent for attributes in WSO2 Identity Platform" width="800" style={{display: "block", margin: "0"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/self-hosted/img/guides/applications/attributes/oidc/how-it-works.png").default} alt="Provides consent for attributes in WSO2 Identity Server" width="800" style={{display: "block", margin: "0"}} /></Edition>
+<img src={require("../../../../assets/img/guides/applications/attributes/oidc/how-it-works.png").default} alt="Provides consent for attributes in WSO2 Identity Server" width="800" style={{display: "block", margin: "0"}} />
 
 ### Application requests attributes
 
@@ -248,7 +217,7 @@ In a scenario where a user with a local account in {edition.productName}, logs i
 2. Select your application and go to its **User Attributes** tab.
 {/* markdownlint-disable MD029 */}
 
-3. Scroll down and under **Linked Accounts**, select **Prioritize local account attributes**.
+3. Scroll down and under **Linked Accounts**, select **Validate linked local account**.
 
 {/* markdownlint-enable MD029 */}
     <img src={require("../../../../assets/img/guides/applications/attributes/oidc/prioritize-local-account-attributes.png").default} alt="Prioritize local account attributes" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />

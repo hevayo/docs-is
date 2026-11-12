@@ -4,7 +4,6 @@ description: This guide explains how to implement an identity verification flow 
 type: reference
 layout: connector
 sidebar_position: 3
-editions: self-hosted
 ---
 
 This guide explains how to implement an identity verification flow in your application using Onfido and how to finalize the verification process with {edition.productName}. The typical flow includes the following steps:
@@ -24,7 +23,7 @@ When using the Onfido connector in {edition.productName}, you must create a conn
 
 The following shows a sample workflow you can create using Onfido studio.
 
-![sample Onfido workflow](../../../assets/self-hosted/img/connectors/onfido/onfido-sample-workflow.png)
+![sample Onfido workflow](../../../assets/img/connectors/onfido/onfido-sample-workflow.png)
 
 ### Step 1.2 Configure workflow inputs
 
@@ -32,7 +31,7 @@ After designing the workflow, configure the input attributes that Onfido will va
 
 Refer to [Onfido input data documentation](https://documentation.onfido.com/getting-started/onfido-studio-product/#workflow-input-data) for instructions.
 
-![Onfido workflow inputs](../../../assets/self-hosted/img/connectors/onfido/onfido-workflow-input.png)
+![Onfido workflow inputs](../../../assets/img/connectors/onfido/onfido-workflow-input.png)
 
 ### Step 1.3 Configure workflow outputs
 
@@ -40,11 +39,11 @@ Workflow outputs specify the data returned at the end of a workflow run. {editio
 
 1. Create a property called `data_comparison` and specify its format as **Other** to allow storing a complex JSON structure.
 
-    ![Configure workflow output property](../../../assets/self-hosted/img/connectors/onfido/workflow-output-configure.png)
+    ![Configure workflow output property](../../../assets/img/connectors/onfido/workflow-output-configure.png)
 
 2. Specify the sources as **Document report - Breakdown - Data comparison - Breakdown** for both approve applicant and decline applicant paths.
 
-    ![Configure workflow output sources](../../../assets/self-hosted/img/connectors/onfido/workflow-output-sources.png)
+    ![Configure workflow output sources](../../../assets/img/connectors/onfido/workflow-output-sources.png)
 
 Refer to [Onfido output data documentation](https://documentation.onfido.com/getting-started/onfido-studio-product/#workflow-output-data) for instructions.
 

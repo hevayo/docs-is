@@ -3,7 +3,6 @@ title: Properties used in read-Write Active Directory user store manager
 description: Following are the minimum configurations that are needed to be provided to configure the Read-write Active Directory user store manager.  # generated from the first paragraph; a writer should improve it
 type: how-to
 sidebar_position: 4
-editions: self-hosted
 ---
 
 Following are the minimum configurations that are needed to be provided to configure the Read-write Active Directory user store manager.
@@ -33,7 +32,7 @@ Following are the minimum user store properties that need to be provided to conf
 
         This is the connection URL to the user store server.
 
-        Sample values:<br /> ldap://10.100.1.100:389<br /> ldaps://10.100.1.102:639<br /> <br /> If you are connecting over ldaps (secured LDAP),<br /> you need to import the certificate of user store to `<​IS_HOME>/repository/resources/security/client-truststore.p12`. For information on how to add certificates to the truststore and how keystores are configured and used in a system, see<br /> [Use asymmetric encryption.](../../../../deploy/secure/encryption/keystores/index.mdx)<br /> <br /> If LDAP connection pooling is used, see <br /> [performance tuning ldaps pooling.](../../../../deploy/deploy/performance/performance-tuning-recommendations.mdx)
+        Sample values:<br /> ldap://10.100.1.100:389<br /> ldaps://10.100.1.102:639<br /> <br /> If you are connecting over ldaps (secured LDAP),<br /> you need to import the certificate of user store to `<​IS_HOME>/repository/resources/security/client-truststore.jks`. For information on how to add certificates to the truststore and how keystores are configured and used in a system, see<br /> [Use asymmetric encryption.](../../../../deploy/secure/encryption/keystores/index.mdx)<br /> <br /> If LDAP connection pooling is used, see <br /> [performance tuning ldaps pooling.](../../../../deploy/deploy/performance/performance-tuning-recommendations.mdx)
 
       </td>
     </tr>

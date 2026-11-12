@@ -1,5 +1,0 @@
-label: Next.js
-position: 6
-customProps:
-  export: single
-  icon: wso2/nextjs

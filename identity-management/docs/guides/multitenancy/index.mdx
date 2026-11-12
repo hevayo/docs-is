@@ -4,7 +4,6 @@ description: The goal of multitenancy is to maximize resource sharing by allowin
 type: how-to
 sidebar_label: Multitenancy
 sidebar_position: 1
-editions: self-hosted
 ---
 
 The goal of multitenancy is to maximize resource sharing by allowing multiple users (tenants) to log in and use a single server/cluster at the same time, in a tenant-isolated manner. That is, each user is given the experience of using his/her own server, rather than a shared environment. Multitenancy ensures optimal performance of the system's resources such as memory and hardware and also secures each tenant's personal data.
@@ -37,7 +36,7 @@ The super tenant, as well as each individual tenant, have their own configuratio
 
 Each tenant has its own security domain. A domain has a set of users, and permissions for those users to access resources. Thus, a tenant is restricted by the users and permissions of the domain assigned to it. The artifact repositories of the tenants are separated from each other.
 
-<img src={require("../../../assets/self-hosted/img/guides/multitenancy/tenant-diagram.png").default} alt="Tenant diagram" width="600" style={{display: "block", margin: "0"}} />
+<img src={require("../../../assets/img/guides/multitenancy/tenant-diagram.png").default} alt="Tenant diagram" width="600" style={{display: "block", margin: "0"}} />
 
 An individual tenant can carry out the following activities within the boundaries of its own configuration and context module:
 

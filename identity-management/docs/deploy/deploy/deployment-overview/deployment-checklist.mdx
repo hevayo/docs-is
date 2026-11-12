@@ -3,7 +3,7 @@ title: Deployment Checklist
 description: 'Guidelines for hardening the security of a WSO2 Identity Server deployment in a production environment can be discussed under three high-level categories:'  # generated from the first paragraph; a writer should improve it
 type: reference
 sidebar_position: 2
-editions: self-hosted
+slug: "/deploy/deployment-checklist"
 ---
 
 <table>
@@ -82,7 +82,7 @@ editions: self-hosted
       <td>Proxy servers</td>
       <td>
 
-        WSO2 Identity Server can work with two types of proxy servers. They serve different purposes and are configured independently. <br /><br /> **Forward proxy (outbound traffic)**<br /> If WSO2 Identity Server must connect to external endpoints through a forward proxy, provide the following system properties at server start-up.<br /><br /> ` -Dhttps.proxyHost=your.proxy.host -Dhttps.proxyPort=your.proxy.port -Dhttp.proxyHost=your.proxy.host -Dhttp.proxyPort=your.proxy.port ` <br /><br /> The `https.proxyHost` and `https.proxyPort` properties apply to HTTPS endpoints, and the `http.proxyHost` and `http.proxyPort` properties apply to HTTP endpoints. <br /><br /> **Reverse proxy (inbound traffic)**<br /> If users access WSO2 Identity Server through a reverse proxy such as Apache HTTPD or NGINX that forwards requests to the HTTPS port of WSO2 Identity Server, add the following configurations to the `<IS_HOME>/repository/conf/deployment.toml` file. Tomcat then uses the proxy hostname and port when it builds redirect URLs.<br /><br /> ` [transport.https.properties] proxyName = "your.proxy.host" proxyPort = "your.proxy.port" ` <br /> WSO2 Identity Server uses the hostname configured under `[server]` in the URLs it generates. To set it to the proxy hostname, see [Change the hostname](./change-the-hostname.mdx).
+        If the product is hosted behind a proxy such as ApacheHTTPD, users can configure products to use the proxy server by providing the following system properties at the start-up.<br /><br /> ` -Dhttp.proxyHost=xxxx -Dhttp.proxyPort=xxxx ` <br /><br /> Alternatively, this can be done by adding the following configurations in the `<IS_HOME>/repository/conf/deployment.toml` file.<br /><br /> ` [transport.https.properties] proxyhost : "you.proxy.host" proxyPort : "your.proxy.port" `
 
       </td>
     </tr>

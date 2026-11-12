@@ -4,7 +4,7 @@ description: This section guides you through changing the hostname of the WSO2 I
 type: reference
 sidebar_label: Change the Hostname
 sidebar_position: 4
-editions: self-hosted
+slug: "/deploy/change-the-hostname"
 ---
 
 import Tabs from '@theme/Tabs';
@@ -162,7 +162,7 @@ This section guides you through changing the hostname of the WSO2 Identity Serve
     </TabItem>
     </Tabs>
 
-4. Import the public key you extracted in the previous step to the `client-truststore.p12` file using the following command.
+4. Import the public key you extracted in the previous step to the `client-truststore.jks` file using the following command.
 
     <Tabs groupId="tabs">
     <TabItem value="format" label="Format">
@@ -189,7 +189,7 @@ This section guides you through changing the hostname of the WSO2 Identity Serve
     </Tabs>
 
     :::note
-    If you create a new client truststore, in place of the default `client-truststore.p12`, place the new truststore in the `<IS_HOME>/repository/resources/security/` folder and add the following configuration to the `deployment.toml` file in the `<IS_HOME>/repository/conf/` folder.
+    If you create a new client truststore, in place of the default `client-truststore.jks`, place the new truststore in the `<IS_HOME>/repository/resources/security/` folder and add the following configuration to the `deployment.toml` file in the `<IS_HOME>/repository/conf/` folder.
 
     <Tabs groupId="tabs">
     <TabItem value="jks" label="JKS">
@@ -270,7 +270,7 @@ This section guides you through changing the hostname of the WSO2 Identity Serve
 
         For more information, see the [Kubernetes documentation on customizing the hosts file](https://kubernetes.io/docs/tasks/network/customize-hosts-file-for-pods/#adding-additional-entries-with-hostaliases).
 
-When you fully recreate the keystore, a new key-pair value is created. This means that any existing encrypted data (for example, users created before recreating the keystore) are still encrypted using the original keystore (`wso2carbon.p12`). Therefore, older users will not be able to log in to My Account and need to be migrated. You can use one of the following options in this situation.
+When you fully recreate the keystore, a new key-pair value is created. This means that any existing encrypted data (for example, users created before recreating the keystore) are still encrypted using the original keystore (`wso2carbon.jks`). Therefore, older users will not be able to log in to My Account and need to be migrated. You can use one of the following options in this situation.
 
 **Option 1**
 

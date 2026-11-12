@@ -1,130 +1,49 @@
 ---
 title: Try a B2B use case
-description: The following guide is a complete end-to-end use case on how to manage B2B (Business-to-Business) applications in WSO2 Identity Platform.  # generated from the first paragraph; a writer should improve it
+description: The following guide is a complete end-to-end use case on how to manage B2B (Business-to-Business) applications in WSO2 Identity Server.  # generated from the first paragraph; a writer should improve it
 type: how-to
-sidebar_position: 15
+sidebar_position: 10
 ---
 
 The following guide is a complete end-to-end use case on how to manage B2B (Business-to-Business) applications in {edition.productName}.
 
 ## Scenario
 
-- Happy Tails Veterinary Clinic is a veterinary institution that wants a unified platform to perform its internal operations, such as managing doctors and staff, and external operations, such as scheduling appointments and facilitating doctor channeling for pet owners.
+- You are an administrator of Guardio Insurance, a company that provides insurance services to other organizations.
 
-- To meet these needs, Happy Tails uses the **Pet Care** application which has integrated {edition.productName} to fulfill its identity and access management needs.
+- Best Car Mart has a partnership with Guardio Insurance to provide life insurance policies to its employees. 
 
-- **Pet Care** application supports personalized experiences based on the role assigned to the user.
-     - **Administrators** can manage users, assign roles, configure enterprise Identity Providers (IdPs), and customize login flows for their organization.  
-    - **Doctors** can manage appointments, view pet information, update medical records, and communicate with pet owners.  
-    - **Pet Owners** can book appointments, manage their pets' profiles, and view their appointment history.
+- Guardio Insurance shares the following platforms with Best Car Mart.
 
-    <img src={require("../../../assets/img/guides/organization/manage-organizations/pet-care-organization-scenario.png").default} alt="Organization login scenario" width="500" style={{display: "block", margin: "0"}} />
+    - Guardio Insurance Administrative App - An administration portal for Guardio customers. Best Car Mart administrators can manage users, assign roles, configure enterprise Identity Providers (IdP), and customize the login flow for their employees using this portal.
 
-As an administrator of **Pet Care**, you are tasked with implementing this scenario. The following guides explain how you can use {edition.productName} to achieve this.
+    - Guardio Insurance Business App -  An application that provides insurance and claim settlement capabilities for their customers. Best Car Mart employees can access this portal for all their insurance needs.
 
-<Edition only="cloud">
+<img src={require("../../../assets/img/guides/organization/manage-organizations/organization-login-scenario.png").default} alt="Organization login scenario" width="700" style={{display: "block", margin: "0"}} />
 
-## Prerequisites
-
-You should [create a root organization](../your-identity-platform/index.mdx). For this example, we have created a root organization named `Pet Care`.
-
-</Edition>
+The following guides explain how a Guardio Insurance administrator can use {edition.productName} to implement the above scenario.
 
 ## Onboard the organization
 
-**Pet Care**, as the service provider, is the root organization of this business. **Happy Tails**, as a customer of Pet Care, is a child organization of Pet Care.
+Guardio Insurance, as the service provider, functions as the organization (root). Best Car Mart should be set up as a child organization in Guardio Insurance.
 
-Follow the [create an organization](./manage-organizations.mdx#create-an-organization) guide and create this organization hierarchy.
+Follow the [create an organization](./manage-organizations.mdx#create-an-organization) guide and create an organization under the name Best Car Mart.
 
-## Create the API resources
+## Set up the administrative app
 
-**Pet Care** application uses many API resources for its functionality. Users, based on the role, should be able to perform various actions on these API resources as permitted by the role. To provide correct access control to these API resources, we need to first define these API resources and actions in {edition.productName}.
+The next step is to set up the applications that needs to be shared with your child organizations. Let's start with the administrative app.
 
-:::note
-Learn more about [API authentication](../authorization/api-authorization/api-authorization.mdx).
-:::
+### Step 1: Register the administrative app
+Follow the steps given below to register the Guardio Insurance administrative applications with {edition.productName}.
 
-To do so,
-
-1. On the {edition.productName} Console, go to **API Authorization**.
-
-2. Click **New API Resource** and add the following API resources and permissions (scopes).
-
-    <table>
-      <tbody>
-        <tr>
-          <th>Display Name</th>
-          <th>Identifier</th>
-          <th>Permissions (Scopes)</th>
-        </tr>
-        <tr>
-          <td>Channel Service</td>
-          <td>`http://localhost:9091`</td>
-          <td>
-
-            - list_doctors
-            - create_doctor
-            - view_doctor
-            - update_doctor
-            - delete_doctor
-            - list_bookings
-            - view_appointment
-            - view_profile
-            - create_bookings
-            - view_booking
-            - update_booking
-            - delete_booking
-            - view_org_info
-            - update_org_info
-
-          </td>
-        </tr>
-        <tr>
-          <td>Pet Management Service</td>
-          <td>`http://localhost:9092`</td>
-          <td>
-
-            - list_pets
-            - create_pet
-            - view_pet
-            - update_pet
-            - delete_pet
-            - view_user_settings
-            - update_user_settings
-
-          </td>
-        </tr>
-        <tr>
-          <td>Personalization Service</td>
-          <td>`http://localhost:9093`</td>
-          <td>
-
-            - create_branding
-            - update_branding
-            - delete_branding
-
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-## Register the application
-
-The next step is to integrate the Pet Care application with {edition.productName}. To do so,
-
-### Step 1: Register the application
-
-To register the application,
-
-1. Log in to the root organization.
-
-2. [Register a standard-based application](../applications/register-standard-based-app.mdx) in your root organization with the following settings:
+1. Login into the organization (root).
+2. [Register a traditional web application](../applications/register-oidc-web-app.mdx) in your organization (root) with the following settings:
 
     <table>
       <tbody>
         <tr>
           <th>Application Name</th>
-          <td>Add a name for the application.<br /> `Pet Care App`</td>
+          <td>Add a name for the application.<br /> `Guardio-Admin-App`</td>
         </tr>
         <tr>
           <th>Protocol</th>
@@ -132,24 +51,32 @@ To register the application,
         </tr>
         <tr>
           <th>Authorized redirect URLs</th>
-          <td>{edition.productName} sends the authorization code to this URL and once users logout, they will be redirected to this URL.<br /> `http://localhost:3002/api/auth/callback/wso2isAdmin` `http://localhost:3002`</td>
+          <td>The URLs to which the authorization code is sent upon authentication and where the user is redirected upon logout.<br /> `http://localhost:3001/api/auth/callback/wso2isAdmin` `http://localhost:3001`</td>
         </tr>
       </tbody>
     </table>
 
-### Step 2: Share the application with organizations
+### Step 2: Share the applications with organizations
 
-When you share an application with your child organizations, **Sign In with SSO** appears as a login option in the application. Child organization users can then use this option to successfully log in to the application.
+Share the <b>Guardio-Admin-App</b> with the Best Car Mart organization. See instructions on how to [share applications with organizations](./configure-organization-applications/share-applications.mdx).
 
-Follow the instructions in [share applications with organizations](./configure-organization-applications/share-applications.mdx) and share the application with the **Happy Tails** organization.
+:::note
+When the application is shared with at least one organization, **Sign In with SSO** will be added as a login option in the application login screen, which organization users can use to log in.
+:::
 
-### Step 3: Configure the application
+### Step 3: Configure the application on {edition.productName}
+To configure the registered application on {edition.productName}:
 
-The following configurations are essential for the application to work seamlessly with child organization logins. You can find these settings by navigating to the **Applications** section and selecting the registered application.
+On the {edition.productName} Console, go to **Applications** and select the application you registered.
 
-#### Protocol Configurations
+**Protocol Configurations**
 
 1. Go to the **Protocol** tab of the application, and configure the following values.
+
+    :::note
+    If you have selected the `Traditional Web Application` template for application creation, the following values should have already been set properly.
+    Otherwise, verify and update the values.
+    :::
 
     <table>
       <tbody>
@@ -160,8 +87,6 @@ The following configurations are essential for the application to work seamlessl
             Select the following grant type:
 
             - Code
-            - Refresh Token
-            - Organization Switch
 
           </td>
         </tr>
@@ -171,359 +96,285 @@ The following configurations are essential for the application to work seamlessl
 
             The URLs to which the authorization code is sent upon authentication and where the user is redirected upon logout.<br />
 
-            - `http://localhost:3002/api/auth/callback/wso2isAdmin`
-            - `http://localhost:3002`
+            - `http://localhost:3001/api/auth/callback/wso2isAdmin`
+            - `http://localhost:3001`
 
           </td>
         </tr>
         <tr>
           <th>Allowed Origins</th>
-          <td>Enter the allowed origins.<br /> `http://localhost:3002`</td>
-        </tr>
-        <tr>
-          <th>Public Client</th>
-          <td>Enable the application as a public client.</td>
-        </tr>
-        <tr>
-          <th>Access Token Type</th>
-          <td>Select `JWT` as the access token type.</td>
+          <td>Enter the allowed origins.<br /> `http://localhost:3001`</td>
         </tr>
       </tbody>
     </table>
 
-2. Click **Update** and take note of the `client_id` and `client_secret` generated for your application.
+    Take note of the `client_id` and `client_secret` generated for your applications.
 
-#### User Attribute Configurations
+2. Click **Update** to save your configurations.
 
-1. Go to the **User Attributes** tab of the application.
+**User Attribute Configurations**
 
-2. Mark the following attributes as **mandatory** so that users are required to have values for them. If not, users are asked to enter the values during log in:
+1. Go to the **User Attributes** tab of the **Guardio Insurance Business App**.
 
-    - `Email`  
-    - `First Name`  
-    - `Last Name`  
-    - `Roles`
+2. Select `Email`, `First Name`, `Last Name`, and `Username` attributes.
 
-3. Click **Update** to save the changes.
+3. Click **Update**.
 
-**Authorize API Resources**
+**API Authorization**
 
-In this step, we will provide access for the application to consume API resources. This includes the custom API resources we defined above and other standard API that is required for the functionality of the application. 
-
-1. Go to the **API Authorization** tab of the application.
-
-2. Click on **Authorize an API Resource**.
-
-3. Authorize the application to consume all the API resources and permissions that we defined in the [Create the API resources](#create-the-api-resources) step.
-
-4. Additionally, authorize the application to consume the following standard APIs and all of the corresponding permissions (scopes).
-
-    :::note[Important]
-       Standard APIs come in two types: 
-
-       - **Management APIs** govern B2C use cases.
-       - **Organization APIs** govern B2B use cases.
-
-       Be sure to select the corresponding **organization API** for the following APIs. Refer to the [API documentation](https://is.docs.wso2.com/en/latest/apis/) for more details.
-
-    | API Resource | Endpoint |
-    | --- | --- |
-    | SCIM2 Users API | `/o/scim/Users` |
-    | SCIM2 Roles API | `/o/scim2/Roles` |
-    | SCIM2 Groups API | `/o/scim2/Groups` |
-    | Identity Provider Management API | `/o/api/server/v1/identity-providers` |
-    | Application Management API | `/o/api/server/v1/applications` |
-    | Claim Management API | `/o/api/server/v1/claim-dialects` |
-    | Branding Preference Management API | `/o/api/server/v1/branding-preference` |
-    | Channel Service API | `http://localhost:9091` |
-    | Pet Management Service API | `http://localhost:9092` |
-    | Personalization Service API | `http://localhost:9093` |
-    :::
-    
-
-**Role Configurations**
-
-The application should support three distinct roles: **Administrator**, **Doctor**, and **Pet Owner**. Each role will have different levels of access to API resources, ensuring that each user receives a personalized user experience tailored to their specific use cases.
-
-:::note
-Learn more about roles in [manage roles](../users/manage-roles.mdx).
-:::
-
-To create these roles,
-
-1. Navigate to the **Roles** tab of the application.
-
-2. Select the **Role Audience** as **Application** and click **New Role**.
-
-    <img src={require("../../../assets/img/guides/organization/manage-organizations/create-roles.png").default} alt="Create Application Roles - Initial view" width="500" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
-
-3. Create the following application roles and assign the corresponding permissions (scopes):
+1. Go to the **API Authorization** tab and click on **+ Authorize an API Resource**.
+2. From the **API Resources** drop-down select the following APIs listed under the **Organization APIs** category and add the corresponding **Authorized Scopes** provided below.
 
     <table>
       <tbody>
         <tr>
-          <th>Role Name</th>
           <th>API Resource</th>
           <th>Authorized Scopes</th>
         </tr>
         <tr>
-          <td rowSpan="9">`pet-care-admin`</td>
-          <td>SCIM2 Users API</td>
-          <td>All Scopes</td>
-        </tr>
-        <tr>
-          <td>SCIM2 Roles API</td>
-          <td>All Scopes</td>
-        </tr>
-        <tr>
-          <td>SCIM2 Groups API</td>
-          <td>All Scopes</td>
-        </tr>
-        <tr>
-          <td>Identity Provider Management API</td>
-          <td>All Scopes</td>
-        </tr>
-        <tr>
-          <td>Application Management API</td>
-          <td>All Scopes</td>
-        </tr>
-        <tr>
-          <td>Claim Management API</td>
-          <td>All Scopes</td>
-        </tr>
-        <tr>
-          <td>Branding Preference Management API</td>
-          <td>All Scopes</td>
-        </tr>
-        <tr>
-          <td>Channel Service API</td>
+          <th>SCIM2 Users API</th>
           <td>
 
-            - list_doctors
-            - view_org_info
-            - update_org_info
-            - create_doctor
+            Scopes:
+
+            - View User
+            - List User
+            - Create User
+            - Update User
+            - Delete User
 
           </td>
         </tr>
         <tr>
-          <td>Personalization Service API</td>
+          <th>SCIM2 Roles API</th>
           <td>
 
-            - create_branding
-            - update_branding
-            - delete_branding
+            Scopes:<br />
+
+            - View Role
+            - Update Role
 
           </td>
         </tr>
         <tr>
-          <td rowSpan="2">`pet-care-doctor`</td>
-          <td>Channel Service API</td>
+          <th>SCIM2 Groups API</th>
           <td>
 
-            - view_profile
-            - list_bookings
-            - view_doctor
-            - update_doctor
+            Scopes:<br />
+
+            - View Group
+            - Update Group
 
           </td>
         </tr>
         <tr>
-          <td>Pet Management Service API</td>
+          <th>Application Management API</th>
           <td>
 
-            - list_pets
+            Scopes:<br />
+
+            - View Application
+            - Update Application
 
           </td>
         </tr>
         <tr>
-          <td rowSpan="2">`pet-care-pet-owner`</td>
-          <td>Channel Service API</td>
+          <th>Identity Provider Management API</th>
           <td>
 
-            - list_bookings
-            - list_doctors
-            - view_doctor
-            - create_bookings
+            Scopes:<br />
 
-          </td>
-        </tr>
-        <tr>
-          <td>Pet Management Service API</td>
-          <td>
-
-            - create_pet
-            - view_pet
-            - list_pets
+            - View Identity Provider
+            - Create Identity Provider
+            - Update Identity Provider
+            - Delete Identity Provider
 
           </td>
         </tr>
       </tbody>
     </table>
 
-4. After entering the role names and assigning the appropriate API resources and scopes, click **Create**.
+**Role Configurations**
+
+1. Go to the **Roles** tab.
+2. Select **Application** as Role Audience and click **+ New Role**.
+
+    <img src={require("../../../assets/img/guides/organization/manage-organizations/create-roles.png").default} alt="Create Application Roles - Initial view" width="500" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+
+3. Enter the following details:
+
+    <table>
+      <tbody>
+        <tr>
+          <th>Field</th>
+          <th>Description</th>
+          <th>Value</th>
+        </tr>
+        <tr>
+          <th>Role Name</th>
+          <td>Enter a unique name to identify the role.</td>
+          <td>GuardioAdministrator</td>
+        </tr>
+        <tr>
+          <th>Select API Resource</th>
+          <td>All the API resources added in step 2 will be listed. Add each API resource and check the box to include all permissions (scopes).</td>
+          <td>
+
+            - SCIM2 Users API
+            - SCIM2 Roles API
+            - SCIM2 Groups API
+            - Application Management API
+            - Identity Provider Management API
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
     <img src={require("../../../assets/img/guides/organization/manage-organizations/application-role-api-resources.png").default} alt="Create Application Roles" width="500" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
-5. Upon successful creation, the new application roles will appear under the **Assigned Roles** list.
-
-    <img src={require("../../../assets/img/guides/organization/manage-organizations/pet-care-application-roles.png").default} alt="Created Application Role" width="500" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
-
-### Step 4: Create a user and assign the administrator role
-
-Now that we have configured the application and have shared the application with the **Happy Tails** organization, it is time for us to create an administrator for the **Happy Tails** child organization. This administrator is responsible for managing the **Happy Tails** organization.
-
-To do so,
-
-1. On the {edition.productName} Console, navigate to **Organizations** and switch to the **Happy Tails** organization.
-
-2. On the organization Console, navigate to **User Management > Users**.
-
-3. Click **Add User** and create a user.
-
-    - **Username:** `admin@cityvet.com`  
-    - **Email:** `admin@cityvet.com`  
-    - **Password:** Set a secure password or use the autogenerated option.
-
 4. Click **Create**.
 
-5. From the organization Console, navigate to **User Management > Roles**.
+Upon successful creation the new application role will displayed under **Assigned Roles**.
 
-6. Click on the `pet-care-admin` administrator role you created earlier and go to its **Users** tab.
+<img src={require("../../../assets/img/guides/organization/manage-organizations/assigned-roles.png").default} alt="Created Application Role" width="500" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
-7. Click **Assign Users**, select the created user and click **Assign**.
+## Set up the business application
+The following guides explain how you can share an application with organizations and allow organization users to log in to it using **SSO**.
 
-Now that we assigned the `pet-care-admin` role to the `admin@cityvet.com` user, this user can log in to the **Pet Care** admin portal and manage the Happy Tails organization's users, applications, and configurations.
+Let's use the sample applications, [Guardio Insurance Business application and Guardio Insurance Administrative application](https://github.com/wso2/samples-is/tree/master/b2b-sample), to explore this use case.
 
-### Step 5: Configure Branding for the organization
+### Step 1: Register the business app
 
-The Happy Tails organization administrator can now customize the login screens of the organization to align with the Pet Care application's theme.
+Follow the steps given below to register the Guardio Insurance business applications with {edition.productName}.
 
-To do so,
+1. Login into the organization(root).
+2. [Register Traditional Web Applications](../applications/register-oidc-web-app.mdx) in your organization (root) with the following settings:
 
-1. On the **Happy Tails** organization's Console, navigate to **Branding > Styles & Text**.
-3. Go to the **Design** tab.
-4. Expand the **Images** section and set the following:
+    <table>
+      <tbody>
+        <tr>
+          <th>Application Name</th>
+          <td>Add a name for the application.<br /> `Guardio-Business-App`</td>
+        </tr>
+        <tr>
+          <th>Protocol</th>
+          <td>The authentication protocol to use.<br /> `OpenID Connect`</td>
+        </tr>
+        <tr>
+          <th>Authorized redirect URLs</th>
+          <td>The URLs to which the authorization code is sent upon authentication and where the user is redirected upon logout.<br /> `http://localhost:3000/api/auth/callback/wso2is` `http://localhost:3000`</td>
+        </tr>
+      </tbody>
+    </table>
 
-    - **Logo URL:**  
-      `https://user-images.githubusercontent.com/35829027/241967420-9358bd5c-636e-48a1-a2d8-27b2aa310ebf.png`
+### Step 2: Share the application with organizations
 
-    - **Logo Alt Text:**  
-      `Pet Care App Logo`
+Share the <b>Guardio-Business-App</b> with your organizations. See instructions on how to [share applications with organizations](./configure-organization-applications/share-applications.mdx).
 
-    - **Favicon URL:**  
-      `https://user-images.githubusercontent.com/1329596/242288450-b511d3dd-5e02-434f-9924-3399990fa011.png`
+When the application is shared with at least one organization, **Sign In with SSO** will be added as a login option in the application login screen, which organization users can use to log in.
 
-5. Expand the **Color Palette** section and set:
+### Step 3: Configure the application on {edition.productName} {#step-3-configure-the-application-on-wso2-identity-server_1}
+To configure the registered application on {edition.productName}:
 
-    - **Primary Color:** `#4f40ee`
+On the {edition.productName} Console, go to **Applications** and select the application you registered.
 
-This customizes the login and self-service UIs to match the Pet Care application's branding.
+**Protocol Configurations**
+
+1. Go to the **Protocol** tab of the application, and configure the following values.
+
+    :::note
+    If you have selected the `Traditional Web Application` template for application creation, the following values should have already been set properly.
+    Otherwise, verify and update the values.
+    :::
+
+    <table>
+      <tbody>
+        <tr>
+          <th>Allowed Grant Types</th>
+          <td>
+
+            Select the following grant type:
+
+            - Code
+
+          </td>
+        </tr>
+        <tr>
+          <th>Authorization Redirect URLs</th>
+          <td>
+
+            The URLs to which the authorization code is sent upon authentication and where the user is redirected upon logout.<br />
+
+            - `http://localhost:3000/api/auth/callback/wso2is`
+            - `http://localhost:3000`
+
+          </td>
+        </tr>
+        <tr>
+          <th>Allowed Origins</th>
+          <td>Enter the allowed origins.<br /> `http://localhost:3000`</td>
+        </tr>
+      </tbody>
+    </table>
+
+    Take note of the `client_id` and `client_secret` generated for your applications.
+
+2. Click **Update** to save your configurations.
+
+**User Attribute Configurations**
+
+1. Go to the **User Attributes** tab of the **Guardio Insurance Business App**.
+
+2. Select `Email`, `First Name`, `Last Name`, and `Username` attributes.
+
+3. Click **Update**.
 
 ## Set up the client applications
 
 :::note[Before you begin]
-- Install [Ballerina 2201.5.0](https://dist.ballerina.io/downloads/2201.5.0/ballerina-2201.5.0-swan-lake-macos-arm-x64.pkg)  
-- Install Node.js v16 LTS (Tested with v16.13.0)
+Download the [sample b2b applications](https://github.com/wso2/samples-is/tree/master/b2b-sample).
 :::
 
-### Step 1: Clone the repository
+To set up the client applications:
 
-Clone the samples-is [GitHub repository](https://github.com/wso2/samples-is) to your local machine. The Pet Care sample application is available under the `petcare-sample` directory.
+1. Navigate to `b2b-samples/config.json` and update the following parameters:
 
-### Step 2: Deploy the API Services
+    | Parameter | Description | Value |
+    | --- | --- | --- |
+    | `CommonConfig.AuthorizationConfig.BaseOrganizationUrl` | The base URL of the organization (root). | `https://{edition.hostName}/t/carbon.super` |
+    | `BusinessAppConfig.AuthorizationConfig.ClientId` | The client ID of the Guardio-Business-App created on {edition.productName}. | Client ID copied from Guardio-Business-App in step 3 above. |
+    | `BusinessAppConfig.AuthorizationConfig.ClientSecret` | The client secret of the Guardio-Business-App created on {edition.productName}. | Client secret copied from Guardio-Business-App in step 3 above. |
+    | `BusinessAppConfig.ApplicationConfig.HostedUrl` | The URL of the Guardio-Business-App client application. | `http://localhost:3000` |
+    | `BusinessAppConfig.ApplicationConfig.APIScopes` | The scopes required by the Guardio-Business-App application to access user resources. | `openid`, `email`, `profile`, `internal_login`, etc. |
+    | `BusinessAppConfig.ApplicationConfig.Branding.name` | The branding name of your application. | `Guardio Insurance` |
+    | `BusinessAppConfig.ApplicationConfig.Branding.tag` | A branding tagline for your application. | `Anytime . Anywhere` |
+    | `BusinessAppConfig.ManagementAPIConfig.SharedApplicationName` | The application name you used to register the Guardio Business application in {edition.productName}. | `Guardio-Business-App` |
+    | `BusinessAppConfig.ManagementAPIConfig.Userstore` | The userstore name where the organization users are managed. | `PRIMARY` |
+    | `BusinessAdminAppConfig.AuthorizationConfig.ClientId` | The client ID of the Guardio-Admin-App created on {edition.productName}. | Client ID copied from Guardio-Admin-App in step 3 above. |
+    | `BusinessAdminAppConfig.AuthorizationConfig.ClientSecret` | The client secret of the Guardio-Admin-App created on {edition.productName}. | Client secret copied from Guardio-Admin-App in step 3 above. |
+    | `BusinessAdminAppConfig.ApplicationConfig.HostedUrl` | The URL of the Guardio-Admin-App client application. | `http://localhost:3001` |
+    | `BusinessAdminAppConfig.ApplicationConfig.APIScopes` | The scopes required by the Guardio-Admin-App to do administrative tasks. | `openid`, `email`, `profile`, `internal_login`, `internal_org_user_mgt_view`, `internal_org_user_mgt_list`, `internal_org_user_mgt_create`, `internal_org_user_mgt_update`, etc. |
+    | `BusinessAdminAppConfig.ApplicationConfig.Branding.name` | The branding name of your application. | `Guardio Insurance - Administrator Application` |
+    | `BusinessAdminAppConfig.ApplicationConfig.Branding.tag` | A branding tagline for your application. | `Administrator Application` |
 
-Let's now run each of the services of the Pet Care application. In each of the commands below, `<SAMPLES_HOME>` refers to the root directory of the cloned repository.
+2. To start the **Guardio Insurance Business App**, open a terminal, navigate to the `b2b-sample` folder, and execute the following commands:
 
-To do so, run each of the following services in a separate terminal:
-
-1. To start the **Channel Service**, navigate to the `<SAMPLES_HOME>/petcare-sample/b2b/web-app/petvet/apis/ballerina/channel-service` directory and run,
-
-    ```bash
-    bal run
-    ```
-
-2. To start the **Pet Management Service**, navigate to the `<SAMPLES_HOME>/petcare-sample/b2b/web-app/petvet/apis/ballerina/pet-management-service` directory and run,
-
-    ```bash
-    bal run
-    ```
-
-3. To start the **Personalization Service**, navigate to the  `<SAMPLES_HOME>/petcare-sample/b2b/web-app/petvet/apis/ballerina/personalization-service` directory and run,
-
-    ```bash
-    bal run
-    ```
-
-:::note
-By default, the services store data in memory. Alternatively, you can connect them to a MySQL database. To do so, 
-
-- Create a `Config.toml` file in the root folder of each service.  
-
-- Add the following DB configurations to each of the files:
-
-    ```toml
-    dbHost = "<DB_HOST>" 
-    dbUsername = "<DB_USERNAME>" 
-    dbPassword = "<DB_USER_PASSWORD>" 
-    dbDatabase = "<DB_NAME>" 
-    dbPort = "<DB_PORT>"
-    ```
-
-The SQL schemas are available at: `<SAMPLES_HOME>/petcare-sample/b2b/web-app/petvet/dbscripts`
-:::
-
-### Step 3: Set Up the Frontend Application
-
-To set up the frontend application,
-
-1. Navigate to the `<SAMPLES_HOME>/petcare-sample/b2b/web-app/petvet/web/nextjs/apps/business-admin-app` directory.
-
-2. Create a `.env` file and add the following environment variables to it:
-
-    <Edition only="cloud">
+    :::note
+    Ensure that your system meets the specified minimum requirements:
+        - Node version >= v16.16.0
+        - NPM version >= 8.11.0
+    :::
 
     ```bash
-    NEXTAUTH_URL=http://localhost:3002
-    BASE_URL=https://localhost:9443
-    BASE_ORG_URL=https://localhost:9443/t/<PRIMARY_ORG_NAME>
-    CHANNELLING_SERVICE_URL=http://localhost:9091
-    PET_MANAGEMENT_SERVICE_URL=http://localhost:9092
-    PERSONALIZATION_SERVICE_URL=http://localhost:9093
-    HOSTED_URL=http://localhost:3002
-    SHARED_APP_NAME="Pet Care App"
-    CLIENT_ID=<CLIENT_ID_OF_PET_CARE_APP>
-    CLIENT_SECRET=<CLIENT_SECRET_OF_PET_CARE_APP>
-    NODE_TLS_REJECT_UNAUTHORIZED=0
+    npm install
     ```
-
-    </Edition>
-
-    <Edition only="self-hosted">
 
     ```bash
-    NEXTAUTH_URL=http://localhost:3002
-    BASE_URL=https://localhost:9443
-    BASE_ORG_URL=https://localhost:9443/t/<PRIMARY_ORG_HANDLE>
-    CHANNELLING_SERVICE_URL=http://localhost:9091
-    PET_MANAGEMENT_SERVICE_URL=http://localhost:9092
-    PERSONALIZATION_SERVICE_URL=http://localhost:9093
-    HOSTED_URL=http://localhost:3002
-    SHARED_APP_NAME="Pet Care App"
-    CLIENT_ID=<CLIENT_ID_OF_PET_CARE_APP>
-    CLIENT_SECRET=<CLIENT_SECRET_OF_PET_CARE_APP>
-    NODE_TLS_REJECT_UNAUTHORIZED=0
+    npx nx serve business-app
     ```
 
-    </Edition>
-
-### Step 4: Start the Application
-
-To start the application,
-
-1. Navigate to `<SAMPLES_HOME>/petcare-sample/b2b/web-app/petvet/web/nextjs` directory which is the root directory of the frontend application.
-
-2. Run the following commands:
+3. To start the **Guardio Insurance Administrative App**, open a terminal, navigate to the `b2b-sample` folder, and execute the following commands:
 
     ```bash
     npm install
@@ -533,84 +384,98 @@ To start the application,
     npx nx serve business-admin-app
     ```
 
-3. Visit the application at [http://localhost:3002](http://localhost:3002)
-
-:::tip
-Use the following URL to directly access the login page of an organization.:  
-`http://localhost:3002?orgId=<suborg_Id>`
-:::
-
 ## Try it out
 
-The following sections show how the application log in experience looks like and how the experience changes for users logging in with each of the three roles of the application; administrators, doctors, and pet owners.
+The following sections explain how an organization user who has admin privileges of the **Guardio Insurance Administrative App** logs in and uses the administration portal.
+Also, this guide explains how other organization users consume the **Guardio Insurance Business App**.
 
-### Try out sign-in with SSO
+### Try out Sign In with SSO
 
-Follow the steps below to see how organization login works for a user in the **Happy Tails** organization when accessing the **Pet Care** application.
+Follow the steps below to see how organization login works for a user in the **Best Car Mart** organization when logging into **Guardio Insurance Business App**.
 
-1. Navigate to `http://localhost:3002/` in your browser.  
+1. Open the application by copying the following URL to your browser: `http://localhost:3001/`
 
-    <img src={require("../../../assets/img/guides/organization/manage-organizations/pet-care-app-login.png").default} alt="Pet Care Application Login" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../assets/img/guides/organization/manage-organizations/guardio-admin-app-login.png").default} alt="Guardio Admin Application Login" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
-2. Click **Sign In** to navigate to the {edition.productName} login screen.
+2. Click **Sign In** and see that you are diverted to the {edition.productName} login screen.
 
 3. Click **Sign In with SSO** to specify the organization to which you are signing in.
 
-<Edition only="self-hosted">
+4. Enter **Best Car Mart** as the organization name and click **Submit**.
 
-4. Enter the **Organization Handle** of the organization and click **Submit**.
+    <img src={require("../../../assets/img/guides/organization/manage-organizations/sign-in-with-sso.png").default} alt="Sign in with SSO" width="400" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
-</Edition>
+5. Enter the username and password of a user whom you have onboarded to Best Car Mart.
 
-<Edition only="cloud">
+6. Click **Sign in** and grant permission for the application to use.
 
-4. Enter **Happy Tails** as the organization name and click **Submit**.
+    You have successfully logged into the **Guardio Insurance Administrative App** as a user of the **Best Car Mart** organization.
 
-</Edition>
-
-    <Edition only="cloud"><img src={require("../../../assets/cloud/img/guides/organization/manage-organizations/sign-in-with-sso.png").default} alt="Sign in with SSO" width="400" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../assets/self-hosted/img/guides/organization/manage-organizations/sign-in-with-sso.png").default} alt="Sign in with SSO" width="400" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
-
-5. Enter the username and password of a user onboarded to Happy Tails (e.g., `admin@cityvet.com` or a doctor/pet owner you created).
-
-6. Click **Sign In** and provide the necessary consent.
-
-You have now successfully logged into the **Pet Care** application as a user of the **Happy Tails** organization.
-
-### Try out the administration features
-
-When a user assigned to the `pet-care-admin` role logs in, the user has access to administration features such as.
-
-- **Dashboard**: View a summary of the organization activity and key metrics.
-- **Manage Doctors**: Onboard, view, and update doctor profiles.
-- **Manage Users**: Add, remove, or update users across roles (doctors, pet owners, etc.).
-- **Manage Roles**: View and assign predefined application roles like `pet-care-admin`, `pet-care-doctor`, and `pet-care-pet-owner`.
-- **Personalization**: Customize the organization's branding, including logo, color palette, and taglines.
-- **SSO**: Configure federated login for the organization.
-- **2-Step Verification**: Enable or configure MFA options for users.
-
-    <img src={require("../../../assets/img/guides/organization/manage-organizations/pet-care-admin-view.png").default} alt="Pet Care Admin View" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+### Try out the administration portal
 
 :::note
 Learn how to build an administration portal for your B2B application in the [implement an administration portal](./delegate-administration/manage-b2b-administration.mdx#implement-an-administration-portal) section.
 :::
 
-### Try out the doctor experience
+**Best Car Mart** needs to manage its employees through an external IdP. As the administrator of Best Car Mart, Alex is tasked with enabling login from the external IdP for Best Car Mart employees.
 
-When a user with the `pet-care-doctor` role logs in, the user can access pages relevant to the daily veterinary tasks. These include:
+To configure an identity provider for **Guardio Insurance Business App**:
 
-- **Profile**: View and update personal details and specialty.
-- **Appointments**: See upcoming appointments and manage personal schedule.
-- **Assigned Pets**: Access a list of pets under the user's care, along with each pet's medical history and notes.
+1. [Log in to the application](#try-out-sign-in-with-sso) with the credentials of Alex.
 
-Doctors can view and manage information related to their appointments and the pets they treat. They don’t have access to administrative features such as user management or branding configurations.
+2. On the application, go to **Settings** > **Identity Providers** and click **Add Identity Provider**.
 
-### Try out the pet owner experience
+    <img src={require("../../../assets/img/guides/organization/manage-organizations/best-car-mart-idp-config.png").default} alt="Best car mart IdP config" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
-Users with the `pet-care-pet-owner` role, typically customers of the veterinary clinic, have access to pet-related services such as:
+3. Select **Google** if you are onboarding a Google IdP or **Enterprise** if you are onboarding an enterprise IdP.
 
-- **Book Appointment**: Find available doctors and schedule appointments for their pets.
-- **My Pets**: Add, view, and manage details about their pets, including breed, age, and health records.
-- **Appointment History**: Track past and upcoming appointments.
-- **Settings**: Manage account details and preferences.
+    <img src={require("../../../assets/img/guides/organization/manage-organizations/select-idp-method.png").default} alt="Select Identity Provider method" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
-Pet owners see a simplified version of the app, designed to help them easily manage their pets’ information and interact with the clinic.
+    :::note
+    Make sure that the configured IdP will share the `Email`, `First Name`, `Last Name`, and `Username` attributes of the authenticating user with {edition.productName}.
+    :::
+
+4. Provide the details specific to your IdP and click **Create**.
+
+5. Click **Add to login flow** to enable this IdP as the login option for Best Car Mart users in the application.
+
+6. Open the **Guardio Insurance Business App** by copying the following URL to your browser: `http://localhost:3000/`.
+
+    <img src={require("../../../assets/img/guides/organization/manage-organizations/guardio-app-login.png").default} alt="Guardio Business Application Login" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+
+7. [Log in to the business application through the SSO option](#try-out-sign-in-with-sso). Now, the users in the configured external IdP can be logged into the application.
+
+### Step 2: Onboard an organization administrator
+
+As an administrator in Guardio insurance, now you can onboard administrators from Best Car Mart to the created organization.
+
+To do so, follow the [sales-led approach](./delegate-administration/onboard-org-admins/sales-led-approach.mdx) and create an administrator using the values given below.
+
+1. Create the user with the following values.
+
+    <table>
+      <tbody>
+        <tr>
+          <th>Username</th>
+          <td>Enter an unique identifier as the username.<br /> `alex`</td>
+        </tr>
+        <tr>
+          <th>First Name</th>
+          <td>Enter the first name of the user.<br /> `Alex`</td>
+        </tr>
+        <tr>
+          <th>Last Name</th>
+          <td>Enter the last name of the user.<br /> `Doe`</td>
+        </tr>
+        <tr>
+          <th>Email</th>
+          <td>Enter the email of the user.<br /> `alex@bestcarmart.com`</td>
+        </tr>
+        <tr>
+          <th>Password</th>
+          <td>Set a temporary password for the user or invite user to set the password.</td>
+        </tr>
+      </tbody>
+    </table>
+
+2. Assign the created user to the **Guardio Administrator** role of the shared **Guardio-Admin-App** application.

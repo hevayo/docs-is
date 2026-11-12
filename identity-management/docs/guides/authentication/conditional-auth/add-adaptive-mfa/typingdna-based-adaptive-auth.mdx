@@ -4,7 +4,7 @@ description: Typing DNA uses AI-based technology to authenticate users according
 type: how-to
 sidebar_label: MFA based on TypingDNA
 sidebar_position: 10
-editions: self-hosted
+slug: "/guides/authentication/conditional-auth/typingdna-based-adaptive-auth"
 ---
 
 [Typing DNA](https://www.typingdna.com/) uses AI-based technology to authenticate users according to the way they type.
@@ -23,7 +23,7 @@ Consider a scenario where you want to prompt an additional authentication step i
 
 -  You need to [register an application with {edition.productName}](../../../applications/index.mdx). You can register your own application or use the [playground2](https://github.com/wso2/samples-is/releases/download/v4.6.2/playground2.war) sample application to test TypingDNA-based adaptive authentication.
 
-- [Create a user](../../../users/users/manage-users.mdx) named **Alex** with login permissions.
+- [Create a user](../../../users/manage-users.mdx) named **Alex** with login permissions.
 
 - Create a typingDNA account. Learn how to create one [here](https://github.com/wso2-extensions/identity-conditional-auth-typingdna/blob/main/docs/files/Account%20Creation.pdf).
 
@@ -56,7 +56,7 @@ Follow the steps given below to set up typingDNA in the WSO2 IS server.
     - Enable Advance TypingDNA-API mode if you have a pro/enterprise typingDNA account.
     - Configure the region (eu or us).
 
-    ![TypingDNA configuration](../../../../../assets/self-hosted/img/samples/typingdna-configuration.png)
+    ![TypingDNA configuration](../../../../../assets/img/samples/typingdna-configuration.png)
 
 7. Click **Update** to save the changes.
 
@@ -73,7 +73,7 @@ Follow the steps given below to configure TypingDNA in your application.
     In this scenario, we will configure **Username and Password** and **TOTP**.
     :::
 
-    ![TypingDNA configure two authentication steps](../../../../../assets/self-hosted/img/samples/typingdna-two-steps.png)
+    ![TypingDNA configure two authentication steps](../../../../../assets/img/samples/typingdna-two-steps.png)
 
 4. Expand **Script Based Adaptive Authentication** and add the following script:
 
@@ -104,7 +104,7 @@ Follow the steps given below to configure TypingDNA in your application.
         });
     };
     ```
-    ![TypingDNA script](../../../../../assets/self-hosted/img/samples/typingdna-script.png)
+    ![TypingDNA script](../../../../../assets/img/samples/typingdna-script.png)
 
 5. Click **Update** to save the changes.
 

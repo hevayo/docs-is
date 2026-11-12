@@ -1,10 +1,9 @@
 ---
-title: Enable HTTP Strict Transport Security (HSTS) Headers
+title: Enable HTTP Strict Transport Security (HSTS) headers
 description: Enable HTTP Strict Transport Security (HSTS) headers for the applications deployed in your server, to confirm that the relevant headers are present in the…  # generated from the first paragraph; a writer should improve it
 type: reference
-sidebar_label: Enable HTTP Strict Transport Security (HSTS) headers
 sidebar_position: 8
-editions: self-hosted
+slug: "/deploy/security/enable-hsts"
 ---
 
 Enable HTTP Strict Transport Security (HSTS) headers for the applications deployed in your server, to confirm that the relevant headers are present in the HTTP response. HSTS is not enabled for applications in the WSO2 Identity Server by default.
@@ -13,74 +12,107 @@ Enable HTTP Strict Transport Security (HSTS) headers for the applications deploy
 HSTS should not be enabled in development environments because transport security validations can interrupt the development processes by validating signatures of self-signed certificates.
 :::
 
-## Enable for console
+## Enable for web applications
 
-To enable HSTS for the WSO2 Identity Server Console, update the `web.xml` file located at
-`<IS_HOME>/repository/deployment/server/webapps/console/WEB-INF` and add the following filter configuration:
+If the `HttpHeaderSecurityFilter` element is available in the `web.xml` file of the particular web application available at `<IS_HOME>/repository/deployment/server/webapps/` directory, it implies that security headers are by default configured for the web application. If the filter is available, enable HSTS as shown below.
 
-```xml
-<!-- Tomcat HTTP header security filter -->
+Following is the default filter configuration.
+
+```text
+<!-- Tomcat http header security filter -->
+
 <filter>
     <filter-name>HttpHeaderSecurityFilter</filter-name>
     <filter-class>org.apache.catalina.filters.HttpHeaderSecurityFilter</filter-class>
+    <init-param>
+        <param-name>hstsEnabled</param-name>
+        <param-value>true</param-value>
+    </init-param>
     <init-param>
         <param-name>hstsMaxAgeSeconds</param-name>
         <param-value>15768000</param-value>
     </init-param>
 </filter>
+```
 
+For the `accountrecoveryendpoint` and `authenticationendpoint` web applications, direct modification of the `web.xml` file to enable HSTS is not supported. Instead, configure the settings through the `deployment.toml` file located in `<IS_HOME>/repository/conf` directory. Example configurations are as follows:
+
+For `accountrecoveryendpoint`:
+
+```toml
+[[accountrecoveryendpoint.tomcat.http_header_security_filter.parameters]]
+name = "param-name"
+value = "param-value"
+```
+
+For `authenticationendpoint`:
+
+```toml
+[[authenticationendpoint.tomcat.http_header_security_filter.parameters]]
+name = "param-name"
+value = "param-value"
+```
+
+## Enable for console
+
+To enable HSTS for the WSO2 Identity Server Console, configure the web.xml file of the console application located at `<IS_HOME>/repository/deployment/server/webapps/console/WEB-INF` directory as shown:
+
+```text
+<!-- Tomcat http header security filter -->
+
+<filter>
+    <filter-name>HttpHeaderSecurityFilter</filter-name>
+    <filter-class>org.apache.catalina.filters.HttpHeaderSecurityFilter</filter-class>
+    <init-param>
+        <param-name>hstsEnabled</param-name>
+        <param-value>true</param-value>
+    </init-param>
+    <init-param>
+        <param-name>hstsMaxAgeSeconds</param-name>
+        <param-value>15768000</param-value>
+    </init-param>
+</filter>
+```
+
+## Additional configurations
+
+You may configure the following additional parameters in the `web.xml` file to further customize the HSTS settings:
+
+| Parameter | Description | Default value |
+| --- | --- | --- |
+| `hstsEnabled` | Set the HSTS header (Strict-Transport-Security) to the response. | `true` |
+| `hstsMaxAgeSeconds` | Max age value that should be used in the HSTS header. | `0` |
+| `hstsIncludeSubDomains` | Set the includeSubDomains parameter in the HSTS header. | `false` |
+| `hstsPreload` | Set the preload parameter in the HSTS header. | `false` |
+| `antiClickJackingEnabled` | Set the anticlick-jacking header (X-Frame-Options) to the response. | `true` |
+| `antiClickJackingOption` | Anticlick-jacking header value. Must be one of DENY, SAMEORIGIN, ALLOW-FROM | `DENY` |
+| `antiClickJackingUri` | Allowed URI for anticlick-jacking. Applicable only when ALLOW-FROM is used for antiClickJackingOption. | `Empty string` |
+| `blockContentTypeSniffingEnabled` | Set the content type sniffing block header (X-Content-Type-Options) to the response. | `true` |
+| `xssProtectionEnabled` | Set the browser cross-site scripting filter protection header (X-XSS-Protection: 1; mode=block) to the response.<br />Note: This setting is deprecated in tomcat. | `false` |
+
+Additionally, the following configuration can be used to configure the applicable URL format of the HSTS filter. By default, all the URLs of the web application are allowed for the filter.
+
+```xml
 <filter-mapping>
     <filter-name>HttpHeaderSecurityFilter</filter-name>
     <url-pattern>*</url-pattern>
 </filter-mapping>
 ```
 
-This configuration explicitly enables HSTS for the Console application.
+For `accountrecoveryendpoint`:
 
-## Enable for other web applications
-
-To enable HSTS for other web applications deployed in WSO2 Identity Server, update the respective `web.xml` file under
-`<IS_HOME>/repository/deployment/server/webapps/<WEBAPP_NAME>/WEB-INF`.
-
-Add the same filter configuration used for the Console:
-
-```xml
-<filter>
-    <filter-name>HttpHeaderSecurityFilter</filter-name>        
-    <filter-class>org.apache.catalina.filters.HttpHeaderSecurityFilter</filter-class>
-    <init-param>
-        <param-name>hstsMaxAgeSeconds</param-name>
-        <param-value>15768000</param-value>
-    </init-param>
-</filter>
-
-<filter-mapping>     
-    <filter-name>HttpHeaderSecurityFilter</filter-name>     
-    <url-pattern>*</url-pattern>
-</filter-mapping>
+```toml
+[accountrecoveryendpoint.tomcat.http_header_security_filter]
+url_pattern = "*"
 ```
 
-This configuration applies HSTS consistently across specified web applications running on WSO2 Identity Server.
+For `authenticationendpoint`:
 
-{/*## Enable for Jaggery applications
-
-For Jaggery applications, the `HttpHeaderSecurityFilter` element should be configured in the `<IS_HOME>/repository/deployment/server/jaggeryapps/jaggery.conf` file. This filter configuration is applicable to the /dashboard jaggery applications in this location.
-
-To enable HSTS for a Jaggery application, change the default filter configuration as shown below.
-
-Given below is the default filter configuration.
-
-```
-"params" : [{"name" : "hstsEnabled", "value" : "false"}]
+```toml
+[authenticationendpoint.tomcat.http_header_security_filter]
+url_pattern = "*"
 ```
 
-This is the filter configuration after enabling HSTS.
-
-```
-"params" : [{"name" : "hstsMaxAgeSeconds", "value" : "15768000"}]
-```
-
-!!! note
-    Returning HTTP security headers could also be achieved by configuring the headers from the `Proxy/LB` configuration.
-
-*/}
+:::note
+Configuring HTTP security headers can also be achieved through the `Proxy/LB` configuration, providing an alternative approach for environments where modifying individual application configurations is not preferred.
+:::

@@ -2,7 +2,7 @@
 title: JWT Secured Authorization Response Mode (JARM) for OAuth 2.0
 description: The JWT Secured Authorization Response Mode for OAuth 2.0 (JARM) specification defines new JWT-based modes to encode OAuth2 authorization responses.  # generated from the first paragraph; a writer should improve it
 type: how-to
-sidebar_position: 5
+sidebar_position: 6
 slug: "/guides/authentication/oidc/jarm"
 ---
 
@@ -12,21 +12,6 @@ The [JWT Secured Authorization Response Mode for OAuth 2.0 (JARM) specification]
 
 Below is a sample authorization request sent to the authorization endpoint of the WSO2 Identity Server.
 
-<Edition only="cloud">
-
-```bash
-https://api.asgardeo.io/t/{organization_name}/oauth2/authorize?prompt=login
-&scope=openid
-&redirect_uri=https://<CLIENT_HOST>/redirects/redirect1
-&client_id=<CLIENT_ID>
-&response_type=<RESPONSE_TYPE>
-&response_mode=<RESPONSE_MODE>
-```
-
-</Edition>
-
-<Edition only="self-hosted">
-
 ```bash
 https://{edition.hostName}/oauth2/authorize?prompt=login
 &scope=openid
@@ -35,8 +20,6 @@ https://{edition.hostName}/oauth2/authorize?prompt=login
 &response_type=<RESPONSE_TYPE>
 &response_mode=<RESPONSE_MODE>
 ```
-
-</Edition>
 
 The parameters used in the authorization request are defined below.
 
@@ -158,17 +141,13 @@ Decoded payload:
 }
 ```
 
-<Edition only="self-hosted">
-
 ## Disable JARM
 
 By default, JARM response modes are enabled in WSO2 Identity Server.
 
-To disable JARM, add the following configurations to the `deployment.toml` file of WSO2 Identity Server:
+To disable JARM, add the following configurations to the `deployment.toml` file of WSO2 Identity Server
 
 ```toml
 [oauth.jarm]
 enable = false
 ```
-
-</Edition>

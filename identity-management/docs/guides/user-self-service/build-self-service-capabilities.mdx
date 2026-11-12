@@ -1,6 +1,6 @@
 ---
 title: Build self-service capabilities for your application
-description: Developers can use WSO2 Identity Platform's REST APIs to implement self-service capabilities for the users on their business applications.  # generated from the first paragraph; a writer should improve it
+description: Developers can use WSO2 Identity Server's REST APIs to implement self-service capabilities for the users on their business applications.  # generated from the first paragraph; a writer should improve it
 type: how-to
 sidebar_label: Build self-service capabilities
 sidebar_position: 3
@@ -16,54 +16,6 @@ Here are some capabilities you may want to enable when you implement self-servic
 - Allow users to manage consents given to applications
 
 Once the user logs in to the business application, you can make these capabilities available to the user from the business application itself.
-
-<Edition only="cloud">
-
-## Self-service APIs
-
-You can use the following {edition.productName} APIs to enable self-service capabilities in your business application.
-
-- SCIM/Me Endpoint
-
-    - [List user details](../../apis/scim2/index.mdx)
-    - [Update user profile](../../apis/scim2/index.mdx)
-    - [Update user password](../../apis/scim2/index.mdx)
-
-        :::note
-        To update the password of a user, update the `value` parameter of the API payload as follows:
-
-        ```bash
-        {
-          "schemas": [
-            "urn:ietf:params:scim:api:messages:2.0:PatchOp"
-          ],
-          "Operations": [
-            {
-              "op": "add",
-              "value": {
-                "nickName": "shaggy"
-              }
-            }
-          ]
-        }
-        ```
-        :::
-
-- Manage MFA settings and recovery
-
-    - [TOTP](../../apis/totp/index.mdx)
-    - [Backup codes](../../apis/backup-code/index.mdx)
-
-- [Export user profile](../../apis/export-user-info/index.mdx)
-- [Manage consent of users](../../apis/consent-management/index.mdx)
-
-:::tip
-To let users manage their accounts through an AI agent, use the [Self-service MCP server](./self-service-mcp-server.mdx).
-:::
-
-</Edition>
-
-<Edition only="self-hosted">
 
 ## Self-service APIs
 You can use the following {edition.productName} APIs to enable self-service capabilities in your business application.
@@ -102,8 +54,6 @@ You can use the following {edition.productName} APIs to enable self-service capa
 {/* TODO - [Export user profile]({{base_path}}/apis/{{ export_user_prof }}/) */}
 
 - [Manage consent of users](../../apis/consent-management-api-definition/index.mdx)
-
-</Edition>
 
 ## Prerequisites
 
@@ -146,50 +96,12 @@ Data:
 }
 ```
 
-<Edition only="cloud">
-
-<details>
-<summary>If you are using {edition.productName}'s React SDK</summary>
-
-You can use the `[httpRequest](https://github.com/asgardeo/asgardeo-auth-react-sdk/blob/main/API.md#httprequest)` method to invoke the APIs on {edition.productName}'s React SDK.
-
-A sample of how to use the `httpRequest` method in [{edition.productName}'s React SDK](../../quick-starts/get-started/try-your-own-app/react.mdx) is given below:
-
-```javascript
-import { useAuthContext, HttpRequestConfig } from "@asgardeo/auth-react";
-const {httpRequest } = useAuthContext();
-
-   const requestConfig: HttpRequestConfig = {
-            // Add API content here
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/scim+json"
-            },
-            attachToken: true,
-            method: "GET",
-            url: "https://api.asgardeo.io/t/<org_name>/scim2/Me"
-        };
-        httpRequest(requestConfig).then((response: any) => {
-            console.log(“request response : ”+response.data);
-        }).catch((error) => {
-            console.log("request error: " + error);
-        })
-```
-
-You can replace the body of `const requestConfig: HttpRequestConfig = {}` with the API you wish to invoke.
-
-</details>
-
-</Edition>
-
-<Edition only="self-hosted">
-
 <details>
 <summary>If you are using {edition.productName}'s React SDK</summary>
 
 You can use the `[httpRequest](https://github.com/asgardeo/asgardeo-auth-react-sdk/blob/main/API.md#httprequest){:target="_blank"}` method to invoke the APIs on {edition.productName}'s React SDK.
 
-A sample of how to use the `httpRequest` method in [{edition.productName}'s React SDK](../../quick-starts/get-started/try-your-own-app/react.mdx) is given below:
+A sample of how to use the `httpRequest` method in [{edition.productName}'s React SDK](../../get-started/try-your-own-app/react.mdx) is given below:
 
 ```javascript
 import { useAuthContext, HttpRequestConfig } from "@asgardeo/auth-react";
@@ -215,5 +127,3 @@ const {httpRequest } = useAuthContext();
 You can replace the body of `const requestConfig: HttpRequestConfig = {}` with the API you wish to invoke.
 
 </details>
-
-</Edition>

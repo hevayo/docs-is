@@ -15,35 +15,6 @@ security:
   - OAuth2: []
   - BasicAuth: []
 paths:
-  /ResourceTypes:
-    get:
-      tags:
-        - ResourceType Endpoint
-      summary: Get resource types
-      description: |
-        This API lists and returns metadata about resource types.
-        
-        <b>No Scope(Permission) required.</b>
-      operationId: getResourceType
-      responses:
-        200:
-          description: Schema is found
-          content:
-            application/scim+json:
-              schema:
-                $ref: '#/components/schemas/ResourceTypeResponse'
-        401:
-          description: Unauthorized
-          content:
-            application/scim+json:
-              schema:
-                $ref: '#/components/schemas/ErrorUnauthorized'
-      x-codeSamples:
-        - lang: Curl
-          source: |
-            curl -X 'GET' \
-            'https://localhost:9443/scim2/ResourceTypes' \
-            -H 'accept: application/scim+json'
   /ServiceProviderConfig:
     get:
       tags:
@@ -75,64 +46,6 @@ paths:
             -H 'accept: application/scim+json'
 components:
   schemas:
-    ResourceTypeResponse:
-      type: object
-      properties:
-        schemas:
-          type: array
-          items:
-            type: string
-            examples:
-              - urn:ietf:params:scim:schemas:core:2.0:ResourceType
-        resourceType:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserObResourceType'
-    UserObResourceType:
-      type: object
-      properties:
-        schema:
-          type: string
-          examples:
-            - urn:ietf:params:scim:schemas:core:2.0:User
-        endpoint:
-          type: string
-          examples:
-            - /Users
-        meta:
-          type: object
-          properties:
-            location:
-              type: string
-              examples:
-                - https://localhost:9443/scim2/ResourceType/User
-            resourceType:
-              type: string
-              examples:
-                - ResourceType
-        name:
-          type: string
-          examples:
-            - User
-        description:
-          type: string
-          examples:
-            - User Account
-        schemaExtensions:
-          type: object
-          properties:
-            schema:
-              type: string
-              examples:
-                - urn:ietf:params:scim:schemas:extension:enterprise:2.0:User
-            required:
-              type: boolean
-              examples:
-                - false
-        id:
-          type: string
-          examples:
-            - User
     SPConfigResponse:
       type: object
       examples:

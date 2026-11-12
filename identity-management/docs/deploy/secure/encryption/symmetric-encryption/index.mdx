@@ -4,7 +4,7 @@ description: Symmetric encryption uses a single key to encrypt and decrypt infor
 type: reference
 sidebar_label: Symmetric encryption
 sidebar_position: 1
-editions: self-hosted
+slug: "/deploy/security/symmetric-encryption"
 ---
 
 Symmetric encryption uses a single key to encrypt and decrypt information. {edition.productName} uses symmetric encryption by default.
@@ -31,7 +31,7 @@ For more information on symmetric key encryption properties, see Configure Symme
 
 {edition.productName} uses the `AES/GCM/NoPadding` algorithm for symmetric key encryption. GCM is a stream cipher and therefore, enables simultaneous encryption of multiple blocks, resulting in faster data encryption.
 
-The supported key sizes are AES-128, AES-192, and AES-256.
+The supported key size is AES-128. 
 
 {edition.productName} uses symmetric key encryption to encrypt the following data.
 
@@ -65,18 +65,22 @@ Apply all changes before starting {edition.productName} for the first time.
 
 To do so,
 
-1. Generate a unique 256-bit secret key. If you use OpenSSL, the command will be as follows:
+1. Generate a unique 128-bit secret key. If you use OpenSSL, the command will be as follows:
 
     ```bash
-    openssl rand -hex 32
+    openssl rand -hex 16
     ```
 
 2. Add your generated key to the `deployment.toml` found in the `<IS_HOME>/repository/conf/` directory as follows:
 
     ```toml
     [encryption]
-    key = "d13e3b2ea4c42eb4a23fd110facb72a596ecd84ecd5297a13065f1877393eccf"
+    key = "9a131db7d3fce3adb0850b486bfc6528"
     ```
+
+    :::note
+    It is advised to encrypt the symmetric encryption key with a cipher tool as mentioned [here](../../security/encrypt-passwords-with-cipher-tool.mdx).
+    :::
 
 If a custom encryption key is not provided, the value of `encryption.key` in this configuration file will be used as the default key.
 

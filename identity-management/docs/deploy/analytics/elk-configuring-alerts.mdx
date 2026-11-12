@@ -4,7 +4,7 @@ description: The following guide shows you how to configure alerts in ELK.  # ge
 type: reference
 sidebar_label: Configure ELK alerts
 sidebar_position: 3
-editions: self-hosted
+slug: "/deploy/elk-configuring-alerts"
 ---
 
 The following guide shows you how to configure alerts in ELK.
@@ -67,7 +67,7 @@ Elasticsearch transforms are used to capture the alert events from the raw event
 
 4. Under **Stack Management** > **Data**, click **Transforms** to view the newly created transforms named `wso2-iam-alert-suspicious-login` and `wso2-iam-alert-long-session`.
 
-    ![Alert transform configuration](../../../assets/self-hosted/img/elk-analytics/alerting/elk-alerting-4.png)
+    ![Alert transform configuration](../../../assets/img/elk-analytics/alerting/elk-alerting-4.png)
 
 3. For both transforms, click the icon under **Actions** and click **Start**.
 
@@ -82,7 +82,7 @@ Alert dashboards display long sessions and suspicious login alerts. Follow the s
 2. Open the **kibana.yml** file found in the `<KIBANA_HOME>/config` directory.
 3. Copy the generated keys and paste them at the bottom of the **kibana.yml** file.
 4. Restart Kibana.
-3. Download the following [file](https://github.com/wso2-extensions/identity-elk-integration/blob/main/kibana/saved-objects/kibana-8-x-alerts.ndjson).
+3. Download the following [file](../../../assets/img/elk-analytics/kibana-8-x-alerts.ndjson).
 4. Log in to Kibana and under **Stack Management** > **Kibana**, click **Saved Objects**.
 5. Click **Import**, add the downloaded file as an import object, and click **Import**.
 6. Navigate to the **Dashboard** section to view the created **Alert** Dashboard.
@@ -122,7 +122,7 @@ Follow the [Configure Alert Dashboards](#configure-alert-dashboards) guide to im
 
     1. Under **Stack Management** > **Alerts and Insights**, click **Rules**.
 
-        <img src={require("../../../assets/self-hosted/img/elk-analytics/alerting/elk-alerting-1.png").default} alt="Alert Connectors" style={{border: "0.3px solid lightgrey"}} />
+        <img src={require("../../../assets/img/elk-analytics/alerting/elk-alerting-1.png").default} alt="Alert Connectors" style={{border: "0.3px solid lightgrey"}} />
 
     2. Navigate to the **Rules** tab and click on the **Edit** icon under a rule.
 
@@ -130,7 +130,7 @@ Follow the [Configure Alert Dashboards](#configure-alert-dashboards) guide to im
 
     4. Under **Actions**, provide the connectors that you configured above.
 
-        <img src={require("../../../assets/self-hosted/img/elk-analytics/alerting/elk-alerting-3.png").default} alt="Alert Rule Connectors" style={{border: "0.3px solid lightgrey"}} />
+        <img src={require("../../../assets/img/elk-analytics/alerting/elk-alerting-3.png").default} alt="Alert Rule Connectors" style={{border: "0.3px solid lightgrey"}} />
 
     5. Change the alert rule and other parameters to your preference and click **Save**.
 

@@ -4,7 +4,7 @@ description: A keystore is a secure repository for storing private keys and thei
 type: reference
 sidebar_label: Keystores
 sidebar_position: 1
-editions: self-hosted
+slug: "/deploy/security/keystores"
 ---
 
 import Tabs from '@theme/Tabs';
@@ -68,8 +68,6 @@ In production environments, it is recommended to use three distinct keystores wi
 
 - **Internal keystore** (`[keystore.internal]`): Used for encrypting sensitive internal data such as admin passwords and other sensitive information in configuration files (via the [Cipher Tool](../../security/encrypt-passwords-with-cipher-tool.mdx)). 
 
-    It is recommended to use a **symmetric AES key** (PKCS12 format) for the internal keystore due to its resilience against post-quantum threats. This keystore does not need to be CA-signed as it is not used for external communication.
-
 - **TLS keystore** (`[keystore.tls]`): Contains the server’s key pair and certificate for authenticating communication over SSL/TLS (HTTPS). It is recommended to use a CA-signed certificate for the TLS keystore.
 
 Additional recommendations:
@@ -106,6 +104,6 @@ Follow this workflow to set up keystores for your deployment:
 
 3. **Configure keystores** — Use [Configure Keystores](./configure-keystores.mdx) to set up the keystores in your `deployment.toml` file.
 
-4. **(Optional) Protocol-specific keystores** — If you need separate keystores for different authentication protocols (OAuth, SAML, etc.), see [Configure custom keystores for authentication protocols](./configure-custom-keystores.mdx).
+4. **(Optional) Protocol-specific keystores** — If you need separate keystores for different authentication protocols (OAuth, SAML, etc.), see Configure custom keystores for authentication protocols.
 
 5. **(Optional) CA-signed certificates** — If you need to work with CA-signed certificates, see [Manage CA-Signed certificates in a keystore](./manage-ca-signed-certificates-in-a-keystore.mdx).

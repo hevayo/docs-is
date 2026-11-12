@@ -10,7 +10,7 @@ info:
      enable=true</code></pre>
 
     </div>
-
+  
   version: "v1"
   title: Idle Accounts Identification API
 
@@ -57,7 +57,7 @@ paths:
 
             **NOTE**:
             - The `filter` parameter can only be used as specified above.
-          example: isDisabled eq true
+          example: isDisabled eq true          
       responses:
         '200':
           $ref: '#/components/responses/Success'
@@ -79,7 +79,7 @@ paths:
           source: |
             curl --location 'https://localhost:9443/api/idle-account-identification/v1/inactive-users?inactiveAfter=2023-01-31&excludeBefore=2023-01-01&filter=isDisabled eq true' \
             -H 'Accept: application/json' \
-            -H 'Authorization: Basic YWRtaW46YWRtaW4='
+            -H 'Authorization: Basic YWRtaW46YWRtaW4='            
 components:
   schemas:
     Error:

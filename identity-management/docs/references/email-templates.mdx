@@ -1,29 +1,16 @@
 ---
 title: Email templates
-description: WSO2 Identity Platform organizations use several email templates to send email notifications to users.  # generated from the first paragraph; a writer should improve it
+description: WSO2 Identity Server organizations use several email templates to send email notifications to users.  # generated from the first paragraph; a writer should improve it
 type: reference
-sidebar_position: 11
+sidebar_position: 9
 ---
 
 {edition.productName} organizations use several email templates to send email notifications to users.
 
-<Edition only="cloud">
-
-:::note
-- You can customize all available email templates to match your organization's preferences using the [Email Templates API](../apis/email-template/index.mdx).
-- You can also use the Console to change some of the most frequently used email templates in {edition.productName}. Learn how to [customize email content from the Console](../guides/customizations/branding/customize-email-templates.mdx#customize-email-content).
-:::
-
-</Edition>
-
-<Edition only="self-hosted">
-
 :::note
 - You can customize all available email templates to match your organization's preferences using the [Email Templates API](../apis/email-templates-rest-api/index.mdx).
-- You can also use the Console to change some of the most frequently used email templates in {edition.productName}. Learn how to [customize email content from the Console](../guides/customizations/branding/customize-email-templates.mdx#customize-email-content).
+- You can also use the Console to change some of the most frequently used email templates in {edition.productName}. Learn how to [customize email content from the Console](../guides/branding/customize-email-templates.mdx#customize-email-content).
 :::
-
-</Edition>
 
 ## Email templates in {edition.productName}
 
@@ -39,7 +26,7 @@ Some of the email templates below should contain URLs to redirect the user for c
 | EmailConfirm<br /><br /> AccountConfirmation<br /><br /> ResendAccountConfirmation | These emails are sent when a user creates an account in your {edition.productName} organization. The email will prompt the user to confirm their account/email |
 | VerifyEmailOnUpdate | This email is generated when the user changes the email associated with the account. |
 | AccountIdRecovery | This email is generated when a user requests an account ID recovery. |
-| PasswordReset<br /><br /> resendPasswordReset<br /><br /> PasswordResetOTP<br /><br /> resendPasswordResetOTP<br /><br /> AdminForcedPasswordReset<br /><br /> resendAdminForcedPasswordReset<br /><br /> | These emails involve password resets. Depending on whether the user or the administrator initiates the password reset, separate emails are generated. |
+| PasswordReset<br /><br /> resendPasswordReset<br /><br /> AdminForcedPasswordReset<br /><br /> resendAdminForcedPasswordReset<br /><br /> | These emails involve password resets. Depending on whether the user or the administrator initiates the password reset, separate emails are generated. |
 | initiateRecovery | This email is generated when a user initiates a password reset using security questions. |
 | passwordResetSuccess | This email is generated when a user successfully resets the password. |
 | AdminForcedPasswordResetWithOTP<br /><br /> resendAdminForcedPasswordResetWithOTP | These emails are generated when a user initiates password reset using OTP. The email template can display the OTP using the \{\{ confirmation-code \}\} literal. |
@@ -170,7 +157,7 @@ Organizations (root) created before October 2022 will utilize `{{ tenant-domain 
 
 You can use the following literals and customize email templates to fit the branding of your organization.
 
-You can configure the values of these literals from the {edition.productName} Console. Refer to the [branding documentation](../guides/customizations/branding/configure-ui-branding.mdx) to learn more.
+You can configure the values of these literals from the {edition.productName} Console. Refer to the [branding documentation](../guides/branding/configure-ui-branding.mdx) to learn more.
 
 | Literal | Description |
 | --- | --- |

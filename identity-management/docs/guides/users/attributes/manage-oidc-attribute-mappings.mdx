@@ -14,7 +14,7 @@ To view the OpenID Connect attributes available for your organization:
 1. On the {edition.productName} Console, go to **User Attributes & Stores** > **Attributes** > **Manage Attribute Mappings**.
 2. Click **OpenID Connect**.
 
-   <Edition only="cloud"><img src={require("../../../../assets/cloud/img/guides/organization/attributes/attribute-mappings/view-oidc-attributes.png").default} alt="View OpenID Connect attributes" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/self-hosted/img/guides/organization/attributes/attribute-mappings/view-oidc-attributes.png").default} alt="View OpenID Connect attributes" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+   <img src={require("../../../../assets/img/guides/organization/attributes/attribute-mappings/view-oidc-attributes.png").default} alt="View OpenID Connect attributes" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 You can find the mapped OpenID Connect attributes.
 
@@ -51,35 +51,6 @@ You need to enable `email_home` as a [requested attribute](../../authentication/
 
 After user authentication, you can find the `email_home` claim in the ID token, as shown below.
 
-<Edition only="cloud">
-
-```text
-{
-  "isk": "69b37037a2349763dc48e2a30a62c3feebf0b5823cf869e149352737ddc0ca63",
-  "at_hash": "7qgloEmkz3kGBTtH7RI4qw",
-  "sub": "user@sample.com",
-  "amr": [
-    "BasicAuthenticator"
-  ],
-  "iss": "https://accounts.asgardeo.io/t/bitfrost/oauth2/token",
-  "given_name": "alice",
-  "sid": "5580be2b-a12d-43a4-823a-9d1352b88269",
-  "aud": "UEP40cZTZfxJfGdDWFmTrwqluxoa",
-  "c_hash": "VlKxb3UhuYtFEG_VftAa0g",
-  "nbf": 1625557031,
-  "azp": "UEP40cZTZfxJfGdDWFmTrwqluxoa",
-  "nickname": "nick",
-  "exp": 1625560631,
-  "iat": 1625557031,
-  "family_name": "john"
-  "email_home": "john_home@gmail.com"
-}
-```
-
-</Edition>
-
-<Edition only="self-hosted">
-
 ```text
 {
   "isk": "69b37037a2349763dc48e2a30a62c3feebf0b5823cf869e149352737ddc0ca63",
@@ -102,8 +73,6 @@ After user authentication, you can find the `email_home` claim in the ID token, 
   "email_home": "john_home@gmail.com"
 }
 ```
-
-</Edition>
 
 ## Delete an OpenID Connect attribute
 To delete the OpenID Connect attributes available in your organization:

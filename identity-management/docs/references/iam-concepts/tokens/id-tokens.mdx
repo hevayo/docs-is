@@ -1,6 +1,6 @@
 ---
 title: ID tokens
-description: An ID token is a signed JSON Web Token (JWT) issued by WSO2 Identity Platform as part of an OpenID Connect authentication flow.  # generated from the first paragraph; a writer should improve it
+description: An ID token is a signed JSON Web Token (JWT) issued by WSO2 Identity Server as part of an OpenID Connect authentication flow.  # generated from the first paragraph; a writer should improve it
 type: reference
 sidebar_position: 4
 slug: "/references/tokens/id-tokens"
@@ -134,7 +134,7 @@ ID tokens prove that a user authenticated — they are not authorization credent
 
 - **Audience mismatch**: The `aud` claim in an ID token is set to the client application's client ID, not to an API. A resource server that does not verify the audience could accept any ID token, including tokens stolen from unrelated client applications.
 - **No scopes**: ID tokens do not carry OAuth 2.0 scopes. Using them for API calls bypasses the scope mechanism that restricts which operations the user has authorized.
-- **No sender constraints**: Access tokens can be bound to the requesting client through [token binding](../../token-binding.mdx), preventing replay if intercepted. ID tokens do not carry similar protections.
+- **No sender constraints**: Access tokens can be bound to the requesting client through [token binding](../token-binding/index.mdx), preventing replay if intercepted. ID tokens do not carry similar protections.
 
 Always present access tokens to resource servers. Use ID tokens only within the client application to verify user identity and establish a login session.
 

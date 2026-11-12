@@ -2,56 +2,23 @@
 title: SCIM2 Bulk Operations
 description: Follow the topics given below to understand how Bulk operations can be used when you manage resources in the SCIM2 API.  # generated from the first paragraph; a writer should improve it
 type: reference
-sidebar_label: SCIM 2.0 Batch Operations
+sidebar_label: SCIM 2.0 Batch operations
 sidebar_position: 3
 slug: "/apis/scim2/scim2-batch-operations"
 ---
 
 Follow the topics given below to understand how **Bulk** operations can be used when you manage resources in the [SCIM2 API](../../../scim2-bulk-rest-api/index.mdx#tag-bulk-endpoint).
 
-The SCIM2 API allows you to send multiple resource operations in a single request. That is, you can add new records (POST data), replace an existing record (PUT data), update elements of an existing record (PATCH data), and delete records (DELETE data) in bulk. These bulk operations are supported for managing users and groups with the SCIM API in {edition.productName}.
-
-<Edition only="self-hosted">
+The SCIM2 API allows you to send multiple resource operations in a single request. That is, you can add new records (POST data), replace an existing record (PUT data), update elements of an existing record (PATCH data), and delete records (DELETE data) in bulk. These bulk operations are supported for managing users and groups with the SCIM API in WSO2 Identity Server.
 
 :::info
-The default limit for bulk operations is 1,000 operations per request. To modify this limit, add the following configuration to the `<IS_HOME>/repository/conf/deployment.toml` file.
+The default limit for bulk operations is set to 1,000 operations per request. To modify this limit, add the following configuration to the `<IS_HOME>/repository/conf/deployment.toml` file.
 
 ```text
 [scim2]
 max_bulk_operations = 500
 ```
 :::
-
-</Edition>
-
-<Edition only="cloud">
-
-:::info
-The default limit for bulk operations is 100 operations per request.
-:::
-
-</Edition>
-
-## Scope (permission) required for batch operations
-
-{edition.productName} now introduces operation-wise scopes for batch operations. This allows you to enforce more granular access control for each SCIM2 operation within a batch request.
-
-Though the `internal_bulk_resource_create` scope continues to support, it's advised to use the new operation-wise scopes.
-
-| Operation | Management API Scope | Organization API Scope |
-| --- | --- | --- |
-| Create Users | internal_bulk_user_create | internal_org_bulk_user_create |
-| Update Users | internal_bulk_user_update | internal_org_bulk_user_update |
-| Replace Users | internal_bulk_user_update | internal_org_bulk_user_update |
-| Delete Users | internal_bulk_user_delete | internal_org_bulk_user_delete |
-| Create Groups | internal_bulk_group_create | internal_org_bulk_group_create |
-| Update Groups | internal_bulk_group_update | internal_org_bulk_group_update |
-| Replace Groups | internal_bulk_group_update | internal_org_bulk_group_update |
-| Delete Groups | internal_bulk_group_delete | internal_org_bulk_group_delete |
-| Create Roles | internal_bulk_role_create | internal_org_bulk_role_create |
-| Update Roles | internal_bulk_role_update | internal_org_bulk_role_update |
-| Replace Roles | internal_bulk_role_update | internal_org_bulk_role_update |
-| Delete Roles | internal_bulk_role_delete | internal_org_bulk_role_delete |
 
 ## Manage users in bulk
 
@@ -62,8 +29,6 @@ The examples given below show individual resource operations (POST, PATCH, PUT, 
 :::
 
 ### Add users
-
-**Scope (permission) required**: `internal_bulk_user_create`
 
 Given below is an example request payload to manage users in bulk. This request includes an array of operations that adds multiple new users.
 
@@ -173,8 +138,6 @@ The parameters in the request body are explained below.
 
 ### Update users
 
-**Scope (permission) required**: `internal_bulk_user_update`
-
 Given below is an example request payload to update users in bulk. This request includes an array of operations that updates multiple details of multiple users.
 
 ```json
@@ -260,7 +223,7 @@ The parameters in the request body are explained below.
             - `replace`
             - `remove`
 
-            See [SCIM2 Patch Operations](./scim2-patch-operations.mdx) for details on how to define patch operations.
+            See SCIM2 Patch Operations for details on how to define patch operations.
 
           </td>
         </tr>
@@ -278,7 +241,7 @@ The parameters in the request body are explained below.
 
             For example, if the path is “name”, the value should be the actual name.
 
-            See [SCIM2 Patch Operations](./scim2-patch-operations.mdx) for details on how to define values for the patch operations.
+            See SCIM2 Patch Operations for details on how to define values for the patch operations.
 
           </td>
         </tr>
@@ -286,8 +249,6 @@ The parameters in the request body are explained below.
     </table>
 
 ### Replace users
-
-**Scope (permission) required**: `internal_bulk_user_update`
 
 Given below is an example request payload to replace existing users in bulk. This request includes an array of operations that replace multiple users.
 
@@ -389,8 +350,6 @@ The parameters in the request body are explained below.
 
 ### Delete users
 
-**Scope (permission) required**: `internal_bulk_user_delete`
-
 Given below is an example request payload to delete existing users in bulk. This request includes an array of operations that delete multiple users.
 
 ```json
@@ -436,8 +395,6 @@ The examples given below show individual resource operations (POST, PATCH, PUT, 
 :::
 
 ### Add user groups
-
-**Scope (permission) required**: `internal_bulk_group_create`
 
 Given below is an example request payload to add user groups in bulk. This request includes an array of operations that adds multiple new user groups.
 
@@ -512,8 +469,6 @@ The parameters in the request body are explained below.
     | `value` | Required if `members` is used. | The ID of the user.<br /> **Possible values:** The user ID. |
 
 ### Update groups
-
-**Scope (permission) required**: `internal_bulk_group_update`
 
 Given below is an example request payload to update user groups in bulk. This request includes an array of operations that update multiple details in multiple user groups.
 
@@ -606,7 +561,7 @@ The parameters in the request body are explained below.
             - `replace`
             - `remove`
 
-            See [SCIM2 Patch Operations](./scim2-patch-operations.mdx) for details on how to define patch operations.
+            See SCIM2 Patch Operations for details on how to define patch operations.
 
           </td>
         </tr>
@@ -641,8 +596,6 @@ The parameters in the request body are explained below.
     </table>
 
 ### Replace groups
-
-**Scope (permission) required**: `internal_bulk_group_update`
 
 Given below is an example request payload to replace existing user groups in bulk. This request includes an array of operations that replace multiple user groups.
 
@@ -711,9 +664,7 @@ The parameters in the request body are explained below.
     | `display` | Required | The display name of a user assigned to the group.<br /> **Possible values:** The username. |
     | `value` | Required | The ID of the user.<br /> **Possible values:** The user ID. |
 
-### Delete groups
-
-**Scope (permission) required**: `internal_bulk_group_delete`
+### Delete users {#delete-users_1}
 
 Given below is an example request payload to delete existing user groups in bulk. This request includes an array of operations that delete multiple user groups.
 
