@@ -1,0 +1,159 @@
+---
+title: Configuring Username Recovery
+description: WSO2 Identity Server enables recovering user accounts where the user has forgotten the username.  # generated from the first paragraph; a writer should improve it
+type: reference
+sidebar_label: User Name Recovery
+sidebar_position: 5
+slug: "/learn/configuring-user-name-recovery"
+---
+
+WSO2 Identity Server enables recovering user accounts where the user has forgotten the username. This is done by matching the user claims that are related to user attributes. The user will be prompted to enter values for these user attributes. If the value entered by the user matches with the claims, the corresponding username will be emailed to the user’s registered email ID.  
+
+<img src={require("../../../../../assets/img/learn/user-name-recovery-overview.png").default} alt="User Name Recovery" width="700" /> 
+
+## Scenario
+
+**Pickup** is a cab company that has many employees who use different credentials to sign in to different internal enterprise applications. **Larry** who is a new recruit at Pickup has forgotten the username. 
+
+Let's learn how Larry can recover the password by providing the corresponding profile information!
+
+## Set up
+
+Follow the steps below to configure WSO2 Identity Server to enable username recovery.
+
+1.    Open the `deployment.toml` file in the `<IS_HOME>/repository/conf` directory.
+
+    1.    Check whether the following listener configs are in place.
+
+        ```text
+        [event.default_listener.identity_mgt]
+        priority= "50"
+        enable = false
+        [event.default_listener.governance_identity_mgt]
+        priority= "95"
+        enable = true
+        ```
+
+    2.    To configure the email server to send emails requesting password reset, add the following configurations.
+
+        -    **from_address**: This is the email address from which the confirmation email will be sent.
+        -    **username**: This is the username of the given email address.
+        -    **password**: This is the password of the given email address. 
+
+        ```toml
+        [output_adapter.email]
+        from_address= ""
+        username= ""
+        password= ""
+        hostname= "smtp.gmail.com"
+        port= 587
+        enable_start_tls= true
+        enable_authentication= true
+        ```
+
+        ```toml
+        [output_adapter.email]
+        from_address= "wso2iamtest@gmail.com"
+        username= "wso2iamtest"
+        password= "Wso2@iam70"
+        hostname= "smtp.gmail.com"
+        port= 587
+        enable_start_tls= true
+        enable_authentication= true
+        ```
+
+        :::warning[If you are using a Google email account]
+        Google has restricted third-party applications and less secure applications from sending emails by default. As WSO2 Identity Server acts as a third-party application when sending emails for password entry, follow the steps below to enable your Google email account to provide access to third-party applications.
+
+        1.    Access [https://myaccount.google.com/security](https://myaccount.google.com/security).
+
+        2.    Under **Signing in to Google** section, turn off the **2-step Verification** option.
+
+        3.  Enable **Less secure app access** in the Google Account's **Security** section.
+        :::
+
+2.    [Restart WSO2 Identity Server](../../../../setup/install/running-the-product.mdx).
+
+3.    On the **Main** menu of the Management Console, click **Identity > Identity Providers > Resident**.
+
+    <img src={require("../../../../../assets/img/learn/resident-menu-item.png").default} alt="Resident menu-item" width="200" style={{border: "1px solid grey"}} />  
+
+4.    Under the **Account Management** section, click **Account Recovery**.
+
+    <img src={require("../../../../../assets/img/learn/account-recovery-option.png").default} alt="Account Recovery Option" width="700" style={{border: "1px solid grey"}} />      
+
+5.    Select the following check boxes:
+    -    **Username recovery**
+    -    **Manage notifications sending internally**
+
+    <img src={require("../../../../../assets/img/learn/user-name-recovery-options.png").default} alt="User Name Recover options" width="600" style={{border: "1px solid grey"}} />        
+
+    :::note
+    The recommended  **Recovery callback URL regex** to use when testing the product is `^https:\/\/localhost:9443\/.*`. However, users should modify it to meet their requirements when they deploy the product.
+    :::
+
+6.    Click **Update**. 
+
+## Try out
+
+1.    To create the user account for Larry:
+
+    1.    On the **Main** menu of the Management Console, click **Identity > Users and Roles > Add**.
+
+        <img src={require("../../../../../assets/img/learn/add-users-and-roles-menu-item.png").default} alt="Add Users and Roles menu-item" width="200" style={{border: "1px solid grey"}} />  
+
+    2.    Click **Add New User**.
+
+        <img src={require("../../../../../assets/img/learn/add-new-user-option.png").default} alt="Add New User option" width="700" style={{border: "1px solid grey"}} />  
+
+    3.    Enter the required data as follows.
+
+        <img src={require("../../../../../assets/img/learn/add-new-user-screen.png").default} alt="Add New User screen" width="700" style={{border: "1px solid grey"}} />   
+
+        -    **Domain**: `Primary`
+        -    **Username**: `Larry`
+
+    4.    Click **Finish**. 
+
+2.    To assign login permissions to the user:
+
+    1.    Click the **View Roles** option of Larry.
+
+        <img src={require("../../../../../assets/img/learn/view-roles-option.png").default} alt="View Roles option" width="700" style={{border: "1px solid grey"}} />                       
+
+    2.    Click **Permissions**.
+
+        <img src={require("../../../../../assets/img/learn/role-permissions-option.png").default} alt="Role Permissions option" width="700" style={{border: "1px solid grey"}} />                       
+
+    3.    Select **Login** and click **Update**.
+
+        <img src={require("../../../../../assets/img/learn/login-permission.png").default} alt="Login permission" width="700" style={{border: "1px solid grey"}} />  
+
+3.    To add Larry's email Id:
+
+    1.    Click **User Profile** option of Larry.
+
+        <img src={require("../../../../../assets/img/learn/user-profile-option.png").default} alt="User Profile option" width="700" style={{border: "1px solid grey"}} />   
+
+    2.    Enter an email address to which Larry's password recovery emails will be sent. Enter the first name as `Larry`.
+
+        <img src={require("../../../../../assets/img/learn/user-email.png").default} alt="User Email option" width="700" style={{border: "1px solid grey"}} />   
+
+    3. Click **Update**. 
+
+4.    To mimic a forgotten username:
+
+    1.    On the Sign In screen of the WSO2 Identity Server My Account at `https://localhost:9443/myaccount`, click
+     **Username**.
+
+        <img src={require("../../../../../assets/img/learn/forgotten-user-name-option.png").default} alt="Sign In form" width="400" style={{border: "1px solid grey"}} />     
+
+    3.    Enter the first name as `Larry`.
+
+        <img src={require("../../../../../assets/img/learn/recover-user-name-screen.png").default} alt="Consent form" width="600" style={{border: "1px solid grey"}} />
+
+    4.    Click **Submit**. 
+
+    5.    An email with the username is sent to the given email address.        
+
+        <img src={require("../../../../../assets/img/learn/account-recovery-email.png").default} alt="Account Recovery email" width="500" style={{border: "1px solid grey"}} />

@@ -1,0 +1,444 @@
+---
+title: API Permissions
+description: The following table lists out all the available APIs and their operations and specifies the permissions of each operation.  # generated from the first paragraph; a writer should improve it
+type: reference
+sidebar_position: 5
+---
+
+The following table lists out all the available APIs and their
+operations and specifies the permissions of each operation.
+
+| Service | Operation | Permission Level |
+| --- | --- | --- |
+| **IdentityProviderMgtService** | addIdP | /permission/admin/manage |
+| <br /> | deleteIdP | /permission/admin/manage |
+| <br /> | getAllFederatedAuthenticators | /permission/admin/manage |
+| <br /> | getAllIdPs | /permission/admin/login |
+| <br /> | getAllLocalClaimUris | /permission/admin/manage |
+| <br /> | getAllProvisioningConnectors | /permission/admin/manage |
+| <br /> | getEnabledAllIdPs | /permission/admin/manage |
+| <br /> | getIdPByName | /permission/admin/manage |
+| <br /> | getResidentIdP | /permission/admin/manage |
+| <br /> | updateIdP | /permission/admin/manage |
+| <br /> | updateResidentIdP | /permission/admin/manage |
+| <br /> | <br /> | <br /> |
+| **IdentityApplicationManagementService** | createApplication | /permission/admin/manage |
+| <br /> | deleteApplication | /permission/admin/manage |
+| <br /> | getAllApplicationBasicInfo | /permission/admin/manage |
+| <br /> | getAllIdentityProviders | /permission/admin/manage |
+| <br /> | getAllLocalAuthenticators | /permission/admin/manage |
+| <br /> | getAllLocalClaimUris | /permission/admin/manage |
+| <br /> | getAllRequestPathAuthenticators | /permission/admin/manage |
+| <br /> | getApplication | /permission/admin/manage |
+| <br /> | getIdentityProvider | /permission/admin/manage |
+| <br /> | updateApplication | /permission/admin/manage |
+| <br /> | <br /> | <br /> |
+| **TenantMgtAdminService** | activateTenant | /permission/protected/manage/modify/tenants |
+| <br /> | addSkeletonTenant | /permission/protected/manage/monitor/tenants |
+| <br /> | addTenant | /permission/protected/manage/monitor/tenants |
+| <br /> | deactivateTenant | /permission/protected/manage/modify/tenants |
+| <br /> | deleteTenant | /permission/protected/manage/modify/tenants |
+| <br /> | getTenant | /permission/protected/manage/monitor/tenants |
+| <br /> | retrievePaginatedPartialSearchTenants | /permission/protected/manage/monitor/tenants |
+| <br /> | retrievePaginatedTenants | /permission/protected/manage/monitor/tenants |
+| <br /> | retrievePartialSearchTenants | /permission/protected/manage/monitor/tenants |
+| <br /> | retrieveTenants | /permission/protected/manage/monitor/tenants |
+| <br /> | updateTenant | /permission/protected/manage/modify/tenants |
+| <br /> | <br /> | <br /> |
+| **UserStoreConfigAdminService** | addUserStore | /permission/admin/manage/identity/userstore/config/create |
+| <br /> | changeUserStoreState | /permission/admin/manage/identity/userstore/config/update |
+| <br /> | deleteUserStore | /permission/admin/manage/identity/userstore/config/delete |
+| <br /> | deleteUserStoresSet | /permission/admin/manage/identity/userstore/config/delete |
+| <br /> | editUserStore | /permission/admin/manage/identity/userstore/config/update |
+| <br /> | editUserStoreWithDomainName | /permission/admin/manage/identity/userstore/config/update |
+| <br /> | getAvailableUserStoreClasses | /permission/admin/manage/identity/userstore/config/view |
+| <br /> | getSecondaryRealmConfigurations | /permission/admin/manage/identity/userstore/config/view |
+| <br /> | getUserStoreManagerProperties | /permission/admin/manage/identity/userstore/config/view |
+| <br /> | testRDBMSConnection | /permission/admin/manage/identity/userstore/config/view |
+| <br /> | <br /> | <br /> |
+| **OAuthAdminService** | getAllOAuthApplicationData | /permission/admin/manage/identity/applicationmgt/view |
+| <br /> | getAllowedGrantTypes | /permission/admin/manage/identity/applicationmgt/view |
+| <br /> | getAppsAuthorizedByUser | /permission/admin/login |
+| <br /> | getOAuthApplicationData | /permission/admin/manage/identity/applicationmgt/view |
+| <br /> | getOAuthApplicationDataByAppName | /permission/admin/manage/identity/applicationmgt/view |
+| <br /> | registerOAuthApplicationData | /permission/admin/manage/identity/applicationmgt/create |
+| <br /> | registerOAuthConsumer | /permission/admin/manage/identity/applicationmgt/create |
+| <br /> | removeOAuthApplicationData | /permission/admin/manage/identity/applicationmgt/delete |
+| <br /> | revokeAuthzForAppsByResoureOwner | /permission/admin/login |
+| <br /> | updateConsumerApplication | /permission/admin/manage/identity/applicationmgt/update |
+| <br /> | <br /> | <br /> |
+| **OAuth2TokenValidationService** | findOAuthConsumerIfTokenIsValid | /permission/admin/manage |
+| <br /> | validate | /permission/admin/manage |
+| <br /> | <br /> | <br /> |
+| **ClaimManagementService** | addNewClaimDialect | /permission/admin/configure/security |
+| <br /> | addNewClaimMapping | /permission/admin/configure/security |
+| <br /> | getClaimMappingByDialect | /permission/admin/configure/security |
+| <br /> | getClaimMappings | /permission/admin/configure/security |
+| <br /> | removeClaimDialect | /permission/admin/configure/security |
+| <br /> | removeClaimMapping | /permission/admin/configure/security |
+| <br /> | upateClaimMapping | /permission/admin/configure/security |
+| <br /> | <br /> | <br /> |
+| **RemoteUserStoreManagerService** | addRole | /permission/admin/configure/security |
+| <br /> | addUser | /permission/admin/configure/security |
+| <br /> | addUserClaimValue | /permission/admin/configure/security |
+| <br /> | addUserClaimValues | /permission/admin/configure/security |
+| <br /> | authenticate | /permission/admin/configure/security |
+| <br /> | deleteRole | /permission/admin/configure/security |
+| <br /> | deleteUser | /permission/admin/configure/security |
+| <br /> | deleteUserClaimValue | /permission/admin/configure/security |
+| <br /> | deleteUserClaimValues | /permission/admin/configure/security |
+| <br /> | getAllProfileNames | /permission/admin/configure/security |
+| <br /> | getHybridRoles | /permission/admin/configure/security |
+| <br /> | getPasswordExpirationTime | /permission/admin/configure/security |
+| <br /> | getProfileNames | /permission/admin/configure/security |
+| <br /> | getProperties | /permission/admin/configure/security |
+| <br /> | getRoleListOfUser | /permission/admin/configure/security |
+| <br /> | getRoleNames | /permission/admin/configure/security |
+| <br /> | getTenantId | /permission/admin/configure/security |
+| <br /> | getTenantIdofUser | /permission/admin/configure/security |
+| <br /> | getUserClaimValue | /permission/admin/configure/security |
+| <br /> | getUserClaimValues | /permission/admin/configure/security |
+| <br /> | getUserClaimValuesForClaims | /permission/admin/configure/security |
+| <br /> | getUserId | /permission/admin/configure/security |
+| <br /> | getUserList | /permission/admin/configure/security |
+| <br /> | getUserListOfRole | /permission/admin/configure/security |
+| <br /> | isExistingRole | /permission/admin/configure/security |
+| <br /> | isExistingUser | /permission/admin/configure/security |
+| <br /> | isReadOnly | /permission/admin/configure/security |
+| <br /> | listUsers | /permission/admin/configure/security |
+| <br /> | setUserClaimValue | /permission/admin/configure/security |
+| <br /> | setUserClaimValues | /permission/admin/configure/security |
+| <br /> | updateCredential | /permission/admin/configure/security |
+| <br /> | updateCredentialByAdmin | /permission/admin/configure/security |
+| <br /> | updateRoleListOfUser | /permission/admin/configure/security |
+| <br /> | updateRoleName | /permission/admin/configure/security |
+| <br /> | updateUserListOfRole | /permission/admin/configure/security |
+| <br /> | <br /> | <br /> |
+| **RemoteAuthorizationManagerService** | authorizeRole | /permission/admin/configure/security |
+| <br /> | authorizeUser | /permission/admin/configure/security |
+| <br /> | clearAllRoleAuthorization | /permission/admin/configure/security |
+| <br /> | clearAllUserAuthorization | /permission/admin/configure/security |
+| <br /> | clearResourceAuthorizations | /permission/admin/configure/security |
+| <br /> | clearRoleActionOnAllResources | /permission/admin/configure/security |
+| <br /> | clearRoleAuthorization | /permission/admin/configure/security |
+| <br /> | clearUserAuthorization | /permission/admin/configure/security |
+| <br /> | denyRole | /permission/admin/configure/security |
+| <br /> | denyUser | /permission/admin/configure/security |
+| <br /> | getAllowedRolesForResource | /permission/admin/configure/security |
+| <br /> | getAllowedUIResourcesForUser | /permission/admin/configure/security |
+| <br /> | getDeniedRolesForResource | /permission/admin/configure/security |
+| <br /> | getExplicitlyAllowedUsersForResource | /permission/admin/configure/security |
+| <br /> | getExplicitlyDeniedUsersForResource | /permission/admin/configure/security |
+| <br /> | isRoleAuthorized | /permission/admin/configure/security |
+| <br /> | isUserAuthorized | /permission/admin/manage/identity |
+| <br /> | resetPermissionOnUpdateRole | /permission/admin/configure/security |
+| <br /> | <br /> | <br /> |
+| **RemoteProfileConfigurationManagerService** | addProfileConfig | /permission/admin/configure/security |
+| <br /> | deleteProfileConfig | /permission/admin/configure/security |
+| <br /> | getAllProfiles | /permission/admin/configure/security |
+| <br /> | getProfileConfig | /permission/admin/configure/security |
+| <br /> | updateProfileConfig | /permission/admin/configure/security |
+| <br /> | <br /> | <br /> |
+| **RemoteClaimManagerService** | addNewClaimMapping | /permission/admin/configure/security |
+| <br /> | deleteClaimMapping | /permission/admin/configure/security |
+| <br /> | getAllClaimMappings | /permission/admin/configure/security |
+| <br /> | getAllClaimUris | /permission/admin/configure/security |
+| <br /> | getAllRequiredClaimMappings | /permission/admin/configure/security |
+| <br /> | getAllSupportClaimMappingsByDefault | /permission/admin/configure/security |
+| <br /> | getAttributeName | /permission/admin/configure/security |
+| <br /> | getAttributeNameFromDomain | /permission/admin/configure/security |
+| <br /> | getClaim | /permission/admin/configure/security |
+| <br /> | getClaimMapping | /permission/admin/configure/security |
+| <br /> | updateClaimMapping | /permission/admin/configure/security |
+| <br /> | <br /> | <br /> |
+| **RemoteUserRealmService** | getRealmConfiguration | /permission/protected/tenant-admin |
+| <br /> | <br /> | <br /> |
+| **RemoteTenantManagerService** | activateTenant | /permission/protected/tenant-admin |
+| <br /> | addTenant | /permission/protected/tenant-admin |
+| <br /> | deactivateTenant | /permission/protected/tenant-admin |
+| <br /> | deleteTenant | /permission/protected/tenant-admin |
+| <br /> | getAllTenants | /permission/protected/tenant-admin |
+| <br /> | getDomain | /permission/protected/tenant-admin |
+| <br /> | getSuperTenantDomain | /permission/protected/tenant-admin |
+| <br /> | getTenant | /permission/protected/tenant-admin |
+| <br /> | getTenantId | /permission/protected/tenant-admin |
+| <br /> | isTenantActive | /permission/protected/tenant-admin |
+| <br /> | updateTenant | /permission/protected/tenant-admin |
+| <br /> | <br /> | <br /> |
+| **UserIdentityManagementAdminService** | changeUserPassword | /permission/admin/login |
+| <br /> | deleteUser | /permission/admin/login |
+| <br /> | getAllChallengeQuestions | /permission/admin/login |
+| <br /> | getAllPromotedUserChallenge | /permission/admin/login |
+| <br /> | getAllUserIdentityClaims | /permission/admin/login |
+| <br /> | getChallengeQuestionsOfUser | /permission/admin/login |
+| <br /> | isReadOnlyUserStore | /permission/admin/login |
+| <br /> | lockUserAccount | /permission/admin/login |
+| <br /> | resetUserPassword | /permission/admin/login |
+| <br /> | setChallengeQuestions | /permission/admin/login |
+| <br /> | setChallengeQuestionsOfUser | /permission/admin/login |
+| <br /> | unlockUserAccount | /permission/admin/login |
+| <br /> | updateUserIdentityClaims | /permission/admin/login |
+| <br /> | <br /> | <br /> |
+| **AccountCredentialMgtConfigService** | getEmailConfig | /permission/admin/login |
+| <br /> | saveEmailConfig | /permission/admin/login |
+| <br /> | <br /> | <br /> |
+| **UserInformationRecoveryService** | confirmUserSelfRegistration | /permission/admin/login |
+| <br /> | getAllChallengeQuestions | /permission/admin/login |
+| <br /> | getCaptcha | /permission/admin/login |
+| <br /> | getUserChallengeQuestion | /permission/admin/login |
+| <br /> | getUserChallengeQuestionIds | /permission/admin/login |
+| <br /> | getUserIdentitySupportedClaims | /permission/admin/login |
+| <br /> | registerUser | /permission/admin/login |
+| <br /> | sendRecoveryNotification | /permission/admin/login |
+| <br /> | updatePassword | /permission/admin/login |
+| <br /> | verifyAccount | /permission/admin/login |
+| <br /> | verifyConfirmationCode | /permission/admin/login |
+| <br /> | verifyUser | /permission/admin/login |
+| <br /> | verifyUserChallengeAnswer | /permission/admin/login |
+| <br /> | <br /> | <br /> |
+| **EntitlementAdminService** | clearAllAttributeCaches | /permission/admin/configure |
+| <br /> | clearAllResourceCaches | /permission/admin/configure |
+| <br /> | clearAttributeFinderCache | /permission/admin/configure |
+| <br /> | clearAttributeFinderCacheByAttributes | /permission/admin/configure |
+| <br /> | clearCarbonAttributeCache | /permission/admin/configure |
+| <br /> | clearCarbonResourceCache | /permission/admin/configure |
+| <br /> | clearDecisionCache | /permission/admin/configure |
+| <br /> | clearPolicyCache | /permission/admin/configure |
+| <br /> | clearResourceFinderCache | /permission/admin/configure |
+| <br /> | doTestRequest | /permission/admin/configure |
+| <br /> | doTestRequestForGivenPolicies | /permission/admin/configure |
+| <br /> | getGlobalPolicyAlgorithm | /permission/admin/configure |
+| <br /> | getPDPData | /permission/admin/configure |
+| <br /> | getPIPAttributeFinderData | /permission/admin/configure |
+| <br /> | getPIPResourceFinderData | /permission/admin/configure |
+| <br /> | getPolicyFinderData | /permission/admin/configure |
+| <br /> | refreshAttributeFinder | /permission/admin/configure |
+| <br /> | refreshPolicyFinders | /permission/admin/configure |
+| <br /> | refreshResourceFinder | /permission/admin/configure |
+| <br /> | setGlobalPolicyAlgorithm | /permission/admin/configure |
+| <br /> | <br /> | <br /> |
+| **EntitlementPolicyAdminService** | addPolicies | /permission/admin/configure |
+| <br /> | addPolicy | /permission/admin/configure |
+| <br /> | addSubscriber | /permission/admin/configure |
+| <br /> | deleteSubscriber | /permission/admin/configure |
+| <br /> | dePromotePolicy | /permission/admin/configure |
+| <br /> | enableDisablePolicy | /permission/admin/configure |
+| <br /> | getAllPolicies | /permission/admin/configure |
+| <br /> | getAllPolicyIds | /permission/admin/configure |
+| <br /> | getEntitlementData | /permission/admin/configure |
+| <br /> | getEntitlementDataModules | /permission/admin/configure |
+| <br /> | getLightPolicy | /permission/admin/configure |
+| <br /> | getPolicy | /permission/admin/configure |
+| <br /> | getPolicyByVersion | /permission/admin/configure |
+| <br /> | getPolicyVersions | /permission/admin/configure |
+| <br /> | getPublisherModuleData | /permission/admin/configure |
+| <br /> | getStatusData | /permission/admin/configure |
+| <br /> | getSubscriber | /permission/admin/configure |
+| <br /> | getSubscriberIds | /permission/admin/configure |
+| <br /> | importPolicyFromRegistry | /permission/admin/configure |
+| <br /> | orderPolicy | /permission/admin/configure |
+| <br /> | publish | /permission/admin/configure |
+| <br /> | publishPolicies | /permission/admin/configure |
+| <br /> | publishToPDP | /permission/admin/configure |
+| <br /> | removePolicies | /permission/admin/configure |
+| <br /> | removePolicy | /permission/admin/configure |
+| <br /> | rollBackPolicy | /permission/admin/configure |
+| <br /> | updatePolicy | /permission/admin/configure |
+| <br /> | updateSubscriber | /permission/admin/configure |
+| <br /> | <br /> | <br /> |
+| **EntitlementService** | getAllEntitlements | /permission/admin/login |
+| <br /> | getBooleanDecision | /permission/admin/login |
+| <br /> | getDecision | /permission/admin/login |
+| <br /> | getDecisionByAttributes | /permission/admin/login |
+| <br /> | getEntitledAttributes | /permission/admin/login |
+| <br /> | XACMLAuthzDecisionQuery | /permission/admin/login |
+| <br /> | <br /> | <br /> |
+| ws-xacml | XACMLAuthzDecisionQuery | /permission/admin/manage |
+| <br /> | <br /> | <br /> |
+| **UserProfileMgtService** | associateID | /permission/admin/login |
+| <br /> | deleteUserProfile | /permission/admin/login |
+| <br /> | getAssociatedIDs | /permission/admin/login |
+| <br /> | getInstance | /permission/admin/login |
+| <br /> | getNameAssociatedWith | /permission/admin/login |
+| <br /> | getProfileFieldsForInternalStore | /permission/admin/login |
+| <br /> | getUserProfile | /permission/admin/login |
+| <br /> | getUserProfiles | /permission/admin/login |
+| <br /> | isAddProfileEnabled | /permission/admin/login |
+| <br /> | isAddProfileEnabledForDomain | /permission/admin/login |
+| <br /> | isReadOnlyUserStore | /permission/admin/login |
+| <br /> | removeAssociateID | /permission/admin/login |
+| <br /> | setUserProfile | /permission/admin/login |
+| <br /> | <br /> | <br /> |
+| **UserAdmin** | addInternalRole | /permission/admin/configure/security |
+| <br /> | addRemoveRolesOfUser | /permission/admin/configure/security |
+| <br /> | addRemoveUsersOfRole | /permission/admin/configure/security |
+| <br /> | addRole | /permission/admin/configure/security |
+| <br /> | addUser | /permission/admin/configure/security/usermgt/users |
+| <br /> | bulkImportUsers | /permission/admin/configure/security |
+| <br /> | changePassword | /permission/admin/configure/security/usermgt/passwords |
+| <br /> | changePasswordByUser | /permission/admin/login |
+| <br /> | deleteRole | /permission/admin/configure/security |
+| <br /> | deleteUser | /permission/admin/configure/security/usermgt/users |
+| <br /> | getAllRolesNames | /permission/admin/configure/security/rolemgt,/permission/admin/manage/modify/service |
+| <br /> | getAllSharedRoleNames | /permission/admin/configure/security |
+| <br /> | getAllUIPermissions | /permission/admin/configure/security |
+| <br /> | getRolePermissions | /permission/admin/configure/security |
+| <br /> | getRolesOfCurrentUser | /permission/admin/login |
+| <br /> | getRolesOfUser | /permission/admin/configure/security |
+| <br /> | getUserRealmInfo | /permission/admin/login |
+| <br /> | getUsersOfRole | /permission/admin/configure/security/rolemgt |
+| <br /> | hasMultipleUserStores | /permission/admin/login |
+| <br /> | isSharedRolesEnabled | /permission/admin/configure/security |
+| <br /> | listAllUsers | /permission/admin/configure/security/usermgt/users,/permission/admin/configure/security/usermgt/passwords,/permission/admin/configure/security/usermgt/profiles |
+| <br /> | listUserByClaim | /permission/admin/configure/security |
+| <br /> | listUsers | /permission/admin/configure/security/usermgt/users,/permission/admin/configure/security/usermgt/passwords,/permission/admin/configure/security/usermgt/profiles |
+| <br /> | setRoleUIPermission | /permission/admin/configure/security |
+| <br /> | updateRoleName | /permission/admin/configure/security |
+| <br /> | updateRolesOfUser | /permission/admin/configure/security |
+| <br /> | updateUsersOfRole | /permission/admin/configure/security |
+| <br /> | <br /> | <br /> |
+| **MultipleCredentialsUserAdmin** | addCredential | /permission/admin/configure/security/usermgt/passwords |
+| <br /> | addUser | /permission/admin/configure/security/usermgt/users |
+| <br /> | addUsers | /permission/admin/configure/security/usermgt/users |
+| <br /> | addUserWithUserId | /permission/admin/configure/security/usermgt |
+| <br /> | authenticate | /permission/admin/configure/security/usermgt |
+| <br /> | deleteCredential | /permission/admin/configure/security/usermgt/passwords |
+| <br /> | deleteUser | /permission/admin/configure/security/usermgt/users |
+| <br /> | deleteUserClaimValue | /permission/admin/configure/security/usermgt |
+| <br /> | deleteUserClaimValues | /permission/admin/configure/security/usermgt |
+| <br /> | getAllUserClaimValues | /permission/admin/login |
+| <br /> | getCredentials | /permission/admin/configure/security/usermgt/passwords |
+| <br /> | getUserClaimValue | /permission/admin/configure/security/usermgt |
+| <br /> | getUserClaimValues | /permission/admin/configure/security/usermgt |
+| <br /> | getUserId | /permission/admin/configure/security/usermgt |
+| <br /> | setUserClaimValue | /permission/admin/configure/security/usermgt |
+| <br /> | setUserClaimValues | /permission/admin/configure/security/usermgt |
+| <br /> | updateCredential | /permission/admin/configure/security/usermgt/passwords |
+| <br /> | <br /> | <br /> |
+| **IdentityProviderAdminService** | addOpenID | /permission/admin/login |
+| <br /> | extractPrimaryUserName | /permission/admin/login |
+| <br /> | getAllOpenIDs | /permission/admin/login |
+| <br /> | getPrimaryOpenID | /permission/admin/login |
+| <br /> | removeOpenID | /permission/admin/login |
+| <br /> | <br /> | <br /> |
+| **XMPPConfigurationService** | addUserXmppSettings | /permission/admin/login |
+| <br /> | editXmppSettings | /permission/admin/login |
+| <br /> | getUserIM | /permission/admin/login |
+| <br /> | getXmppSettings | /permission/admin/login |
+| <br /> | hasXMPPSettings | /permission/admin/login |
+| <br /> | isXMPPSettingsEnabled | /permission/admin/login |
+| <br /> | <br /> | <br /> |
+| **IdentitySAMLSSOConfigService** | addRPServiceProvider | /permission/admin/manage |
+| <br /> | getCertAliasOfPrimaryKeyStore | /permission/admin/manage |
+| <br /> | getClaimURIs | /permission/admin/manage |
+| <br /> | getServiceProviders | /permission/admin/manage |
+| <br /> | removeServiceProvider | /permission/admin/manage |
+| <br /> | <br /> | <br /> |
+| **IdentitySTSAdminService** | readCardIssuerConfiguration | /permission/admin/manage |
+| <br /> | updateCardIssueConfiguration | /permission/admin/manage |
+| <br /> | <br /> | <br /> |
+| **IWAAuthenticator** | canHandle | /permission/admin/login |
+| <br /> | login | /permission/admin/login |
+| <br /> | <br /> | <br /> |
+| **ProvisioningAdminService** | getAllInstalledFeatures | /permission/protected/configure/components |
+| <br /> | getInstalledFeatureInfo | /permission/protected/configure/components |
+| <br /> | getInstalledFeaturesWithProperty | /permission/protected/configure/components |
+| <br /> | getLicensingInformation | /permission/protected/configure/components |
+| <br /> | getProfileHistory | /permission/protected/configure/components |
+| <br /> | performProvisioningAction | /permission/protected/configure/components |
+| <br /> | removeAllConsoleFeatures | /permission/protected/configure/components |
+| <br /> | removeAllServerFeatures | /permission/protected/configure/components |
+| <br /> | reviewProvisioningAction | /permission/protected/configure/components |
+| <br /> | <br /> | <br /> |
+| **ProfilesAdminService** | getUserProfile | /permission/admin/manage/modify/user-profile |
+| <br /> | putUserProfile | /permission/admin/manage/modify/user-profile |
+| <br /> | <br /> | <br /> |
+| **SecurityAdminService** | activateUsernameTokenAuthentication | /permission/admin/manage/modify/service |
+| <br /> | applyKerberosSecurityPolicy | /permission/admin/manage/modify/service |
+| <br /> | applySecurity | /permission/admin/manage/modify/service |
+| <br /> | disableSecurityOnService | /permission/admin/manage/modify/service |
+| <br /> | getScenarios | /permission/admin/manage/modify/service |
+| <br /> | getSecurityConfigData | /permission/admin/manage/modify/service |
+| <br /> | getSecurityScenario | /permission/admin/manage/modify/service |
+| <br /> | <br /> | <br /> |
+| **STSAdminService** | addTrustedService | /permission/admin/configure/security |
+| <br /> | getCertAliasOfPrimaryKeyStore | /permission/admin/configure/security |
+| <br /> | getProofKeyType | /permission/admin/configure/security |
+| <br /> | getTrustedServices | /permission/admin/configure/security |
+| <br /> | removeTrustedService | /permission/admin/configure/security |
+| <br /> | setProofKeyType | /permission/admin/configure/security |
+| <br /> | <br /> | <br /> |
+| **KeyStoreAdminService** | addKeyStore | /permission/admin/configure/security |
+| <br /> | addTrustStore | /permission/admin/configure/security |
+| <br /> | deleteStore | /permission/admin/configure/security |
+| <br /> | getKeystoreInfo | /permission/admin/configure/security |
+| <br /> | getKeyStores | /permission/admin/configure/security,/permission/admin/manage/modify/service |
+| <br /> | getPaginatedKeystoreInfo | /permission/admin/configure/security |
+| <br /> | getStoreEntries | /permission/admin/configure/security |
+| <br /> | importCertToStore | /permission/admin/configure/security |
+| <br /> | removeCertFromStore | /permission/admin/configure/security |
+| <br /> | <br /> | <br /> |
+| **SCIMConfigAdminService** | addGlobalProvider | /permission/admin/configure/security |
+| <br /> | addUserProvider | /permission/admin/configure/security/usermgt/provisioning |
+| <br /> | deleteGlobalProvider | /permission/admin/configure/security |
+| <br /> | deleteUserProvider | /permission/admin/configure/security/usermgt/provisioning |
+| <br /> | getAllGlobalProviders | /permission/admin/configure/security |
+| <br /> | getAllUserProviders | /permission/admin/configure/security/usermgt/provisioning |
+| <br /> | getGlobalProvider | /permission/admin/configure/security |
+| <br /> | getUserProvider | /permission/admin/configure/security/usermgt/provisioning |
+| <br /> | updateGlobalProvider | /permission/admin/configure/security |
+| <br /> | updateUserProvider | /permission/admin/configure/security/usermgt/provisioning |
+| <br /> | <br /> | <br /> |
+| **DirectoryServerManager** | addServer | /permission/admin/configure/security,/permission/admin/manage/modify/service |
+| <br /> | changePassword | /permission/admin/configure/security,/permission/admin/manage/modify/service |
+| <br /> | getPasswordConformanceRegularExpression | /permission/admin/configure/security,/permission/admin/manage/modify/service |
+| <br /> | getServiceNameConformanceRegularExpression | /permission/admin/configure/security,/permission/admin/manage/modify/service |
+| <br /> | isExistingServicePrinciple | /permission/admin/configure/security,/permission/admin/manage/modify/service |
+| <br /> | isKDCEnabled | /permission/admin/configure/security,/permission/admin/manage/modify/service |
+| <br /> | listServicePrinciples | /permission/admin/configure/security,/permission/admin/manage/modify/service |
+| <br /> | removeServer | /permission/admin/configure/security,/permission/admin/manage/modify/service |
+| <br /> | <br /> | <br /> |
+| **LoggedUserInfoAdmin** | getUserInfo | /permission/admin/login |
+| <br /> | <br /> | <br /> |
+| **LoggingAdmin** | getAllLoggerData | /permission/protected/configure/logging |
+| <br /> | getAppenderData | /permission/protected/configure/logging |
+| <br /> | getLoggerData | /permission/protected/configure/logging |
+| <br /> | getSyslogData | /permission/protected/configure/logging |
+| <br /> | getSystemLog | /permission/protected/configure/logging |
+| <br /> | isStratosService | /permission/protected/configure/logging |
+| <br /> | removeSyslogPattern | /permission/protected/configure/logging |
+| <br /> | restoreDefaults | /permission/protected/configure/logging |
+| <br /> | updateAllAppenderData | /permission/protected/configure/logging |
+| <br /> | updateLoggerData | /permission/protected/configure/logging |
+| <br /> | updateSyslogConfig | /permission/protected/configure/logging |
+| <br /> | updateSystemLog | /permission/protected/configure/logging |
+| <br /> | <br /> | <br /> |
+| **LoginStatisticsAdmin** | getLoginAttempts | Not available |
+| <br /> | getUserBasedLoginAttempts | Not available |
+| <br /> | <br /> | <br /> |
+| **WorkflowAdminService** | getWorkflow | /permission/admin/manage/identity/workflow/definition/view |
+| <br /> | listWorkflowEvents | /permission/admin/manage/identity/workflow/association/view |
+| <br /> | listTemplates | /permission/admin/manage/identity/workflow/definition/view |
+| <br /> | getTemplate | /permission/admin/manage/identity/workflow/definition/view |
+| <br /> | getWorkflowImpl | /permission/admin/manage/identity/workflow/definition/view |
+| <br /> | listWorkflowImpls | /permission/admin/manage/identity/workflow/definition/view |
+| <br /> | addWorkflow | /permission/admin/manage/identity/workflow/definition/create |
+| <br /> | addAssociation | /permission/admin/manage/identity/workflow/association/create |
+| <br /> | changeAssociationState | /permission/admin/manage/identity/workflow/association/update |
+| <br /> | listWorkflows | /permission/admin/manage/identity/workflow/definition/view |
+| <br /> | removeWorkflow | /permission/admin/manage/identity/workflow/definition/delete |
+| <br /> | removeAssociation | /permission/admin/manage/identity/workflow/association/delete |
+| <br /> | listAssociations | /permission/admin/manage/identity/workflow/association/view |
+| <br /> | listAllAssociations | /permission/admin/manage/identity/workflow/association/view |
+| <br /> | getEvent | /permission/admin/manage/identity/workflow/association/view |
+| <br /> | getRequestsCreatedByUser | /permission/admin/manage/identity/workflow/monitor/view |
+| <br /> | getRequestsInFilter | /permission/admin/manage/identity/workflow/monitor/view |
+| <br /> | deleteWorkflowRequest | /permission/admin/manage/identity/workflow/monitor/delete |
+| <br /> | getWorkflowsOfRequest | /permission/admin/manage/identity/workflow/monitor/view |
+| <br /> | <br /> | <br /> |
+| **WorkflowImplAdminService** | addBPSProfile | /permission/admin/manage/identity/workflow/profile/create |
+| <br /> | listBPSProfiles | /permission/admin/manage/identity/workflow/profile/view |
+| <br /> | getBPSProfile | /permission/admin/manage/identity/workflow/profile/view |
+| <br /> | updateBPSProfile | /permission/admin/manage/identity/workflow/profile/update |
+| <br /> | removeBPSProfile | /permission/admin/manage/identity/workflow/profile/delete |
+| <br /> | removeBPSPackage | /permission/admin/manage/identity/workflow/profile/delete |

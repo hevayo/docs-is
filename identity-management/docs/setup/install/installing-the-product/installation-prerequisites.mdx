@@ -1,0 +1,263 @@
+---
+title: Installation Prerequisites
+description: Prior to installing any WSO2 Identity Server, it is necessary to have the appropriate prerequisite software installed on your system.  # generated from the first paragraph; a writer should improve it
+type: reference
+sidebar_position: 2
+slug: "/setup/installation-prerequisites"
+---
+
+Prior to installing any WSO2 Identity Server, it is necessary to
+have the appropriate prerequisite software installed on your system.
+Verify that the computer has the supported operating system and
+development platforms before starting the installation.
+
+### System requirements
+
+:::note
+The below recommendations can change based on the expected concurrency & performance.
+:::
+
+<table>
+  <tbody>
+    <tr>
+      <th>
+
+        CPU
+
+      </th>
+      <td>
+
+        4 vCPUs (x86_64 Architecture)
+
+      </td>
+    </tr>
+    <tr>
+      <th>
+
+        Memory
+
+      </th>
+      <td>
+
+        4 GB RAM
+
+      </td>
+    </tr>
+    <tr>
+      <th>
+
+        Disk
+
+      </th>
+      <td>
+
+        ~ 10 GB disk space, excluding space allocated for log files and databases.
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+:::note
+We do not recommend running WSO2 Identity Server on ARM processors. However, official support for this is being considered for future releases.
+:::
+
+### Environment compatibility
+
+<table>
+  <colgroup>
+    <col style={{width: "13%"}} />
+    <col style={{width: "86%"}} />
+  </colgroup>
+  <tbody>
+    <tr>
+      <th>
+
+        Operating Systems/ Databases/ User Stores
+
+      </th>
+      <td>
+
+        - WSO2 Identity Server requires an Oracle JDK 11 or JDK 8 compliant JDK. This will run on most common platforms that **support Java 11 or Java 8.** .
+
+        - All WSO2 Carbon-based products are generally compatible with most common DBMSs. The embedded H2 database is suitable for development and testing. For enterprise production environments we recommend an industry-standard RDBMS such as Oracle, PostgreSQL, MySQL, MS SQL, etc. For more information, see [Working with Databases](../../deploy/data-stores/working-with-databases/working-with-databases.mdx) .
+
+        - WSO2 Identity Server supports using any of the following as a user store :
+
+          - RDBMS
+          - An LDAP such as OpenLDAP
+          - Active Directory
+          - [Custom user stores](../../deploy/data-stores/working-with-users-roles-and-permissions/configuring-the-user-realm/configuring-user-stores/configuring-user-stores.mdx)
+
+        :::note
+        - WSO2 Identity Server is shipped with a default embedded Apache DS that is suitable for development purposes. WSO2 does not recommend using Apache DS in a production environment due to scalability issues that exist with Apache DS.
+        - WSO2 does not recommend using the H2 database as a user store in production environments. However, you can use the H2 database for development purposes if necessary.
+        :::
+
+        - For environments that WSO2 products are tested with, see [Environment Compatibility](../../environment-compatibility.mdx) .
+        - If you have difficulty setting up any WSO2 product in a specific platform or database, [contact WSO2](https://wso2.com/contact/).
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### Required applications
+
+The following applications are required for running the product and its
+samples or for building from the source code.
+
+:::note
+The applications marked with an asterisk \* are mandatory.
+:::
+
+##### Running the product
+
+These applications are mandatory and are required to run the binary
+distribution of the WSO2 product. The binary distribution contains the
+binary files for both MS Windows, and Linux-based operating systems.
+
+<table>
+  <colgroup>
+    <col style={{width: "11%"}} />
+    <col style={{width: "36%"}} />
+    <col style={{width: "36%"}} />
+    <col style={{width: "15%"}} />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>
+
+        Application
+
+      </th>
+      <th>
+
+        Purpose
+
+      </th>
+      <th>
+
+        Version
+
+      </th>
+      <th>Download Links</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+
+        **Java SE Development Kit (JDK)\***
+
+      </td>
+      <td>
+
+        - To launch the product as each product is a Java application.
+        - To [build the product from the source distribution](https://wso2.github.io/using-maven.html) (both JDK and Apache Maven are required).
+        - To run Apache Ant.
+
+      </td>
+      <td>
+
+        - Oracle JDK 8
+        - Oracle JDK 11
+        - OpenJDK 8
+        - OpenJDK 11
+
+        :::note
+        If you are using an Oracle JDK version lower than 8u161, you need to download the Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy files from [here](https://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html) and add the files to the security directory of your Java installation to avoid `illegal key size` errors when you try to invoke a secured Web service.
+        :::
+
+      </td>
+      <td>
+
+        [OpenJDK](https://openjdk.java.net/install/)
+
+        [Oracle JDK](http://java.sun.com/javase/downloads/index.jsp)
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        **Web Browser\***
+
+      </td>
+      <td>
+
+        - To access the product's [Management Console](../running-the-product.mdx). The Web Browser must be JavaScript enabled to take full advantage of the Management console.
+
+        :::note
+        Note
+
+        **Note:** On Windows Server 2003, you must not go below the medium security level in Internet Explorer 6.x.
+        :::
+
+      </td>
+      <td>
+
+        <br />
+
+      </td>
+      <td><br /></td>
+    </tr>
+  </tbody>
+</table>
+
+##### Running samples and building from source
+
+These applications are required for [building the product from the
+source distribution](https://wso2.github.io/using-maven.html),
+and compiling and running product samples.
+
+:::warning
+If you are installing by downloading and extracting the binary distribution (as recommended for most users) instead of building from the source code, you do not need to install Maven.
+:::
+
+<table style={{width: "100%"}}>
+  <colgroup>
+    <col style={{width: "12%"}} />
+    <col style={{width: "55%"}} />
+    <col style={{width: "13%"}} />
+    <col style={{width: "19%"}} />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>
+
+        Application
+
+        <br />
+
+      </th>
+      <th>Purpose</th>
+      <th>Version</th>
+      <th>Download Links</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+
+        **Apache Maven**
+
+      </td>
+      <td>
+
+        - To build the product from the source distribution (NOTE: both JDK and Apache Maven are required).<br /> <br />
+
+      </td>
+      <td>
+
+        3.0.x or later
+
+      </td>
+      <td>
+
+        [Apache Maven](http://maven.apache.org/)
+
+      </td>
+    </tr>
+  </tbody>
+</table>

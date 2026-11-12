@@ -1,0 +1,73 @@
+---
+title: Uninstalling the product
+description: 'To remove an already installed product, follow the instructions below:'  # generated from the first paragraph; a writer should improve it
+type: reference
+sidebar_label: Uninstalling the Product
+sidebar_position: 8
+slug: "/setup/uninstalling-the-product"
+---
+
+To remove an already installed product, follow the instructions below:
+
+<table>
+  <thead>
+    <tr>
+      <th>OS</th>
+      <th>Instructions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>macOS</td>
+      <td>
+
+        Open a terminal and run the following command as the root user:
+
+        <Anchor id="cb1" />
+
+        ```text
+        sudo bash <IS_HOME>/<VERSION>/uninstall.sh
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>Windows</td>
+      <td>
+
+        <li>Go to the **Start Menu -&gt; Programs -&gt; WSO2 -&gt; Uninstall &lt;PRODUCT_NAME_VERSION&gt;** or search **Uninstall &lt;PRODUCT_NAME_VERSION&gt;** and click the shortcut icon. This will uninstall the product from your computer.</li>
+
+        <li>**NOTE:** The above path is provided assuming the IS_HOME is in `C:/Program Files/WSO2/<PRODUCT_NAME>/<VERSION>`</li>
+
+      </td>
+    </tr>
+    <tr>
+      <td>Ubuntu</td>
+      <td>
+
+        Open a terminal and run the following command:
+
+        <Anchor id="cb2" />
+
+        ```text
+        sudo apt-get purge <PRODUCT_DISTRIBUTION_NAME>
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>CentOS</td>
+      <td>
+
+        Open a terminal and run the following command:
+
+        <Anchor id="cb3" />
+
+        ```text
+        sudo yum remove <PRODUCT_DISTRIBUTION_NAME>-x86_64
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
