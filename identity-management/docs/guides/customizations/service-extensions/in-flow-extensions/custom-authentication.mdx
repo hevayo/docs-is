@@ -47,7 +47,7 @@ The following diagram illustrates the detailed authentication flow.
 
 <img src={require("../../../../../assets/img/guides/actions/how-custom-authenticator-service-work.png").default} alt="how-custom-authentication-work" width="850" style={{display: "block", margin: "0", border: "0"}} />
 
-The [custom authentication API contract](../../../../apis/api-contract-2/index.mdx) defines the request and response structures that your service must follow.
+The [custom authentication API contract](../../../../references/service-extensions/in-flow-extensions/custom-authentication/api-contract/index.mdx) defines the request and response structures that your service must follow.
 
 The request and response structure between {edition.productName} and the external service varies based on the authenticator's invocation step and authentication type (for example external, internal, 2FA).
 
@@ -76,7 +76,7 @@ Use the [sample custom authentication service](https://github.com/asgardeo-sampl
 
 1. Expose an endpoint that accepts HTTP POST requests with JSON payloads. This endpoint should be deployed in a server accessible to {edition.productName}.
 
-2. To ensure successful integration, your external web service needs to adhere to the [REST API contract](../../../../apis/api-contract-2/index.mdx), including correctly handling requests and responses. Refer to [How custom authentication service extension works](#how-custom-authentication-service-extension-works) for an explanation of the invocation flow and [Custom authentication API deep dive](#custom-authentication-api-deep-dive) for detailed API contract information.
+2. To ensure successful integration, your external web service needs to adhere to the [REST API contract](../../../../references/service-extensions/in-flow-extensions/custom-authentication/api-contract/index.mdx), including correctly handling requests and responses. Refer to [How custom authentication service extension works](#how-custom-authentication-service-extension-works) for an explanation of the invocation flow and [Custom authentication API deep dive](#custom-authentication-api-deep-dive) for detailed API contract information.
 
 3. Choose an authenticator type for your service:
     - External (Federated) User Authentication: Authenticate and provision federated users.
@@ -183,7 +183,7 @@ Follow the steps below to try out the created custom authenticator.
 The following are some troubleshooting steps that you may take to resolve issues.
 
 1. Ensure that your external service is up and running and that there are no connectivity issues.
-2. Confirm that the request and response payloads conform to the expected formats as defined by the [REST API contract](../../../../apis/api-contract-2/index.mdx).
+2. Confirm that the request and response payloads conform to the expected formats as defined by the [REST API contract](../../../../references/service-extensions/in-flow-extensions/custom-authentication/api-contract/index.mdx).
 3. Use diagnostic logs to capture detailed information during the troubleshooting process. For more information refer to the [troubleshooting guide here](../understanding-service-extensions.mdx#troubleshooting).
 
 4. If your external service uses a self-signed certificate, ensure the certificate is imported into the WSO2 Carbon truststore. By default, {edition.productName} uses the WSO2 Carbon truststore at `<IS_HOME>/repository/resources/security/client-truststore.jks`.
@@ -444,7 +444,7 @@ Content-Type: application/json
 
 ### Expected Response from external service
 
-When {edition.productName} invokes your external authentication service, it expects a response that adheres to the defined [API contract](../../../../apis/api-contract-2/index.mdx).
+When {edition.productName} invokes your external authentication service, it expects a response that adheres to the defined [API contract](../../../../references/service-extensions/in-flow-extensions/custom-authentication/api-contract/index.mdx).
 
 This response determines the authentication status and the authenticated user from your custom authenticator.
 
