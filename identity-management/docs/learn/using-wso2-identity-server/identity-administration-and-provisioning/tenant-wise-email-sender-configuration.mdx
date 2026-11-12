@@ -1,0 +1,107 @@
+---
+title: Tenant-Wise Email Sender Configuration
+description: When handling notifications such as the ones given below, the email-sender configuration needs to be changed in <IS_HOME>/repository/conf/deployment.toml.  # generated from the first paragraph; a writer should improve it
+type: reference
+sidebar_label: Tenant Wise Email Sender Configuration
+sidebar_position: 10
+slug: "/learn/tenant-wise-email-sender-configuration"
+---
+
+When handling notifications such as the ones given below, the email-sender configuration needs to be changed in `<IS_HOME>/repository/conf/deployment.toml`. 
+
+- [EmailOTP](../../tutorials/multi-factor-authentication/configuring-email-otp.mdx)
+- [Password Recovery](./account-management-policies/account-recovery/password-recovery/password-recovery.mdx)
+- [Username Recovery](./account-management-policies/account-recovery/username-recovery/username-recovery.mdx)
+- [Creating Users using the Ask PasswordOption](./account-management-policies/creating-users-using-the-ask-password-option.mdx)
+
+**Email configurations**
+
+ ```toml
+ [output_adapter.email]
+ from_address= "wso2iamtest@gmail.com"
+ username= "wso2iamtest"
+ password= "Wso2@iam70"
+ hostname= smtp.gmail.com
+ port= 587
+ enable_start_tls= true
+ enable_authentication= true
+ ```
+ However, this configuration will apply to all the tenants. If you wish to configure them tenant-wise follow the instructions given below instead. 
+
+1. Configure the [Configuration Management REST API](../../../develop/developer-guide/using-apis/rest-apis/configuration-management/using-the-configuration-management-rest-apis.mdx). 
+2. Execute the following curl command for creating a resource type named `Publisher`. 
+
+    **Sample Request**
+    ```java
+    curl -X POST "https://localhost:9443/t/{tenant-domain}/api/identity/config-mgt/v1.0/resource-type" -H "accept: 
+    application/json" -H 
+    "Content-Type: application/json" -H 'Authorization: Basic YWRtaW46YWRtaW4=' -d "{ \"name\": \"Publisher\", \"description\": \"Publisher Configurations\"}"
+    ```
+3. Execute the following curl command for creating a resource named `EmailPublisher`. 
+
+    **Sample Request**
+    ```java
+    curl -X POST "https://localhost:9443/t/{tenant-domain}/api/identity/config-mgt/v1.0/resource/Publisher" -H "accept: 
+    application/json" -H "Content-Type: application/json" -H 'Authorization: Basic YWRtaW46YWRtaW4=' -d "{ \"name\": \"EmailPublisher\", \"attributes\": [ { \"key\": \"email\", \"value\": \"string\" } ]}"
+    ```
+4. Execute the following curl command for creating a file named `EmailPublisher`. 
+
+    **Sample Request**
+    ```java
+    curl -X POST "https://localhost:9443/t/{tenant-domain}/api/identity/config-mgt/v1
+    .0/resource/Publisher/EmailPublisher/file" -H "accept: application/json" -H 
+    "Content-Type: multipart/form-data" -H 'Authorization: Basic YWRtaW46YWRtaW4=' -F "resourceFile=@EmailPublisher.xml;type=text/xml" -F "fileName=EmailPublisher"
+    ```
+    This `EmailPublisher.xml` file will be used as the tenant's email publisher file. We can configure the tenant 
+    wise email configurations here. 
+
+    Configurable parameters are given below. 
+
+    | Property name | Description |
+    | --- | --- |
+    | ` mail.smtp.user ` | User Name for the sender smtp server |
+    | ` mail.smtp.password ` | Password for the sender smtp server |
+    | ` mail.smtp.port ` | Port of the sender smtp server |
+    | ` mail.smtp.from ` | From email address of the smtp server |
+    | ` mail.smtp.host ` | Host name of the smtp server |
+    | ` mail.smtp.auth ` | Password hash method to use when storing user entries in the user store. |
+    | ` mail.smtp.starttls.enable ` | Property to enable STARTTLS support for JavaMail |
+    | ` mail.smtp.replyTo ` | Reply to address of smtp server |
+    | ` mail.smtp.signature ` | Signature for the sender account |
+
+    Following is a sample configuration for the `EmailPublisher.xml` file. 
+
+    <details>
+    <summary>Sample Email Publisher</summary>
+
+    ```text
+    <?xml version="1.0" encoding="UTF-8"?>
+    <eventPublisher name="EmailPublisher" statistics="disable"
+      trace="disable" xmlns="http://wso2.org/carbon/eventpublisher">
+      <from streamName="id_gov_notify_stream" version="1.0.0"/>
+      <mapping customMapping="enable" type="text">
+        <inline>{{body}}{{footer}}</inline>
+      </mapping>
+      <to eventAdapterType="email">
+        <property name="email.address">{{send-to}}</property>
+        <property name="email.type">{{content-type}}</property>
+        <property name="email.subject">{{subject}}</property>
+        <property name="mail.smtp.password">xxxxx</property>
+        <property name="mail.smtp.from">resourcesiam@gmail.com</property>
+        <property name="mail.smtp.user">resourcesiam</property>
+      </to>
+    </eventPublisher>
+    ```
+
+    </details>
+
+    :::note
+    You do not need to configure all the configurable parameters. If a parameter has not been configured in the `EmailPublisher.xml` file, configurations in the `output-event-adapters.xml` will be used instead. 
+    :::
+
+5. Since these configurations will be applicable during the tenant loading process, [Configure tenant loading and 
+unloading for your tenant](../../../administer/product-administration/working-with-multiple-tenants/configuring-the-tenant-loading-policy.mdx). 
+
+    :::tip
+    Only one `EmailPublisher.xml` file with the name `EmailPublisher` should be added for a tenant.
+    :::

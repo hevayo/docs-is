@@ -1,0 +1,774 @@
+---
+title: Permissions Required to Invoke Admin Services
+description: The following table lists out the various operations that can be performed with different permission levels.  # generated from the first paragraph; a writer should improve it
+type: reference
+sidebar_position: 3
+---
+
+The following table lists out the various operations that can be
+performed with different permission levels.
+
+### Tenant level permissions
+
+<table>
+  <tbody>
+    <tr style={{height: "23px"}}>
+      <th style={{height: "23px"}}>Permission Level</th>
+      <th style={{height: "23px"}}>Service</th>
+      <th style={{height: "23px"}}>Operations</th>
+    </tr>
+    <tr style={{height: "193px"}}>
+      <td style={{height: "193px"}}>/admin</td>
+      <td style={{height: "193px"}}>UserStoreConfigAdminService</td>
+      <td style={{height: "193px"}}>
+
+        - addUserStore
+        - changeUserStoreState
+        - deleteUserStore
+        - deleteUserStoresSet
+        - editUserStore
+        - editUserStoreWithDomainName
+        - getAvailableUserStoreClasses
+        - getSecondaryRealmConfigurations
+        - getUserStoreManagerProperties
+
+      </td>
+    </tr>
+    <tr style={{height: "373px"}}>
+      <td style={{height: "488px"}} rowSpan="6">/admin/manage/identity</td>
+      <td style={{height: "373px"}}>RemoteAuthorizationManagerService</td>
+      <td style={{height: "373px"}}>
+
+        - authorizeRole
+        - authorizeUser
+        - clearAllRoleAuthorization
+        - clearAllUserAuthorization
+        - clearResourceAuthorizations
+        - clearRoleActionOnAllResources
+        - clearRoleAuthorization
+        - clearUserAuthorization
+        - denyRole
+        - denyUser
+        - getAllowedRolesForResource
+        - getAllowedUIResourcesForUser
+        - getDeniedRolesForResource
+        - getExplicitlyAllowedUsersForResource
+        - getExplicitlyDeniedUsersForResource
+        - isRoleAuthorized
+        - isUserAuthorized
+        - resetPermissionOnUpdateRole
+
+      </td>
+    </tr>
+    <tr style={{height: "23px"}}>
+      <td style={{height: "23px"}}>RemoteClaimManagerService</td>
+      <td style={{height: "23px"}}>
+
+        - addNewClaimMapping
+        - deleteClaimMapping
+        - getAllClaimMappings
+        - getAllClaimUris
+        - getAllRequiredClaimMappings
+        - getAllSupportClaimMappingsByDefault
+        - getAttributeName
+        - getAttributeNameFromDomain
+        - getClaim
+        - getClaimMapping
+        - updateClaimMapping
+
+      </td>
+    </tr>
+    <tr style={{height: "23px"}}>
+      <td style={{height: "23px"}}>RemoteProfileConfigurationManagerService</td>
+      <td style={{height: "23px"}}>
+
+        - addProfileConfig
+        - deleteProfileConfig
+        - getAllProfiles
+        - getProfileConfig
+        - updateProfileConfig
+
+      </td>
+    </tr>
+    <tr style={{height: "23px"}}>
+      <td style={{height: "23px"}}>RemoteUserStoreManagerService</td>
+      <td style={{height: "23px"}}>
+
+        - addRole
+        - addUser
+        - addUserClaimValue
+        - addUserClaimValues
+        - authenticate
+        - deleteRole
+        - deleteUser
+        - deleteUserClaimValue
+        - deleteUserClaimValues
+        - getAllProfileNames
+        - getHybridRoles
+        - getPasswordExpirationTime
+        - getProfileNames
+        - getProperties
+        - getRoleListOfUser
+        - getRoleNames
+        - getTenantId
+        - getTenantIdofUser
+        - getUserClaimValue
+        - getUserClaimValues
+        - getUserClaimValuesForClaims
+        - getUserId
+        - getUserList
+        - getUserListOfRole
+        - isExistingRole
+        - isExistingUser
+        - isReadOnly
+        - listUsers
+        - setUserClaimValue
+        - setUserClaimValues
+        - updateCredential
+        - updateCredentialByAdmin
+        - updateRoleListOfUser
+        - updateRoleName
+        - updateUserListOfRole
+
+      </td>
+    </tr>
+    <tr style={{height: "23px"}}>
+      <td style={{height: "23px"}}>SCIMConfigAdminService</td>
+      <td style={{height: "23px"}}>
+
+        - addGlobalProvider
+        - deleteGlobalProvider
+        - getAllGlobalProviders
+        - getGlobalProvider
+        - updateGlobalProvider
+
+      </td>
+    </tr>
+    <tr style={{height: "23px"}}>
+      <td style={{height: "23px"}}>UserAdmin</td>
+      <td style={{height: "23px"}}>
+
+        - addInternalRole
+        - addRemoveRolesOfUser
+        - addRemoveUsersOfRole
+        - addRole
+        - bulkImportUsers
+        - deleteRole
+        - getAllSharedRoleNames
+        - getAllUIPermissions
+        - getRolePermissions
+        - getRolesOfUser
+        - isSharedRolesEnabled
+        - listUserByClaim
+        - setRoleUIPermission
+        - updateRoleName
+        - updateRolesOfUser
+        - updateUsersOfRole
+
+      </td>
+    </tr>
+    <tr style={{height: "23px"}}>
+      <td style={{height: "23px"}}>/admin/configure/ security/rolemgt</td>
+      <td style={{height: "23px"}}>UserAdmin</td>
+      <td style={{height: "23px"}}>
+
+        - getUsersOfRole
+
+      </td>
+    </tr>
+    <tr style={{height: "23px"}}>
+      <td style={{height: "23px"}}>/admin/configure/ security/usermgt</td>
+      <td style={{height: "23px"}}>MultipleCredentialsUserAdmin</td>
+      <td style={{height: "23px"}}>
+
+        - addUserWithUserId
+        - authenticate
+        - deleteUserClaimValue
+        - deleteUserClaimValues
+        - getUserClaimValue
+        - getUserClaimValues
+        - getUserId
+        - setUserClaimValue
+        - setUserClaimValues
+
+      </td>
+    </tr>
+    <tr style={{height: "23px"}}>
+      <td style={{height: "46px"}} rowSpan="2">/admin/configure/security/ usermgt/passwords</td>
+      <td style={{height: "23px"}}>MultipleCredentialsUserAdmin</td>
+      <td style={{height: "23px"}}>
+
+        - addCredential
+        - deleteCredential
+        - getCredentials
+        - updateCredential
+
+      </td>
+    </tr>
+    <tr style={{height: "23px"}}>
+      <td style={{height: "23px"}}>UserAdmin</td>
+      <td style={{height: "23px"}}>
+
+        - changePassword
+
+      </td>
+    </tr>
+    <tr style={{height: "23px"}}>
+      <td style={{height: "23px"}}>/admin/configure/security/ usermgt/provisioning</td>
+      <td style={{height: "23px"}}>SCIMConfigAdminService</td>
+      <td style={{height: "23px"}}>
+
+        - addUserProvider
+        - deleteUserProvider
+        - getAllUserProviders
+        - getUserProvider
+        - updateUserProvider
+
+      </td>
+    </tr>
+    <tr style={{height: "23px"}}>
+      <td style={{height: "46px"}} rowSpan="2">/admin/configure/security/ usermgt/users</td>
+      <td style={{height: "23px"}}>MultipleCredentialsUserAdmin</td>
+      <td style={{height: "23px"}}>
+
+        - addUser
+        - addUsers
+        - deleteUser
+
+      </td>
+    </tr>
+    <tr style={{height: "23px"}}>
+      <td style={{height: "23px"}}>UserAdmin</td>
+      <td style={{height: "23px"}}>
+
+        - addUser
+        - deleteUser
+
+      </td>
+    </tr>
+    <tr style={{height: "23px"}}>
+      <td style={{height: "230px"}} rowSpan="10">/admin/login</td>
+      <td style={{height: "23px"}}>AccountCredentialMgtConfigService</td>
+      <td style={{height: "23px"}}>
+
+        - getEmailConfig
+        - saveEmailConfig
+
+      </td>
+    </tr>
+    <tr style={{height: "23px"}}>
+      <td style={{height: "23px"}}>EntitlementService</td>
+      <td style={{height: "23px"}}>
+
+        - getAllEntitlements
+        - getBooleanDecision
+        - getDecision
+        - getDecisionByAttributes
+        - getEntitledAttributes
+        - XACMLAuthzDecisionQuery
+
+      </td>
+    </tr>
+    <tr style={{height: "23px"}}>
+      <td style={{height: "23px"}}>IdentityProviderAdminService</td>
+      <td style={{height: "23px"}}>
+
+        - addOpenID
+        - extractPrimaryUserName
+        - getAllOpenIDs
+        - getPrimaryOpenID
+        - removeOpenID
+        - getAllIdPs
+
+      </td>
+    </tr>
+    <tr style={{height: "23px"}}>
+      <td style={{height: "23px"}}>IWAAuthenticator</td>
+      <td style={{height: "23px"}}>
+
+        - canHandle
+        - login
+
+      </td>
+    </tr>
+    <tr style={{height: "23px"}}>
+      <td style={{height: "23px"}}>LoggedUserInfoAdmin</td>
+      <td style={{height: "23px"}}>
+
+        - getUserInfo
+
+      </td>
+    </tr>
+    <tr style={{height: "23px"}}>
+      <td style={{height: "23px"}}>MultipleCredentialsUserAdmin</td>
+      <td style={{height: "23px"}}>
+
+        - getAllUserClaimValues
+
+      </td>
+    </tr>
+    <tr style={{height: "23px"}}>
+      <td style={{height: "23px"}}>OAuthAdminService</td>
+      <td style={{height: "23px"}}>
+
+        - getAppsAuthorizedByUser
+        - revokeAuthzForAppsByResoureOwner
+
+      </td>
+    </tr>
+    <tr style={{height: "23px"}}>
+      <td style={{height: "23px"}}>UserAdmin</td>
+      <td style={{height: "23px"}}>
+
+        - changePasswordByUser
+        - getRolesOfCurrentUser
+        - getUserRealmInfo
+        - hasMultipleUserStores
+
+      </td>
+    </tr>
+    <tr style={{height: "23px"}}>
+      <td style={{height: "23px"}}>UserInformationRecoveryService</td>
+      <td style={{height: "23px"}}>
+
+        - confirmUserSelfRegistration
+        - getAllChallengeQuestions
+        - getCaptcha
+        - getUserChallengeQuestion
+        - getUserChallengeQuestionIds
+        - getUserIdentitySupportedClaims
+        - registerUser
+        - sendRecoveryNotification
+        - updatePassword
+        - verifyAccount
+        - verifyConfirmationCode
+        - verifyUser
+        - verifyUserChallengeAnswer
+
+      </td>
+    </tr>
+    <tr style={{height: "23px"}}>
+      <td style={{height: "23px"}}>XMPPConfigurationService</td>
+      <td style={{height: "23px"}}>
+
+        - addUserXmppSettings
+        - editXmppSettings
+        - getUserIM
+        - getXmppSettings
+        - hasXMPPSettings
+        - isXMPPSettingsEnabled
+
+      </td>
+    </tr>
+    <tr style={{height: "23px"}}>
+      <td style={{height: "598px"}} rowSpan="14">/admin/manage</td>
+      <td style={{height: "23px"}}>ClaimManagementService</td>
+      <td style={{height: "23px"}}>
+
+        - addNewClaimDialect
+        - addNewClaimMapping
+        - getClaimMappingByDialect
+        - getClaimMappings
+        - removeClaimDialect
+        - removeClaimMapping
+        - updateClaimMapping
+
+      </td>
+    </tr>
+    <tr style={{height: "23px"}}>
+      <td style={{height: "23px"}}>EntitlementAdminService</td>
+      <td style={{height: "23px"}}>
+
+        - clearAllAttributeCaches
+        - clearAllResourceCaches
+        - clearAttributeFinderCache
+        - clearAttributeFinderCacheByAt tributes
+        - clearCarbonAttributeCache
+        - clearCarbonResourceCache
+        - clearDecisionCache
+        - clearPolicyCache
+        - clearResourceFinderCache
+        - doTestRequest
+        - doTestRequestForGivenPolicies
+        - getGlobalPolicyAlgorithm
+        - getPDPData
+        - getPIPAttributeFinderData
+        - getPIPResourceFinderData
+        - getPolicyFinderData
+        - refreshAttributeFinder
+        - refreshPolicyFinders
+        - refreshResourceFinder
+        - setGlobalPolicyAlgorithm
+
+      </td>
+    </tr>
+    <tr style={{height: "23px"}}>
+      <td style={{height: "23px"}}>EntitlementPolicyAdminService</td>
+      <td style={{height: "23px"}}>
+
+        - addPolicies
+        - addPolicy
+        - addSubscriber
+        - deleteSubscriber
+        - dePromotePolicy
+        - enableDisablePolicy
+        - getAllPolicies
+        - getAllPolicyIds
+        - getEntitlementData
+        - getEntitlementDataModules
+        - getLightPolicy
+        - getPolicy
+        - getPolicyByVersion
+        - getPolicyVersions
+        - getPublisherModuleData
+        - getStatusData
+        - getSubscriber
+        - getSubscriberIds
+        - importPolicyFromRegistry
+        - orderPolicy
+        - publish
+        - publishPolicies
+        - publishToPDP
+        - removePolicies
+        - removePolicy
+        - rollBackPolicy
+        - updatePolicy
+        - updateSubscriber
+
+      </td>
+    </tr>
+    <tr style={{height: "23px"}}>
+      <td style={{height: "23px"}}>IdentityApplicationManagementService</td>
+      <td style={{height: "23px"}}>
+
+        - createApplication
+        - deleteApplication
+        - getAllApplicationBasicInfo
+        - getAllIdentityProviders
+        - getAllLocalAuthenticators
+        - getAllLocalClaimUris
+        - getAllRequestPathAuthenticators
+        - getApplication
+        - getIdentityProvider
+        - updateApplication
+
+      </td>
+    </tr>
+    <tr style={{height: "23px"}}>
+      <td style={{height: "23px"}}>IdentityProviderMgtService</td>
+      <td style={{height: "23px"}}>
+
+        - addIdP
+        - deleteIdP
+        - getAllFederatedAuthenticators
+        - getAllLocalClaimUris
+        - getAllProvisioningConnectors
+        - getEnabledAllIdPs
+        - getIdPByName
+        - getResidentIdP
+        - updateIdP
+        - updateResidentIdP
+
+      </td>
+    </tr>
+    <tr style={{height: "23px"}}>
+      <td style={{height: "23px"}}>IdentitySAMLSSOConfigService</td>
+      <td style={{height: "23px"}}>
+
+        - addRPServiceProvider
+        - getCertAliasOfPrimaryKeyStore
+        - getClaimURIs
+        - getServiceProviders
+        - removeServiceProvider
+
+      </td>
+    </tr>
+    <tr style={{height: "23px"}}>
+      <td style={{height: "23px"}}>IdentitySTSAdminService</td>
+      <td style={{height: "23px"}}>
+
+        - readCardIssuerConfiguration
+        - updateCardIssueConfiguration
+
+      </td>
+    </tr>
+    <tr style={{height: "23px"}}>
+      <td style={{height: "23px"}}>KeyStoreAdminService</td>
+      <td style={{height: "23px"}}>
+
+        - addKeyStore
+        - addTrustStore
+        - deleteStore
+        - getKeyStores
+        - getKeystoreInfo
+        - getPaginatedKeystoreInfo
+        - getStoreEntries
+        - importCertToStore
+        - removeCertFromStore
+
+      </td>
+    </tr>
+    <tr style={{height: "23px"}}>
+      <td style={{height: "23px"}}>STSAdminService</td>
+      <td style={{height: "23px"}}>
+
+        - addTrustedService
+        - getCertAliasOfPrimaryKeyStore
+        - getProofKeyType
+        - getTrustedServices
+        - removeTrustedService
+        - setProofKeyType
+
+      </td>
+    </tr>
+    <tr style={{height: "23px"}}>
+      <td style={{height: "23px"}}>OAuth2TokenValidationService</td>
+      <td style={{height: "23px"}}>
+
+        - findOAuthConsumerIfTokenIsValid
+        - validate
+        - buildIntrospectionResponse
+
+      </td>
+    </tr>
+    <tr style={{height: "23px"}}>
+      <td style={{height: "23px"}}>OAuthAdminService</td>
+      <td style={{height: "23px"}}>
+
+        - getAllOAuthApplicationData
+        - getAllowedGrantTypes
+        - getOAuthApplicationData
+        - getOAuthApplicationDataByAppName
+        - registerOAuthApplicationData
+        - registerOAuthConsumer
+        - removeOAuthApplicationData
+        - updateConsumerApplication
+
+      </td>
+    </tr>
+    <tr style={{height: "23px"}}>
+      <td style={{height: "23px"}}>UserIdentityManagementAdminService</td>
+      <td style={{height: "23px"}}>
+
+        - changeUserPassword
+        - deleteUser
+        - getAllChallengeQuestions
+        - getAllPromotedUserChallenge
+        - getAllUserIdentityClaims
+        - getChallengeQuestionsOfUser
+        - isReadOnlyUserStore
+        - lockUserAccount
+        - resetUserPassword
+        - setChallengeQuestions
+        - setChallengeQuestionsOfUser
+        - unlockUserAccount
+        - updateUserIdentityClaims
+        - disableUserAccount
+        - enableUserAccount
+
+      </td>
+    </tr>
+    <tr style={{height: "23px"}}>
+      <td style={{height: "299px"}}>UserProfileMgtService</td>
+      <td style={{height: "23px"}}>
+
+        - associateID
+        - deleteUserProfile
+        - getAssociatedIDs
+        - getInstance
+        - getNameAssociatedWith
+        - getProfileFieldsForInternalStore
+        - getUserProfile
+        - getUserProfiles
+        - isAddProfileEnabled
+        - isAddProfileEnabledForDomain
+        - isReadOnlyUserStore
+        - removeAssociateID
+        - setUserProfile
+
+      </td>
+    </tr>
+    <tr style={{height: "23px"}}>
+      <td style={{height: "23px"}}>ws­xacml</td>
+      <td style={{height: "23px"}}>
+
+        - XACMLAuthzDecisionQuery
+
+      </td>
+    </tr>
+    <tr style={{height: "23px"}}>
+      <td style={{height: "23px"}}>/admin/manage/ modify/service</td>
+      <td style={{height: "23px"}}>ProfilesAdminService</td>
+      <td style={{height: "23px"}}>
+
+        - getUserProfile
+        - putUserProfile
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### Super tenant level permissions
+
+<table>
+  <tbody>
+    <tr style={{height: "23px"}}>
+      <th style={{height: "23px"}}>Permission Level</th>
+      <th style={{height: "23px"}}>Service</th>
+      <th style={{height: "23px"}}>Operations</th>
+    </tr>
+    <tr style={{height: "193px"}}>
+      <td style={{height: "193px"}}>/protected/configure/components</td>
+      <td style={{height: "193px"}}>ProvisioningAdminService</td>
+      <td style={{height: "193px"}}>
+
+        - getAllInstalledFeatures
+        - getInstalledFeatureInfo
+        - getInstalledFeaturesWithProperty
+        - getLicensingInformation
+        - getProfileHistory
+        - performProvisioningAction
+        - removeAllConsoleFeatures
+        - removeAllServerFeatures
+        - reviewProvisioningAction
+
+      </td>
+    </tr>
+    <tr style={{height: "95px"}}>
+      <td style={{height: "95px"}}>/protected/manage/modify/tenants</td>
+      <td style={{height: "95px"}}>TenantMgtAdminService</td>
+      <td style={{height: "95px"}}>
+
+        - activateTenant
+        - deactivateTenant
+        - deleteTenant
+        - updateTenant
+
+      </td>
+    </tr>
+    <tr style={{height: "47px"}}>
+      <td style={{height: "47px"}}>/protected/manage/monitor/tenants</td>
+      <td style={{height: "47px"}}>TenantMgtAdminService</td>
+      <td style={{height: "47px"}}>
+
+        <br />
+
+        - addSkeletonTenant
+        - addTenant
+        - getTenant
+        - retrievePaginatedPartialSearchTenants
+        - retrievePaginatedTenants
+        - retrievePartialSearchTenants
+        - retrieveTenants
+
+      </td>
+    </tr>
+    <tr style={{height: "47px"}}>
+      <td style={{height: "47px"}} rowSpan="2">/protected/tenant­admin</td>
+      <td style={{height: "47px"}}>RemoteTenantManagerService</td>
+      <td style={{height: "47px"}}>
+
+        <br />
+
+        - activateTenant
+        - addTenant
+        - deactivateTenant
+        - deleteTenant
+        - getAllTenants
+        - getDomain
+        - getSuperTenantDomain
+        - getTenant
+        - getTenantId
+        - isTenantActive
+        - updateTenant
+
+      </td>
+    </tr>
+    <tr style={{height: "47px"}}>
+      <td style={{height: "47px"}}>RemoteUserRealmService</td>
+      <td style={{height: "47px"}}>
+
+        - getRealmConfiguration
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+:::note[Securing Admin SOAP Services]
+`updateCredentialByAdmin`: It's essential not to expose this service to unauthorized users due to the high risk of account takeover attacks. Ensure strict access control measures are in place, limiting access to only highly privileged administrators.
+
+`updateCredential`: These SOAP services are highly susceptible to brute force attacks. Implementing security measures such as rate limiting, employing CAPTCHA mechanisms, and instituting account lockout policies after a set number of consecutive failed login attempts are effective strategies to enhance protection.
+:::
+
+### Special cases
+
+**These operations require multiple permission levels.**
+
+<table>
+  <tbody>
+    <tr style={{height: "23px"}}>
+      <th style={{height: "23px"}}>Permission Level</th>
+      <th style={{height: "23px"}}>Service</th>
+      <th style={{height: "23px"}}>Operations</th>
+    </tr>
+    <tr style={{height: "193px"}}>
+      <td style={{height: "288px"}} rowSpan="2">/admin/configure/security<br />/admin/manage/modify/service</td>
+      <td style={{height: "193px"}}>DirectoryServerManager</td>
+      <td style={{height: "193px"}}>
+
+        - addServer
+        - changePassword
+        - getPasswordConformanceRegularExpression
+        - getServiceNameConformanceRegularExpression
+        - isExistingServicePrinciple
+        - isKDCEnabled
+        - listServicePrinciples
+        - removeServer
+
+      </td>
+    </tr>
+    <tr style={{height: "95px"}}>
+      <td style={{height: "95px"}}>KeyStoreAdminService</td>
+      <td style={{height: "95px"}}>
+
+        - getKeyStores
+
+      </td>
+    </tr>
+    <tr style={{height: "47px"}}>
+      <td style={{height: "47px"}}>
+
+        /admin/configure/security/rolemgt
+
+        /admin/manage/modify/service
+
+      </td>
+      <td style={{height: "47px"}}>UserAdmin</td>
+      <td style={{height: "47px"}}>
+
+        - getAllRolesNames
+
+      </td>
+    </tr>
+    <tr style={{height: "32px"}}>
+      <td style={{height: "32px"}}>
+
+        /admin/configure/security/usermgt/users
+
+        /admin/configure/security/usermgt/passwords
+
+        /admin/configure/security/usermgt/profiles
+
+      </td>
+      <td style={{height: "32px"}}>UserAdmin</td>
+      <td style={{height: "32px"}}>
+
+        - listAllUsers
+        - listUsers
+
+      </td>
+    </tr>
+  </tbody>
+</table>

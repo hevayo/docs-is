@@ -1,0 +1,688 @@
+---
+title: Service Provider Configurations used with APIs
+description: This section guides you through the configurations you can include in a service provider application.  # generated from the first paragraph; a writer should improve it
+type: reference
+sidebar_position: 3
+slug: "/develop/service-provider-configurations-used-with-apis"
+---
+
+This section guides you through the configurations you can include in a service provider application. See [Calling Admin Services](../../calling-admin-services/calling-admin-services.mdx) to enable the admin service.
+
+## Configuring SAML2 web SSO
+
+<table>
+  <tbody>
+    <tr>
+      <th>Description</th>
+      <td>To add a Service Provider with SAML2 Web SSO capability, you have to first add SAML2 Web SSO configuration. <br />This is done through the `IdentitySAMLSSOConfigService` that is exposed at `https://<IS_HOST>:<IS_PORT>/services/IdentitySAMLSSOConfigService?wsdl`. <br />Replace the tag `<IS_HOST>:<IS_PORT>` with the relevant host and port number, for example, `https://localhost:9443/services/IdentitySAMLSSOConfigService?wsdl`.</td>
+    </tr>
+    <tr>
+      <th>Permissions</th>
+      <td>/permission/admin/manage</td>
+    </tr>
+    <tr>
+      <th>Input Parameters</th>
+      <td>
+
+        - **issuer** `[String]` <br />This specifies the issuer. This is the ` <saml:Issuer> ` element that contains the unique identifier of the service provider. This is also the issuer value specified in the SAML Authentication Request issued by the service provider. When configuring single-sign-on across Carbon servers, ensure that this value is equal to the `ServiceProviderID` value mentioned in the ` <IS_HOME>/repository/conf/deployment.toml` file of the relying party's WSO2 Identity Server.
+
+        - **issuerQualifier** `[String]` <br />
+
+          This value is needed only if you have to configure multiple SAML SSO inbound authentication configurations for the same Issuer value. When registering a SAML service provider in WSO2 Identity Server, the **service provider qualifier** that is defined here will be appended to the **issuer** internally to identify a service provider uniquely at runtime.
+
+          You can configure a number of SAML SPs with the same Issuer and different Service Provider Qualifiers.
+
+          When a service provider qualifier is defined, the issuer that is defined in the configuration, e.g., "travelocity.com" is the issuer of the SAML SSO authentication request. The service provider qualifier should be sent as the query parameter **spQualifier** along with the HTTP request.
+
+        - **assertionConsumerUrls** `[String]` <br />This specifies the assertion Consumer URLs that the browser should be redirected to after the authentication is successful. This is the Assertion Consumer Service (ACS) URL of the service provider. The identity provider redirects the SAML2 response to this ACS URL. However, if the SAML2 request is signed and SAML2 request contains the ACS URL, the Identity Server will honor the ACS URL of the SAML2 request. It should have this format: https://(host-name):(port)/acs . You can add multiple assertion consumer URLs by repeating assertionConsumerUrls element..
+
+        - **defaultAssertionConsumerUrl** `[String]` <br />
+
+          As there can be multiple assertion consumer URLs, you must define a **Default Assertion Consumer URL** in case you are unable to retrieve it from the authentication request.
+
+          :::tip
+          In a service provider initiated single sign-on setup, the following needs to be considered.
+
+          - If no ACS URL is given in the `<AuthnRequest>`, the Identity Server sends the response to the default ACS URL of the service provider (whether the request is signed or not).
+          - If the ACS URL in `<AuthnRequest>` matches with one of the registered URLs, the Identity Server sends the response to the matched one.
+          - If the ACS URL in `<AuthnRequest>` does not match any of the registered ACS URLs and if the request is signed, the Identity Server sends the response to the ACS URL in the request only if the signature is valid. Alternatively, the `<AuthnRequest>` is rejected.
+          :::
+
+          In an identity provider initiated single sign-on setup, the following needs to be considered.
+
+          - If the “acs” query parameter is not present in the request, the Identity Server sends the response to default ACS URL of the service provider.
+          - If the "acs” parameter is present and the value of that parameter matches with any of the registered ACS URLs of the service provider, then the Identity Server sends the response to the matched one.
+
+        - **nameIDFormat** `[String]` <br />
+
+          This defines the name identifier formats that are supported by the identity provider. The service provider and identity provider usually communicate with each other regarding a specific subject. That subject should be identified through a Name-Identifier (NameID), which should be in some format so that It is easy for the other party to identify it based on the format. Name identifiers are used to provide information regarding a user.
+
+          <details>
+          <summary>Click to learn about NameID formats</summary>
+
+          For SSO interactions, you can use the following types of NameID formats:
+
+          - ` urn:oasis:names:tc:SAML:2.0:nameid-format:persistent `
+          - ` urn:oasis:names:tc:SAML:2.0:nameid-format:transient `
+          - ` urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress `
+          - ` urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified `
+          - ` urn:oasis:names:tc:SAML:1.1:nameid-format:X509SubjectName `
+          - ` urn:oasis:names:tc:SAML:1.1:nameid-format:WindowsDomainQualifiedName `
+          - ` urn:oasis:names:tc:SAML:2.0:nameid-format:kerberos `
+          - ` urn:oasis:names:tc:SAML:2.0:nameid-format:entity `
+
+          Following is the default format used by the identity provider.
+
+          - ` urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress `
+
+          </details>
+
+        - **certAlias** `[String]` <br />This is used to validate the signature of SAML2 requests and is used to generate encryption. Basically, the service provider’s certificate must be mentioned here. Note that this can also be the Identity Server tenant's public certificate in a scenario where you are doing a tenant-specific configuration.
+
+        - **signingAlgorithmURI** `[String]` <br />
+
+          This specifies the `SignatureMethod` algorithm to be used in the `Signature` element in POST binding. The default value can be configured in the `<IS_HOME>/repository/conf/deployment.toml` file, in the `SSOService` element with `SAMLDefaultSigningAlgorithmURI` tag. If it is not provided the default algorithm is RSA­SHA 1 - '`http://www.w3.org/2000/09/xmldsig#rsa­sha1`’.
+
+          The following table provides the list of signature algorithms available and their respective URI.
+
+          | Signature algorithm name | Signature algorithm URI |
+          | --- | --- |
+          | DSA with SHA1 | [http://www.w3.org/2000/09/xmldsig#dsasha1](http://www.w3.org/2000/09/xmldsig#dsasha1) |
+          | ECDSA with SHA1 | [http://www.w3.org/2001/04/xmldsigmore#ecdsasha1](http://www.w3.org/2001/04/xmldsigmore#ecdsasha1) |
+          | ECDSA with SHA256 | [http://www.w3.org/2001/04/xmldsigmore#ecdsasha256](http://www.w3.org/2001/04/xmldsigmore#ecdsasha256) |
+          | ECDSA with SHA384 | [http://www.w3.org/2001/04/xmldsigmore#ecdsasha384](http://www.w3.org/2001/04/xmldsigmore#ecdsasha384) |
+          | ECDSA with SHA512 | [http://www.w3.org/2001/04/xmldsigmore#ecdsasha512](http://www.w3.org/2001/04/xmldsigmore#ecdsasha512) |
+          | RSA with MD5 | [http://www.w3.org/2001/04/xmldsigmore#rsamd5](http://www.w3.org/2001/04/xmldsigmore#rsamd5) |
+          | RSA with RIPEMD160 | [http://www.w3.org/2001/04/xmldsigmore#rsaripemd160](http://www.w3.org/2001/04/xmldsigmore#rsaripemd160) |
+          | RSA with SHA1 | [http://www.w3.org/2000/09/xmldsig#rsasha1](http://www.w3.org/2000/09/xmldsig#rsasha1) |
+          | RSA with SHA256 | [http://www.w3.org/2001/04/xmldsigmore#rsasha256](http://www.w3.org/2001/04/xmldsigmore#rsasha256) |
+          | RSA with SHA384 | [http://www.w3.org/2001/04/xmldsigmore#rsasha384](http://www.w3.org/2001/04/xmldsigmore#rsasha384) |
+          | RSA with SHA512 | [http://www.w3.org/2001/04/xmldsigmore#rsasha512](http://www.w3.org/2001/04/xmldsigmore#rsasha512) |
+
+        - **doSignResponse** `[Boolean]` <br />This is set to `true` to sign the SAML2 responses that is returned after the authentication process.
+
+        - **doValidateSignatureInRequests** `[Boolean]` <br />This is set `true` to specify whether the identity provider must validate the signature of the SAML2 authentication request and the SAML2 logout request that is sent by the service provider.
+
+        - **doValidateSignatureInRequests** `[Boolean]` <br />This is set to `true` to specify whether the identity provider must validate the signature of the SAML2 authentication request and the SAML2 logout request that is sent by the service provider.
+
+        - **doEnableEncryptedAssertion** `[Boolean]` <br />This is set to `true` if you wish to encrypt the assertion.
+
+        - **doSignAssertions** `[Boolean]` <br />This is set to `true` or kept empty as a valid assertion should be signed.
+
+        - **doSingleLogout** `[Boolean]` <br />This is set to `true` if you want to terminate all sessions once the user signs out from one service provider. If single logout is enabled, the identity provider sends logout requests to all service providers. Basically, the identity provider acts according to the single logout profile. If the service provider supports a different URL for logout, you need to specify them using `sloResponseURL` and `sloRequestURL` parameters. These URLs indicate where the request and response should go to. If you do not specify this URL, the identity provider uses the Assertion Consumer Service (ACS) URL.
+
+        - **enableAttributeProfile** `[Boolean]` <br />The Identity Server provides support for a basic attribute profile where the identity provider can include the user’s attributes in the SAML Assertions as part of the attribute statement. Ste true to enable this profile. If you set true to `enableAttributesByDefault` parameter, the identity provider always includes the attribute values related to the requested claims in the SAML attribute statement.
+
+        - **requestedAudiences** `[String]` <br />This specifies the audiences.
+
+        - **requestedRecipients** `[String]` <br />This specifies the recipients.
+
+        - **idPInitSSOEnabled** `[Boolean]` <br />This is set `true` to enable IdP initiated SSO profile for the service provider.
+
+        - **idPInitSLOEnabled** `[Boolean]` <br />This is set `true` to enable IdP initiated SLO profile for the service provider.
+
+        - **assertionQueryRequestProfileEnabled** `[Boolean]` <br />This is set `true` to enable Assertion Query Request Profile to query assertions that are persisted to the database when you log in to the service provider application. For more information, see [Querying SAML Assertions](../../../../../learn/tutorials/single-sign-on/saml-2-0-web-sso/querying-saml-assertions.mdx).
+
+        - **idpEntityIDAlias**`[String]`<br /> This value can override identity provider entity Id that is specified under SAML SSO inbound authentication configuration of the resident identity provider. The Identity Provider Entity Id is used as the issuer of the SAML response that is generated by WSO2 Identity Server. By default, all the SAML responses that are issued by WSO2 Identity Server contain an issuer value that is similar to the identity provider entity Id of the resident identity provider's SAML SSO inbound authentication configuration. To make this value unique within a SAML service provider configuration, specify the value here causing the identity provider entity Id to be overridden by the identity provider Id alias.
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### Sample Request and Response
+
+<details>
+<summary>Click to view request and response formats</summary>
+
+```xml
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://org.apache.axis2/xsd" xmlns:xsd1="http://dto.saml.sso.identity.carbon.wso2.org/xsd">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <xsd:addRPServiceProvider>
+         <!--Optional:-->
+         <xsd:spDto>
+            <!--Zero or more repetitions:-->
+            <xsd1:assertionConsumerUrls>?</xsd1:assertionConsumerUrls>
+            <!--Optional:-->
+            <xsd1:assertionQueryRequestProfileEnabled>?</xsd1:assertionQueryRequestProfileEnabled>
+            <!--Optional:-->
+            <xsd1:attributeConsumingServiceIndex>?</xsd1:attributeConsumingServiceIndex>
+            <!--Optional:-->
+            <xsd1:certAlias>?</xsd1:certAlias>
+            <!--Optional:-->
+            <xsd1:defaultAssertionConsumerUrl>?</xsd1:defaultAssertionConsumerUrl>
+            <!--Optional:-->
+            <xsd1:digestAlgorithmURI>?</xsd1:digestAlgorithmURI>
+            <!--Optional:-->
+            <xsd1:doEnableEncryptedAssertion>?</xsd1:doEnableEncryptedAssertion>
+            <!--Optional:-->
+            <xsd1:doSignAssertions>?</xsd1:doSignAssertions>
+            <!--Optional:-->
+            <xsd1:doSignResponse>?</xsd1:doSignResponse>
+            <!--Optional:-->
+            <xsd1:doSingleLogout>?</xsd1:doSingleLogout>
+            <!--Optional:-->
+            <xsd1:doValidateSignatureInRequests>?</xsd1:doValidateSignatureInRequests>
+            <!--Optional:-->
+            <xsd1:enableAttributeProfile>?</xsd1:enableAttributeProfile>
+            <!--Optional:-->
+            <xsd1:enableAttributesByDefault>?</xsd1:enableAttributesByDefault>
+            <!--Optional:-->
+            <xsd1:idPInitSLOEnabled>?</xsd1:idPInitSLOEnabled>
+            <!--Optional:-->
+            <xsd1:idPInitSSOEnabled>?</xsd1:idPInitSSOEnabled>
+            <!--Zero or more repetitions:-->
+            <xsd1:idpInitSLOReturnToURLs>?</xsd1:idpInitSLOReturnToURLs>
+            <!--Optional:-->
+            <xsd1:issuer>?</xsd1:issuer>
+            <!--Optional:-->
+            <xsd1:nameIDFormat>?</xsd1:nameIDFormat>
+            <!--Optional:-->
+            <xsd1:nameIdClaimUri>?</xsd1:nameIdClaimUri>
+            <!--Zero or more repetitions:-->
+            <xsd1:requestedAudiences>?</xsd1:requestedAudiences>
+            <!--Zero or more repetitions:-->
+            <xsd1:requestedRecipients>?</xsd1:requestedRecipients>
+            <!--Optional:-->
+            <xsd1:signingAlgorithmURI>?</xsd1:signingAlgorithmURI>
+            <!--Optional:-->
+            <xsd1:sloRequestURL>?</xsd1:sloRequestURL>
+            <!--Optional:-->
+            <xsd1:sloResponseURL>?</xsd1:sloResponseURL>
+         </xsd:spDto>
+      </xsd:addRPServiceProvider>
+   </soapenv:Body>
+</soapenv:Envelope>
+```
+
+```xml
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://org.apache.axis2/xsd" xmlns:xsd1="http://dto.saml.sso.identity.carbon.wso2.org/xsd">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <xsd:addRPServiceProvider>
+         <!--Optional:-->
+         <xsd:spDto>
+            <!--Zero or more repetitions:-->
+            <xsd1:assertionConsumerUrls>http://localhost:8080/travelocity.com/home.jsp</xsd1:assertionConsumerUrls>
+            <!--Optional:-->
+            <xsd1:assertionQueryRequestProfileEnabled>false</xsd1:assertionQueryRequestProfileEnabled>
+            <!--Optional:-->
+            <xsd1:attributeConsumingServiceIndex>1223160755</xsd1:attributeConsumingServiceIndex>
+            <!--Optional:-->
+            <xsd1:certAlias>wso2carbon</xsd1:certAlias>
+            <!--Optional:-->
+            <xsd1:defaultAssertionConsumerUrl>http://localhost:8080/travelocity.com/home.jsp</xsd1:defaultAssertionConsumerUrl>
+            <!--Optional:-->
+            <xsd1:digestAlgorithmURI>http://www.w3.org/2000/09/xmldsig#sha1</xsd1:digestAlgorithmURI>
+            <!--Optional:-->
+            <xsd1:doEnableEncryptedAssertion>true</xsd1:doEnableEncryptedAssertion>
+            <!--Optional:-->
+            <xsd1:doSignAssertions>true</xsd1:doSignAssertions>
+            <!--Optional:-->
+            <xsd1:doSignResponse>true</xsd1:doSignResponse>
+            <!--Optional:-->
+            <xsd1:doSingleLogout>true</xsd1:doSingleLogout>
+            <!--Optional:-->
+            <xsd1:doValidateSignatureInRequests>true</xsd1:doValidateSignatureInRequests>
+            <!--Optional:-->
+            <xsd1:enableAttributeProfile>true</xsd1:enableAttributeProfile>
+            <!--Optional:-->
+            <xsd1:enableAttributesByDefault>true</xsd1:enableAttributesByDefault>
+            <!--Optional:-->
+            <xsd1:idPInitSLOEnabled>true</xsd1:idPInitSLOEnabled>
+            <!--Optional:-->
+            <xsd1:idPInitSSOEnabled>true</xsd1:idPInitSSOEnabled>
+            <!--Zero or more repetitions:-->
+            <xsd1:idpInitSLOReturnToURLs>http://localhost:8090/travelocity.com/home.jsp</xsd1:idpInitSLOReturnToURLs>
+            <!--Optional:-->
+            <xsd1:issuer>travelocity.com</xsd1:issuer>
+            <!--Optional:-->
+            <xsd1:nameIDFormat>urn/oasis/names/tc/SAML/1.1/nameid-format/emailAddress</xsd1:nameIDFormat>
+            <!--Zero or more repetitions:-->
+            <xsd1:requestedAudiences>https://localhost:9443/oauth2/token</xsd1:requestedAudiences>
+            <!--Zero or more repetitions:-->
+            <xsd1:requestedRecipients>https://localhost:9443/oauth2/token</xsd1:requestedRecipients>
+            <!--Optional:-->
+            <xsd1:signingAlgorithmURI>http://www.w3.org/2000/09/xmldsig#rsa-sha1</xsd1:signingAlgorithmURI>
+            <!--Optional:-->
+            <xsd1:sloRequestURL></xsd1:sloRequestURL>
+            <!--Optional:-->
+            <xsd1:sloResponseURL></xsd1:sloResponseURL>
+         </xsd:spDto>
+      </xsd:addRPServiceProvider>
+   </soapenv:Body>
+</soapenv:Envelope>
+```
+
+```xml
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+   <soapenv:Body>
+      <ns:createApplicationResponse xmlns:ns="http://org.apache.axis2/xsd">
+         <ns:return xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+      </ns:createApplicationResponse>
+   </soapenv:Body>
+</soapenv:Envelope>
+```
+
+</details>
+
+:::note
+Once the SAML SSO configuration is added, the issuer details need to be
+included in inbound authentication configurations of the service
+provider.
+
+| Parameter       | Type   | Description                                                                                                                                                                                 |
+|-----------------|--------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| inboundAuthKey  | String | Specify the issuer here, which is the unique identifier of the service provider. This is also the issuer value specified in the SAML Authentication Request issued by the service provider. |
+| inboundAuthType | String | For SAML 2.0, authentication type should be ‘samlsso’                                                                                                                                       |
+
+| Property Name          | Property Value                                                                                                                                 |
+|------------------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| attrConsumServiceIndex | This is the consumer service index.  The service provider should send this in the SAML request to get attributes of the authenticated subject. |
+
+```xml
+<xsd1:inboundAuthenticationConfig>
+    <!--Zero or more repetitions:-->
+    <xsd1:inboundAuthenticationRequestConfigs>
+        <!--Optional:-->
+        <xsd1:inboundAuthKey>travelocity.com</xsd1:inboundAuthKey>
+        <!--Optional:-->
+        <xsd1:inboundAuthType>samlsso</xsd1:inboundAuthType>
+        <!--Zero or more repetitions:-->
+        <xsd1:properties>
+            <!--Optional:-->
+            <xsd1:name>attrConsumServiceIndex</xsd1:name>
+            <!--Optional:-->
+            <xsd1:value>202240762</xsd1:value>
+        </xsd1:properties>
+    </xsd1:inboundAuthenticationRequestConfigs>
+</xsd1:inboundAuthenticationConfig>
+```
+:::
+
+## Configuring OAuth/OpenID Connect
+
+<table>
+  <tbody>
+    <tr>
+      <th>Description</th>
+      <td>
+
+        To add a Service Provider with OAuth capability, add an OAuth application through the OAuthAdminService exposed at
+
+        https://
+
+        &lt;is_host&gt;:
+
+        &lt;is_port&gt;/services/OAuthAdminService?wsdl
+
+        . Replace the tag
+
+        &lt;is_host&gt;:
+
+        \<is_port\> with the relevant host and port number, e.g., `https://localhost:9443/services/OAuthAdminService?wsdl`.
+
+      </td>
+    </tr>
+    <tr>
+      <th>Permissions</th>
+      <td>/admin/manage/identity</td>
+    </tr>
+    <tr>
+      <th>Input Parameters</th>
+      <td>
+
+        - **OAuthVersion** `[String]` <br />This specifies the Oauth version. Accepted values are `OAuth-1.0a` and `OAuth-2.0`. <br />If you set OAuth Version as `OAuth-1.0a`, there is no need to fill the `grantTypes` parameter. This is because this version of OAuth does not support grant types.
+
+        - **applicationName** `[String]` <br />This is the service provider name.
+
+        - **applicationAccessTokenExpiryTime** `[String]` <br />This specifies the time the application access token needs to expire. The value needs to be specified in milliseconds.
+
+        - **callbackUrl** <br />This is the exact location in the service provider's application where an access token would be sent. This is a required field and it is important to configure, as it is imperative that the service provider receives the access token. This is necessary for security purposes to ensure that the token is not compromised.
+
+          :::info[Configure multiple callback URLs]
+          From WSO2 Identity Server 5.2.0 onwards, regex-based consumer URLs are supported when defining the callback URL. This enables you to configure multiple callback URLs for one application.
+
+          For example, if you have two service providers that use the same application, you can now define a regex pattern that will work for both callback URLs instead of having to configure two different applications for the two service providers. Assume the two callback URLs for your two service providers are as follows:
+
+          - https://myapp.com/callback
+          - https://testapp:8000/callback
+
+          To configure the callback URL to work for both of these URLs, set it using a regex pattern as follows:<br /> `regexp=(https://((myapp\.com)|(testapp:8000))(/callback))`<br />
+
+          Make sure to set the prefix 'regexp=' before your regex pattern. To define a normal URL, you can specify the callback URL without this prefix.
+          :::
+
+        - **grantTypes** `[String]` <br />
+
+          Following are the grant types that are used to get the access token:
+
+          - **Code**: Entering the username and password required at the service provider will result in a code being generated. This code can be used to obtain the access token. For more information on this grant type, see the [Authorization Code specification](https://tools.ietf.org/html/rfc6749#section-4.1).
+          - **Implicit**: This is similar to the code grant type, but instead of generating a code, this directly provides the access token. For more information on this grant type, see the [Implicit Grant specification](https://tools.ietf.org/html/rfc6749#section-4.2).
+          - **Password**: This authenticates the user using the password provided and the access token is provided. For more information on this grant type, see the [Resource Owner Password Credentials Grant specification](https://tools.ietf.org/html/rfc6749#section-4.3).
+          - **Client Credential**: This is the grant type for the client key and client secret. If these two items are provided correctly by the service provider, the access token is sent. For more information on this grant type, see the [Client Credentials specification](https://tools.ietf.org/html/rfc6749#section-4.4).
+          - **Refresh Token**: This will enable the user to obtain an access token by using the refresh token once the originally provided access token is used up. For more information on this grant type, see the [Refresh Token specification](https://tools.ietf.org/html/rfc6749#section-1.5).
+          - **SAML**: This uses SAML assertion to obtain the access token. For more information on this grant type, see the [SAML2 Bearer specification](https://tools.ietf.org/id/draft-ietf-oauth-saml2-bearer-23.txt).
+          - **IWA-NTLM** : This is similar to the password grant type, but it is specific to Microsoft Windows users.
+          - **urn:ietf:params:oauth: grant-type:jwt-bearer**: This is a custom grant type. It uses a JWT token to obtain the access token. For more information about this grant type, see the [JWT specification](https://tools.ietf.org/html/rfc7523).
+
+        - **oauthConsumerKey** `[String]` <br />This the consumer key of the OAuth application. If you keep this empty, Identity server will generate a consumer key.
+
+        - **oauthConsumerSecret** `[String]` <br />This the consumer secret of the OAuth application. If you keep this empty, Identity server will generate a consumer secret.
+
+        - **pkceMandatory** `[Boolean]` <br />This is set `true` if you are using the `Code` grant type. PKCE is a recommended security measure used to mitigate a code interception attack. For more information, see [Mitigating Authorization Code Interception Attacks](../../../../../administer/administer/mitigating-authorization-code-interception-attacks.mdx).
+
+        - **pkceSupportPlain** `[Boolean]` <br />This is set `true` if you are using PKCE.
+
+        - **refreshTokenExpiryTime** `[String]` <br />This specifies the time the refresh token needs to expire. The value needs to be specified in milliseconds.
+
+        - **userAccessTokenExpiryTime** `[String]` <br />This specifies the time the user's access token needs to expire. The value needs to be specified in milliseconds.
+
+      </td>
+    </tr>
+    <tr>
+      <th>Request</th>
+      <td>See below</td>
+    </tr>
+    <tr>
+      <th>Response</th>
+      <td>See below</td>
+    </tr>
+  </tbody>
+</table>
+
+### Sample Request and Response {#sample-request-and-response_1}
+
+<details>
+<summary>Click to view request and response formats</summary>
+
+```xml
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://org.apache.axis2/xsd" xmlns:xsd1="http://dto.oauth.identity.carbon.wso2.org/xsd">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <xsd:registerOAuthApplicationData>
+         <!--Optional:-->
+         <xsd:application>
+            <!--Optional:-->
+            <xsd1:OAuthVersion>?</xsd1:OAuthVersion>
+            <!--Optional:-->
+            <xsd1:applicationAccessTokenExpiryTime>?</xsd1:applicationAccessTokenExpiryTime>
+            <!--Optional:-->
+            <xsd1:applicationName>?</xsd1:applicationName>
+            <!--Optional:-->
+            <xsd1:callbackUrl>?</xsd1:callbackUrl>
+            <!--Optional:-->
+            <xsd1:grantTypes>?</xsd1:grantTypes>
+            <!--Optional:-->
+            <xsd1:oauthConsumerKey>?</xsd1:oauthConsumerKey>
+            <!--Optional:-->
+            <xsd1:oauthConsumerSecret>?</xsd1:oauthConsumerSecret>
+            <!--Optional:-->
+            <xsd1:pkceMandatory>?</xsd1:pkceMandatory>
+            <!--Optional:-->
+            <xsd1:pkceSupportPlain>?</xsd1:pkceSupportPlain>
+            <!--Optional:-->
+            <xsd1:refreshTokenExpiryTime>?</xsd1:refreshTokenExpiryTime>
+            <!--Optional:-->
+            <xsd1:userAccessTokenExpiryTime>?</xsd1:userAccessTokenExpiryTime>
+         </xsd:application>
+      </xsd:registerOAuthApplicationData>
+   </soapenv:Body>
+</soapenv:Envelope>
+```
+
+```xml
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://org.apache.axis2/xsd" xmlns:xsd1="http://dto.oauth.identity.carbon.wso2.org/xsd">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <xsd:registerOAuthApplicationData>
+         <!--Optional:-->
+         <xsd:application>
+            <!--Optional:-->
+            <xsd1:OAuthVersion>OAuth-2.0</xsd1:OAuthVersion>
+            <!--Optional:-->
+            <xsd1:applicationAccessTokenExpiryTime>3600</xsd1:applicationAccessTokenExpiryTime>
+            <!--Optional:-->
+            <xsd1:applicationName>playground</xsd1:applicationName>
+            <!--Optional:-->
+            <xsd1:callbackUrl>http://localhost:8080/playground2/oauth2client</xsd1:callbackUrl>
+            <!--Optional:-->
+            <xsd1:grantTypes>refresh_token urn:ietf:params:oauth:grant-type:saml2-bearer implicit password client_credentials iwa:ntlm authorization_code</xsd1:grantTypes>
+            <!--Optional:-->
+            <xsd1:pkceMandatory>false</xsd1:pkceMandatory>
+            <!--Optional:-->
+            <xsd1:pkceSupportPlain>true</xsd1:pkceSupportPlain>
+            <!--Optional:-->
+            <xsd1:refreshTokenExpiryTime>84000</xsd1:refreshTokenExpiryTime>
+            <!--Optional:-->
+            <xsd1:userAccessTokenExpiryTime>3600</xsd1:userAccessTokenExpiryTime>
+         </xsd:application>
+      </xsd:registerOAuthApplicationData>
+   </soapenv:Body>
+</soapenv:Envelope>
+```
+
+```xml
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+   <soapenv:Body>
+      <ns:registerOAuthApplicationDataResponse xmlns:ns="http://org.apache.axis2/xsd">
+         <ns:return xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+      </ns:registerOAuthApplicationDataResponse>
+   </soapenv:Body>
+</soapenv:Envelope>
+```
+
+</details>
+
+:::note
+Once OAuth application is created, you can retrieve the OAuth consumer
+key and OAuth consumer secret by calling `            getOAuthApplicationDataByAppName           ` service
+method.
+
+```xml
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://org.apache.axis2/xsd">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <xsd:getOAuthApplicationDataByAppName>
+         <!--Optional:-->
+         <xsd:appName>playground</xsd:appName>
+      </xsd:getOAuthApplicationDataByAppName>
+   </soapenv:Body>
+</soapenv:Envelope>
+```
+
+Once the OAuth configuration is added, the OAuth consumer key/secret
+details need to be included in inbound authentication configurations of
+the service provider. 
+
+| Parameter       | Type   | Description                                       |
+|-----------------|--------|---------------------------------------------------|
+| inboundAuthKey  | String | OAuth Client Key                                  |
+| inboundAuthType | String | For OAuth, authentication type should be ‘oauth2' |
+
+| Property Name       | Property Value      |
+|---------------------|---------------------|
+| oauthConsumerSecret | OAuth client secret |
+
+```xml
+<xsd1:inboundAuthenticationConfig>
+    <!--Zero or more repetitions:-->
+    <xsd1:inboundAuthenticationRequestConfigs>
+        <!--Optional:-->
+        <xsd1:inboundAuthKey>li6JMbjW6WDMKTWsRnGcjp5zcGhi</xsd1:inboundAuthKey>
+        <!--Optional:-->
+        <xsd1:inboundAuthType>oauth2</xsd1:inboundAuthType>
+        <!--Zero or more repetitions:-->
+        <xsd1:properties>
+            <!--Optional:-->
+            <xsd1:name>oauthConsumerSecret</xsd1:name>
+            <!--Optional:-->
+            <xsd1:value>NMB3EAfxh4YvSTqbb3iMkongAHjW</xsd1:value>
+        </xsd1:properties>
+    </xsd1:inboundAuthenticationRequestConfigs>
+</xsd1:inboundAuthenticationConfig>
+```
+:::
+
+## Configuring WS-Trust Security Token service
+
+<table>
+  <tbody>
+    <tr>
+      <th>Description</th>
+      <td>
+
+        To configure a service provider with the WS-Trust Security Token Service (STS), add a trusted service through the STSAdminService exposed at
+
+        https://
+
+        &lt;is_host&gt;:
+
+        &lt;is_port&gt;/services/STSAdminService?wsdl
+
+        . Replace the tag
+
+        &lt;is_host&gt;:
+
+        &lt;is_port&gt;
+
+        with the relevant host and port number, for example, https://localhost:9443/services/STSAdminService?wsdl.
+
+      </td>
+    </tr>
+    <tr>
+      <th>Permissions</th>
+      <td>/admin/manage/identity</td>
+    </tr>
+    <tr>
+      <th>Input Parameters</th>
+      <td>
+
+        - **serviceAddress** `[String]` <br />This specifies the endpoint address or the trusted relying party.
+        - **certAlias** `[String]` <br />This specifies the certificate alias of the imported public certificate of the trusted relying party.
+
+      </td>
+    </tr>
+    <tr>
+      <th>Request</th>
+      <td>See below</td>
+    </tr>
+    <tr>
+      <th>Response</th>
+      <td>See below</td>
+    </tr>
+  </tbody>
+</table>
+
+### Sample Request and Response {#sample-request-and-response_2}
+
+<details>
+<summary>Click to view request and response formats</summary>
+
+```xml
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.sts.security.carbon.wso2.org">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:addTrustedService>
+         <!--Optional:-->
+         <ser:serviceAddress>?</ser:serviceAddress>
+         <!--Optional:-->
+         <ser:certAlias>?</ser:certAlias>
+      </ser:addTrustedService>
+   </soapenv:Body>
+</soapenv:Envelope>
+```
+
+```xml
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.sts.security.carbon.wso2.org">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:addTrustedService>
+         <!--Optional:-->
+         <ser:serviceAddress>https://www.example.com/sts</ser:serviceAddress>
+         <!--Optional:-->
+         <ser:certAlias>wso2carbon</ser:certAlias>
+      </ser:addTrustedService>
+   </soapenv:Body>
+</soapenv:Envelope>
+```
+
+```xml
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+   <soapenv:Body>
+      <ns:addTrustedServiceResponse xmlns:ns="http://service.sts.security.carbon.wso2.org">
+         <ns:return xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+      </ns:addTrustedServiceResponse>
+   </soapenv:Body>
+</soapenv:Envelope>
+```
+
+</details>
+
+:::note
+Once the trusted service is registered, the service address needs to be
+included in inbound authentication configurations of the service
+provider.       
+
+| Parameter       | Type   | Description                                                                      |
+|-----------------|--------|----------------------------------------------------------------------------------|
+| inboundAuthKey  | String | The endpoint address of the trusted relying party.                               |
+| inboundAuthType | String | For WS-Trust Security Token Service, the authentication type should be ‘wstrust’ |
+
+```xml
+<xsd1:inboundAuthenticationConfig>
+    <!--Zero or more repetitions:-->
+    <xsd1:inboundAuthenticationRequestConfigs>
+        <!--Optional:-->
+        <xsd1:inboundAuthKey>https://www.example.com/sts</xsd1:inboundAuthKey>
+        <!--Optional:-->
+        <xsd1:inboundAuthType>wstrust</xsd1:inboundAuthType>
+    </xsd1:inboundAuthenticationRequestConfigs>
+</xsd1:inboundAuthenticationConfig>
+```
+:::
+
+## Configuring WS-Federation (passive)
+
+<table>
+  <tbody>
+    <tr>
+      <th>Description</th>
+      <td>To configure a service provider with the WS-Federation (passive), you only need to include following parameters in inbound authentication configurations of the service provider.</td>
+    </tr>
+    <tr>
+      <th>Input Parameters</th>
+      <td>
+
+        - **inboundAuthKey** `[String]` <br />This is the passive STS realm identifier.
+        - **inboundAuthType** `[String]` <br />For passive STS configuration, the authentication type should be `passivests`.
+        - **passiveSTSWReply** `[String]` <br />This is the web app URL, e.g., `https://localhost:8080/PassiveSTSSampleApp/index.jsp`.
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+```xml
+<xsd1:inboundAuthenticationConfig>
+    <!--Zero or more repetitions:-->
+    <xsd1:inboundAuthenticationRequestConfigs>
+        <!--Optional:-->
+        <xsd1:inboundAuthKey>TestSP</xsd1:inboundAuthKey>
+        <!--Optional:-->
+        <xsd1:inboundAuthType>passivests</xsd1:inboundAuthType>
+            <xsd1:properties>
+                <xsd1:name>passiveSTSWReply</name>
+                <xsd1:value>{url}</value>
+            </xsd1:properties>
+    </xsd1:inboundAuthenticationRequestConfigs>
+</xsd1:inboundAuthenticationConfig>
+```
+
+:::info[Related Links]
+-   For key APIs relevant for developers, see [Using APIs](../../using-apis.mdx). 
+-   For a list of the operations that can be performed with different permission levelsSee [Permissions Required to Invoke Admin Services](../../../../../references/permissions-required-to-invoke-admin-services.mdx). 
+-   The following article guides you through transforming existing SOAP-based services into REST services in WSO2 Identity Server:
+    [Exposing WSO2 Identity Server Admin Services the REST Way](http://wso2.com/library/articles/2016/10/article-exposing-wso2-identity-server-admin-services-the-rest-way/#step2).
+:::

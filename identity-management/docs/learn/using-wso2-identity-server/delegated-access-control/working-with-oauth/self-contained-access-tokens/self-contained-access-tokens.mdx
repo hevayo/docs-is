@@ -1,0 +1,144 @@
+---
+title: Self-contained Access Tokens
+description: Access tokens are credentials used to access protected resources.  # generated from the first paragraph; a writer should improve it
+type: reference
+sidebar_position: 1
+---
+
+Access tokens are credentials used to access protected resources.
+Typically, an access token is a string representing an authorization
+issued to the client. The string is usually opaque to the client.
+
+The [OAuth 2.0](https://tools.ietf.org/html/rfc6749) specification does
+not mandate any particular implementation for access tokens but it
+[mentions](https://tools.ietf.org/html/rfc6749#section-1.4) two possible
+strategies.
+
+1.  The access token is an identifier that is hard to guess. For
+    example, a randomly generated string of sufficient length, that the
+    server handling the protected resource can use to lookup the
+    associated authorization information.
+2.  The access token self-contains the authorization information in a
+    manner that can be verified. For example, by encoding authorization
+    information along with a signature into the token.
+
+So by default, a UUID is issued as an access token in WSO2 Identity
+Server, which is of the first type above. But, it also can be configured
+to issue a self-contained access token, which is of the second type
+above.
+
+### Why do we need self-contained access tokens?
+
+When short string identifiers are used as access tokens, a network
+request to the Authorization server is required to retrieve the
+authorization information associated with each access token. But with
+self-contained access tokens there is no need for a network call to
+retrieve the authorization information, as it’s self-contained. Thus,
+access token processing may be significantly quicker and more efficient.
+However, when it comes to token revocation self-contained access tokens
+lag, whereas access tokens with string identifiers can be revoked with
+almost immediate effect. The common practice is to have a short
+expiration time with self-contained access tokens, but that may result
+in more refresh token requests at the Authorization server.
+
+### Configuring WSO2 Identity Server to issue self-contained access tokens
+
+WSO2 Identity Server needs to be configured to issue above explained
+self-contained JWT access tokens as below.
+
+1.  Add the following configuration property to the `deployment.toml` file in the `<IS_HOME>/repository/conf` folder.
+    ```toml
+    [oauth.token_generation]
+    access_token_type= "self_contained"
+    ```
+
+2.  Restart the server.
+3.  Configure an [OAuth service
+    provider](../../../identity-bus/adding-and-configuring-a-service-provider/adding-and-configuring-a-service-provider.mdx).
+4.  Initiate an access token request to the WSO2 Identity Server, over a
+    known [grant type](../oauth-2-0-grant-types/oauth-2.0-grant-types.mdx). For example, the
+    following cURL command illustrates the syntax of an access token
+    request that can be initiated over the [Resource Owner Password
+    Credential](../oauth-2-0-grant-types/resource-owner-password-credentials-grant.mdx) grant type.
+
+    <table>
+      <tbody>
+        <tr>
+          <td>cURL command</td>
+          <td>
+
+            **Request**
+
+            <Anchor id="cb1" />
+
+            ```text
+            curl -u <CLIENT_ID>:<CLIENT_SECRET> -k -d "grant_type=password&username=<USERNAME>&password=<PASSWORD>" -H "Content-Type:application/x-www-form-urlencoded" https://<IS_HOST>:<IS_HTTPS_PORT>/oauth2/token
+            ```
+
+            - Navigate to your service provider, expand Inbound Authenitcaion Configurations and expand OAuth/OpenID Connect Configuration.
+
+              - Copy the OAuth Client Key as the value for ` <CLIENT_ID> ` .
+              - Copy the OAuth Client Secret as the value for ` <CLIENT_SECRET> ` .
+
+            - Enter the username and password of the user you want to get the token as the value for ` <USERNAME> ` and ` <PASSWORD> ` respectively.
+
+            - By default, ` <IS_HOST> ` is ` localhost. ` However, if you are using a public IP, the respective IP address or domain needs to be specified.
+
+            - By default, ` <IS_HTTPS_PORT> ` has been set to 9443. However, if the port offset has been incremented by ` n `, the default port value needs to be incremented by ` n ` .
+
+            Example:
+
+            <Anchor id="cb2" />
+
+            ```text
+            curl -u liXJsel4bJ76arbg3DXC3rU4w60a:wQEYq83njU29ZFbpQWdZsUlXcnga -k -d "grant_type=password&username=testuser2&password=testuser2 -H "Content-Type:application/x-www-form-urlencoded" https://localhost:9443/oauth2/token
+            ```
+
+          </td>
+        </tr>
+        <tr>
+          <td>Response</td>
+          <td>
+
+            In response, the self-contained JWT access token will be returned as shown below.
+
+            **Response**
+
+            <Anchor id="cb3" />
+
+            ```text
+            {  
+            "access_token":"eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImF1ZCI6WyJkZDlVM1FGd05GMlBRZnZsSHpUY1NTdU5DMndhIl0sImF6cCI6ImRkOVUzUUZ3TkYyUFFmdmxIelRjU1N1TkMyd2EiLCJpc3
+            MiOiJodHRwczpcL1wvbG9jYWxob3N0Ojk0NDNcL29hdXRoMlwvdG9rZW4iLCJleHAiOjE1MTA4MjQ5MzUsImlhdCI6MTUxMDgyMTMzNSwianRpIjoiNDA1YjRkNGUtODUwMS00ZTFhLWExMzgtZWQ4NDU1Y2QxZDQ3I
+            n0.FCk3Wo8DnFEHb02JCd9BWAHQ48BBt3n2YLQV6TpLMpFvTRNCZJAA-aEH4LrE7oVejvGd7YWGDy2Vzb7x-Bpg7yMYxozUerCkMy_F4Iw_xctgEJ3WF_TTJFhISGNoWlFXspM5d9EQvMvk0JxAovhE0HfXv5GCosGy
+            -0oT7ShQrwZLBIwE9d0ceUcmly42dvDZSsqHDIzPjrFzvpXwbZqq_sRFnh6MHlmmug7t1UCs85caoLhfSweaT0z7ED8P2Tsg_HgmnaaeDapszG6LckeBglqYwbRHy6X6LAcJfAkkwAlqrU0Vu4azsuE8BsLPKMYzu9Ze
+            CoHdLHYdtz-I0yKQ",
+               "refresh_token":"5974cdcc-865e-3144-82c5-4f147ddcb519",
+               "token_type":"Bearer",
+               "expires_in":589
+            }
+            ```
+
+            The access token you receive is a signed [JSON Web Token (JWT)](https://tools.ietf.org/html/rfc7519) . Use a JWT decoder to decode the access token and you are able to see the payload of the token that includes the following JWT claims:
+
+            | Claim Name | Type | Claim Value |
+            | --- | --- | --- |
+            | iss | string | The issuer of the JWT. The ' *Identity Provider Entity Id* ' value of the OAuth2/OpenID Connect Inbound Authentication configuration of the [Resident Identity Provider](../../../identity-bus/adding-and-configuring-an-identity-provider/adding-and-configuring-an-identity-provider.mdx) is returned here. |
+            | aud | string array | The token audience list. The client identifier of the OAuth clients that the JWT is intended for, is sent herewith. |
+            | azp | string | The autorized party for which the token is issued to. The client identifier of the OAuth client that the token is issued for, is sent herewith. |
+            | iat | integer | The token issue time. |
+            | exp | integer | The token expiration time. |
+            | jti | string | Unique identifier for the JWT token. |
+
+            In addition, a user claims can be obtained by an authorized user over this JWT as per [OpenID Connect claim](http://openid.net/specs/openid-connect-core-1_0.html#Claims) configurations, by [configuring requested user claims](../../../identity-bus/adding-and-configuring-a-service-provider/configuring-claims-for-a-service-provider/configuring-claims-for-a-service-provider.mdx) in the OAuth service provider. After configuring the service provider you can run the cURL command given below by providing the required details.
+
+            <Anchor id="cb4" />
+
+            ```text
+            curl -u <CLIENT_ID>:<CLIENT_SECRET> -k -d "grant_type=password&username=<USERNAME>&password=<PASSWORD>&scope=openid" -H "Content-Type:application/x-www-form-urlencoded" https://<IS_HOST>:<IS_HTTPS_PORT>/oauth2/token
+            ```
+
+          </td>
+        </tr>
+      </tbody>
+    </table>

@@ -1,0 +1,143 @@
+---
+title: Configuring Admin-Initiated Account Locking
+description: WSO2 Identity Server enables the privileged users to temporarily lock suspicious user accounts and prevent the users from logging in.  # generated from the first paragraph; a writer should improve it
+type: reference
+sidebar_label: Admin-Initiated
+sidebar_position: 2
+slug: "/learn/configuring-admin-initiated-account-locking"
+---
+
+WSO2 Identity Server enables the privileged users to temporarily lock suspicious user accounts and prevent the users from logging in. These locked user accounts can only be unlocked by privileged users. 
+
+## Scenario
+
+**Pickup** is a cab company that has many employees who use different credentials to sign in to different internal enterprise applications. While **Sam** is an administrator at Pickup, **Alex** is a new recruit. Due to suspicious user activity, Sam wants to lock Alex's account.  
+
+Let's learn how Sam can lock Alex's user account! 
+
+## Set up
+
+Follow the steps below to configure admin-initiated account locking in WSO2 Identity Server.
+
+1.    Open the `deployment.toml` file in the `<IS_HOME>/repository/conf` directory and check whether the following listener configs are in place.
+
+    ```toml
+    [event.default_listener.identity_mgt]
+    priority= "50"
+    enable = false
+    [event.default_listener.governance_identity_mgt]
+    priority= "95"
+    enable = true
+    ```
+
+2.    [Restart WSO2 Identity Server](../../../../../setup/install/running-the-product.mdx).
+
+3.    To configure the account locking requirements: 
+
+    1.    On the **Main** menu of the Management Console, click **Identity > Identity Providers > Resident**.
+
+        <img src={require("../../../../../../assets/img/learn/resident-menu-item.png").default} alt="Resident menu-item" width="200" style={{border: "1px solid grey"}} />  
+
+    2.    Under the **Login Policies** section, click **Account Locking**.
+
+        <img src={require("../../../../../../assets/img/learn/account-locking-option.png").default} alt="Account Locking Option" width="700" style={{border: "1px solid grey"}} />      
+
+    3.    Select the **Account Lock Enabled** check box. 
+
+        <img src={require("../../../../../../assets/img/learn/account-locking-form-admin-initiated.png").default} alt="Account Locking form" width="600" style={{border: "1px solid grey"}} />      
+
+    4.    Click **Update**. 
+
+4.    To enable the account locking claim:
+
+    1.    On the **Main** menu of the Management Console, click **Identity > Claims > List**.
+
+        <img src={require("../../../../../../assets/img/learn/claims-list-menu-item.png").default} alt="Claims List option" width="200" style={{border: "1px solid grey"}} />                        
+
+    2.    Click **http://wso2.org/claims**.
+
+        <img src={require("../../../../../../assets/img/learn/claim-list-wso2.png").default} alt="WSO2 claim dialect" width="700" style={{border: "1px solid grey"}} />  
+
+    3.    Under **Account Locked**, click **Edit**.
+
+        <img src={require("../../../../../../assets/img/learn/account-lock-claim-edit.png").default} alt="Account Locked claim edit option" width="700" style={{border: "1px solid grey"}} />  
+
+    4.    Select **Supported by Default**.
+
+        <img src={require("../../../../../../assets/img/learn/account-locked-claim-supported-by-default.png").default} alt="Account Locked claim's Suppported by Default option" width="700" style={{border: "1px solid grey"}} />  
+
+    5. Click **Update**.
+
+## Try out
+
+1.    To create the user account for Alex:
+
+    1.    On the **Main** menu of the Management Console, click **Identity > Users and Roles > Add**.
+
+        <img src={require("../../../../../../assets/img/learn/add-users-and-roles-menu-item.png").default} alt="Add Users and Roles menu-item" width="200" style={{border: "1px solid grey"}} />  
+
+    2.    Click **Add New User**.
+
+        <img src={require("../../../../../../assets/img/learn/add-new-user-option.png").default} alt="Add New User option" width="700" style={{border: "1px solid grey"}} />  
+
+    3.    Enter the required data as follows.
+
+        <img src={require("../../../../../../assets/img/learn/add-new-user-screen.png").default} alt="Add New User screen" width="700" style={{border: "1px solid grey"}} />   
+
+        -    **Domain**: `Primary`
+        -    **Username**: `Alex`
+
+    4.    Click **Finish**. 
+
+2.    To assign login permissions to the user:
+
+    1.    Click the **View Roles** option of Alex.
+
+        <img src={require("../../../../../../assets/img/learn/view-roles-option.png").default} alt="View Roles option" width="700" style={{border: "1px solid grey"}} />                       
+
+    2.    Click **Permissions**.
+
+        <img src={require("../../../../../../assets/img/learn/role-permissions-option.png").default} alt="Role Permissions option" width="700" style={{border: "1px solid grey"}} />                       
+
+    3.    Select **Login** and click **Update**.
+
+        <img src={require("../../../../../../assets/img/learn/login-permission.png").default} alt="Login permission" width="700" style={{border: "1px solid grey"}} />  
+
+3.    To lock Alex's user account:
+
+    1.    Click **User Profile** option of Alex.
+
+        <img src={require("../../../../../../assets/img/learn/user-profile-option.png").default} alt="User Profile option" width="700" style={{border: "1px solid grey"}} />   
+
+    2.    Enter an email address to which Alex's account locking emails will be sent and select the **User Locked** check box.
+
+        <img src={require("../../../../../../assets/img/learn/user-locked.png").default} alt="User Email option" width="700" style={{border: "1px solid grey"}} />            
+
+    3.     Click **Update**. 
+
+    4.    An email that informs about the account locking is sent to the given email address.        
+
+        <img src={require("../../../../../../assets/img/learn/account-locked-email.png").default} alt="Account Locked email" width="500" style={{border: "1px solid grey"}} /> 
+
+    5.    Access the WSO2 Identity Server User Portal at `https://localhost:9443/user-portal/`.
+
+        <img src={require("../../../../../../assets/img/learn/userportal-login-screen.png").default} alt="Sign In form" width="400" style={{border: "1px\n         solid grey"}} />     
+
+    6.    Try logging in with Alex's credentials. Note that an error message appears.
+
+    7.    Wait for 15 minutes and try to log in again. The WSO2 Identity Server User Portal home screen appears.  
+
+4. To unlock Alex's user account:
+
+    1.    Click **User Profile** option of Alex.
+
+    2.    Unselect the **User Locked** check box.
+
+    3.    Click **Update**
+
+    4.    An email that informs about the account unlocking is sent to the given email address.
+
+        <img src={require("../../../../../../assets/img/learn/account-unlocked-email.png").default} alt="Account Unlocked email" width="500" style={{border: "1px solid grey"}} />         
+
+    5.    Try logging in to the WSO2 Identity Server User Portal with Alex's credentials. The WSO2 Identity Server
+     User Portal home screen appears.

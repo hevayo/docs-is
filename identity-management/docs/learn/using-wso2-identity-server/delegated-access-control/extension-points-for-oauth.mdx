@@ -1,0 +1,623 @@
+---
+title: Extension Points for OAuth
+description: This topic includes a list of all the WSO2 Identity Server extension points related to OAuth and OpenID Connect (OIDC).  # generated from the first paragraph; a writer should improve it
+type: reference
+sidebar_position: 5
+slug: "/learn/extension-points-for-oauth"
+---
+
+This topic includes a list of all the WSO2 Identity Server extension
+points related to OAuth and OpenID Connect (OIDC).
+
+### Implementing an OAuth Extension
+
+Any OAuth extension listed below can be implemented, by implementing an
+interface or extending an abstract class as defined under each extension
+point.  
+
+1. When the implementation is done, package your classes as a .jar file and
+place it in the `<IS_HOME>/repository/component/lib` directory.  
+
+2. Next, configure your extension in the
+`<IS_HOME>/repository/conf/deployment.toml` file referring to the **Configuration** section of the
+respective extension point below. 
+
+3. Restart the server to effect changes.
+
+### OAuth Grant Handler
+
+<table>
+  <tbody>
+    <tr>
+      <td>Usage</td>
+      <td>This extension point is useful when you want to support an OAuth flow that is different from standard grant types. This extension point validates the grant, scopes, and access delegation.</td>
+    </tr>
+    <tr>
+      <td>Interface</td>
+      <td>org.wso2.carbon.identity.oauth2.token.handlers.grant.AuthorizationGrantHandler</td>
+    </tr>
+    <tr>
+      <td>Abstract Class</td>
+      <td>org.wso2.carbon.identity.oauth2.token.handlers.grant.AbstractAuthorizationGrantHandler</td>
+    </tr>
+    <tr>
+      <td>Configuration</td>
+      <td>
+
+        <Anchor id="cb1" />
+
+        ```text
+        [[oauth.custom_grant_type]] 
+        name = "name of the grant type" 
+        handler_class = "full qualified class name of grant handler" 
+        ```
+
+      </td>
+    </tr>
+    <tr>
+      <td>Sample</td>
+      <td>See [Writing a Custom OAuth 2.0 Grant Type](../samples/oauth2/writing-a-custom-oauth-2-0-grant-type/writing-a-custom-oauth-2.0-grant-type.mdx) for a sample implementation of this extension point.</td>
+    </tr>
+  </tbody>
+</table>
+
+### OAuth Grant Validator
+
+<table>
+  <tbody>
+    <tr>
+      <td>Usage</td>
+      <td>
+
+        This extension point can be used to implement a grant validator that validates the grant request sent to the ' */oauth2/token* ' endpoint. Request parameters and headers can be validated by implementing this extension point.
+
+        If a new grant type is being implemented and defined with a new grant type identifier with the [OAuth Grant Handler](#oauth-grant-handler) extension, you must also implement a grant validator and register that against the same grant type identifier from the *deployment.toml* .
+
+        If a supported grant type is to be modified you may implement a grant validator if needed, otherwise supported grant type validators can be reused.
+
+      </td>
+    </tr>
+    <tr>
+      <td>Abstract Class</td>
+      <td>org.wso2.carbon.identity.oauth2.token.handlers.grant.AbstractValidator</td>
+    </tr>
+    <tr>
+      <td>Configuration</td>
+      <td>
+
+        <Anchor id="cb1" />
+
+        ```text
+        [[oauth.custom_grant_type]] 
+        name = "name of the grant type" 
+        handler_class = "full qualified class name of grant handler" 
+        grant_validator = "full qualified class name of grant validator" 
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### Client Authentication Handler
+
+<table>
+  <tbody>
+    <tr>
+      <td>Usage</td>
+      <td>This extension point can be used when the client credential authentication needs to be customized when issuing tokens. By default WSO2 Identity Server validates the client id and secret.</td>
+    </tr>
+    <tr>
+      <td>Interface</td>
+      <td>org.wso2.carbon.identity.core.handler.AbstractIdentityHandler</td>
+    </tr>
+    <tr>
+      <td>Abstract Class</td>
+      <td>org.wso2.carbon.identity.oauth2.client.authentication.AbstractOAuthClientAuthenticator</td>
+    </tr>
+    <tr>
+      <td>Default Implementation</td>
+      <td>
+
+        org.wso2.carbon.identity.oauth2.token.handlers.clientauth.BasicAuthClientAuthHandler
+
+      </td>
+    </tr>
+    <tr>
+      <td>Configuration</td>
+      <td>
+
+        <Anchor id="cb1" />
+
+        ```text
+        <EventListener type="org.wso2.carbon.identity.core.handler.AbstractIdentityHandler"  name="full qualified name of client authentication handler" orderId="order Id" enable="true">
+        <Property name="name">property value</Property>
+        </EventListener>
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### OAuth Token Generator
+
+<table>
+  <tbody>
+    <tr>
+      <td>Usage</td>
+      <td>This extension point can be used to change the access token, refresh token, authorization code generation logic as preferred. By default a UUID will be generated as the token value.<br /></td>
+    </tr>
+    <tr>
+      <td>Interface</td>
+      <td>org.wso2.carbon.identity.oauth2.token.OauthTokenIssuer<br /></td>
+    </tr>
+    <tr>
+      <td>Default Implementation</td>
+      <td>
+
+        org.wso2.carbon.identity.oauth2.token.OauthTokenIssuerImpl
+
+      </td>
+    </tr>
+    <tr>
+      <td>Other Available Implementations</td>
+      <td>org.wso2.carbon.identity.oauth2.token.JWTTokenIssuer</td>
+    </tr>
+    <tr>
+      <td>Configuration</td>
+      <td>
+
+        <Anchor id="cb1" />
+
+        ```text
+        [oauth.extensions]
+        token_generator = "full qualified class name of oauth token generator"
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### OAuth Callback Handler
+
+<table>
+  <tbody>
+    <tr>
+      <td>Usage</td>
+      <td>This extension point is provided to verify whether the authenticated user is the rightful owner of the resource. There can be multiple active OAuthCallbackHandler implementations at a given time. In run-time, each and every authorization callback handler is invoked to see whether it can handle the given callback. Then the callback with the highest priority is chosen. After handling the callback, the Identity Server can set whether the given callback is authorized or not.</td>
+    </tr>
+    <tr>
+      <td>Interface</td>
+      <td>org.wso2.carbon.identity.oauth.callback.OAuthCallbackHandler<br /></td>
+    </tr>
+    <tr>
+      <td>Abstract Class</td>
+      <td>org.wso2.carbon.identity.oauth.callback.AbstractOAuthCallbackHandler<br /></td>
+    </tr>
+    <tr>
+      <td>Default Implementation</td>
+      <td>org.wso2.carbon.identity.oauth.callback.DefaultCallbackHandler</td>
+    </tr>
+    <tr>
+      <td>Configuration</td>
+      <td>
+
+        <Anchor id="cb1" />
+
+        ```text
+        <OAuthCallbackHandlers>
+            ...
+            <OAuthCallbackHandler class="full qualified class name of the oauth call back handler">
+                <Priority>an integer value defining priority</Priority>
+                <Properties>
+                    ...
+                    <Property Name="property name">property value</Property>
+                    ...
+                </Properties>
+            </<OAuthCallbackHandler>
+        </OAuthCallbackHandlers>
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### Token Persistence Processor
+
+<table>
+  <tbody>
+    <tr>
+      <td>Usage</td>
+      <td>
+
+        This extension point can be used to process keys and secrets just before storing them in the database. For example you may need to persist encrypted tokens in the database, in which you can use this extension to encrypt tokens before storing them in the database and to decrypt when retrieving back from database.
+
+        If a token persistence processor is to be engaged, it is **recommended** to configure the respective token processor with the very first configuration of the product. Otherwise already persisted data may need to be migrated to the new format later.
+
+      </td>
+    </tr>
+    <tr>
+      <td>Interface</td>
+      <td>org.wso2.carbon.identity.oauth.tokenprocessor.TokenPersistenceProcessor</td>
+    </tr>
+    <tr>
+      <td>Default Implementation</td>
+      <td>
+
+        ` org.wso2.carbon.identity.oauth.tokenprocessor.PlainTextPersistenceProcessor `
+
+        Use this if you want to store access tokens, refresh tokens, authorization codes, and client secrets as plain text values. By default, WSO2 Identity Server hashes access tokens, refresh tokens, authorization codes, and client secrets using two UUIDs and HMAC-SHA1 hash function, which is known to resist the strongest attack known against HMAC. With the default implementation you can use a valid token until it is either revoked or becomes invalid.
+
+      </td>
+    </tr>
+    <tr>
+      <td>Other Available Implementations</td>
+      <td>
+
+        ```text
+        org.wso2.carbon.identity.oauth.tokenprocessor.EncryptionDecryptionPersistenceProcessor
+        ```
+
+        Use this if you want to store access tokens, refresh tokens, authorization codes, and client secrets in an encrypted format using the OEAP (RSA/ECB/OAEPwithSHA1andMGF1Padding) algorithm. With this implementation you can use a valid token until it is either revoked or becomes invalid.
+
+        :::tip
+        OAuth2 token encryption protects OAuth2 access tokens, refresh tokens, consumer secrets, and authorization codes. To enable OAuth token encryption, configure the `token_persistance_processor` as shown below in the ` <IS_HOME>/repository/conf/deployment.toml ` file:
+
+        <Anchor id="cb1" />
+
+        ```text
+            [oauth.extensions]
+            token_persistance_processor = "org.wso2.carbon.identity.oauth.tokenprocessor.EncryptionDecryptionPersistenceProcessor"
+        ```
+        :::
+
+        Once you configure the `token_persistance_processor` in the ` deployment.toml` file, and restart WSO2 Identity Server, RSA encryption with **RSA/ECB/OAEPwithSHA1andMGF1Padding** cipher transformation will be enabled by default.
+
+        ```text
+        org.wso2.carbon.identity.oauth.tokenprocessor.HashingPersistenceProcessor
+        ```
+
+        Use this if you want to store access tokens, refresh tokens, authorization codes and client secrets as hashed values based on a define hashing algorithm. This implementation provides extra protection to vulnerabilities because a new access token is issued for every access token request. If necessary you can also use a valid token until it is either revoked or becomes invalid.
+
+        :::note
+        For more information on OAuth token hashing, and for instructions on how to enable OAuth token hashing, see [Setting Up OAuth Token Hashing](./working-with-oauth/setting-up-oauth-token-hashing.mdx).
+        :::
+
+      </td>
+    </tr>
+    <tr>
+      <td>Configuration</td>
+      <td>
+
+        <Anchor id="cb1" />
+
+        ```text
+        [oauth.extensions]
+        token_persistance_processor = "full qualified class name of the token persistence processor"
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### OAuth2 Token Validator
+
+<table>
+  <tbody>
+    <tr>
+      <td>Usage</td>
+      <td>
+
+        This extension point can be used if token validation and scope validation needs to be customized when invoking the [token validation endpoint](./working-with-oauth/oauth2-token-validation-and-introspection/oauth-token-validation-using-soap-service.mdx) . Token validators can be registered per token type such as ' *bearer* '.<br /> A default implementation that supports for 'bearer' token type is available.
+
+      </td>
+    </tr>
+    <tr>
+      <td>Interface</td>
+      <td>org.wso2.carbon.identity.oauth2.validators.OAuth2TokenValidator<br /></td>
+    </tr>
+    <tr>
+      <td>Default implementation</td>
+      <td>org.wso2.carbon.identity.oauth2.validators.DefaultOAuth2TokenValidator<br /></td>
+    </tr>
+    <tr>
+      <td>Configuration</td>
+      <td>
+
+        <Anchor id="cb1" />
+
+        ```text
+        [[oauth.custom_token_validator]]
+        type = "token type"
+        class = "full qualified class name of the oauth2 token validator"
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### AuthorizationContext Token Generator
+
+<table>
+  <tbody>
+    <tr>
+      <td>Usage</td>
+      <td>
+
+        This extension point can be used to customize the token that can be generated relevant to the authorization context by invoking the [token validation endpoint](./working-with-oauth/oauth2-token-validation-and-introspection/oauth-token-validation-using-soap-service.mdx) .<br /> By default, a [JWT token generation](./working-with-oauth/jwt-token-generation.mdx) implementation is supported with following properties encoded to each token validation request.
+
+        - subscriber, applicationName, apiContext, version, tier, and endUserName
+        - Additional properties can be encoded by engaging a [claims retriever](#claims-retriever) .
+        - The JWT header and body are base64 encoded separately and concatenated with a dot
+
+        Finally the token is signed using SHA256 with RSA algorithm.
+
+      </td>
+    </tr>
+    <tr>
+      <td>Interface</td>
+      <td>org.wso2.carbon.identity.oauth2.authcontext.AuthorizationContextTokenGenerator<br /></td>
+    </tr>
+    <tr>
+      <td>Default Implementation</td>
+      <td>org.wso2.carbon.identity.oauth2.authcontext.JWTTokenGenerator<br /></td>
+    </tr>
+    <tr>
+      <td>Configuration</td>
+      <td>
+
+        <Anchor id="cb1" />
+
+        ```text
+        [oauth.extensions]
+        token_context_generator = "full qualified class name of the authorization context token generator"
+        ```
+
+        For more infomation on above configuration refer [here](./working-with-oauth/jwt-token-generation.mdx) .
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### Claims Retriever
+
+<table>
+  <tbody>
+    <tr>
+      <td>Usage</td>
+      <td>
+
+        This extension point can be used if additional claims or properties needs to be engaged to the [JWT token](./working-with-oauth/jwt-token-generation.mdx) generated in the [token validation response](./working-with-oauth/oauth2-token-validation-and-introspection/oauth-token-validation-using-soap-service.mdx) as explained in extension point [above](#authorizationcontext-token-generator) .<br /> The default implementation reads user claim values from the default Carbon user store.
+
+      </td>
+    </tr>
+    <tr>
+      <td>Interface</td>
+      <td>org.wso2.carbon.identity.oauth2.authcontext.ClaimsRetriever<br /></td>
+    </tr>
+    <tr>
+      <td>Default Implementation</td>
+      <td>org.wso2.carbon.identity.oauth2.authcontext.DefaultClaimsRetriever<br /></td>
+    </tr>
+    <tr>
+      <td>Configuration</td>
+      <td>
+
+        <Anchor id="cb1" />
+
+        ```text
+        [oauth.extensions]
+        token_context_claim_retriever = "full qualified class name of the claims retriever"
+        ```
+
+        For more infomation on above configuration refer [here](./working-with-oauth/jwt-token-generation.mdx) .
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### Response Type Handler
+
+<table>
+  <tbody>
+    <tr>
+      <td>Usage</td>
+      <td>
+
+        This is intended to perform access delegation, scope validation and to issue tokens based on token type such as ' *code* ', ' *token* ' etc. Multiple implementations can be registered upon the token type.<br /> This extension can be used if a specific token type needs to be supported or customized.
+
+      </td>
+    </tr>
+    <tr>
+      <td>Interface</td>
+      <td>org.wso2.carbon.identity.oauth2.authz.handlers.ResponseTypeHandler</td>
+    </tr>
+    <tr>
+      <td>Abstract Class</td>
+      <td>org.wso2.carbon.identity.oauth2.authz.handlers.AbstractResponseTypeHandler</td>
+    </tr>
+    <tr>
+      <td>Available Implementations</td>
+      <td>
+
+        org.wso2.carbon.identity.oauth2.authz.handlers.CodeResponseTypeHandler<br /> org.wso2.carbon.identity.oauth2.authz.handlers.TokenResponseTypeHandler
+
+      </td>
+    </tr>
+    <tr>
+      <td>Configuration</td>
+      <td>
+
+        <Anchor id="cb1" />
+
+        ```text
+        [[oauth.custom_response_type]]
+        name = "token"
+        class = "full qualified class name of the response type handler"
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### UserInfo Access Token Validator
+
+<table>
+  <tbody>
+    <tr>
+      <td>Usage</td>
+      <td>
+
+        This extension point can be used if access token validation, when accessing ' */oauth2/userinfo* ' resource, needs to be changed.<br /> By default, the access token issued is validated against the token validation service and ' *scope* ' request parameter is validated to have ' *openid* ' scope.
+
+      </td>
+    </tr>
+    <tr>
+      <td>Interface</td>
+      <td>org.wso2.carbon.identity.oauth.user.UserInfoAccessTokenValidator</td>
+    </tr>
+    <tr>
+      <td>Default implementation</td>
+      <td>org.wso2.carbon.identity.oauth.endpoint.user.impl.UserInfoISAccessTokenValidator</td>
+    </tr>
+    <tr>
+      <td>Configuration</td>
+      <td>
+
+        <Anchor id="cb1" />
+
+        ```text
+        [oauth.oidc.extensions]
+        user_info_access_token_validator = "user_info_access_token_validator"
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### UserInfo Claim Retriever
+
+<table>
+  <tbody>
+    <tr>
+      <td>Usage</td>
+      <td>
+
+        This extension point can be used if the user claim set returned when invoking ' */oauth2/userinfo* ' resource needs to be modified.
+
+      </td>
+    </tr>
+    <tr>
+      <td>Interface</td>
+      <td>org.wso2.carbon.identity.oauth.user.UserInfoClaimRetriever</td>
+    </tr>
+    <tr>
+      <td>Default implementation</td>
+      <td>org.wso2.carbon.identity.oauth.endpoint.user.impl.UserInfoUserStoreClaimRetriever</td>
+    </tr>
+    <tr>
+      <td>Configuration</td>
+      <td>
+
+        <Anchor id="cb1" />
+
+        ```text
+        [oauth.oidc.extensions]
+        user_info_claim_retriever = "full qualified class name of the userinfo claim retriever"
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### UserInfo Request Validator
+
+<table>
+  <tbody>
+    <tr>
+      <td>Usage</td>
+      <td>
+
+        This extension point can be used if the request validation logic, for requests initiated for ' */oauth2/userinfo* ', needs to be changed.<br />
+
+        The default behavior is validating the schema and authorization header according to [the specification](http://openid.net/specs/openid-connect-basic-1_0-22.html#anchor6) .
+
+      </td>
+    </tr>
+    <tr>
+      <td>Interface</td>
+      <td>org.wso2.carbon.identity.oauth.user.UserInfoRequestValidator</td>
+    </tr>
+    <tr>
+      <td>Default implementation</td>
+      <td>org.wso2.carbon.identity.oauth.endpoint.user.impl.UserInforRequestDefaultValidator</td>
+    </tr>
+    <tr>
+      <td>Configuration</td>
+      <td>
+
+        <Anchor id="cb1" />
+
+        ```text
+        [oauth.oidc.extensions]
+        user_info_request_validator = "full qualified class name of the userinfo endpoint request validator"
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### UserInfo Response Builder
+
+<table>
+  <tbody>
+    <tr>
+      <td>Usage</td>
+      <td>
+
+        This extension point can be used if the user info response returned when accessing ' */oauth2/userinfo* ' resource needs to be changed.<br /> Implementations supporting both JSON and JWT response formats are available. By default JSON format supported implementation is configured.
+
+      </td>
+    </tr>
+    <tr>
+      <td>Interface</td>
+      <td>org.wso2.carbon.identity.oauth.user.UserInfoResponseBuilder</td>
+    </tr>
+    <tr>
+      <td>Default Implementation</td>
+      <td>org.wso2.carbon.identity.oauth.endpoint.user.impl.UserInfoJSONResponseBuilder</td>
+    </tr>
+    <tr>
+      <td>Other Available Implementations</td>
+      <td>
+
+        org.wso2.carbon.identity.oauth.endpoint.user.impl.UserInfoJWTResponse
+
+      </td>
+    </tr>
+    <tr>
+      <td>Configuration</td>
+      <td>
+
+        <Anchor id="cb1" />
+
+        ```text
+        [oauth.oidc.extensions]
+        user_info_response_builder = "full qualified class name of the userinfo response builder"
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>

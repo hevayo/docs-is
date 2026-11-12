@@ -1,0 +1,78 @@
+---
+title: Configuring OpenID Connect Authorization Server
+description: This topic guides you through configuring the OpenID Connect Authorization Server by configuring the deployment.toml file found in the…  # generated from the first paragraph; a writer should improve it
+type: reference
+sidebar_position: 6
+slug: "/learn/configuring-openid-connect-authorization-server"
+---
+
+This topic guides you through configuring the OpenID Connect
+Authorization Server by configuring the deployment.toml file found in the
+`         <IS_HOME>/repository/conf/      ` directory.
+
+```toml
+[oauth.oidc.extensions]
+id_token_builder= org.wso2.carbon.identity.openidconnect.DefaultIDTokenBuilder
+claim_callback_handler= org.wso2.carbon.identity.openidconnect.SAMLAssertionClaimsCallback
+user_info_claim_retriever= org.wso2.carbon.identity.oauth.endpoint.user.impl.UserInfoUserStoreClaimRetriever
+user_info_access_token_validator= org.wso2.carbon.identity.oauth.endpoint.user.impl.UserInfoISAccessTokenValidator
+
+[oauth.oidc]
+user_info.response_type= "json"
+
+[oauth.oidc.id_token]
+issuer= ${carbon.protocol}://${carbon.host}:${carbon.management.port}/oauth2/token
+
+[oauth.oidc.token_validation]
+id_token_validity= 3600
+
+[oauth]
+consent_prompt= true
+
+[authentication]
+sign_auth_response_with_tenant_of= "user"
+```
+
+The following sub elements are the important configurations for
+configuring the OpenID Connect Authorization Server.
+
+<table>
+  <thead>
+    <tr>
+      <th>Element</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>` issuer `</td>
+      <td>The value of ` issuer ` of the ` IDToken ` . This should be changed according to the deployment values.</td>
+    </tr>
+    <tr>
+      <td>` id_token_validity `</td>
+      <td>The expiration value of the ` IDToken ` in seconds.</td>
+    </tr>
+    <tr>
+      <td>` claim_callback_handler `</td>
+      <td>This can be used to return extra custom claims with the ` IDToken ` . You can implement a claims call back handler to push the custom claims to the ` IDToken ` . This class needs to implement the interface ` CustomClaimsCallbackHandler ` . You can find the default implementation [here](https://svn.wso2.org/repos/wso2/carbon/platform/branches/turing/components/identity/org.wso2.carbon.identity.oauth/4.2.0/src/main/java/org/wso2/carbon/identity/openidconnect/SAMLAssertionClaimsCallback.java) as a reference.</td>
+    </tr>
+    <tr>
+      <td>` user_info_claim_retriever `</td>
+      <td>Defines the class which builds the claims for the User Info Endpoint's response. This class needs to implement the interface ` UserInfoClaimRetriever ` . The default implementation can be found [here](https://svn.wso2.org/repos/wso2/carbon/platform/branches/turing/components/identity/org.wso2.carbon.identity.oauth.endpoint/4.2.0/src/main/java/org/wso2/carbon/identity/oauth/endpoint/user/impl/UserInfoUserStoreClaimRetriever.java) as a reference.</td>
+    </tr>
+    <tr>
+      <td>` user_info.response_type= `</td>
+      <td>
+
+        The value that is set to get JWT response from user info endpoint. Change the value as follows:
+
+        <Anchor id="cb1" />
+
+        ```text
+        user_info.response_type= "json"
+        ```
+
+      </td>
+    </tr>
+  </tbody>
+</table>
