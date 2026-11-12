@@ -6,9 +6,6 @@ sidebar_position: 1
 slug: "/guides/authentication/eid-login/add-signicat-login"
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 [Signicat’s](https://www.signicat.com/) eID Hub simplifies digital identity verification and authentication by connecting your platform to more than 30 electronic identities (eIDs) from across Europe, all through one streamlined integration.
 
 By integrating Signicat, you can authenticate users and prove their identity easily using trusted eIDs, whether for onboarding, access control, or compliance needs.
@@ -59,7 +56,7 @@ Now, let's register the Signicat IdP in {edition.productName}.
 2. Click **New Connections** and select **Signicat**.
 3. Enter the following details and click **Finish**:
 
-    <Edition only="cloud"><img src={require("../../../../../assets/img/guides/idp/signicat-idp/add-signicat-idp.png").default} alt="Add Signicat Connection in WSO2 Identity Platform" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../../assets/img/guides/idp/signicat-idp/add-signicat-idp.png").default} alt="Add Signicat Connection in WSO2 Identity Server" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+    <img src={require("../../../../../assets/img/guides/idp/signicat-idp/add-signicat-idp.png").default} alt="Add Signicat Connection in WSO2 Identity Server" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
     | Parameter | Description |
     | --- | --- |
@@ -78,44 +75,13 @@ You need to [register an application with {edition.productName}](../../../applic
 1. On the {edition.productName} Console, go to **Applications**.
 2. Select your application, go to the **Login Flow** tab and add Signicat login from your preferred editor:
 
-    <Edition only="cloud">
-
-    <Tabs groupId="tabs">
-    <TabItem value="classic-editor" label="Classic Editor">
-
-    To add Signicat login using the Classic Editor: 
-
-     1. If you haven't already defined a sign-in flow, click **Start with Default configuration** to get started.
-     2. Click **Add Authentication** on the step, select your Signicat identity provider, and click **Add**.
-        <img src={require("../../../../../assets/cloud/img/guides/idp/signicat-idp/add-signicat-federation-with-basic.png").default} alt="Add Signicat login in WSO2 Identity Platform" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
-
-    </TabItem>
-    <TabItem value="visual-editor" label="Visual Editor">
-
-    To add Signicat login using the Visual Editor: 
-
-    1. Switch to the **Visual Editor** tab, by default the `Username & Password` login flow will be added onto the Visual Editor's workspace.
-    2. Click on `+ Add Sign In Option` to add a new authenticator to the same step and select your Signicat connection.
-      <img src={require("../../../../../assets/cloud/img/guides/idp/signicat-idp/add-signicat-federation-with-visual-editor.png").default} alt="Add Signicat login in WSO2 Identity Platform" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
-
-    </TabItem>
-    </Tabs>
-
-    ---
-
-    </Edition>
-
-    <Edition only="self-hosted">
-
     1. Click **Add Sign In Option** to add a new authenticator to the first step.
 
     2. Select the Signicat connection.
 
     3. Click **Confirm** to add login with Signicat to the sign-in flow.
 
-         <img src={require("../../../../../assets/self-hosted/img/guides/idp/signicat-idp/add-signicat-login-with-visual-editor.png").default} alt="Configuring Signicat in WSO2 Identity Server using the Visual Editor" width="500" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
-
-    </Edition>
+         <img src={require("../../../../../assets/img/guides/idp/signicat-idp/add-signicat-login-with-visual-editor.png").default} alt="Configuring Signicat in WSO2 Identity Server using the Visual Editor" width="500" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
     :::note[Recommendations]
     It is recommended to add your social and enterprise connections to the first authentication step as they are used for identifying the user.

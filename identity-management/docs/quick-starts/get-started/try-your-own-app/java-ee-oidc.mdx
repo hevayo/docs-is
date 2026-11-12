@@ -1,23 +1,10 @@
 ---
 title: Integrate OIDC with your Java EE webapp
-description: Follow the steps given below to authenticate users to your Java EE web application deployed on Tomcat using the WSO2 Identity Platform Tomcat OIDC Agent…  # generated from the first paragraph; a writer should improve it
+description: Follow the steps given below to authenticate users to your Java EE web application deployed on Tomcat using the Tomcat OIDC Agent which enables OIDC-based…  # generated from the first paragraph; a writer should improve it
 type: reference
 unlisted: true
 slug: "/get-started/try-your-own-app/java-ee-oidc"
 ---
-
-<Edition only="cloud">
-
-Follow the steps given below to authenticate users to your Java EE web application deployed on Tomcat using the [WSO2 Identity Platform Tomcat OIDC Agent](https://github.com/asgardeo/asgardeo-tomcat-oidc-agent) which enables OIDC-based login and logout.
-
-## Prerequisites
-- [Download](https://tomcat.apache.org/tomcat-9.0-doc/) Apache Tomcat 9.x or 8.x in your local environment.
-- [Download](https://maven.apache.org/download.cgi), and [install](https://maven.apache.org/install.html) Apache Maven (3.6.x or higher) as the package manager if you already haven't.
-- You need to have an application registered in WSO2 Identity Platform. If you don't, see the instructions on [registering an OIDC application](../../../guides/applications/register-oidc-web-app.mdx).
-
-</Edition>
-
-<Edition only="self-hosted">
 
 Follow the steps given below to authenticate users to your Java EE web application deployed on Tomcat using the [Tomcat OIDC Agent](https://github.com/asgardeo/asgardeo-tomcat-oidc-agent) which enables OIDC-based login and logout.
 
@@ -27,8 +14,6 @@ Follow the steps given below to authenticate users to your Java EE web applicati
 - [Download](https://tomcat.apache.org/tomcat-9.0-doc/) Apache Tomcat 9.x or 8.x in your local environment.
 - [Download](https://maven.apache.org/download.cgi), and [install](https://maven.apache.org/install.html) Apache Maven (3.6.x or higher) as the package manager if you already haven't.
 - You need to have an application registered in the {edition.productName}. If you don't, see the instructions on [registering an OIDC application](../../../guides/applications/register-oidc-web-app.mdx).
-
-</Edition>
 
 ## Install the SDK
 
@@ -61,17 +46,7 @@ The Agent is hosted at **WSO2 Internal Repository**. To resolve the dependency m
 
 ## Initialize the SDK
 
-<Edition only="cloud">
-
-To initialize the OIDC agent, you need a property file with the configurations such as the WSO2 Identity Platform endpoints. The WSO2 Identity Platform OIDC agent reads the configurations from this file.
-
-</Edition>
-
-<Edition only="self-hosted">
-
 To initialize the OIDC agent, you need a property file with the configurations such as the {edition.productName} endpoints. The OIDC agent reads the configurations from this file.
-
-</Edition>
 
 Create a file named `oidc-sample-app.properties` in the _`<YOUR_APP>/src/main/resources`_ directory, using the content
 below.
@@ -82,49 +57,23 @@ The `skipURIs` property defines the web pages in your application that should no
 
 _Few of the configurations such as `callBackURL` and `skipURIs` depends on the context path of your application._
 
-<Edition only="cloud">
-
 ```text
 consumerKey=<consumerKey>
 consumerSecret=<consumerSecret>
 callBackURL=<YOUR_APP_PATH>/oauth2client
 scope=openid
 logoutURL=logout
-authorizeEndpoint=https://api.asgardeo.io/t/{organization_name}/oauth2/authorize
-logoutEndpoint=https://api.asgardeo.io/t/{organization_name}/oidc/logout
-tokenEndpoint=https://api.asgardeo.io/t/{organization_name}/oauth2/token
-issuer=https://api.asgardeo.io/t/{organization_name}/oauth2/token
-jwksEndpoint=https://api.asgardeo.io/t/{organization_name}/oauth2/jwks
-skipURIs=<YOUR_APP_PATH>/index.html
-```
-
-A comprehensive list of the properties used above can be found in
-the [Configuration Catalog](https://github.com/asgardeo/asgardeo-tomcat-oidc-agent/blob/master/io.asgardeo.tomcat.oidc.sample/src/main/resources/configuration-catalog/)
-.
-
-</Edition>
-
-<Edition only="self-hosted">
-
-```text
-consumerKey=<consumerKey>
-consumerSecret=<consumerSecret>
-callBackURL=<YOUR_APP_PATH>/oauth2client
-scope=openid
-logoutURL=logout
-authorizeEndpoint=https://localhst:9443/localhost:9443/oauth2/authorize
-logoutEndpoint=https://localhst:9443/oidc/logout
-tokenEndpoint=https://localhst:9443/oauth2/token
-issuer=https://localhst:9443//oauth2/token
-jwksEndpoint=https://localhst:9443/oauth2/jwks
+authorizeEndpoint=https://localhost:9443/oauth2/authorize
+logoutEndpoint=https://localhost:9443/oidc/logout
+tokenEndpoint=https://localhost:9443/oauth2/token
+issuer=https://localhost:9443/oauth2/token
+jwksEndpoint=https://localhost:9443/oauth2/jwks
 skipURIs=<YOUR_APP_PATH>/index.html
 ```
 
 A comprehensive list of the properties used above can be found in
 the [Configuration Catalog](https://github.com/asgardeo/asgardeo-tomcat-oidc-agent/blob/master/io.asgardeo.tomcat.oidc.sample/src/main/resources/configuration-catalog.md)
 .
-
-</Edition>
 
 Finally, copy and paste the following configuration to the _`<YOUR_APP>/src/main/webapp/WEB-INF/web.xml`_ file.
 
@@ -178,18 +127,7 @@ flow if it does not find an authenticated application session.
 
 Add the following snippet to enable logout.
 
-<Edition only="cloud">
-
-When the user initiates the logout, the local authenticated application session is cleared and the session in WSO2 Identity Platform
-is terminated.
-
-</Edition>
-
-<Edition only="self-hosted">
-
 When the user initiates the logout, the local authenticated application session is cleared and the session in the {edition.productName} is terminated.
-
-</Edition>
 
 ```markup
 <form action="logout" method="get">
@@ -197,15 +135,4 @@ When the user initiates the logout, the local authenticated application session 
 </form>
 ```
 
-<Edition only="cloud">
-
-See the [WSO2 Identity Platform Tomcat OIDC Agent documentation](https://github.com/asgardeo/asgardeo-tomcat-oidc-agent#how-it-works) for more information on how it works.
-
-</Edition>
-
-<Edition only="self-hosted">
-
 See the [Tomcat OIDC Agent documentation](https://github.com/asgardeo/asgardeo-tomcat-oidc-agent#how-it-works) for more information on how it works.
-
-</Edition>
-

@@ -1,28 +1,15 @@
 ---
-title: Integrate OAuth2 Proxy
-description: OAuth2 Proxy is an open-source reverse proxy that authenticates users through an external OAuth2 provider (such as WSO2 Identity Platform) and forwards user…  # generated from the first paragraph; a writer should improve it
+title: Integrate OAuth2 Proxy with WSO2 Identity Server
+description: OAuth2 Proxy is an open-source reverse proxy that authenticates users through an external OAuth2 provider (such as WSO2 Identity Server) and forwards user…  # generated from the first paragraph; a writer should improve it
 type: reference
+sidebar_label: OAuth2 Proxy
 sidebar_position: 2
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-<Edition only="cloud">
-
-# Integrate OAuth2 Proxy with {edition.productName}
-
-[OAuth2 Proxy](https://github.com/oauth2-proxy/oauth2-proxy) is an open-source reverse proxy that authenticates users through an external OAuth2 provider (such as {edition.productName}) and forwards user identity information to your application via HTTP headers. This tutorial explains how you can connect {edition.productName} with OAuth2 Proxy.
-
-</Edition>
-
-<Edition only="self-hosted">
-
-# Integrate OAuth2 Proxy with WSO2 Identity Server
-
 [OAuth2 Proxy](https://github.com/oauth2-proxy/oauth2-proxy) is an open-source reverse proxy that authenticates users through an external OAuth2 provider (such as WSO2 Identity Server) and forwards user identity information to your application via HTTP headers. This tutorial explains how you can connect {edition.productName} with OAuth2 Proxy.
-
-</Edition>
 
 You can use OAuth2 Proxy if you want to,
 
@@ -30,41 +17,17 @@ You can use OAuth2 Proxy if you want to,
 - centralize authentication logic.
 - forward user identity details (for example, username or email) as HTTP headers.
 
-<Edition only="cloud">
-
-![OAuth2 Proxy flow diagram showing authentication flow between client, OAuth2 Proxy, WSO2 Identity Platform, and back-end application](../../../../assets/cloud/img/tutorials/protect-apps-with-identity-gateway/oauth2proxy-architecture.png)
-
-</Edition>
-
-<Edition only="self-hosted">
-
-![OAuth2 Proxy flow diagram showing authentication flow between client, OAuth2 Proxy, WSO2 Identity Server, and back-end application](../../../../assets/self-hosted/img/tutorials/protect-apps-with-identity-gateway/oauth2proxy-architecture.png)
-
-</Edition>
+![OAuth2 Proxy flow diagram showing authentication flow between client, OAuth2 Proxy, WSO2 Identity Server, and back-end application](../../../../assets/img/tutorials/protect-apps-with-identity-gateway/oauth2proxy-architecture.png)
 
 Follow the steps below to connect {edition.productName} with OAuth2 Proxy.
 
 ## Prerequisites
-
-<Edition only="cloud">
-
-- A {edition.productName} organization. If you don't have one, [create a free account](../../../quick-starts/create-identity-platform-account.mdx).
-
-</Edition>
 
 - **Go 1.16 or later**. To install Go, follow the steps in the [Go documentation](https://go.dev/doc/install).
 
 - An application with a back-end. If you don't have one, you can use this [sample application](https://github.com/wso2/samples-is/raw/refs/heads/master/identity-gateway/sample-request-logger-app/request-logger.jar).
 
 - (Optional) Redis for advanced session storage.
-
-<Edition only="cloud">
-
-## Step 1: Register an OIDC application
-
-</Edition>
-
-<Edition only="self-hosted">
 
 ## Step 1: Install and run {edition.productName}
 
@@ -108,34 +71,15 @@ Follow the following steps below to download and install {edition.productName}. 
 
 ## Step 2: Create an OIDC application
 
-</Edition>
-
 To connect your OAuth2 Proxy reverse proxy to {edition.productName}, you need to register it as an application. To do so,
-
-<Edition only="cloud">
-
-1. Sign in to the [{edition.productName} Console](https://console.asgardeo.io/) and go to your organization.
-
-2. [Register a Traditional Web Application](../../../guides/applications/register-oidc-web-app.mdx) with the **OpenID Connect** protocol and the following details:
-
-    - **Name** - oauth2-proxy-app
-    - **Authorized redirect URL** - The URL where {edition.productName} sends the authentication response after login. For example: `http://localhost:4180/oauth2/callback` (or your proxy callback URL).
-
-3. Take note of the **Client ID** and **Client Secret** [generated for your application](../../../guides/applications/register-oidc-web-app.mdx#get-the-client-id-and-secret).
-
-## Step 2: (Optional) Set up sample application
-
-</Edition>
-
-<Edition only="self-hosted">
 
 1. On the {edition.productName} Console, go to **Applications** > **New Application**.
 
-      ![Add application step showing the Applications menu and Add Application option](../../../../assets/self-hosted/img/tutorials/protect-apps-with-identity-gateway/add-application-step.png)
+      ![Add application step showing the Applications menu and Add Application option](../../../../assets/img/tutorials/protect-apps-with-identity-gateway/add-application-step.png)
 
 2. Select **Traditional Web Application**.
 
-      ![Select web app step showing the Traditional Web Application option](../../../../assets/self-hosted/img/tutorials/protect-apps-with-identity-gateway/select-web-app-step.png)
+      ![Select web app step showing the Traditional Web Application option](../../../../assets/img/tutorials/protect-apps-with-identity-gateway/select-web-app-step.png)
 
 3. Enter the following details and click **Create**.
 
@@ -143,15 +87,13 @@ To connect your OAuth2 Proxy reverse proxy to {edition.productName}, you need to
       - **Protocol** - Select OpenID Connect
       - **Callback URL** -The URL where WSO2 Identity Server sends the authentication response after login. For example: `http://localhost:4180/oauth2/callback` (or your proxy callback URL)
 
-      ![Fill app details step showing the application configuration form with name and callback URL fields](../../../../assets/self-hosted/img/tutorials/protect-apps-with-identity-gateway/fill-app-details-step-oauth2proxy.png)
+      ![Fill app details step showing the application configuration form with name and callback URL fields](../../../../assets/img/tutorials/protect-apps-with-identity-gateway/fill-app-details-step-oauth2proxy.png)
 
 4. Take note of the **Client ID** and **Client Secret** generated for your application.
 
-     ![Copy client credentials step showing the generated client ID and client secret](../../../../assets/self-hosted/img/tutorials/protect-apps-with-identity-gateway/copy-client-credentials-step.png)
+     ![Copy client credentials step showing the generated client ID and client secret](../../../../assets/img/tutorials/protect-apps-with-identity-gateway/copy-client-credentials-step.png)
 
 ## Step 3: (Optional) Set up sample application
-
-</Edition>
 
 If you have your own application, you can skip this step. If you want to use the sample Java application, follow the steps below to set it up.
 
@@ -168,17 +110,7 @@ If you have your own application, you can skip this step. If you want to use the
 
       ![Sample app running showing the application startup and running status](../../../../assets/img/tutorials/protect-apps-with-identity-gateway/sample-app-running.png)
 
-<Edition only="cloud">
-
-## Step 3: Install and configure OAuth2 Proxy
-
-</Edition>
-
-<Edition only="self-hosted">
-
 ## Step 4: Install and configure OAuth2 Proxy
-
-</Edition>
 
 Follow the steps below to set up OAuth2 Proxy with {edition.productName}.
 
@@ -191,59 +123,6 @@ Follow the steps below to set up OAuth2 Proxy with {edition.productName}.
     :::tip
     Refer to the [OAuth2 Proxy installation guide](https://oauth2-proxy.github.io/oauth2-proxy/installation/) for more information.
     :::
-
-<Edition only="cloud">
-
-2. Create a configuration file named `oauth2-proxy.cfg` and include the following properties.
-
-      ```ini
-      provider = "oidc"
-      oidc_issuer_url = "https://api.asgardeo.io/t/<organization_name>/oauth2/token"
-      oidc_jwks_url = "https://api.asgardeo.io/t/<organization_name>/oauth2/jwks"
-      redirect_url = "http://localhost:4180/oauth2/callback"
-
-      client_id = "<your_client_id>"
-      client_secret = "<your_client_secret>"
-
-      email_domains = ["*"]
-      scope = "openid email profile"
-
-      set_xauthrequest = true
-      skip_auth_preflight = false
-      http_address = "127.0.0.1:4180"
-      upstreams = ["http://localhost:8080"]
-
-      pass_access_token = true
-      pass_user_headers = true
-      set_authorization_header = true
-      code_challenge_method = "S256"
-      user_id_claim = "username"
-
-      cookie_secure = false
-      cookie_samesite = "lax"
-      cookie_csrf_per_request = false
-      cookie_secret = "<your_32_byte_base64_secret>"
-      ```
-
-      - This sample configuration file assumes that the following services run on the specified endpoints. If your setup differs, adjust the configuration accordingly.
-
-         - {edition.productName}: `https://api.asgardeo.io/t/<organization_name>`
-         - OAuth2 Proxy: `http://localhost:4180`
-         - Back-end Service (API or Web Application): `http://localhost:8080`
-
-      - Replace `<organization_name>` with the name of your {edition.productName} organization.
-
-      - Replace `<your_client_id>`, `<your_client_secret>` with the client ID and the client secret you received earlier when registering the application in {edition.productName}.
-
-      - Generate a cookie secret and add it as `<your_32_byte_base64_secret>`.
-
-    :::tip
-    Learn more about generating cookie secrets and other configurations from the [OAuth2 Proxy documentation](https://oauth2-proxy.github.io/oauth2-proxy/configuration/overview).
-    :::
-
-</Edition>
-
-<Edition only="self-hosted">
 
 2. Create a configuration file named `oauth2-proxy.cfg` and include the following properties.
 
@@ -289,8 +168,6 @@ Follow the steps below to set up OAuth2 Proxy with {edition.productName}.
     :::tip
     Learn more about generating cookie secrets and other configurations from the [OAuth2 Proxy documentation](https://oauth2-proxy.github.io/oauth2-proxy/configuration/overview).
     :::
-
-</Edition>
 
 3. Use one of the following methods to run OAuth2 Proxy.
 
@@ -373,20 +250,6 @@ openssl req -x509 -newkey rsa:2048 -nodes \
 ```
 :::
 
-<Edition only="cloud">
-
-:::tip[Learn more]
-Refer to the following documentation to learn more about these options.
-
-- [Session Storage](https://oauth2-proxy.github.io/oauth2-proxy/configuration/session_storage).
-
-- [TLS encryption](https://oauth2-proxy.github.io/oauth2-proxy/configuration/tls).
-:::
-
-</Edition>
-
-<Edition only="self-hosted">
-
 :::tip[Learn more]
 Refer to the following documentation to learn more about these options.
 
@@ -394,8 +257,6 @@ Refer to the following documentation to learn more about these options.
 
 - [TLS encryption](https://oauth2-proxy.github.io/oauth2-proxy/configuration/tls).
 :::
-
-</Edition>
 
 ---
 

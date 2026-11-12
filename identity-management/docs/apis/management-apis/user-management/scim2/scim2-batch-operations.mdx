@@ -2,7 +2,7 @@
 title: SCIM2 Bulk Operations
 description: Follow the topics given below to understand how Bulk operations can be used when you manage resources in the SCIM2 API.  # generated from the first paragraph; a writer should improve it
 type: reference
-sidebar_label: SCIM 2.0 Batch Operations
+sidebar_label: SCIM 2.0 Batch operations
 sidebar_position: 3
 slug: "/apis/scim2/scim2-batch-operations"
 ---
@@ -10,8 +10,6 @@ slug: "/apis/scim2/scim2-batch-operations"
 Follow the topics given below to understand how **Bulk** operations can be used when you manage resources in the [SCIM2 API](../../../scim2-bulk-rest-api/index.mdx#tag-bulk-endpoint).
 
 The SCIM2 API allows you to send multiple resource operations in a single request. That is, you can add new records (POST data), replace an existing record (PUT data), update elements of an existing record (PATCH data), and delete records (DELETE data) in bulk. These bulk operations are supported for managing users and groups with the SCIM API in {edition.productName}.
-
-<Edition only="self-hosted">
 
 :::info
 The default limit for bulk operations is 1,000 operations per request. To modify this limit, add the following configuration to the `<IS_HOME>/repository/conf/deployment.toml` file.
@@ -21,16 +19,6 @@ The default limit for bulk operations is 1,000 operations per request. To modify
 max_bulk_operations = 500
 ```
 :::
-
-</Edition>
-
-<Edition only="cloud">
-
-:::info
-The default limit for bulk operations is 100 operations per request.
-:::
-
-</Edition>
 
 ## Scope (permission) required for batch operations
 

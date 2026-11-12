@@ -1681,8 +1681,6 @@ components:
             - BEARER
             - API_KEY
             - BASIC
-            - CLIENT_CREDENTIAL
-            - PASSWORD_CREDENTIAL
           example: BASIC
         properties:
           type: object
@@ -1974,10 +1972,6 @@ components:
         enableJwtScopeAsArray:
           type: boolean
           description: "Enable formatting scope claim in JWT access tokens as a JSON array instead of a space-separated string."
-          example: false
-        enableClientIdMetadataDocument:
-          type: boolean
-          description: "Enable registering clients from their Client ID Metadata Document (CIMD), and advertise client_id_metadata_document_supported in discovery."
           example: false
     ApplicationObject:
       type: object

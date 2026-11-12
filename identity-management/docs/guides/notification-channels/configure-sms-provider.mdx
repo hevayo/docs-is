@@ -66,8 +66,6 @@ To configure a custom SMS provider, in the  **SMS Provider** section click the *
 | Headers | Custom static headers need to be passed. If multiple headers need to be passed, they should be comma separated. (Optional) | `x-csrf: true, x-abc: some-value` |
 | Authentication | Authentication settings for the custom SMS provider. Select the preferred authentication scheme and enter the required authentication properties. | Authentication Scheme `Basic` with username and password. |
 
-<Edition only="self-hosted">
-
 By default, the custom SMS provider uses connection timeout and read timeout values of 5000ms and 20000ms respectively. If you need to change these timeout values, you can configure them by adding the following configuration to the `deployment.toml` file:
 
 ```toml
@@ -80,7 +78,5 @@ connection_read_timeout = 20000
 - `connection_timeout`: Time in milliseconds to wait for establishing a connection to the SMS provider (default: 5000ms)
 - `connection_read_timeout`: Time in milliseconds to wait for reading data from the SMS provider (default: 20000ms)
 :::
-
-</Edition>
 
 </details>

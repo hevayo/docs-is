@@ -3,7 +3,7 @@ title: Get started with the login flow builder
 description: A login flow defines the step-by-step journey a user takes when signing in to your application.  # generated from the first paragraph; a writer should improve it
 type: how-to
 sidebar_label: Login Flow Builder
-sidebar_position: 12
+sidebar_position: 13
 ---
 
 A **login flow** defines the step-by-step journey a user takes when signing in to your application. This guide introduces the **Login Flow Builder**. It is a visual canvas where you can design and customize authentication journeys to meet your security and user experience goals without writing complex code.
@@ -24,12 +24,6 @@ To access the login flow builder:
 
 2. Select your application and go to its **Login Flow** tab.
 
-<Edition only="cloud">
-
-3. Switch to the **Visual Editor** tab. This opens the Login Flow Builder canvas for your application.
-
-</Edition>
-
 ### Step 2: Build the login flow
 
 The **Login Flow Builder** provides all the building blocks you need to compose a login journey. To start building, choose one of the following methods and customize the flow with [flow elements](#flow-elements).
@@ -40,11 +34,11 @@ The **Login Flow Builder** provides all the building blocks you need to compose 
 
     - **Basic Login Flows** – Common single-step and multi-factor combinations, such as `Username & Password`, `Username & Password → Email OTP`, and passwordless options.
 
-        <Edition only="cloud"><img src={require("../../../assets/cloud/img/guides/authentication/login-flow-builder/login-flow-builder-basic-login-flows.png").default} alt="Basic login flows" width="auto" style={{display: "block", margin: "0"}} /></Edition><Edition only="self-hosted"><img src={require("../../../assets/self-hosted/img/guides/authentication/login-flow-builder/login-flow-builder-basic-login-flows.png").default} alt="Basic login flows" width="auto" style={{display: "block", margin: "0"}} /></Edition>
+        <img src={require("../../../assets/img/guides/authentication/login-flow-builder/login-flow-builder-basic-login-flows.png").default} alt="Basic login flows" width="auto" style={{display: "block", margin: "0"}} />
 
     - **Conditional Login Flows** – Adaptive scenarios such as role-based, group-based, IP-based, and device-based authentication that come with a matching conditional authentication script.
 
-        <Edition only="cloud"><img src={require("../../../assets/cloud/img/guides/authentication/login-flow-builder/login-flow-builder-conditional-login-flows.png").default} alt="Conditional login flows" width="auto" style={{display: "block", margin: "0"}} /></Edition><Edition only="self-hosted"><img src={require("../../../assets/self-hosted/img/guides/authentication/login-flow-builder/login-flow-builder-conditional-login-flows.png").default} alt="Conditional login flows" width="auto" style={{display: "block", margin: "0"}} /></Edition>
+        <img src={require("../../../assets/img/guides/authentication/login-flow-builder/login-flow-builder-conditional-login-flows.png").default} alt="Conditional login flows" width="auto" style={{display: "block", margin: "0"}} />
 
 - **Build from scratch**
 
@@ -88,7 +82,7 @@ To add an authenticator to a step:
 
 2. Search for or select the authenticator you want to add, and click **Add**.
 
-    <Edition only="cloud"><img src={require("../../../assets/cloud/img/guides/authentication/login-flow-builder/login-flow-builder-add-authentication.png").default} alt="Add authentication" width="auto" style={{display: "block", margin: "0"}} /></Edition><Edition only="self-hosted"><img src={require("../../../assets/self-hosted/img/guides/authentication/login-flow-builder/login-flow-builder-add-authentication.png").default} alt="Add authentication" width="auto" style={{display: "block", margin: "0"}} /></Edition>
+    <img src={require("../../../assets/img/guides/authentication/login-flow-builder/login-flow-builder-add-authentication.png").default} alt="Add authentication" width="auto" style={{display: "block", margin: "0"}} />
 
 :::note
 Only enabled connections and authenticators are available in the picker. To make additional authenticators available, first [set up the required connection](./index.mdx#manage-connections).

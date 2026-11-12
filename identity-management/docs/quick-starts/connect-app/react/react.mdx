@@ -9,14 +9,6 @@ sidebar_position: 1
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-<Edition only="cloud">
-
-</Edition>
-
-<Edition only="self-hosted">
-
-</Edition>
-
 Welcome to the React Quickstart guide! In this document, you will learn to build a React app, add user sign-in and display user profile information using {edition.productName}.
 
 [//] STEPS_START
@@ -26,25 +18,11 @@ Welcome to the React Quickstart guide! In this document, you will learn to build
 - Sign into the {edition.productName} Console and navigate to **Applications > New Application**.
 - Select **React** and complete the wizard by providing a suitable name and an authorized redirect URL.
 
-<Edition only="cloud">
-
-:::note[Example]
-**Name:** `asgardeo-react`
-
-**Authorized redirect URL:** `http://localhost:5173`
-:::
-
-</Edition>
-
-<Edition only="self-hosted">
-
 :::note[Example]
 **Name:** `is-react`
 
 **Authorized redirect URL:** `http://localhost:5173`
 :::
-
-</Edition>
 
 Once you finish creating the application, note down the following values from its **Guide** tab. You will need them to configure WSO2 Identity Platform React SDK.
 
@@ -58,45 +36,6 @@ The authorized redirect URL determines where {edition.productName} should send u
 ## Create a React app using Vite
 
 Create (scaffold) your new React app using [Vite](https://vite.dev/).
-
-<Edition only="cloud">
-
-<Tabs groupId="tabs">
-<TabItem value="npm" label="npm">
-
-```bash
-npm create vite@latest asgardeo-react -- --template react
-cd asgardeo-react
-npm install
-npm run dev
-```
-
-</TabItem>
-<TabItem value="yarn" label="yarn">
-
-```bash
-yarn create vite@latest asgardeo-react -- --template react
-cd asgardeo-react
-yarn install
-yarn dev
-```
-
-</TabItem>
-<TabItem value="pnpm" label="pnpm">
-
-```bash
-pnpm create vite@latest asgardeo-react -- --template react
-cd asgardeo-react
-pnpm install
-pnpm dev
-```
-
-</TabItem>
-</Tabs>
-
-</Edition>
-
-<Edition only="self-hosted">
 
 <Tabs groupId="tabs">
 <TabItem value="npm" label="npm">
@@ -130,8 +69,6 @@ pnpm dev
 
 </TabItem>
 </Tabs>
-
-</Edition>
 
 ## Install `@asgardeo/react`
 

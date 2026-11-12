@@ -4,7 +4,7 @@ description: This guide explains how you can configure Google for outbound provi
 type: how-to
 sidebar_label: Google
 sidebar_position: 1
-editions: self-hosted
+slug: "/guides/users/outbound-provisioning/outbound-connectors/google"
 ---
 
 This guide explains how you can configure Google for outbound provisioning in {edition.productName}.
@@ -29,7 +29,7 @@ Learn how to subscribe to Google Workspace in the [Google documentation](https:/
 
     5. Fill in the form to create the service account:
 
-        <img src={require("../../../../../../assets/self-hosted/img/guides/outbound-provisioning/google/service-account-name.png").default} alt="add-account-name" width="400" style={{border: "0.3px solid lightgrey"}} />
+        <img src={require("../../../../../../assets/img/guides/outbound-provisioning/google/service-account-name.png").default} alt="add-account-name" width="400" style={{border: "0.3px solid lightgrey"}} />
 
         - Optionally, assign a role from the list of roles given and click **Done** to create the service account.
 
@@ -41,7 +41,7 @@ Learn how to subscribe to Google Workspace in the [Google documentation](https:/
         The service account's `P12` file will be downloaded to your machine. Remember the location and the name of this downloaded file as it is required later on in this guide.
         :::
 
-        <img src={require("../../../../../../assets/self-hosted/img/guides/outbound-provisioning/google/key-created.png").default} alt="key-created" width="700" style={{border: "0.3px solid lightgrey"}} />
+        <img src={require("../../../../../../assets/img/guides/outbound-provisioning/google/key-created.png").default} alt="key-created" width="700" style={{border: "0.3px solid lightgrey"}} />
 
     8. From **IAM & Admin** > **Service accounts**, take note of the client ID of your service account.
 
@@ -77,7 +77,7 @@ Learn how to subscribe to Google Workspace in the [Google documentation](https:/
 
 ## Configure the Google outbound connector
 
-[Set up outbound provisioning](../../../outbound-provisioning/setup-outbound-provisioning.mdx) and enter the following details to configure the Google outbound connector.
+[Set up outbound provisioning](../setup-outbound-provisioning.mdx) and enter the following details to configure the Google outbound connector.
 
 <table>
   <tbody>

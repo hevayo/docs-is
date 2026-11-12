@@ -7,9 +7,6 @@ sidebar_position: 2
 slug: "/guides/authentication/standard-based-login/add-oidc-idp-login"
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 You can add standard OpenID Connect (OIDC) login to your applications using an external OIDC Identity Provider (IdP) and enable users to log in with their external identities.
 
 Follow this guide to register an OIDC IdP in {edition.productName} and add it to the login flow of your application.
@@ -43,7 +40,7 @@ Now, let's register the OIDC IdP in {edition.productName}.
 2. Click **Create Connection** and select **Standard-Based IdP**.
 3. Provide a unique **identity provider name**, select **OpenID Connect**, and click **Next**.
 
-    <Edition only="cloud"><img src={require("../../../../../assets/img/guides/idp/oidc-enterprise-idp/create-oidc-enterprise-idp-wizard.png").default} alt="Create OIDC Enterprise IDP in WSO2 Identity Platform" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../../assets/img/guides/idp/oidc-enterprise-idp/create-oidc-enterprise-idp-wizard.png").default} alt="Create OIDC Enterprise IDP in WSO2 Identity Server" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+    <img src={require("../../../../../assets/img/guides/idp/oidc-enterprise-idp/create-oidc-enterprise-idp-wizard.png").default} alt="Create OIDC Enterprise IDP in WSO2 Identity Server" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 4. Enter the following details of the external OIDC identity provider and click **Next**:
 
@@ -100,39 +97,6 @@ You need to [register an application with {edition.productName}](../../../applic
 
 2. Select your application, go to the **Login Flow** tab and add OIDC identity provider from your preferred editor:
 
-    <Edition only="cloud">
-
-    <Tabs groupId="tabs">
-    <TabItem value="classic-editor" label="Classic Editor">
-
-    To add OIDC identity provider login using the Classic Editor:
-
-    1. If you haven't already defined a sign-in flow, click **Start with Default configuration** to get started.
-
-    2. Click **Add Authentication** on the step, select your OIDC identity provider, and click **Add**.
-
-        <img src={require("../../../../../assets/cloud/img/guides/idp/oidc-enterprise-idp/enable-oidc-enterprise-login-with-basic.png").default} alt="Add OIDC identity provider login in WSO2 Identity Platform" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
-
-    </TabItem>
-    <TabItem value="visual-editor" label="Visual Editor">
-
-    To add OIDC identity provider login using the Visual Editor:
-
-    1. Switch to the **Visual Editor** tab, by default the `Username & Password` login flow will be added onto the Visual Editor's workspace.
-
-    2. Click on `+ Add Sign In Option` to add a new authenticator to the same step and select your OIDC identity provider connection.
-
-        <img src={require("../../../../../assets/img/guides/idp/oidc-enterprise-idp/add-oidc-idp-with-visual-editor.png").default} alt="Add OIDC IdP login in WSO2 Identity Platform with visual editor" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
-
-    </TabItem>
-    </Tabs>
-
-    ---
-
-    </Edition>
-
-    <Edition only="self-hosted">
-
     1. Click **Add Sign In Option** to add a new authenticator to the first step.
 
     2. Select the OIDC IdP connection.
@@ -140,8 +104,6 @@ You need to [register an application with {edition.productName}](../../../applic
     3. Click **Confirm** to add login with an OIDC IdP to the sign-in flow.
 
         <img src={require("../../../../../assets/img/guides/idp/oidc-enterprise-idp/add-oidc-idp-with-visual-editor.png").default} alt="Configuring OIDC IdP login in WSO2 Identity Server using the Visual Editor" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
-
-    </Edition>
 
     :::note[Recommendations]
     It is recommended to add your social and enterprise connections to the first authentication step as they are used for identifying the user.
@@ -153,7 +115,7 @@ You need to [register an application with {edition.productName}](../../../applic
 
 To provide this login capability, {edition.productName} uses the standard OpenID Connect with authorization code flow {/* [OpenID Connect with authorization code flow](https://openid.net/specs/openid-connect-core-1_0.html#CodeFlowSteps)*/} underneath. For an application, this flow works as follows:
 
-<Edition only="cloud"><img src={require("../../../../../assets/cloud/img/guides/idp/oidc-enterprise-idp/oidc-enterprise-login-flow.png").default} alt="Add OIDC enterprise login in WSO2 Identity Platform" width="700" style={{display: "block", margin: "0"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../../assets/self-hosted/img/guides/idp/oidc-enterprise-idp/oidc-enterprise-login-flow.png").default} alt="Add OIDC enterprise login in WSO2 Identity Server" width="700" style={{display: "block", margin: "0"}} /></Edition>
+<img src={require("../../../../../assets/img/guides/idp/oidc-enterprise-idp/oidc-enterprise-login-flow.png").default} alt="Add OIDC enterprise login in WSO2 Identity Server" width="700" style={{display: "block", margin: "0"}} />
 
 ## Configure connection
 

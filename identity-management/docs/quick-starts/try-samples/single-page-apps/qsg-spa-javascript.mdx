@@ -11,20 +11,6 @@ By following this guide, you will be able to deploy a Javascript single-page app
 
 ## Prerequisites
 
-<Edition only="cloud">
-
-- **npm with Node.js**
-
-    If you don't have them,[install npm and Node.js](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) in your local environment.
-
-- **A user account in WSO2 Identity Platform**
-
-    If you don't already have one, [create a user account](../../../guides/users/users/manage-users.mdx#onboard-users) in WSO2 Identity Platform.
-
-</Edition>
-
-<Edition only="self-hosted">
-
 - **npm with Node.js**
 
     If you don't have it, [install npm and node](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) in your local environment.
@@ -33,31 +19,17 @@ By following this guide, you will be able to deploy a Javascript single-page app
 
     If you don't already have one, create a user account in the WSO2 Identity Server.
 
-</Edition>
-
 ## Register the app
-
-<Edition only="cloud">
-
-Follow the steps given below to register the sample Javascript SPA in WSO2 Identity Platform.
-
-1. On the [WSO2 Identity Platform Console](https://console.asgardeo.io/login), go to **Applications**.
-
-</Edition>
-
-<Edition only="self-hosted">
 
 Follow the steps given below to register the sample Javascript SPA in the WSO2 Identity Server.
 
 1. On the WSO2 Identity Server Console, go to **Applications**.
 
-</Edition>
-
 2. Click **New Application** and select **Single-Page Application**.
 
 3. Enter the following details:
 
-    <Edition only="cloud"><img src={require("../../../../assets/cloud/img/guides/applications/create-new-spa.png").default} alt="Create a new SPA" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/self-hosted/img/guides/applications/create-new-spa.png").default} alt="Create a new SPA" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+    <img src={require("../../../../assets/img/guides/applications/create-new-spa.png").default} alt="Create a new SPA" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
     <table>
       <tbody>
@@ -85,26 +57,7 @@ Follow the steps given below to register the sample Javascript SPA in the WSO2 I
 4. Click **Register** to complete the registration.
 5. Go to the **Protocol** tab and take note of the **Client ID**. You will need it to configure the application later.
 
-    <Edition only="cloud"><img src={require("../../../../assets/cloud/img/guides/applications/spa-client-id.png").default} alt="Client ID" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/self-hosted/img/guides/applications/spa-client-id.png").default} alt="Client ID" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
-
-<Edition only="cloud">
-
-:::tip
-To provide a better experience for the user, it is recommended to configure an access URL for the application. You can set an access URL from the **General** tab of the application. (For this sample application, the access URL is `https://localhost:3000`).
-
-The access URL is used,
-
-- in the application catalog and discovery flows.
-- to redirect the user back to the application in the following scenarios.
-    - if the login page times out
-    - after a password reset
-    - after self-sign-up verification
-- to re-initiate the login flow if the login flow fails.
-:::
-
-</Edition>
-
-<Edition only="self-hosted">
+    <img src={require("../../../../assets/img/guides/applications/spa-client-id.png").default} alt="Client ID" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 :::tip
 To provide a better experience for the user, it is recommended to configure an access URL for the application. You can set an access URL from the **General** tab of the application. (For this sample application, the access URL is `https://localhost:3000`).
@@ -119,87 +72,17 @@ The access URL is used,
 - to re-initiate the login flow if the login flow fails.
 :::
 
-</Edition>
-
 ## Download the sample
 
 Click the button below to download the sample. You can also choose to view the source before doing so.
 
-<Edition only="cloud">
-
 <img src={require("../../../../assets/img/logo/javascript-logo.svg").default} alt="JavaScript" width="50" /><br /> [Download sample](https://github.com/asgardeo/asgardeo-auth-spa-sdk/releases/latest/download/asgardeo-html-js-app.zip)
 
 <img src={require("../../../../assets/img/logo/github-logo.svg").default} alt="GitHub" width="50" /> <br /> [View source](https://github.com/asgardeo/asgardeo-auth-spa-sdk/tree/main/samples/asgardeo-html-js-app)
-
-</Edition>
-
-<Edition only="self-hosted">
-
-<img src={require("../../../../assets/img/logo/javascript-logo.svg").default} alt="JavaScript" width="50" /><br /> [Download sample](https://github.com/asgardeo/asgardeo-auth-spa-sdk/releases/latest/download/asgardeo-html-js-app.zip)
-
-<img src={require("../../../../assets/img/logo/github-logo.svg").default} alt="GitHub" width="50" /> <br /> [View source](https://github.com/asgardeo/asgardeo-auth-spa-sdk/tree/main/samples/asgardeo-html-js-app)
-
-</Edition>
 
 ## Configure the sample
 
 Follow the steps given below to configure the sample app.
-
-<Edition only="cloud">
-
-1. Unzip the application folder and open the `index.html` file located at the root of the project in a text editor.
-2. Scroll down towards the end of the body and find the `<script>` tag with the `authConfig` object.
-3. Update the following in the `authConfig` object:
-
-    ```text
-    const authConfig = {
-        clientID: "{client ID}",
-        signInRedirectURL: "https://localhost:3000",
-        baseUrl: "https://api.asgardeo.io/t/{organization_name}",
-        scope: [ "profile" ]
-    };
-    ```
-
-    <table>
-      <thead>
-        <tr>
-          <th>Configuration</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>`clientID`</td>
-          <td>The client ID that you received when you registered the application in WSO2 Identity Platform.</td>
-        </tr>
-        <tr>
-          <td>`baseUrl`</td>
-          <td>
-
-            All authentication requests that the client application makes to WSO2 Identity Platform will be appended to this base URL.:
-
-            `https://api.asgardeo.io/t/{organization_name}`
-
-          </td>
-        </tr>
-        <tr>
-          <td>`scope`</td>
-          <td>
-
-            The list of OIDC scopes that are used for requesting user information. You can add OIDC scopes such as `profile` and `email` in a comma-separated list as follows:
-
-            `"scope": ["profile", "email"]`
-
-            Learn more about \[OIDC scopes in WSO2 Identity Platform\](\{\{base_path\}\}/guides/users/attributes/manage-scopes/).
-
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-</Edition>
-
-<Edition only="self-hosted">
 
 1. Unzip the application folder and open the `index.html` file located at the root of the project in a text editor.
 2. Scroll down towards the end of the body and find the `<script>` tag with the `authConfig` object.
@@ -251,8 +134,6 @@ Follow the steps given below to configure the sample app.
       </tbody>
     </table>
 
-</Edition>
-
 ## Run the sample
 
 Follow the steps given below to run the sample.
@@ -265,31 +146,12 @@ Follow the steps given below to run the sample.
 
 2. Once the app is successfully compiled, it is accessible at `https://localhost:3000`.
 
-<Edition only="cloud">
-
-3. Click **Login**. You will be redirected to the WSO2 Identity Platform login page.
-
-    <img src={require("../../../../assets/cloud/img/guides/applications/sign-in-asgardeo.png").default} alt="WSO2 Identity Platform Sign in page" width="350" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
-
-4. Enter the credentials of your user account and click **Sign In**.
-
-    :::note[Extend your login session]
-    By default, the user session is active for only `15 minutes`. You can extend the session to `14 days` by selecting the **Remember me on this computer** option provided at the login screen of your application.
-    :::
-
-</Edition>
-
-<Edition only="self-hosted">
-
 3. Click **Login**. You will be redirected to the {edition.productName} login page.
 
-    <img src={require("../../../../assets/self-hosted/img/guides/applications/sign-in-is.png").default} alt="WSO2 Identity Server sign in page" width="350" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../assets/img/guides/applications/sign-in-is.png").default} alt="WSO2 Identity Server sign in page" width="350" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 4. Enter the credentials of your user account and click **Sign In**.
 
     :::note[Extend your login session]
     By default, the user login session is active for only `15 minutes`. You can extend the session to `14 days` by selecting the **Remember me on this computer** option provided at the login screen of your application.
     :::
-
-</Edition>
-

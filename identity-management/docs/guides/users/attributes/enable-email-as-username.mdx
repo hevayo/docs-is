@@ -1,9 +1,9 @@
 ---
-title: Configure email address as the username
+title: Configure the email address as the username
 description: Set the mail attribute of the user.  # generated from the first paragraph; a writer should improve it
 type: how-to
+sidebar_label: Configure email address as the username
 sidebar_position: 6
-editions: self-hosted
 ---
 
 :::warning
@@ -16,7 +16,7 @@ Identity Server** is not the production recommended way. Therefore,
 
 2. Click the **Username** attribute and configure the `Mapped Attribute` as `mail`.
 
-    <img src={require("../../../../assets/self-hosted/img/guides/organization/attributes/email-as-username-attribute-mapping.png").default} alt="email-as-username-attribute-mapping" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../assets/img/guides/organization/attributes/email-as-username-attribute-mapping.png").default} alt="email-as-username-attribute-mapping" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 3. Click **Update** to save the changes.
 
@@ -119,7 +119,7 @@ Identity Server** is not the production recommended way. Therefore,
             :::note
             Before this configuration, the user having the username **admin** and password **admin** was considered the super administrator. The super administrator user cannot be deleted.
 
-            After this configuration, the user having the username **` admin@wso2.com `** is considered the super administrator. The user having the username admin is considered as a normal administrator.<br /> <img src={require("../../../../assets/self-hosted/img/guides/organization/attributes/super-admin.png").default} alt="super-admin" width="600" />
+            After this configuration, the user having the username **` admin@wso2.com `** is considered the super administrator. The user having the username admin is considered as a normal administrator.<br /> <img src={require("../../../../assets/img/guides/organization/attributes/super-admin.png").default} alt="super-admin" width="600" />
             :::
 
           </td>

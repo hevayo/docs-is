@@ -3,7 +3,7 @@ title: Configure SAML federated IdP-Initiated Single Sign-On (SSO)
 description: Single Sign On (SSO) is an authentication process which allows users to log in once and gain access to an organization's applications without having to…  # generated from the first paragraph; a writer should improve it
 type: how-to
 sidebar_label: Implement SAML federated IdP-initiated SSO
-sidebar_position: 3
+sidebar_position: 4
 ---
 
 import Tabs from '@theme/Tabs';
@@ -19,31 +19,11 @@ This guide explains how you can implement federated IdP-initiated SSO using {edi
 
 The steps below implement the following example scenario.
 
-<Edition only="cloud">
-
-- Two {edition.productName} organizations represent the internal and external IdPs respectively.
-- The first organization (internal IdP) has an application called `travelocity`.
-- A user belonging to the second organization (external IdP) should be able to access `travelocity` without creating an account in the internal IdP.
-
-</Edition>
-
-<Edition only="self-hosted">
-
 - Two instances of {edition.productName} running on two different ports (e.g. 9443 and 9444), represent the internal and external IdPs respectively.
 - The first instance (internal IdP) has an application called `travelocity`.
 - A user belonging to the second instance (external IdP) should be able to access `travelocity` without creating an account in the internal IdP.
 
-</Edition>
-
 ## Prerequisites
-
-<Edition only="cloud">
-
-Before you begin, set up two {edition.productName} organizations.
-
-</Edition>
-
-<Edition only="self-hosted">
 
 Before you begin, be sure to set up the following:
 
@@ -61,23 +41,11 @@ Before you begin, be sure to set up the following:
     Learn how to [change the hostname](../../../deploy/deploy/deployment-overview/change-the-hostname.mdx) for a {edition.productName} instance. In this guide, the hostname of the external IdP is changed to `localhost.com`.
     :::
 
-</Edition>
-
 ## Create the application
 
 The `travelocity.com` application should reside in the internal IdP. Follow the steps below in the internal IdP to register it as an application.
 
-<Edition only="cloud">
-
-1. On the first {edition.productName} organization, go to **Applications**.
-
-</Edition>
-
-<Edition only="self-hosted">
-
 1. On the {edition.productName} (which is running on 9443 port) Console, go to **Applications**.
-
-</Edition>
 
 2. Click on **New Application** and select **Standard-Based Application**.
 
@@ -142,17 +110,7 @@ The `travelocity.com` application should reside in the internal IdP. Follow the 
 
 ## Configure the identity providers
 
-<Edition only="cloud">
-
-When performing federated IdP-initiated SSO, the two {edition.productName} organizations exhibit different behaviors as explained below.
-
-</Edition>
-
-<Edition only="self-hosted">
-
 When performing federated IdP-initiated SSO, the two {edition.productName} instances exhibit different behaviors as explained below.
-
-</Edition>
 
 - The `external IdP` performs the actual user authentication since the user's account resides in it. Therefore, the external IdP acts as the identity provider and sends the SAML assertion of the authenticated user to the internal IdP.
 
@@ -166,36 +124,11 @@ The external IdP needs to be registered as a connector in the internal IdP. This
 
 To do so, follow the steps below in the internal IdP.
 
-<Edition only="cloud">
-
-1. Sign into the first {edition.productName} organization, and go to **Connections**.
-
-</Edition>
-
-<Edition only="self-hosted">
-
 1. On the {edition.productName} (which is running on 9443 port) Console, go to **Connections**.
-
-</Edition>
 
 2. Click **New Connection** > **Standard-Based IdP**
 
 3. Provide `External` as the name and select **SAML** as the protocol.
-
-<Edition only="cloud">
-
-4. Click **Next** and enter the following details:
-
-| Parameter | Description | Value |
-| --- | --- | --- |
-| Service Provider Entity ID | The ID of the application that will consume the SAML assertion sent by this connector. This value should match the `Issuer` you configure when registering the internal IdP as an application (steps in the section below). | Internal |
-| Mode of configuration | You may either configure settings manually or use file/url-based configurations. | Manual Configuration |
-| Identity Provider Single Sign-On URL | The URL of the identity provider used for performing SSO. | https://api.asgardeo.io/t/\{second-asgardeo-organization\}/samlsso |
-| Identity Provider entity ID | The ID of the identity provider. In this instance, the external IdP is an {edition.productName} organization. Therefore, the ID should be `api.asgardeo.io/t/{second-asgardeo-organization}`. | api.asgardeo.io/t/\{second-asgardeo-organization\} |
-
-</Edition>
-
-<Edition only="self-hosted">
 
 4. Click **Next** and enter the following details:
 
@@ -205,8 +138,6 @@ To do so, follow the steps below in the internal IdP.
     | Mode of configuration | You may either configure settings manually or use file/url-based configurations. | Manual Configuration |
     | Identity Provider Single Sign-On URL | The URL of the identity provider used for performing SSO. | https://localhost:9444/samlsso |
     | Identity Provider entity ID | The ID of the identity provider. In this instance, the external IdP is an instance of {edition.productName}. Therefore, the ID defaults to `localhost`. | localhost |
-
-</Edition>
 
 5. Click **Next** and upload the external IdP certificate.
 
@@ -226,122 +157,9 @@ The internal IdP needs to be registered as an application in the external IdP. T
 
 To do so, follow the steps below in the external IdP.
 
-<Edition only="cloud">
-
-1. On the second {edition.productName} organization's Console, go to **Applications**.
-
-</Edition>
-
-<Edition only="self-hosted">
-
 1. On the {edition.productName} (which is running on 9444 port) Console, go to **Applications**.
 
-</Edition>
-
 2. Click on **New Application** and select **Standard-Based Application**.
-
-<Edition only="cloud">
-
-3. Configure the following:
-
-    <Tabs groupId="tabs">
-    <TabItem value="saml-application" label="SAML Application">
-
-    <table>
-      <tbody>
-        <tr>
-          <td>Name</td>
-          <td>Internal</td>
-        </tr>
-        <tr>
-          <td>Protocol</td>
-          <td>SAML</td>
-        </tr>
-        <tr>
-          <td>Issuer</td>
-          <td>Internal</td>
-        </tr>
-        <tr>
-          <td>Assertion consumer service URLs</td>
-          <td>
-
-            https://api.asgardeo.io/t/
-
-            &lt;first-asgardeo-organization&gt;/samlsso?spEntityID=travelocity.com <br />
-
-          </td>
-        </tr>
-        <tr>
-          <td>Default Assertion Consumer URL</td>
-          <td>
-
-            https://api.asgardeo.io/t/
-
-            &lt;first-asgardeo-organization&gt;/samlsso?spEntityID=travelocity.com
-
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-    </TabItem>
-    <TabItem value="oidc-application" label="OIDC Application">
-
-    <table>
-      <tbody>
-        <tr>
-          <td>Name</td>
-          <td>Internal</td>
-        </tr>
-        <tr>
-          <td>Protocol</td>
-          <td>SAML</td>
-        </tr>
-        <tr>
-          <td>Issuer</td>
-          <td>Internal</td>
-        </tr>
-        <tr>
-          <td>Assertion consumer service URLs</td>
-          <td>
-
-            https://api.asgardeo.io/t/
-
-            &lt;first-asgardeo-organization&gt;/oauth2/authorize?response_type=code&client_id=
-
-            &lt;client_id&gt;&scope=openid&redirect_uri=
-
-            &lt;redirect_url&gt;
-
-          </td>
-        </tr>
-        <tr>
-          <td>Default Assertion Consumer URL</td>
-          <td>
-
-            https://api.asgardeo.io/t/
-
-            &lt;first-asgardeo-organization&gt;/oauth2/authorize?response_type=code&client_id=
-
-            &lt;client_id&gt;&scope=openid&redirect_uri=
-
-            &lt;redirect_url&gt;
-
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-    </TabItem>
-    </Tabs>
-
-    :::note
-    Add `https://localhost:9443/commonauth` endpoint to Assertion consumer service URLs support the SP initiated SSO flow as well.
-    :::
-
-</Edition>
-
-<Edition only="self-hosted">
 
 3. Configure the following:
 
@@ -424,8 +242,6 @@ To do so, follow the steps below in the external IdP.
     Add `https://localhost:9443/commonauth` endpoint to Assertion consumer service URLs support the SP initiated SSO flow as well.
     :::
 
-</Edition>
-
 4. Click **Create**.
 
 5. Go to the **Protocol** tab of the created application and under **Single Sign-On Profile**, select the **Enable IdP initiated SSO** checkbox.
@@ -491,31 +307,6 @@ Follow the steps below to download and run the `travelocity.com` application:
 Make sure you have created a user in the external IdP. Refer to [manage users](../../users/users/manage-users.mdx) to learn more.
 :::
 
-<Edition only="cloud">
-
-1. Initiate IdP-initiated SSO using the following command. You will be redirected to the login screen of the `travelocity.com` application.
-
-    <Tabs groupId="tabs">
-    <TabItem value="url-format" label="URL format">
-
-    ```bash
-    https://api.asgardeo.io/t/{second-asgardeo-organization}/samlsso?spEntityID=<service_provider_entity_ID>
-    ```
-
-    </TabItem>
-    <TabItem value="example" label="Example">
-
-    ```bash
-    https://api.asgardeo.io/t/{second-asgardeo-organization}/samlsso?spEntityID=Internal
-    ```
-
-    </TabItem>
-    </Tabs>
-
-</Edition>
-
-<Edition only="self-hosted">
-
 1. Initiate IdP-initiated SSO using the following command. You will be redirected to the login screen of the `travelocity.com` application.
 
     <Tabs groupId="tabs">
@@ -534,8 +325,6 @@ Make sure you have created a user in the external IdP. Refer to [manage users](.
 
     </TabItem>
     </Tabs>
-
-</Edition>
 
 2. Click **Login with External**. You will be redirected to the login screen of the external IdP.
 

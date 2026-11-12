@@ -3,7 +3,7 @@ title: Token persistence
 description: This guide describes OAuth2 token persistence and the possible approaches you can follow for token persistence in a production environment.  # generated from the first paragraph; a writer should improve it
 type: reference
 sidebar_position: 2
-editions: self-hosted
+slug: "/deploy/token-persistence"
 ---
 
 This guide describes OAuth2 token persistence and the possible approaches you can follow for token persistence in a production environment. The OAuth2 component in the WSO2 Identity Server (WSO2 IS) has two implementations that can be used to handle token persistence in the database (synchronous and asynchronous token persistence).
@@ -12,7 +12,7 @@ The following sections guide you through the differences between these two appro
 
 ## Synchronous token persistence
 
-<img src={require("../../../../assets/self-hosted/img/setup/secure/token-persistence.png").default} alt="synchronous-token-persistence" width="800" style={{display: "block", margin: "0"}} />
+<img src={require("../../../../assets/img/setup/secure/token-persistence.png").default} alt="synchronous-token-persistence" width="800" style={{display: "block", margin: "0"}} />
 
 The flow of synchronous token persistence is as follows:
 
@@ -93,7 +93,7 @@ In large-scale WSO2 Identity Server deployments, especially with millions of use
   - **Opaque token generation** will continue to work as expected for applications configured to use opaque tokens.
   - Applications configured for **JWT access token type** will be switched to **non-persistent access token mode**, meaning JWT access tokens will no longer be stored in the database.
 - In the case of persistent token storage, if an active access token already exists during the token generation flow, the existing token will be marked as inactive. However, in the non-persistent mode, multiple active tokens can exist, as the authorization server does not store the access tokens.
-- **Token binding**, **Retrieving authorized apps for user**,**Rich Authorization Details**,  and **OIDC Request Object** features are currently not supported in **non-persistent access token mode**.
+- **Retrieving authorized apps for user**, **Rich Authorization Details**, and **OIDC Request Object** features are currently not supported in **non-persistent access token mode**.
 - Actions like revoking issued access tokens when re-submitting an authorization code and revoking all issued access tokens when revoking refresh tokens are also not supported, because the Identity Server does not store access tokens in this mode.
 - In non-persistent mode, the cleanup deletes the selected entries; they are not moved to an audit table as in the persistent case.
 

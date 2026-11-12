@@ -33,7 +33,7 @@ The script is designed to execute during the authentication flow. When a user in
 
     4. Enable the **Conditional Authentication** toggle located at the bottom of the editor.
 
-    <Edition only="cloud"><img src={require("../../../../../assets/img/guides/passwordless/push/push-progressive-enrollment-config.png").default} alt="Configuring push device progressive enrollment in WSO2 Identity Platform" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../../assets/img/guides/passwordless/push/push-progressive-enrollment-config.png").default} alt="Configuring push device progressive enrollment in WSO2 Identity Server" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+    <img src={require("../../../../../assets/img/guides/passwordless/push/push-progressive-enrollment-config.png").default} alt="Configuring push device progressive enrollment in WSO2 Identity Server" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
     :::warning[Important]
     Adding the push device progressive enrollment adaptive script, modifies the authentication flow to include only the **Username & Password** and **Push Notification** authenticators in the authentication flow. If you need to include other authenticators, make sure to add them manually. Learn more in [How it works](#how-it-works).

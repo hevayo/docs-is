@@ -15,66 +15,11 @@ By following this guide, you will be able to deploy a Java EE web application lo
 
     If you don't have it, install [Apache tomcat](https://tomcat.apache.org/tomcat-9.0-doc/setup.html).
 
-<Edition only="cloud">
-
-- **A user account in WSO2 Identity Platform**
-
-    If you don't already have one, [create a user account](../../../guides/users/users/manage-users.mdx#onboard-users) in WSO2 Identity Platform.
-
-</Edition>
-
-<Edition only="self-hosted">
-
 - **A user account in the {edition.productName}**
 
     If you don't already have one, create a user account in the {edition.productName}.
 
-</Edition>
-
 ## Register the app
-
-<Edition only="cloud">
-
-Follow the steps given below to register the sample Java EE web application in WSO2 Identity Platform.
-
-1. On the [WSO2 Identity Platform Console](https://console.asgardeo.io/login), go to **Applications**.
-
-2. Click **New Application** and select **Traditional Web Application**:
-
-    <img src={require("../../../../assets/img/guides/applications/select-app-type.png").default} alt="Select app type in WSO2 Identity Platform" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
-
-3. Enter the following details:
-
-    <img src={require("../../../../assets/cloud/img/guides/applications/create-new-web-app.png").default} alt="Create a new web app" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
-
-    <table>
-      <tbody>
-        <tr>
-          <td>Name</td>
-          <td>Give a unique name to identify your application.</td>
-        </tr>
-        <tr>
-          <td>Protocol</td>
-          <td>Select **OpenID Connect**.</td>
-        </tr>
-        <tr>
-          <td>Authorized redirect URLs</td>
-          <td>
-
-            The URL to which the user is redirected after a successful login. Use the following URL for this sample app:
-
-            `http://localhost:8080/oidc-sample-app/oauth2client`
-
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-4. Click **Register** to complete the registration.
-
-</Edition>
-
-<Edition only="self-hosted">
 
 Follow the steps given below to register the sample Java EE web application in {edition.productName}.
 
@@ -86,7 +31,7 @@ Follow the steps given below to register the sample Java EE web application in {
 
 3. Enter the following details:
 
-    <img src={require("../../../../assets/self-hosted/img/guides/applications/create-new-oidc-web-app.png").default} alt="Create a new web app" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../assets/img/guides/applications/create-new-oidc-web-app.png").default} alt="Create a new web app" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
     <table>
       <tbody>
@@ -113,11 +58,9 @@ Follow the steps given below to register the sample Java EE web application in {
 
 4. Click **Create** to complete the registration.
 
-</Edition>
-
 5. Go to the **Protocol** tab and take note of the **Client ID** and the **Client secret**. You will need them to configure the application later.
 
-    <Edition only="cloud"><img src={require("../../../../assets/cloud/img/guides/applications/client-secret-oidc.png").default} alt="Client ID and client secret" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../assets/self-hosted/img/guides/applications/client-secret-oidc.png").default} alt="Client ID and client secret" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+    <img src={require("../../../../assets/img/guides/applications/client-secret-oidc.png").default} alt="Client ID and client secret" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 :::tip
 To provide a better experience for the user, it is recommended to configure an access URL for the application. You can set an access URL from the **General** tab of the application. (For this sample application, the access URL is `https://localhost:8080/oidc-sample-app`).
@@ -136,21 +79,9 @@ The access URL is used,
 
 Click the button below to download the sample. You can also choose to view the source before doing so.
 
-<Edition only="cloud">
-
 <img src={require("../../../../assets/img/logo/java-logo.svg").default} alt="OIDC" width="50" /><br /> [Download sample](https://github.com/asgardeo/asgardeo-tomcat-oidc-agent/releases/latest/download/oidc-sample-app.war)
 
 <img src={require("../../../../assets/img/logo/github-logo.svg").default} alt="GitHub" width="50" /> <br /> [View source](https://github.com/asgardeo/asgardeo-tomcat-oidc-agent/tree/master/io.asgardeo.tomcat.oidc.sample)
-
-</Edition>
-
-<Edition only="self-hosted">
-
-<img src={require("../../../../assets/img/logo/java-logo.svg").default} alt="OIDC" width="50" /><br /> [Download sample](https://github.com/asgardeo/asgardeo-tomcat-oidc-agent/releases/latest/download/oidc-sample-app.war)
-
-<img src={require("../../../../assets/img/logo/github-logo.svg").default} alt="GitHub" width="50" /> <br /> [View source](https://github.com/asgardeo/asgardeo-tomcat-oidc-agent/tree/master/io.asgardeo.tomcat.oidc.sample)
-
-</Edition>
 
 ## Configure the sample
 
@@ -168,82 +99,6 @@ Follow the steps given below to configure the sample app.
     This will extract the contents of the **war** file. <br />
     If your Tomcat server is set to auto-deploy applications, you can skip this step.
     :::
-
-<Edition only="cloud">
-
-3. Go to the `<TOMCAT_HOME>/webapps/oidc-sample-app/WEB-INF/classes` folder and open the `oidc-sample-app.properties` file in a text editor.
-4. Update the following in the `oidc-sample-app.properties` file:
-
-    ```json
-    consumerKey={client ID}
-    consumerSecret={client secret}
-    scope=openid,address,email,profile
-
-    callBackURL=http://localhost:8080/oidc-sample-app/oauth2client
-    trustedAudience=http://localhost:8080/oidc-sample-app      
-
-    issuer=https://api.asgardeo.io/t/{organization_name}/oauth2/token
-    authorizeEndpoint=https://api.asgardeo.io/t/{organization_name}/oauth2/authorize
-    logoutEndpoint=https://api.asgardeo.io/t/{organization_name}/oidc/logout
-    tokenEndpoint=https://api.asgardeo.io/t/{organization_name}/oauth2/token
-    jwksEndpoint=https://api.asgardeo.io/t/{organization_name}/oauth2/jwks
-    #sessionIFrameEndpoint=https://api.asgardeo.io/t/{organization_name}/oidc/checksession
-
-    skipURIs=/oidc-sample-app/index.html
-    indexPage=index.html
-    logoutURL=logout 
-    errorPage=error.jsp
-    ```
-     <table>
-       <tbody>
-         <tr>
-           <th>Configuration</th>
-           <th>Description</th>
-         </tr>
-         <tr>
-           <td>`consumerKey`</td>
-           <td>The client id of the registered application.</td>
-         </tr>
-         <tr>
-           <td>`consumerSecret`</td>
-           <td>The client secret of the registered application.</td>
-         </tr>
-         <tr>
-           <td>`scope`</td>
-           <td>
-
-             The list of OIDC scopes that are used for requesting user information. You can add OIDC scopes such as `profile` and `email` in a comma-separated list as follows:
-
-             `scope=openid,address,email,profile`
-
-           </td>
-         </tr>
-         <tr>
-           <td>`issuer`</td>
-           <td>Issuer endpoint of WSO2 Identity Platform used for id token validation: `https://api.asgardeo.io/t/{organization_name}/oauth2/token`</td>
-         </tr>
-         <tr>
-           <td>`authorizeEndpoint`</td>
-           <td>The authorization endpoint of your WSO2 Identity Platform organization: `https://api.asgardeo.io/t/{organization_name}/oauth2/authorize`</td>
-         </tr>
-         <tr>
-           <td>`logoutEndpoint`</td>
-           <td>The logout endpoint of your WSO2 Identity Platform organization: `https://api.asgardeo.io/t/{organization_name}/oidc/logout`</td>
-         </tr>
-         <tr>
-           <td>`tokenEndpoint`</td>
-           <td>The token endpoint of your WSO2 Identity Platform organization: `https://api.asgardeo.io/t/{organization_name}/oauth2/token`</td>
-         </tr>
-         <tr>
-           <td>`jwksEndpoint`</td>
-           <td>The jwks endpoint of your WSO2 Identity Platform organization: `https://api.asgardeo.io/t/{organization_name}/oauth2/jwks`</td>
-         </tr>
-       </tbody>
-     </table>
-
-</Edition>
-
-<Edition only="self-hosted">
 
 3. Go to the `<TOMCAT_HOME>/webapps/oidc-sample-app/WEB-INF/classes` folder and open the `oidc-sample-app.properties` file in a text editor.
 4. Update the following in the `oidc-sample-app.properties` file:
@@ -315,16 +170,12 @@ Follow the steps given below to configure the sample app.
        </tbody>
      </table>
 
-</Edition>
-
 5. On your terminal, navigate to the `<TOMCAT_HOME>/bin` folder and run the following commands to restart the Tomcat server for the configurations to take effect:
 
     ```bash
     sh catalina.sh stop
     sh catalina.sh start
     ```
-
-<Edition only="self-hosted">
 
 ## Update the java keystore
 
@@ -379,35 +230,18 @@ keystore and import it to the Java keystore.
     sh catalina.sh start
     ```
 
-</Edition>
-
 ## Run the sample
 
 Follow the steps given below to run the sample.
 
 1. Access the application using the following URL: `http://localhost:8080/oidc-sample-app/index.html`.
 
-<Edition only="cloud">
-
-2. Click **Login**. You will be redirected to the WSO2 Identity Platform login page.
-
-    <img src={require("../../../../assets/cloud/img/guides/applications/sign-in-asgardeo.png").default} alt="WSO2 Identity Platform Sign in page" width="350" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
-
-3. Enter the credentials of your user account and click **Sign In**.
-
-</Edition>
-
-<Edition only="self-hosted">
-
 2. Click **Login**. You will be redirected to the {edition.productName} login page.
 
-    <img src={require("../../../../assets/self-hosted/img/guides/applications/sign-in-is.png").default} alt="WSO2 Identity Server sign in page" width="350" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../../../assets/img/guides/applications/sign-in-is.png").default} alt="WSO2 Identity Server sign in page" width="350" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 3. Enter the credentials of your user account and click **Sign In**.
 
     :::note[Extend your login session]
     By default, the user login session is active for only `15 minutes`. You can extend the session to `14 days` by selecting the **Remember me on this computer** option provided at the login screen of your application.
     :::
-
-</Edition>
-

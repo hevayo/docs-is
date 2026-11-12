@@ -2,14 +2,14 @@ openapi: 3.0.1
 info:
   title: User Account Association API
   description: |
-    This document specifies a **User Account Association Management RESTful API** for **WSO2 Identity Platform**.
+    This document specifies a **User Account Association Management RESTful API** for **WSO2 Identity Server**.
     The APIs provide the capability for privileged users to retrieve/delete associated local/federated accounts of other users.
   version: v1
 servers:
-  - url: https://api.asgardeo.io/t/{organization-name}/o/api/users/v1
+  - url: https://{serverUrl}/t/{tenantDomain}/o/api/users/v1
     variables:
       serverUrl:
-        default: https://api.asgardeo.io/t/{organization-name}
+        default: localhost:9443
       tenantDomain:
         default: carbon.super
 security:
@@ -69,7 +69,7 @@ paths:
         - lang: Curl
           source: |
             curl -X 'GET' \
-            'https://api.asgardeo.io/t/{organization-name}/o/api/users/v1/{user-id}/associations' \
+            'https://localhost:9443/t/<tenant_domain>/o/api/users/v1/{user-id}/associations' \
             -H 'accept: application/json' \
             -H 'Authorization: Bearer <token>'
     delete:
@@ -112,7 +112,7 @@ paths:
         - lang: Curl
           source: |
             curl -X 'DELETE' \
-            'https://api.asgardeo.io/t/{organization-name}/o/api/users/v1/{user-id}/associations' \
+            'https://localhost:9443/t/<tenant_domain>/o/api/users/v1/{user-id}/associations' \
             -H 'accept: */*' \
             -H 'Authorization: Bearer <token>'
   /{user-id}/federated-associations:
@@ -165,7 +165,7 @@ paths:
         - lang: Curl
           source: |
             curl -X 'GET' \
-            'https://api.asgardeo.io/t/{organization-name}/o/api/users/v1/{user-id}/federated-associations' \
+            'https://localhost:9443/t/<tenant_domain>/o/api/users/v1/{user-id}/federated-associations' \
             -H 'accept: application/json' \
             -H 'Authorization: Bearer <token>'
     post:
@@ -206,7 +206,7 @@ paths:
         - lang: Curl
           source: |
             curl -X 'POST' \
-            'https://api.asgardeo.io/t/{organization-name}/o/api/users/v1/{user-id}/federated-associations' \
+            'https://localhost:9443/t/<tenant_domain>/o/api/users/v1/{user-id}/federated-associations' \
             -H 'accept: application/json' \
             -H 'Authorization: Bearer <token>' \
             -H 'Content-Type: application/json' \
@@ -261,7 +261,7 @@ paths:
         - lang: Curl
           source: |
             curl -X 'DELETE' \
-            'https://api.asgardeo.io/t/{organization-name}/o/api/users/v1/{user-id}/federated-associations' \
+            'https://localhost:9443/t/<tenant_domain>/o/api/users/v1/{user-id}/federated-associations' \
             -H 'accept: */*' \
             -H 'Authorization: Bearer <token>'
   /{user-id}/federated-associations/{id}:
@@ -310,7 +310,7 @@ paths:
         - lang: Curl
           source: |
             curl -X 'DELETE' \
-            'https://api.asgardeo.io/t/{organization-name}/o/api/users/v1/user-id/federated-associations/federated-association-id' \
+            'https://localhost:9443/t/<tenant_domain>/o/api/users/v1/user-id/federated-associations/federated-association-id' \
             -H 'accept: */*' \
             -H 'Authorization: Bearer <token>'
   /federated-associations/bulk:
@@ -349,7 +349,7 @@ paths:
         - lang: Curl
           source: |
             curl -X 'POST' \
-              'https://api.asgardeo.io/t/{organization-name}/o/api/users/v1/federated-associations/bulk' \
+              'https://localhost:9443/t/<tenant-domain>/o/api/users/v1/federated-associations/bulk' \
               -H 'accept: */*' \
               -H 'Authorization: Bearer {bearer-token}' \
               -d '{
@@ -385,7 +385,6 @@ paths:
                   }
                 ]
               }'
-              
       requestBody:
         required: false
         content:
@@ -581,6 +580,6 @@ components:
       type: oauth2
       flows:
         authorizationCode:
-          authorizationUrl: https://api.asgardeo.io/t/{organization-name}/oauth2/authorize
-          tokenUrl: https://api.asgardeo.io/t/{organization-name}/oauth2/token
+          authorizationUrl: https://localhost:9443/oauth2/authorize
+          tokenUrl: https://localhost:9443/oauth2/token
           scopes: {}

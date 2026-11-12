@@ -1,60 +1,25 @@
 ---
-title: Integrate Ory Oathkeeper
-description: Oathkeeper is an open-source identity gateway that authenticates users through an external identity provider (such as WSO2 Identity Platform) and forwards…  # generated from the first paragraph; a writer should improve it
+title: Integrate Ory Oathkeeper with WSO2 Identity Server
+description: Oathkeeper is an open-source identity gateway that authenticates users through an external identity provider (such as WSO2 Identity Server) and forwards…  # generated from the first paragraph; a writer should improve it
 type: reference
+sidebar_label: Oathkeeper
 sidebar_position: 3
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-<Edition only="cloud">
-
-# Integrate Ory Oathkeeper with {edition.productName}
-
-</Edition>
-
-<Edition only="self-hosted">
-
-# Integrate Ory Oathkeeper with WSO2 Identity Server
-
-</Edition>
-
 [Oathkeeper](https://github.com/ory/oathkeeper) is an open-source identity gateway that authenticates users through an external identity provider (such as {edition.productName}) and forwards user identity and session information to your back-end services via HTTP headers and cookies. This guide explains how you can connect {edition.productName} with Oathkeeper.
 
-<Edition only="cloud">
-
-![Oathkeeper flow diagram showing authentication flow between client, Oathkeeper, WSO2 Identity Platform, and back-end application](../../../../assets/cloud/img/tutorials/protect-apps-with-identity-gateway/oathkeeper-architecture.png)
-
-</Edition>
-
-<Edition only="self-hosted">
-
-![Oathkeeper flow diagram showing authentication flow between client, Oathkeeper, WSO2 Identity Server, and back-end application](../../../../assets/self-hosted/img/tutorials/protect-apps-with-identity-gateway/oathkeeper-architecture.png)
-
-</Edition>
+![Oathkeeper flow diagram showing authentication flow between client, Oathkeeper, WSO2 Identity Server, and back-end application](../../../../assets/img/tutorials/protect-apps-with-identity-gateway/oathkeeper-architecture.png)
 
 ## Prerequisites
-
-<Edition only="cloud">
-
-- A {edition.productName} organization. If you don't have one, [create a free account](../../../quick-starts/create-identity-platform-account.mdx).
-
-</Edition>
 
 - **Go 1.16 or later**. To install Go, follow the steps in the [Go documentation](https://go.dev/doc/install).
 
 - An application with a back-end. If you don't have one, you can use this [sample application](https://github.com/wso2/samples-is/raw/refs/heads/master/identity-gateway/sample-request-logger-app/request-logger.jar).
 
 - (Optional) Redis server for session storage.
-
-<Edition only="cloud">
-
-## Step 1: Register an OIDC application
-
-</Edition>
-
-<Edition only="self-hosted">
 
 ## Step 1: Install and run {edition.productName}
 
@@ -98,34 +63,15 @@ Follow the following steps below to download and install {edition.productName}. 
 
 ## Step 2: Create an OIDC application
 
-</Edition>
-
 To connect Oathkeeper to {edition.productName}, you need to register it as an application. To do so,
-
-<Edition only="cloud">
-
-1. Sign in to the [{edition.productName} Console](https://console.asgardeo.io/) and go to your organization.
-
-2. [Register a Traditional Web Application](../../../guides/applications/register-oidc-web-app.mdx) with the **OpenID Connect** protocol and the following details:
-
-    - **Name** - oathkeeper-app
-    - **Authorized redirect URL** - The URL where {edition.productName} sends the authentication response after login. For example: `http://localhost:9444/oauth2/callback` (or your proxy callback URL).
-
-3. Take note of the **Client ID** and **Client Secret** [generated for your application](../../../guides/applications/register-oidc-web-app.mdx#get-the-client-id-and-secret).
-
-## Step 2: (Optional) Set up sample application
-
-</Edition>
-
-<Edition only="self-hosted">
 
 1. On the {edition.productName} Console, go to **Applications** > **New Application**.
 
-      ![Add application step showing the Applications menu and Add Application option](../../../../assets/self-hosted/img/tutorials/protect-apps-with-identity-gateway/add-application-step.png)
+      ![Add application step showing the Applications menu and Add Application option](../../../../assets/img/tutorials/protect-apps-with-identity-gateway/add-application-step.png)
 
 2. Select **Traditional Web Application**.
 
-      ![Select web app step showing the Traditional Web Application option](../../../../assets/self-hosted/img/tutorials/protect-apps-with-identity-gateway/select-web-app-step.png)
+      ![Select web app step showing the Traditional Web Application option](../../../../assets/img/tutorials/protect-apps-with-identity-gateway/select-web-app-step.png)
 
 3. Enter the following details and click **Create**.
 
@@ -133,15 +79,13 @@ To connect Oathkeeper to {edition.productName}, you need to register it as an ap
       - **Protocol** - Select OpenID Connect
       - **Callback URL** -The URL where WSO2 Identity Server sends the authentication response after login. For example: `http://localhost:9444/oauth2/callback` (or your proxy callback URL)
 
-      ![Fill app details step showing the application configuration form with name and callback URL fields](../../../../assets/self-hosted/img/tutorials/protect-apps-with-identity-gateway/fill-app-details-step-oathkeeper.png)
+      ![Fill app details step showing the application configuration form with name and callback URL fields](../../../../assets/img/tutorials/protect-apps-with-identity-gateway/fill-app-details-step-oathkeeper.png)
 
 4. Take note of the **Client ID** and **Client Secret** generated for your application.
 
-     ![Copy client credentials step showing the generated client ID and client secret](../../../../assets/self-hosted/img/tutorials/protect-apps-with-identity-gateway/copy-client-credentials-step.png)
+     ![Copy client credentials step showing the generated client ID and client secret](../../../../assets/img/tutorials/protect-apps-with-identity-gateway/copy-client-credentials-step.png)
 
 ## Step 3: (Optional) Set up sample application
-
-</Edition>
 
 If you have your own application, you can skip this step. If you want to use the sample Java application, follow the steps below to set it up.
 
@@ -158,17 +102,7 @@ If you have your own application, you can skip this step. If you want to use the
 
       ![Sample app running showing the application startup and running status](../../../../assets/img/tutorials/protect-apps-with-identity-gateway/sample-app-running.png)
 
-<Edition only="cloud">
-
-## Step 3: Install and configure Oathkeeper
-
-</Edition>
-
-<Edition only="self-hosted">
-
 ## Step 4: Install and configure Oathkeeper
-
-</Edition>
 
 Follow the steps below to set up Oathkeeper with {edition.productName}.
 
@@ -240,61 +174,6 @@ Follow the steps below to set up Oathkeeper with {edition.productName}.
      go build -o ./bin/oathkeeper .
      ```
 
-<Edition only="cloud">
-
-7. [Download](https://github.com/wso2/samples-is/tree/master/identity-gateway/oathkeeper/sample-configuration) the sample configuration and rule files.
-
-8. Update the downloaded `config.yml` file with the following values.
-
-    - This sample configuration file assumes that the following services run on the specified endpoints. If your setup differs, adjust the configuration accordingly.
-
-        - {edition.productName}: `https://api.asgardeo.io/t/<organization_name>`
-        - Oathkeeper: `http://localhost:9444`
-        - Back-end Service (API or Web Application): `http://localhost:8080`
-
-    - Replace the {edition.productName} endpoints in the configuration file with your organization's endpoints under `https://api.asgardeo.io/t/<organization_name>/oauth2/`, where `<organization_name>` is the name of your {edition.productName} organization.
-
-    - Replace `<your_client_id>`, `<your_client_secret>` with the client ID and the client secret you received earlier when registering the application in {edition.productName}.
-
-    - Under `access_rules`, specify the path to the rules file. You can use the sample rules file if you don't have your own.
-
-    - The sample configuration file assumes a system with a Redis server. If you don't have one, remove the session store configurations and add this:
-
-        ```yaml
-        # Session store configuration
-        session_store:
-          type: memory
-        ```
-
-    - The sample configuration file also assumes TLS encryption. If you don't use it, make the following changes.
-
-        - Change the proxy port to `4455`. The default port `9444` uses TLS.
-
-            ```yaml
-            proxy:
-              port: 4455
-            ```
-
-        - Remove TLS-related configurations:
-
-            ```yaml
-            tls:
-              cert:
-                path: /path/to/certificates/cert.pem
-              key:
-                path: /path/to/certificates/key.pem
-            ```
-
-9. Start Oathkeeper:
-
-    ```bash
-    ./bin/oathkeeper serve --config /path/to/config.yml
-    ```
-
-</Edition>
-
-<Edition only="self-hosted">
-
 6. [Download](https://github.com/wso2/samples-is/tree/master/identity-gateway/oathkeeper/sample-configuration) the sample configuration and rule files.
 
 7. Update the downloaded `config.yml` file with the following values.
@@ -342,8 +221,6 @@ Follow the steps below to set up Oathkeeper with {edition.productName}.
     ./bin/oathkeeper serve --config /path/to/config.yml
     ```
 
-</Edition>
-
 :::note[Learn more]
 Refer to the Oathkeepr documentation for more information on [Oathkeeper configurations](https://www.ory.sh/docs/oathkeeper/configure-deploy).
 :::
@@ -370,21 +247,9 @@ By default, Oathkeeper keeps sessions in memory. While this works for single-ins
 
 If you have a Redis server, add the following to your `config.yml` configuration file to connect it.
 
-<Edition only="cloud">
-
-:::tip[Before you begin]
-In Step 3, make sure the Oathkeeper binary is built with all necessary files and libraries required for Redis support.
-:::
-
-</Edition>
-
-<Edition only="self-hosted">
-
 :::tip[Before you begin]
 In Step 4, make sure the Oathkeeper binary is built with all necessary files and libraries required for Redis support.
 :::
-
-</Edition>
 
 ```yaml
 session_store:
@@ -408,17 +273,7 @@ redis://[:password@]host[:port][/db-number]
 
 ### Encrypt connections with TLS
 
-<Edition only="cloud">
-
-To encrypt communication between clients and Oathkeeper, you can enable TLS. To do so, add the following to your `config.yml` configuration file:
-
-</Edition>
-
-<Edition only="self-hosted">
-
 To encrypt communication between clients and OAuth2 Proxy, you can enable TLS. To do so, add the following to your `config.yml` configuration file:
-
-</Edition>
 
 ```yaml
 port: 9444

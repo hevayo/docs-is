@@ -9,14 +9,6 @@ sidebar_position: 1
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-<Edition only="cloud">
-
-</Edition>
-
-<Edition only="self-hosted">
-
-</Edition>
-
 Welcome to the Angular Quickstart guide! In this document, you will learn to build an Angular app, add user login and display user profile information using {edition.productName}.
 
 [//] STEPS_START
@@ -26,25 +18,11 @@ Welcome to the Angular Quickstart guide! In this document, you will learn to bui
 - Sign into {edition.productName} console and navigate to **Applications > New Application.**
 - Select **Single Page Application** and complete the wizard popup by providing a suitable name and an authorized redirect URL.
 
-<Edition only="cloud">
-
-:::note[Example]
-**name:** asgardeo-angular
-
-**Authorized redirect URL:** http://localhost:4200
-:::
-
-</Edition>
-
-<Edition only="self-hosted">
-
 :::note[Example]
 **name:** is-angular
 
 **Authorized redirect URL:** http://localhost:4200
 :::
-
-</Edition>
 
 Note down the following values from the **Protocol** and the **Info** tabs of the registered application. You will need them to configure the SDK.
 
@@ -59,21 +37,9 @@ The authorized redirect URL determines where {edition.productName} should send u
 
 Create an Angular app using Angular CLI.
 
-<Edition only="cloud">
-
-```bash
-ng new asgardeo-angular
-```
-
-</Edition>
-
-<Edition only="self-hosted">
-
 ```bash
 ng new is-angular
 ```
-
-</Edition>
 
 :::warning[Important]
 - Before running the command above, make sure you have ***Angular CLI version 17*** installed. This guide is compatible only with Angular CLI 17. You can install it using the following command.
@@ -197,45 +163,6 @@ The `OAuthService` provides methods for logging in and out, checking the authent
 
 Replace the existing content of the `app.component.ts` file with following content.
 
-<Edition only="cloud">
-
-```javascript title="app.component.ts" {16-28}
-
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { OAuthService } from 'angular-oauth2-oidc';
-import { CommonModule } from '@angular/common';
-
-@Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet, CommonModule],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
-})
-
-export class AppComponent {
-  title = 'asgardeo-angular';
-  isAuthorized = this.oAuthService.hasValidAccessToken();
-
-  constructor(private oAuthService: OAuthService) {
-
-  }
-
-  login() {
-    this.oAuthService.initLoginFlow();
-  }
-
-  logout() {
-    this.oAuthService.revokeTokenAndLogout();
-  }
-}
-```
-
-</Edition>
-
-<Edition only="self-hosted">
-
 ```javascript title="app.component.ts" {16-28}
 
 import { Component } from '@angular/core';
@@ -268,8 +195,6 @@ export class AppComponent {
   }
 }
 ```
-
-</Edition>
 
 Next, replace the existing content of the `app.component.html` file with following content to add login and logout URLs.  
 

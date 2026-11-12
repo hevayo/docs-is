@@ -47,8 +47,6 @@ The system schema is a user extension provided by {edition.productName} to suppo
 
 Custom schema attributes provide the flexibility to extend standard SCIM schemas with additional fields to fit the needs of your organization. While other attribute schemas cannot be modified, you can freely add or delete custom schema attributes.
 
-<Edition only="self-hosted">
-
 Custom user attributes in WSO2 Identity Server are created under the `urn:scim:schemas:extension:custom:User` schema. 
 
 You can configure this schema in the following ways by adding configuration to `<IS_HOME>/repository/conf/deployment.toml`
@@ -66,8 +64,6 @@ You can configure this schema in the following ways by adding configuration to `
     [scim2]
     custom_user_schema_uri = "urn:scim:custom:schema:new"
     ```
-
-</Edition>
 
 </details>
 

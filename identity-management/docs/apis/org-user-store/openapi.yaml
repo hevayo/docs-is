@@ -1,12 +1,13 @@
 openapi: 3.0.0
 info:
   description: >
-    This document specifies the **Userstore Management RESTful API** for WSO2 Identity Platform organizations.
+    This document specifies the **Userstore Management RESTful API** for **WSO2 Identity Server**
   version: "v1"
-  title: WSO2 Identity Platform - UserStore Management Rest API
+  title: UserStore Management Rest API
 
 security:
   - OAuth2: []
+
 paths:
   /userstores:
     post:
@@ -19,10 +20,9 @@ paths:
 
         **NOTE:**
 
-          To retrieve the available user store classes/types, use the **/o/api/server/v1/userstores/meta/types** API.
-        
-          When creating a user store, it will be **disabled by default**. To enable the user store, include the `disabled` property set to `false` in the properties of the payload.
+          To retrieve the available user store classes/types, use the **api/server/v1/userstores/meta/types** API.
 
+          When creating a user store, it will be **disabled by default**. To enable the user store, include the `disabled` property set to `false` in the properties of the payload.
         
         <b>Scope(Permission) required:</b> `internal_org_userstore_create`
       responses:
@@ -52,14 +52,14 @@ paths:
         - lang: Curl
           source: |
             curl -X 'POST' \
-            'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v1/userstores' \
+            'https://localhost:9443/o/api/server/v1/userstores' \
             -H 'accept: application/json' \
             -H 'Authorization: Bearer {bearer_token}' \
             -H 'Content-Type: application/json' \
             -d '{
             "typeId": "VW5pcXVlSURKREJDVXNlclN0b3JlTWFuYWdlcg",
             "description": "Some description about the user store.",
-            "name": "LDAP-SECONDARY",
+            "name": "JDBC-SECONDARY",
             "properties": [
               {
                 "name": "some property name",
@@ -109,9 +109,85 @@ paths:
         - lang: Curl
           source: |
             curl -X 'GET' \
-            'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v1/userstores' \
+            'https://localhost:9443/o/api/server/v1/userstores' \
             -H 'accept: application/json' \
-            -H 'Authorization: Bearer {bearer_token}'            
+            -H 'Authorization: Bearer {bearer_token}'
+  /userstores/import:
+    post:
+      tags:
+        - User Store
+      summary: |
+        Import a secondary user store from a file
+      description: |
+        This API provides the capability to import a user store from
+        the configurations provided as a `YAML`, `JSON` or `XML` file.<br>
+        
+        <b>Scope(Permission) required:</b> `internal_org_userstore_create`
+      operationId: importUserStoreFromFile
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FileUpload'
+        description: This represents the user store to be created.
+      responses:
+        '201':
+          description: Successful response
+          headers:
+            Location:
+              description: >-
+                Location of the newly created secondary userstore. userstore id is generated as base-64-url-encoded(domain-name) value.
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/InvalidInput'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-codeSample:
+        - lang: Curl
+          source: |
+            curl -X 'POST' \
+            'https://localhost:9443/o/api/server/v1/userstores/import' \
+            -H 'accept: */*' \
+            -H 'Content-Type: multipart/form-data' \
+            -F 'file=@file-name.xml;type=text/xml'
+  /userstores/primary:
+    get:
+      tags:
+        - User Store
+      summary: >-
+        Retrieve the configurations of primary user store
+      operationId: getPrimaryUserStore
+      description: |
+        This API provides the capability to retrieve the configurations of the primary user store.<br>
+
+        <b>Scope(Permission) required:</b> `internal_org_userstore_view`
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserStoreConfigurationsRes'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-codeSamples:
+        - lang: Curl
+          source: |
+            curl -X 'GET' \
+            'https://localhost:9443/o/api/server/v1/userstores/primary' \
+            -H 'accept: application/json' \
+            -H 'Authorization: Bearer {bearer_token}'
   /userstores/{userstore-domain-id}:
     get:
       tags:
@@ -143,9 +219,9 @@ paths:
         - lang: Curl
           source: |
             curl -X 'GET' \
-            'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v1/userstores/{userstore-domain-id}' \
+            'https://localhost:9443/o/api/server/v1/userstores/{userstore-domain-id}' \
             -H 'accept: application/json' \
-            -H 'Authorization: Bearer {bearer_token}'          
+            -H 'Authorization: Bearer {bearer_token}'
     delete:
       tags:
         - User Store
@@ -171,9 +247,9 @@ paths:
         - lang: Curl
           source: |
             curl -X 'DELETE' \
-            'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v1/userstores/{userstore-domain-id}' \
+            'https://localhost:9443/o/api/server/v1/userstores/{userstore-domain-id}' \
             -H 'accept: */*' \
-            -H 'Authorization: Bearer {bearer_token}'           
+            -H 'Authorization: Bearer {bearer_token}'
     put:
       tags:
         - User Store
@@ -213,14 +289,14 @@ paths:
         - lang: Curl
           source: |
             curl -X 'PUT' \
-            'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v1/userstores/{userstore-domain-id}' \
+            'https://localhost:9443/o/api/server/v1/userstores/{userstore-domain-id}' \
             -H 'accept: application/json' \
             -H 'Authorization: Bearer {bearer_token}' \
             -H 'Content-Type: application/json' \
             -d '{
             "typeId": "VW5pcXVlSURKREJDVXNlclN0b3JlTWFuYWdlcg",
             "description": "Some description about the user store.",
-            "name": "LDAP-SECONDARY",
+            "name": "JDBC-SECONDARY",
             "properties": [
               {
                 "name": "some property name",
@@ -233,6 +309,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/UserStoreReq'
+              # But not allowing to change the typeName and name in the PUT request.
         description: >-
           The secondary user store values which are needed to be edited for a
           given domain id.
@@ -269,7 +346,7 @@ paths:
         - lang: Curl
           source: |
             curl -X 'PATCH' \
-            'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v1/userstores/userstore-domain-id' \
+            'https://localhost:9443/o/api/server/v1/userstores/userstore-domain-id' \
             -H 'accept: application/json' \
             -H 'Authorization: Bearer {bearer_token}' \
             -H 'Content-Type: application/json' \
@@ -286,6 +363,117 @@ paths:
             schema:
               $ref: '#/components/schemas/PatchRequest'
         required: true
+  /userstores/{userstore-domain-id}/export:
+    get:
+      tags:
+        - User Store
+      summary: |
+        Export a secondary user store by its domain id
+      description: |
+        This API provides the capability to retrieve the configurations of a
+        secondary user store based on its domain id as an `XML`, `YAML`, or `JSON` file.<br>
+        
+        <b>Scope(Permission) required:</b> `internal_org_userstore_view`
+      operationId: exportUserStoreToFile
+      parameters:
+        - name: userstore-domain-id
+          in: path
+          description: ID of the user store domain.
+          required: true
+          schema:
+            type: string
+            example: SkRCQy1TRUNPTkRBUlk
+        - $ref: '#/components/parameters/fileTypeHeaderParam'
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: string
+              example: 'Sample userstore configuration in the requested format'
+            application/yaml:
+              schema:
+                type: string
+              example: 'Sample userstore configuration in the requested format'
+            application/xml:
+              schema:
+                type: string
+              example: 'Sample userstore configuration in the requested format'
+            application/octet-stream:
+              schema:
+                type: string
+              example: 'Sample userstore configuration in the requested format'
+        '400':
+          $ref: '#/components/responses/InvalidInput'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-codeSamples:
+        - lang: Curl
+          source: |
+            curl -X 'GET' \
+            'https://localhost:9443/o/api/server/v1/userstores/{domain-id}/export' \
+            -H 'accept: application/json'
+  /userstores/{userstore-domain-id}/import:
+    put:
+      tags:
+        - User Store
+      summary: |
+        Update an existing user store by importing configs from a file
+      description: |
+        This API provides the capability to update an existing user store by importing
+        user store configurations provided as a YAML, JSON or XML file.<br>
+
+        <b>Scope(Permission) required:</b> `internal_org_userstore_update`
+      operationId: updateUserStoreFromFile
+      parameters:
+        - name: userstore-domain-id
+          in: path
+          description: ID of the user store.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FileUpload'
+        description: This represents the user store to be updated.
+      responses:
+        '200':
+          description: Successfully Updated.
+          headers:
+            Location:
+              description: >-
+                Location of the updated userstore. userstore id is generated as base-64-url-encoded(domain-name) value.
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/InvalidInput'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-codeSamples:
+        - lang: Curl
+          source: |
+            curl -X 'PUT' \
+            'https://localhost:9443/o/api/server/v1/userstores/{userstore-domain-id}/import' \
+            -H 'accept: */*' \
+            -H 'Content-Type: multipart/form-data' \
+            -F 'file=@file-name.xml;type=text/xml'
   /userstores/{userstore-domain-id}/attribute-mappings:
     patch:
       tags:
@@ -320,7 +508,7 @@ paths:
       x-codeSamples:
         - lang: Curl
           source: |
-            curl --location --request PATCH 'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v1/userstores/{userstore-domain-id}/attribute-mappings' \
+            curl --location --request PATCH 'https://localhost:9443/o/api/server/v1/userstores/{userstore-domain-id}/attribute-mappings' \
             -H 'Content-Type: application/json' \
             -H 'Accept: application/json' \
             -H 'Authorization: Bearer {bearer_token}' \
@@ -358,9 +546,9 @@ paths:
         - lang: Curl
           source: |
             curl -X 'GET' \
-            'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v1/userstores/meta/types' \
+            'https://localhost:9443/o/api/server/v1/userstores/meta/types' \
             -H 'accept: application/json' \
-            -H 'Authorization: Bearer {bearer_token}'         
+            -H 'Authorization: Bearer {bearer_token}'
   /userstores/meta/types/{type-id}:
     get:
       tags:
@@ -401,10 +589,10 @@ paths:
         - lang: Curl
           source: |
             curl -X 'GET' \
-            'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v1/userstores/meta/types/{user-store-type-id}' \
+            'https://localhost:9443/o/api/server/v1/userstores/meta/types/{user-store-type-id}' \
             -H 'accept: application/json' \
             -H 'Authorization: Bearer {bearer_token}'
-  /userstores/meta/types/{type-id}/attributes:
+  '/userstores/meta/types/{type-id}/attributes':
     get:
       tags:
         - Meta
@@ -445,11 +633,62 @@ paths:
         - lang: Curl
           source: |
             curl -X 'GET' \
-            'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v1/userstores/meta/types/{user-store-type-id}/attributes' \
+            'https://localhost:9443/o/api/server/v1/userstores/meta/types/{user-store-type-id}/attributes' \
             -H 'accept: application/json' \
             -H 'Authorization: Bearer {bearer_token}'
+  /userstores/test-connection:
+    post:
+      tags:
+        - User Store
+      summary: Test the connection to the datasource used by a JDBC user store manager.
+      operationId: testRDBMSConnection
+      description: |
+        This API provides the capability to test the connection to the
+        datasource used by a JDBC user store manager.<br>
+
+        <b>Scope(Permission) required:</b> `internal_org_userstore_view`
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnectionEstablishedResponse'
+        '400':
+          $ref: '#/components/responses/InvalidInput'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-codeSamples:
+        - lang: Curl
+          source: |
+            curl -X 'POST' \
+            'https://localhost:9443/o/api/server/v1/userstores/test-connection' \
+            -H 'accept: application/json' \
+            -H 'Authorization: Bearer {bearer_token}' \
+            -H 'Content-Type: application/json' \
+            -d '{
+            "driverName": "com.mysql.jdbc.Driver",
+            "connectionURL": "jdbc:mysql://192.168.48.154:3306/test",
+            "username": "root",
+            "connectionPassword": "root"
+            }'          
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RDBMSConnectionReq'
+        description: >-
+          RDBMS connection properties used to connect to the datasource used by a
+          JDBC user store manager.
 servers:
-  - url: 'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v1'
+  - url: 'https://{serverUrl}/t/{tenantDomain}/o/api/server/v1'
+    variables:
+      serverUrl:
+        default: localhost:9443
+      tenantDomain:
+        default: carbon.super
 components:
   parameters:
     domainNamePathParam:
@@ -572,8 +811,12 @@ components:
       type: oauth2
       flows:
         authorizationCode:
-          authorizationUrl: 'https://api.asgardeo.io/t/{root-organization-name}/oauth/authorize'
-          tokenUrl: 'https://api.asgardeo.io/t/{root-organization-name}/oauth/token'
+          authorizationUrl: 'https://localhost:9443/oauth/authorize'
+          tokenUrl: 'https://localhost:9443/oauth/token'
+          scopes:
+            read: Grants read access
+            write: Grants write access
+            admin: Grants read and write access to administrative information
   schemas:
     UserStoreReq:
       type: object
@@ -595,7 +838,7 @@ components:
         name:
           type: string
           description: This is a unique name that identifies the user store.
-          example: LDAP-SECONDARY
+          example: JDBC-SECONDARY
         properties:
           type: array
           description: >-
@@ -612,6 +855,12 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/PatchDocument'
+    ConnectionEstablishedResponse:
+      type: object
+      properties:
+        connection:
+          type: boolean
+          example: true
     PatchDocument:
       description: A JSONPatch document as defined by RFC 6902
       required:
@@ -634,6 +883,34 @@ components:
           type: string
           description: The value to be used within the operations
           example: 'true'
+    RDBMSConnectionReq:
+      required:
+        - driverName
+        - connectionURL
+        - username
+        - connectionPassword
+      description: RDBMS Connection Request.
+      properties:
+        domain:
+          type: string
+          description: User store domain name.
+          example: PRIMARY
+        driverName:
+          type: string
+          description: Driver Name.
+          example: com.mysql.jdbc.Driver
+        connectionURL:
+          type: string
+          description: The Connection URL.
+          example: 'jdbc:mysql://192.168.48.154:3306/test'
+        username:
+          type: string
+          description: The username.
+          example: root
+        connectionPassword:
+          type: string
+          description: The password.
+          example: root
     ClaimAttributeMapping:
       type: object
       required:
@@ -689,7 +966,7 @@ components:
           description: base64 url encoded value of domain name
         name:
           type: string
-          example: LDAP-SECONDARY
+          example: JDBC-SECONDARY
           description: Domain name of the secondary user store.
         enabled:
           type: boolean
@@ -704,7 +981,7 @@ components:
           description: Whether the user store is local or not.
         self:
           type: string
-          example: /t/{root-organization-name}/o/api/server/v1/userstores/SkRCQy1TRUNPTkRBUlk
+          example: /t/{tenant-domain}/api/server/v1/userstores/SkRCQy1TRUNPTkRBUlk
           description: Location of the created/updated resource.
         typeName:
           type: string
@@ -724,6 +1001,9 @@ components:
         typeId:
           type: string
           example: b3JnLndzbzIuY2FyYm9uLnVzZXIuY29yZS5qZGJjLkpEQkNVc2VyU3RvcmVNYW5hZ2Vy
+        className:
+          type: string
+          example: org.wso2.carbon.user.core.jdbc.UniqueIDJDBCUserStoreManager
         isLocal:
           type: boolean
           example: true
@@ -739,7 +1019,7 @@ components:
           description: base64 url encoded value of domain name
         name:
           type: string
-          example: LDAP-SECONDARY
+          example: JDBC-SECONDARY
           description: domain name of the secondary user store
         typeName:
           type: string
@@ -770,13 +1050,16 @@ components:
         typeName:
           type: string
           example: UniqueIDJDBCUserStoreManager
+        className:
+          type: string
+          example: org.wso2.carbon.user.core.jdbc.UniqueIDJDBCUserStoreManager
         isLocal:
           type: boolean
           example: true
           description: Whether the user store is local or not.
         self:
           type: string
-          example: /t/{root-organization-name}/o/api/server/v1/userstores/meta/types/VW5pcXVlSURKREJDVXNlclN0b3JlTWFuYWdlcg
+          example: /t/{tenant-domain}/api/server/v1/userstores/meta/types/VW5pcXVlSURKREJDVXNlclN0b3JlTWFuYWdlcg
     UserStoreConfigurationsRes:
       type: object
       description: Available User Store Configurations Response.
@@ -789,10 +1072,13 @@ components:
           example: VW5pcXVlSURKREJDVXNlclN0b3JlTWFuYWdlcg
         name:
           type: string
-          example: LDAP-SECONDARY
+          example: JDBC-SECONDARY
         description:
           type: string
           example: Some description of the user store
+        className:
+          type: string
+          example: org.wso2.carbon.user.core.jdbc.UniqueIDJDBCUserStoreManager
         isLocal:
           type: boolean
           example: true
@@ -898,3 +1184,10 @@ components:
           type: string
           description: Display name of the attribute.
           example: First Name
+    FileUpload:
+      type: object
+      properties:
+        file:
+          type: string
+          format: binary
+          description: File uploaded during import.

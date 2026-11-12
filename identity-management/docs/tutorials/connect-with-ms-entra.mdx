@@ -4,7 +4,7 @@ description: Microsoft Entra Verified ID is a verifiable credential issuance and
 type: reference
 sidebar_label: Verifiable credentials with Microsoft Entra Verified ID
 sidebar_position: 2
-editions: self-hosted
+slug: "/references/tutorials/connect-with-ms-entra"
 ---
 
 # Connect {edition.productName} as an OIDC attribute provider for verifiable credentials (VC) with Microsoft Entra Verified ID
@@ -14,10 +14,10 @@ editions: self-hosted
 Microsoft allows configuring an IDP (such as {edition.productName}) as an OpenID Connect (OIDC) attribute provider for verifiable credentials using their `idTokens` attestation in which the claims provided through the OIDC id token is used to generate the verifiable credential.
 
 #### Issuing verifiable credentials
-<img src={require("../../assets/self-hosted/img/tutorials/oidc-attribute-provider-ms/entra-issue-verifiable-credentials.png").default} alt="issue verifiable credentials" width="900" style={{display: "block", margin: "0"}} />
+<img src={require("../../assets/img/tutorials/oidc-attribute-provider-ms/entra-issue-verifiable-credentials.png").default} alt="issue verifiable credentials" width="900" style={{display: "block", margin: "0"}} />
 
 #### Verifying credentials
-<img src={require("../../assets/self-hosted/img/tutorials/oidc-attribute-provider-ms/entra-verify-credentials-diagram.png").default} alt="verify credentials" width="880" style={{display: "block", margin: "0"}} />
+<img src={require("../../assets/img/tutorials/oidc-attribute-provider-ms/entra-verify-credentials-diagram.png").default} alt="verify credentials" width="880" style={{display: "block", margin: "0"}} />
 
 This tutorial explains how this is done using {edition.productName} and Microsoft Entra. Given below are the high-level steps you will follow:
 
@@ -203,11 +203,11 @@ In this step, you will configure the connection between {edition.productName} an
 
 2. Click **New Application** and select **Mobile Application**:
 
-    <img src={require("../../assets/self-hosted/img/tutorials/oidc-attribute-provider-ms/img-12.png").default} alt="register new app in WSO2 Identity Server" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../assets/img/tutorials/oidc-attribute-provider-ms/img-12.png").default} alt="register new app in WSO2 Identity Server" width="800" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 3. Enter the following details:
 
-    <img src={require("../../assets/self-hosted/img/tutorials/oidc-attribute-provider-ms/img-13.png").default} alt="add mobile app configurations" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../assets/img/tutorials/oidc-attribute-provider-ms/img-13.png").default} alt="add mobile app configurations" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
     | Parameter | Description |
     | --- | --- |
@@ -218,7 +218,7 @@ In this step, you will configure the connection between {edition.productName} an
 
 5. Go to the **User Attributes** tab, mark the required attributes as **Mandatory**, and click **Update** to save the changes.
 
-    <img src={require("../../assets/self-hosted/img/tutorials/oidc-attribute-provider-ms/img-14.png").default} alt="add user attributes to mobile app" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../assets/img/tutorials/oidc-attribute-provider-ms/img-14.png").default} alt="add user attributes to mobile app" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
     :::tip
     Be sure to copy the scopes displayed on the page.
@@ -237,7 +237,7 @@ In this step, you will configure the connection between {edition.productName} an
     This step is required to ensure you can log in to the application. You need a business user registered in the {edition.productName} to be able to perform user login.
     :::
 
-    <img src={require("../../assets/self-hosted/img/tutorials/oidc-attribute-provider-ms/img-15.png").default} alt="add new user" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+    <img src={require("../../assets/img/tutorials/oidc-attribute-provider-ms/img-15.png").default} alt="add new user" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 ## Step 3: Create a verifiable credential for the ID token
 

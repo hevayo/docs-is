@@ -2,7 +2,7 @@
 title: Add logout with OIDC to application
 description: OpenID Connect provides OpenID Connect RP-Initiated Logout to terminate user sessions.  # generated from the first paragraph; a writer should improve it
 type: how-to
-sidebar_label: Front-channel logout
+sidebar_label: RP-initiated logout
 sidebar_position: 1
 slug: "/guides/authentication/oidc/add-logout"
 ---
@@ -10,21 +10,9 @@ slug: "/guides/authentication/oidc/add-logout"
 OpenID Connect provides [OpenID Connect RP-Initiated Logout](https://openid.net/specs/openid-connect-rpinitiated-1_0.html) to terminate user sessions. The logout endpoint is used to terminate the user session at {edition.productName} and to log the user out. When a user is
 successfully logged out, the user is redirected to the `post_logout_redirect_uri` sent in the logout request.
 
-<Edition only="cloud">
-
-:::note
-Your application should redirect the user's browser to the logout endpoint, as {edition.productName} uses the browser session to identify the session to terminate. To terminate user sessions from a backend service, use the [Session Management API](../../../../apis/session/index.mdx). The application calling this API should be [authorized](../../../applications/register-machine-to-machine-app.mdx#authorize-the-api-resources-for-the-app) to access the **Session Management API** with the `internal_session_delete` scope.
-:::
-
-</Edition>
-
-<Edition only="self-hosted">
-
 :::note
 Your application should redirect the user's browser to the logout endpoint, as {edition.productName} uses the browser session to identify the session to terminate. To terminate user sessions from a backend service, use the [Session Management API](../../../../apis/session-mgt-rest-api/index.mdx). The application calling this API should be [authorized](../../../applications/register-machine-to-machine-app.mdx#authorize-the-api-resources-for-the-app) to access the **Session Management API** with the `internal_session_delete` scope.
 :::
-
-</Edition>
 
 ## Logout endpoint
 
@@ -98,6 +86,6 @@ http://myapp.com?state=state-param
 
 If **Skip logout consent** is disabled for the application, {edition.productName} prompts the user to confirm the logout before logging the user out. To configure this, go to **Applications** in the {edition.productName} Console, select your application, and use the **Skip logout consent** option in its **Advanced** tab.
 
-<Edition only="cloud"><img src={require("../../../../../assets/img/guides/applications/attributes/skip-logout-consent.png").default} alt="Skip logout consent in WSO2 Identity Platform" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../../assets/img/guides/applications/attributes/skip-logout-consent.png").default} alt="Skip logout consent in WSO2 Identity Server" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+<img src={require("../../../../../assets/img/guides/applications/attributes/skip-logout-consent.png").default} alt="Skip logout consent in WSO2 Identity Server" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 <br />

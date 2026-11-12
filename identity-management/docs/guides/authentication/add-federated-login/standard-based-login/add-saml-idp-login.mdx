@@ -7,14 +7,11 @@ sidebar_position: 3
 slug: "/guides/authentication/standard-based-login/add-saml-idp-login"
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 You can add standard SAML login to your applications using an external SAML Identity Provider (IdP) and enable users to log in with their external identities.
 
 Follow this guide to register a SAML IdP in {edition.productName} and add it to the login flow of your application.
 
-<Edition only="cloud"><img src={require("../../../../../assets/cloud/img/guides/idp/saml-enterprise-idp/configure-login.png").default} alt="Configure SAML Enterprise IDP login in WSO2 Identity Platform" width="600" /></Edition><Edition only="self-hosted"><img src={require("../../../../../assets/self-hosted/img/guides/idp/saml-enterprise-idp/configure-login.png").default} alt="Configure SAML Enterprise IDP login in WSO2 Identity Server" width="600" /></Edition>
+<img src={require("../../../../../assets/img/guides/idp/saml-enterprise-idp/configure-login.png").default} alt="Configure SAML Enterprise IDP login in WSO2 Identity Server" width="600" />
 
 ## Register {edition.productName} in the IdP
 You need to register {edition.productName} as a SAML application in the external identity provider. Follow the identity provider's documentation to know how to register a SAML application.
@@ -43,7 +40,7 @@ Now, let's register the SAML IdP in {edition.productName}.
 1. On the {edition.productName} Console, click **Connections**.
 2. Click **New Connections** and select **Standard-Based IdP**.
 3. Provide a unique **identity provider name**, select **SAML**, and click **Next**.
-   <Edition only="cloud"><img src={require("../../../../../assets/img/guides/idp/saml-enterprise-idp/register-saml-idp.png").default} alt="Create SAML Enterprise IDP in WSO2 Identity Platform" width="600" /></Edition><Edition only="self-hosted"><img src={require("../../../../../assets/img/guides/idp/saml-enterprise-idp/register-saml-idp.png").default} alt="Create SAML Enterprise IDP in WSO2 Identity Server" width="600" /></Edition>
+   <img src={require("../../../../../assets/img/guides/idp/saml-enterprise-idp/register-saml-idp.png").default} alt="Create SAML Enterprise IDP in WSO2 Identity Server" width="600" />
 
 4. Select one of the following methods and add the SAML configurations:
 
@@ -78,7 +75,7 @@ If you selected **Manual Configuration** in the previous step, follow the steps 
 
 1. Enter the following details and click **Next**.
 
-    <Edition only="cloud"><img src={require("../../../../../assets/cloud/img/guides/idp/saml-enterprise-idp/register-saml-idp-with-manual-config.png").default} alt="Create SAML Enterprise IDP with manual configurations" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../../assets/self-hosted/img/guides/idp/saml-enterprise-idp/register-saml-idp-with-manual-config.png").default} alt="Create SAML Enterprise IDP with manual configurations" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+    <img src={require("../../../../../assets/img/guides/idp/saml-enterprise-idp/register-saml-idp-with-manual-config.png").default} alt="Create SAML Enterprise IDP with manual configurations" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
     | Parameter | Description |
     | --- | --- |
@@ -135,7 +132,7 @@ A SAML IdP metadata file contains the following:
 
 2. Upload the IdP metadata file and click **Next**.
 
-    <Edition only="cloud"><img src={require("../../../../../assets/cloud/img/guides/idp/saml-enterprise-idp/register-saml-idp-with-metafile.png").default} alt="Create SAML Enterprise IDP with Metadata file" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition><Edition only="self-hosted"><img src={require("../../../../../assets/self-hosted/img/guides/idp/saml-enterprise-idp/register-saml-idp-with-metafile.png").default} alt="Create SAML Enterprise IDP with Metadata file" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} /></Edition>
+    <img src={require("../../../../../assets/img/guides/idp/saml-enterprise-idp/register-saml-idp-with-metafile.png").default} alt="Create SAML Enterprise IDP with Metadata file" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 3. (Optional) Provide the mode of certificate configuration.
 
@@ -184,8 +181,6 @@ When you configure a SAML metadata endpoint, {edition.productName} fetches and c
 
 If neither `validUntil` nor `cacheDuration` is defined, a default maximum cache lifetime of 24 hours applies.
 
-<Edition only="self-hosted">
-
 You can change this default in `deployment.toml`:
 
 ```toml
@@ -193,15 +188,11 @@ You can change this default in `deployment.toml`:
 RemoteCertificateCacheMaxLifetime = "24h"
 ```
 
-</Edition>
-
 ### Automatic certificate refresh for key rotation
 
 If signature validation fails, {edition.productName} automatically fetches fresh certificates from the metadata endpoint to support key rotation scenarios where the external IdP replaces its signing certificate.
 
 {edition.productName} applies a default 5-minute block period between consecutive refresh attempts to prevent excessive metadata refresh requests.
-
-<Edition only="self-hosted">
 
 You can configure this duration in `deployment.toml`:
 
@@ -252,8 +243,6 @@ capacity = 100
 | `timeout` | Cache entry expiration time in seconds. | `900` (15 minutes) |
 | `capacity` | Maximum number of cache entries. | `100` |
 
-</Edition>
-
 ## Enable the SAML IdP for login
 
 :::note[Before you begin]
@@ -267,39 +256,6 @@ You need to [register an application with {edition.productName}](../../../applic
     {edition.productName} recommends adding your social and enterprise connections to the first authentication step, as they are used for identifying the user.
     :::
 
-    <Edition only="cloud">
-
-    <Tabs groupId="tabs">
-    <TabItem value="classic-editor" label="Classic Editor">
-
-    To add SAML identity provider login using the Classic Editor:
-
-    1. If you haven't already defined a sign-in flow, click **Start with Default configuration** to get started.
-
-    2. Click **Add Authentication** on the step, select your SAML identity provider, and click **Add**.
-
-        <img src={require("../../../../../assets/cloud/img/guides/idp/saml-enterprise-idp/enable-saml-enterprise-login-with-basic.png").default} alt="Add SAML IdP login in WSO2 Identity Platform" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
-
-    </TabItem>
-    <TabItem value="visual-editor" label="Visual Editor">
-
-    To add SAML identity provider login using the Visual Editor:
-
-    1. Switch to the **Visual Editor** tab, by default the `Username & Password` login flow will be added onto the Visual Editor's workspace.
-
-    2. Click on `+ Add Sign In Option` to add a new authenticator to the same step and select your SAML identity provider connection.
-
-        <img src={require("../../../../../assets/img/guides/idp/saml-enterprise-idp/add-saml-idp-with-visual-editor.png").default} alt="Add SAML IdP login in WSO2 Identity Platform with visual editor" width="700" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
-
-    </TabItem>
-    </Tabs>
-
-    ---
-
-    </Edition>
-
-    <Edition only="self-hosted">
-
     1. Click **Add Sign In Option** to add a new authenticator to the first step.
 
     2. Select the SAML IdP connection.
@@ -307,8 +263,6 @@ You need to [register an application with {edition.productName}](../../../applic
     3. Click **Confirm** to add login with an SAML IdP to the sign-in flow.
 
         <img src={require("../../../../../assets/img/guides/idp/saml-enterprise-idp/add-saml-idp-with-visual-editor.png").default} alt="Configuring SAML login in WSO2 Identity Server using the Visual Editor" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
-
-    </Edition>
 
     :::note[Recommendations]
     It is recommended to add your social and enterprise connections to the first authentication step as they are used for identifying the user.

@@ -1,8 +1,8 @@
 ---
 title: Use the Flow Execution API
-description: Use the Flow Execution API to run user journeys that you design in the Flow Builder of WSO2 Identity Platform directly from your client application.  # generated from the first paragraph; a writer should improve it
+description: Use the Flow Execution API to run user journeys that you design in the Flow Builder of WSO2 Identity Server directly from your client application.  # generated from the first paragraph; a writer should improve it
 type: how-to
-sidebar_position: 9
+sidebar_position: 7
 ---
 
 import Tabs from '@theme/Tabs';
@@ -12,13 +12,9 @@ Use the Flow Execution API to run user journeys that you design in the Flow Buil
 
 The Flow Execution API is exposed at `{{ api_base_path }}/api/server/v1/flow/execute`. This endpoint is open and does not require an authorization header.
 
-<Edition only="self-hosted">
-
 :::info
 Ensure the proper rate limits and security measures are in place when using this API.
 :::
-
-</Edition>
 
 ## Before you begin
 
@@ -118,46 +114,6 @@ The value for `flowType` depends on the flow you want to execute. Refer to the t
 | `REDIRECTION` | Redirect the browser or web view to `data.url` and resume the flow from your callback endpoint. | `url` |
 | `WEBAUTHN` | Initiate webAuthn ceremony with the information in `data.webAuthn`, then submit the encoded response. | `webAuthn` |
 | `INTERNAL_PROMPT` | Submit the requested parameters to server. | `requiredParams` |
-
-<Edition only="cloud">
-
-### Pass runtime values
-
-If the flow defines [runtime values](./conditional-branching.mdx#use-flow-variables) that the app is allowed to set, send them in the `inputs` object of the request that starts the flow. Use the name of each runtime value as the key, and send each value as a string.
-
-```json
-{
-  "flowType": "REGISTRATION",
-  "inputs": {
-    "abTestingKey": "42",
-    "plan": "pro"
-  }
-}
-```
-
-- `abTestingKey` is a whole number from `0` to `99` that decides which [A/B testing](./conditional-branching.mdx#ab-testing) branch the user takes. Keep the key stable for each user or device, so that a returning user sees the same version of the flow.
-- `plan` is a runtime value that the flow defines and allows the app to set.
-
-{edition.productName} reads each value as the data type of the runtime value:
-
-| Data type | Example value |
-| ----------- | --------------- |
-| String | `"pro"` |
-| Integer | `"42"` |
-| Decimal | `"12.5"` |
-| Boolean | `"true"` or `"false"` |
-| Array of strings | `["gold", "silver"]` |
-| Array of numbers | `[10, 20]` |
-
-Keep the following in mind when you pass runtime values:
-
-- {edition.productName} accepts runtime values only in the request that starts the flow, and ignores them in later requests.
-- {edition.productName} ignores values for runtime values that don't allow the app to set them, values that don't match the data type, and values longer than 255 characters. In these cases, the flow uses the initial value.
-- Values can't contain the characters `<`, `>`, `"`, `'`, `` ` ``, `\`, `{`, `}`, `$`, or control characters.
-
-If the flow reads [request headers](./conditional-branching.mdx#use-flow-variables), {edition.productName} reads them from every request your application sends. Each occurrence of a header becomes one entry in the header's value.
-
-</Edition>
 
 ## Continue a flow execution
 

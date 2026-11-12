@@ -2,7 +2,7 @@
 title: Access Control for Ambient Agents
 description: This tutorial demonstrates how to implement Client Initiated Backchannel Authentication (CIBA) for AI agents that need asynchronous user approval for…  # generated from the first paragraph; a writer should improve it
 type: reference
-sidebar_position: 9
+sidebar_position: 8
 ---
 
 ## Implementing CIBA for Autonomous AI Agents
@@ -109,23 +109,10 @@ A Model Context Protocol server that exposes stock trading tools. Validates toke
 
 Before you begin, ensure you have:
 
-<Edition only="cloud">
-
-- **Python 3.12 or higher** installed on your system
-- **WSO2 Identity Platform Account**: Sign up for free at [https://console.asgardeo.io](https://console.asgardeo.io)
-- **Google AI API Key**: Required for Gemini LLM integration. Obtain from [Google AI Studio](https://aistudio.google.com/app/apikey)
-- **Email Access**: You'll need a valid email address to receive CIBA approval notifications
-
-</Edition>
-
-<Edition only="self-hosted">
-
 - **Python 3.12 or higher** installed on your system
 - **WSO2 Identity Server**: An instance of WSO2 Identity Server
 - **Google AI API Key**: Required for Gemini LLM integration. Obtain from [Google AI Studio](https://aistudio.google.com/app/apikey)
 - **Email Access**: You'll need a valid email address to receive CIBA approval notifications
-
-</Edition>
 
 ## Configure {edition.productName}
 
@@ -277,21 +264,6 @@ This grants both the user and agent the permissions defined in the `stock_mcp` r
 
 At this point, you should have collected the following values:
 
-<Edition only="cloud">
-
-| Configuration Item | Value | Used In |
-|-------------------|-------|---------|
-| WSO2 Identity Platform Organization | `YOUR_ORG` | Both `.env` files |
-| Client ID | `<aurelius-agent-client-id>` | Main `.env` |
-| Client Secret | `<aurelius-agent-client-secret>` | Main `.env` |
-| Agent ID | `<agent-id>` | Main `.env` |
-| Agent Secret | `<agent-secret>` | Main `.env` |
-| User Email | `alice@yourdomain.com` | Main `.env` (INVESTOR_EMAIL) |
-
-</Edition>
-
-<Edition only="self-hosted">
-
 | Configuration Item | Value | Used In |
 |-------------------|-------|---------|
 | Identity Server URL | `YOUR_ORG` | Both `.env` files |
@@ -300,8 +272,6 @@ At this point, you should have collected the following values:
 | Agent ID | `<agent-id>` | Main `.env` |
 | Agent Secret | `<agent-secret>` | Main `.env` |
 | User Email | `alice@yourdomain.com` | Main `.env` (INVESTOR_EMAIL) |
-
-</Edition>
 
 Keep these values handy for the next step.
 
@@ -337,22 +307,6 @@ cp .env.example .env
 
 Edit `mcp-stock-server/.env` with your configuration:
 
-<Edition only="cloud">
-
-```bash
-# {edition.productName} Configuration
-AUTH_ISSUER=https://api.asgardeo.io/t/YOUR_ORG/oauth2/token
-CLIENT_ID=<aurelius-agent-client-id> # MCP Client Application
-JWKS_URL=https://api.asgardeo.io/t/YOUR_ORG/oauth2/jwks
-
-# MCP Server Configuration
-MCP_SERVER_PORT=8200
-```
-
-</Edition>
-
-<Edition only="self-hosted">
-
 ```bash
 # {edition.productName} Configuration
 AUTH_ISSUER=https://localhost:9443/oauth2/token
@@ -363,27 +317,12 @@ JWKS_URL=https://localhost:9443/oauth2/jwks
 MCP_SERVER_PORT=8200
 ```
 
-</Edition>
-
 **Configuration Notes:**
-
-<Edition only="cloud">
-
-- Replace `YOUR_ORG` with your WSO2 Identity Platform organization name
-- Use the **Client ID** from the Aurelius Trading Agent application
-- The `AUTH_ISSUER` must end with `/oauth2/token`
-- The `JWKS_URL` must end with `/oauth2/jwks`
-
-</Edition>
-
-<Edition only="self-hosted">
 
 - Update the URLs to match your Identity Server instance
 - Use the **Client ID** from the Aurelius Trading Agent application
 - The `AUTH_ISSUER` must end with `/oauth2/token`
 - The `JWKS_URL` must end with `/oauth2/jwks`
-
-</Edition>
 
 #### Start the MCP Server
 
@@ -392,27 +331,6 @@ python main.py
 ```
 
 Keep this terminal running. You should see output similar to:
-
-<Edition only="cloud">
-
-```text
-================================================================================
-Stock Trading MCP Server
-================================================================================
-Port: 8200
-Issuer: https://api.asgardeo.io/t/YOUR_ORG/oauth2/token
-Client ID: <your-client-id>
-================================================================================
-
-Available Scopes:
-  - stock:read   : Read market data and portfolio
-  - stock:trade  : Execute buy/sell trades
-================================================================================
-```
-
-</Edition>
-
-<Edition only="self-hosted">
 
 ```text
 ================================================================================
@@ -428,8 +346,6 @@ Available Scopes:
   - stock:trade  : Execute buy/sell trades
 ================================================================================
 ```
-
-</Edition>
 
 ### Step 3: Set Up Main Application
 
@@ -456,63 +372,6 @@ cp .env.example .env
 ```
 
 Edit `.env` with your credentials:
-
-<Edition only="cloud">
-
-```bash
-# ---------------------------------------
-# {edition.productName} OAuth2 Configuration
-# ---------------------------------------
-ASGARDEO_BASE_URL=https://api.asgardeo.io/t/YOUR_ORG
-CLIENT_ID=<aurelius-agent-client-id>
-CLIENT_SECRET=<aurelius-agent-client-secret>
-REDIRECT_URI=http://localhost:5001/callback
-
-# ---------------------------------------
-# {edition.productName} Agent Credentials
-# ---------------------------------------
-AGENT_ID=<agent-id-from-agent-identity>
-AGENT_SECRET=<agent-secret-from-agent-identity>
-
-# ---------------------------------------
-# Google Gemini API Key
-# ---------------------------------------
-GOOGLE_AI_API_KEY=<your-google-ai-api-key>
-
-# LLM model used by the agent
-MODEL_NAME=gemini-2.5-flash
-
-# ---------------------------------------
-# CIBA Configuration
-# ---------------------------------------
-CIBA_NOTIFICATION_CHANNEL=email
-
-# ---------------------------------------
-# Sleeping Guardian Configuration
-# ---------------------------------------
-# Investor email for CIBA notifications (Alice's verified email)
-INVESTOR_EMAIL=<email> (alice@yourdomain.com)
-
-# Stock simulation settings
-STOCK_SYMBOL=NVDA
-INITIAL_STOCK_PRICE=150.00
-PRICE_THRESHOLD=140.00
-
-# Trading settings
-TRADE_AMOUNT=5000.00
-INITIAL_BALANCE=10000.00
-
-# MCP Stock Server URL
-STOCK_MCP_SERVER_URL=http://localhost:8200/mcp
-
-# Flask app port
-PORT=5001
-FLASK_DEBUG=False
-```
-
-</Edition>
-
-<Edition only="self-hosted">
 
 ```bash
 # ---------------------------------------
@@ -565,29 +424,13 @@ PORT=5001
 FLASK_DEBUG=False
 ```
 
-</Edition>
-
 **Critical Configuration Items:**
-
-<Edition only="cloud">
-
-- `CLIENT_ID` and `CLIENT_SECRET`: From the Aurelius Trading Agent application
-- `AGENT_ID` and `AGENT_SECRET`: From the Aurelius Bot agent identity
-- `INVESTOR_EMAIL`: **Must match the verified email** of the user you created (Alice)
-- `GOOGLE_AI_API_KEY`: Your API key from Google AI Studio
-- `ASGARDEO_BASE_URL`: Replace `YOUR_ORG` with your organization name
-
-</Edition>
-
-<Edition only="self-hosted">
 
 - `CLIENT_ID` and `CLIENT_SECRET`: From the Aurelius Trading Agent application
 - `AGENT_ID` and `AGENT_SECRET`: From the Aurelius Bot agent identity
 - `INVESTOR_EMAIL`: **Must match the verified email** of the user you created (Alice)
 - `GOOGLE_AI_API_KEY`: Your API key from Google AI Studio
 - `ASGARDEO_BASE_URL`: Update to match your Identity Server instance
-
-</Edition>
 
 ### Verify Prerequisites
 
@@ -840,22 +683,6 @@ When Aurelius detects a buying opportunity and attempts to execute a trade:
 
 The agent sends a backchannel authentication request to {edition.productName} with the agent's token as the actor token:
 
-<Edition only="cloud">
-
-```bash
-curl -v -k -X POST https://api.asgardeo.io/t/YOUR_ORG/oauth2/ciba \
---header "Authorization: Basic <Base64Encoded(CLIENT_ID:CLIENT_SECRET)>" \
---header "Content-Type: application/x-www-form-urlencoded" \
---data-urlencode "scope=openid stock:read stock:trade" \
---data-urlencode "login_hint=alice@yourdomain.com" \
---data-urlencode "binding_message=AI agent requests permission to buy 35 shares of NVDA at $139.45 for $5000.00" \
---data-urlencode "actor_token=<AGENT_ACTOR_TOKEN>"
-```
-
-</Edition>
-
-<Edition only="self-hosted">
-
 ```bash
 curl -v -k -X POST https://localhost:9443/t/{root_organization_handle}/oauth2/ciba \
 --header "Authorization: Basic <Base64Encoded(CLIENT_ID:CLIENT_SECRET)>" \
@@ -865,8 +692,6 @@ curl -v -k -X POST https://localhost:9443/t/{root_organization_handle}/oauth2/ci
 --data-urlencode "binding_message=AI agent requests permission to buy 35 shares of NVDA at $139.45 for $5000.00" \
 --data-urlencode "actor_token=<AGENT_ACTOR_TOKEN>"
 ```
-
-</Edition>
 
 **Parameter Breakdown:**
 
@@ -908,20 +733,6 @@ curl -v -k -X POST https://localhost:9443/t/{root_organization_handle}/oauth2/ci
 
 While waiting for user approval, the agent continuously polls the token endpoint:
 
-<Edition only="cloud">
-
-```bash
-curl -v -k -X POST https://api.asgardeo.io/t/YOUR_ORG/oauth2/token \
---header "Authorization: Basic <Base64Encoded(CLIENT_ID:CLIENT_SECRET)>" \
---header "Content-Type: application/x-www-form-urlencoded" \
---data-urlencode "grant_type=urn:openid:params:grant-type:ciba" \
---data-urlencode "auth_req_id=abc-123-xyz-456"
-```
-
-</Edition>
-
-<Edition only="self-hosted">
-
 ```bash
 curl -v -k -X POST https://localhost:9443/t/{root_organization_handle}/oauth2/token \
 --header "Authorization: Basic <Base64Encoded(CLIENT_ID:CLIENT_SECRET)>" \
@@ -929,8 +740,6 @@ curl -v -k -X POST https://localhost:9443/t/{root_organization_handle}/oauth2/to
 --data-urlencode "grant_type=urn:openid:params:grant-type:ciba" \
 --data-urlencode "auth_req_id=abc-123-xyz-456"
 ```
-
-</Edition>
 
 **Parameter Breakdown:**
 
@@ -1079,21 +888,9 @@ Common issues and their solutions when running the Sleeping Guardian tutorial.
 
 **Solutions**:
 
-<Edition only="cloud">
-
-1. Check spam/junk folder
-2. Verify email is confirmed in {edition.productName} (User Management → Users → Alice → Email verified)
-3. Check {edition.productName} email provider configuration (Branding → Email Provider)
-
-</Edition>
-
-<Edition only="self-hosted">
-
 1. Check spam/junk folder
 2. Verify email is confirmed in {edition.productName} (User Management → Users → Alice → Email verified)
 3. Check {edition.productName} email provider configuration 
-
-</Edition>
 
 ### Scope Check Failed
 
@@ -1183,23 +980,10 @@ Now that you've completed this tutorial, consider:
 
 ## Learn More
 
-<Edition only="cloud">
-
-- [WSO2 Identity Platform Documentation](../index.mdx)
-- [CIBA Specification](https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html)
-- [Model Context Protocol](https://modelcontextprotocol.io/)
-- [OAuth 2.0 Security Best Practices](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-security-topics)
-
-</Edition>
-
-<Edition only="self-hosted">
-
 - [WSO2 Identity Server Documentation](https://is.docs.wso2.com)
 - [CIBA Specification](https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html)
 - [Model Context Protocol](https://modelcontextprotocol.io/)
 - [OAuth 2.0 Security Best Practices](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-security-topics)
-
-</Edition>
 
 ## Conclusion
 

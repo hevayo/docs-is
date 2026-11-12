@@ -5,7 +5,6 @@ type: reference
 layout: connector
 sidebar_label: Overview
 sidebar_position: 1
-editions: self-hosted
 ---
 
 [Sift](https://sift.com/) helps businesses prevent fraud, abuse, and account takeovers by analyzing user behavior and contextual data in real time. By combining signals like device fingerprinting, IP reputation, and behavioral patterns, Sift creates a dynamic risk score that helps businesses make smarter decisions and reduce false positives.
@@ -24,7 +23,7 @@ Based on the login context data sent to Sift, it calculates a risk score, where 
 
 You can configure {edition.productName} to deny or step up authentication when the risk score of a login request exceeds a defined threshold.
 
-<img src={require("../../../assets/self-hosted/img/connectors/sift/sift-use-case-1.png").default} alt="Sift use case 1" width="600px" />
+<img src={require("../../../assets/img/connectors/sift/sift-use-case-1.png").default} alt="Sift use case 1" width="600px" />
 
 How it works,
 
@@ -46,7 +45,7 @@ Based on the login context data sent to Sift, it returns a decision ID instead o
 
 By using decision IDs, organizations can offload complex risk logic to Sift, keeping {edition.productName} policies cleaner and more maintainable. This approach also allows real-time policy adjustments in the Sift console without redeploying configurations in {edition.productName}.
 
-<img src={require("../../../assets/self-hosted/img/connectors/sift/sift-use-case-2.png").default} alt="Sift use case 2" width="600px" />
+<img src={require("../../../assets/img/connectors/sift/sift-use-case-2.png").default} alt="Sift use case 2" width="600px" />
 
 How it works,
 

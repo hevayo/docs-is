@@ -5,12 +5,19 @@ info:
     This API provides endpoints for the authenticated user to manage verification codes.
   version: 1.0.0
 servers:
-  - url: https://api.asgardeo.io/t/{organization-name}/api/identity/user/v1.0
+  - url: https://{serverUrl}/t/{tenantDomain}/api/identity/user/v1.0
+    variables:
+      serverUrl:
+        default: localhost:9443
+      tenantDomain:
+        default: carbon.super
 security:
+  - BasicAuth: []
   - OAuth2: []
 tags:
   - name: me
     description: Operations for the authenticated user
+
 paths:
   /me/validate-code:
     post:
@@ -61,7 +68,7 @@ paths:
               "code": "string",
               "properties": []
             }' \
-            "https://api.asgardeo.io/t/{organization-name}/api/identity/user/v1.0/me/validate-code"
+            "https://localhost:9443/api/identity/user/v1.0/me/validate-code"
   /me/resend-code:
     post:
       tags:
@@ -115,7 +122,7 @@ paths:
                 }
               ]
             }' \
-            "https://api.asgardeo.io/t/{organization-name}/api/identity/user/v1.0/me/resend-code"
+            "https://localhost:9443/api/identity/user/v1.0/me/resend-code"
 components:
   schemas:
     MeCodeValidationRequest:
@@ -157,11 +164,14 @@ components:
         traceId:
           type: string
   securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
     OAuth2:
       type: oauth2
       flows:
         authorizationCode:
-          authorizationUrl: 'https://api.asgardeo.io/t/{organization-name}/oauth2/authorize'
-          tokenUrl: 'https://api.asgardeo.io/t/{organization-name}/oauth2/token'
+          authorizationUrl: 'https://localhost:9443/oauth2/authorize'
+          tokenUrl: 'https://localhost:9443/oauth2/token'
           scopes:
             internal_login: Grant permission for an authenticated user for self management.

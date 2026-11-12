@@ -4,7 +4,6 @@ description: WSO2 Identity Server uses the username as the default login identif
 type: how-to
 sidebar_label: Configure multi-attribute login
 sidebar_position: 11
-editions: self-hosted
 ---
 
 {edition.productName} uses the username as the default login identifier. When you enable multi-attribute login, you can configure any user attributes such as email address, mobile number, or other supported attributes as valid login identifiers.
@@ -17,7 +16,7 @@ Multi-attribute login is supported in the following flows:
 -   Identifier first authenticator
 -   Username & password authenticator
 -   Authentication REST APIs
--   Oauth password grant
+-   OAuth password grant
 -   Password recovery flow
 :::
 
@@ -32,7 +31,7 @@ To configure multi-attribute login, follow the steps below:
 4. Add attribute URIs for attributes that users are allowed to use as login identifiers.
 5. Click **Update** to save the changes.
 
-<img src={require("../../../assets/self-hosted/img/guides/users/adding-attributes-for-multi-attribute-login.png").default} alt="adding-attributes-for-multi-attribute-login" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+<img src={require("../../../assets/img/guides/users/adding-attributes-for-multi-attribute-login.png").default} alt="adding-attributes-for-multi-attribute-login" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 ## Add regular expressions for allowed attributes
 
@@ -47,7 +46,7 @@ If you need to define regex for a user attribute, follow the steps below.
 4.  Enter the regex pattern under the **Regular Expression** field.
 5.  Click **Update** to save the changes.
 
-<img src={require("../../../assets/self-hosted/img/guides/users/adding-regex-pattern-to-attributes.png").default} alt="adding-regex-pattern-to-attributes" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+<img src={require("../../../assets/img/guides/users/adding-regex-pattern-to-attributes.png").default} alt="adding-regex-pattern-to-attributes" width="600" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 Here are a few examples of regex patterns.
 
@@ -73,7 +72,7 @@ In this example scenario, let's allow users to use the mobile number as a login 
 2.  Go to the My Account: `https://localhost:9443/myaccount`.
 3.  Enter mobile number as the login identifier and click **Sign In**.
 
-<img src={require("../../../assets/self-hosted/img/guides/users/login-with-mobile-number.png").default} alt="adding-regex-pattern-to-attributes" width="500" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
+<img src={require("../../../assets/img/guides/users/login-with-mobile-number.png").default} alt="adding-regex-pattern-to-attributes" width="500" style={{display: "block", margin: "0", border: "0.3px solid lightgrey"}} />
 
 :::tip
 - **What happens if two users use the same value for an attribute?** 

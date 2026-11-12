@@ -47,25 +47,6 @@ You can test the client-request token binding type in {edition.productName} by f
 
     4. Click **Update** to save your changes.
 
-<Edition only="cloud">
-
-2. Use a tool such as cURL or Postman to perform the password grant flow as follows. Provide any value for the `tokenBindingId`.
-
-    ```bash
-    curl -X POST
-    -u "<client_id>:<client_secret>"
-    -H "Content-Type: application/x-www-form-urlencoded"
-    -d "grant_type=password
-    &username=<user_name>
-    &password=<user_password>
-    &tokenBindingId=uniqueId"
-    https://api.asgardeo.io/t/<organization_name>/oauth2/token
-    ```
-
-</Edition>
-
-<Edition only="self-hosted">
-
 2. Use a tool such as cURL or Postman to perform the password grant flow as follows. Provide any value for the `tokenBindingId`.
 
     ```bash
@@ -79,25 +60,7 @@ You can test the client-request token binding type in {edition.productName} by f
     https://localhost:9443/oauth2/token
     ```
 
-</Edition>
-
 3. Capture the access token from the response.
-
-<Edition only="cloud">
-
-4. Perform an introspection and ensure the validity of the access token.
-
-    ```bash
-    curl -X POST
-    -u "client_id:client_secret"
-    -H "Content-Type: application/x-www-form-urlencoded"
-    -d "token=<your_access_token>"
-    https://api.asgardeo.io/t/<organization_name>/oauth2/introspect
-    ```
-
-</Edition>
-
-<Edition only="self-hosted">
 
 4. Perform an introspection and ensure the validity of the access token.
 
@@ -108,8 +71,6 @@ You can test the client-request token binding type in {edition.productName} by f
     -d "token=<your_access_token>"
     https://localhost:9443/oauth2/introspect
     ```
-
-</Edition>
 
 5. Repeat the steps for different `tokenBindingId` values and different token types and verify that the client-request behavior conforms to the patterns mentioned above.
 

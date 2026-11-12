@@ -1,14 +1,22 @@
 openapi: 3.0.0
 info:
   version: v1
-  title: WSO2 Identity Platform - Webhook Management Rest API
+  title: WSO2 Identity Server - Webhook Management Rest API
   description: >
-    The Webhook Management REST API provides a standardized interface to manage webhooks within WSO2 Identity Platform. Webhooks allow external systems to receive real-time notifications for various events, such as login successes or failures, enabling seamless integration and automation across external applications and services. 
+    The Webhook Management REST API provides a standardized interface to manage webhooks within WSO2 Identity Server. Webhooks allow external systems to receive real-time notifications for various events, such as login successes or failures, enabling seamless integration and automation across external applications and services. 
+    
     This API empowers developers and administrators to create, update, delete, and retrieve webhook configurations tailored to their specific business needs and event-driven workflows.
 servers:
-  - url: 'https://api.asgardeo.io/t/{organization-name}/api/server/v1'
+  - url: "https://{server-url}/t/{tenant-domain}/api/server/v1"
+    variables:
+      server-url:
+        default: "localhost:9443"
+      tenant-domain:
+        default: carbon.super
+
 security:
   - OAuth2: []
+  - BasicAuth: []
 
 paths:
   /webhooks:
@@ -44,7 +52,7 @@ paths:
         x-codeSamples:
           - lang: Curl
             source: |
-              curl --location 'https://api.asgardeo.io/t/{organization-name}/api/server/v1/webhooks' -H 'Authorization: Bearer {bearer_token}'
+              curl --location 'https://localhost:9443/t/{tenant-domain}/api/server/v1/webhooks' -H 'Authorization: Bearer {bearer_token}'
 
     post:
       summary: Add Webhook
@@ -84,7 +92,7 @@ paths:
         x-codeSamples:
           - lang: Curl
             source: |
-              curl --location --request POST 'https://api.asgardeo.io/t/{organization-name}/api/server/v1/webhooks' \
+              curl --location --request POST 'https://localhost:9443/t/{tenant-domain}/api/server/v1/webhooks' \
               -H 'Authorization: Bearer {bearer_token}' \
               -H 'Content-Type: application/json' \
               -d '{
@@ -144,7 +152,67 @@ paths:
         x-codeSamples:
           - lang: Curl
             source: |
-              curl --location 'https://api.asgardeo.io/t/{organization-name}/api/server/v1/webhooks/{webhookId}' -H 'Authorization: Bearer {bearer_token}'
+              curl --location 'https://localhost:9443/t/{tenant-domain}/api/server/v1/webhooks/{webhookId}' -H 'Authorization: Bearer {bearer_token}'
+
+    put:
+      summary: Update Webhook
+      description: "This API updates a webhook and return the updated webhook. \n\n <b>Scope(Permission) required:</b> `internal_webhook_update` \n\n"
+      operationId: updateWebhook
+      tags:
+        - Webhooks
+      parameters:
+        - name: webhookId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookRequest'
+      responses:
+        '200':
+          description: Webhook Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Webhook not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        x-codeSamples:
+          - lang: Curl
+            source: |
+              curl --location --request PUT 'https://localhost:9443/t/{tenant-domain}/api/server/v1/webhooks/{webhookId}' \
+              -H 'Authorization: Bearer {bearer_token}' \
+              -H 'Content-Type: application/json' \
+              -d '{
+                "endpoint": "https://example.com/webhook",
+                "name": "Login webhook",
+                "secret": "my-secret",
+                "channelsSubscribed": ["https://schemas.identity.wso2.org/events/login", "https://schemas.identity.wso2.org/events/registration"]
+              }'
 
     delete:
       summary: Delete Webhook
@@ -186,7 +254,7 @@ paths:
         x-codeSamples:
           - lang: Curl
             source: |
-              curl --location --request DELETE 'https://api.asgardeo.io/t/{organization-name}/api/server/v1/webhooks/{webhookId}' -H 'Authorization: Bearer {bearer_token}'
+              curl --location --request DELETE 'https://localhost:9443/t/{tenant-domain}/api/server/v1/webhooks/{webhookId}' -H 'Authorization: Bearer {bearer_token}'
   
 
   /webhooks/{webhookId}/activate:
@@ -234,7 +302,7 @@ paths:
         x-codeSamples:
           - lang: Curl
             source: |
-              curl --location --request POST 'https://api.asgardeo.io/t/{organization-name}/api/server/v1/webhooks/{webhookId}/activate' \
+              curl --location --request POST 'https://localhost:9443/t/{tenant-domain}/api/server/v1/webhooks/{webhookId}/activate' \
               -H 'Authorization: Bearer {bearer_token}'
 
   /webhooks/{webhookId}/deactivate:
@@ -282,55 +350,7 @@ paths:
         x-codeSamples:
           - lang: Curl
             source: |
-              curl --location --request POST 'https://api.asgardeo.io/t/{organization-name}/api/server/v1/webhooks/{webhookId}/deactivate' \
-              -H 'Authorization: Bearer {bearer_token}'
-
-  /webhooks/{webhookId}/retry:
-    post:
-      summary: Retry Webhook Subscription or Unsubscription
-      description: "Retry a webhook subscription or unsubscription by its unique ID.\n\n <b>Scope(Permission) required:</b> `internal_webhook_update` \n\n"
-      operationId: retryWebhook
-      tags:
-        - Webhooks
-      parameters:
-        - name: webhookId
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Webhook Retried
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/WebhookResponse'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Webhook not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        x-codeSamples:
-          - lang: Curl
-            source: |
-              curl --location --request POST 'https://api.asgardeo.io/t/{organization-name}/api/server/v1/webhooks/{webhookId}/retry' \
+              curl --location --request POST 'https://localhost:9443/t/{tenant-domain}/api/server/v1/webhooks/{webhookId}/deactivate' \
               -H 'Authorization: Bearer {bearer_token}'
 
 components:
@@ -342,8 +362,8 @@ components:
       type: oauth2
       flows:
         authorizationCode:
-          authorizationUrl: 'https://api.asgardeo.io/t/{org-name}/oauth2/authorize'
-          tokenUrl: 'https://api.asgardeo.io/t/{org-name}/oauth2/token'
+          authorizationUrl: 'https://localhost:9443/oauth2/authorize'
+          tokenUrl: 'https://localhost:9443/oauth2/token'
           scopes:
             internal_webhook_view: View webhooks
             internal_webhook_create: Create webhooks
@@ -406,17 +426,6 @@ components:
           type: string
           description: Channel URI to subscribe to.
           example: https://schemas.identity.wso2.org/events/login
-        status:
-          type: string
-          enum:
-            - SUBSCRIPTION_ACCEPTED
-            - SUBSCRIPTION_PENDING
-            - SUBSCRIPTION_ERROR
-            - UNSUBSCRIPTION_ACCEPTED
-            - UNSUBSCRIPTION_PENDING
-            - UNSUBSCRIPTION_ERROR
-          description: Status of the subscription.
-          example: SUBSCRIPTION_PENDING
 
     WebhookResponse:
       type: object
@@ -459,16 +468,12 @@ components:
             $ref: '#/components/schemas/WebhookSubscription'
           example:
             - channelUri: https://schemas.identity.wso2.org/events/login
-              status: SUBSCRIPTION_ACCEPTED
             - channelUri: https://schemas.identity.wso2.org/events/registration
-              status: SUBSCRIPTION_ERROR
         status:
           type: string
           enum:
             - ACTIVE
-            - PARTIALLY_ACTIVE
             - INACTIVE
-            - PARTIALLY_INACTIVE
           description: Webhook Status.
           example: "ACTIVE"
 
@@ -496,14 +501,12 @@ components:
           type: string
           enum:
             - ACTIVE
-            - PARTIALLY_ACTIVE
             - INACTIVE
-            - PARTIALLY_INACTIVE
           description: Webhook Status.
           example: "ACTIVE"
         self:
           type: string
-          example: /t/{organization_name}/api/server/v1/webhooks/123e4567-e89b-12d3-a456-556642440000
+          example: /t/{tenant-domain}/api/server/v1/webhooks/123e4567-e89b-12d3-a456-556642440000
 
     WebhookList:
       type: object

@@ -1,24 +1,24 @@
 openapi: 3.0.0
 info:
   version: "v2"
-  title: WSO2 Identity Platform Consent Management REST API v2
+  title: WSO2 Identity Server Consent Management REST API v2
   description: |
-    This document specifies a Consent Management REST API for WSO2 Identity Platform.
+    This document specifies a Consent Management REST API for WSO2 Identity Server.
 
     ## Resource Overview
     - **Purposes**: Core consent use cases (e.g., "Privacy Policy", "Marketing")
     - **Elements**: Data elements subject to consent (e.g., email, phone, profile)
     - **Consents**: User consent records linking purposes to elements
   contact:
-    name: WSO2 Identity Platform
-    url: 'https://wso2.com/identity-platform/'
+    name: WSO2 Identity Server
+    url: 'https://wso2.com/identity-and-access-management/'
     email: architecture@wso2.com
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 
 servers:
-  - url: https://api.asgardeo.io/t/{tenant-domain}/api/identity/consent-mgt/v2.0
+  - url: /t/{tenant-domain}/api/identity/consent-mgt/v2.0
     variables:
       tenant-domain:
         default: carbon.super
@@ -30,8 +30,6 @@ tags:
     description: Consent data elements
   - name: Consents
     description: User consent records
-  - name: Purpose Application Mappings
-    description: Application associations for consent purposes
 
 security:
   - OAuth2: []
@@ -620,97 +618,6 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
-  /purposes/{purposeId}/applications:
-    get:
-      tags:
-        - Purpose Application Mappings
-      summary: Retrieve applications mapped to a consent purpose.
-      operationId: getApplicationsForPurpose
-      description: |
-        Retrieves the list of applications associated with the given consent purpose.
-        <b>Scope(Permission) required:</b> `internal_consent_mgt_purpose_view`
-      parameters:
-        - $ref: '#/components/parameters/purposeId'
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ApplicationObject'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/ServerError'
-    post:
-      tags:
-        - Purpose Application Mappings
-      summary: Map an application to a consent purpose.
-      operationId: addApplicationToPurpose
-      description: |
-        Associates an application with the given consent purpose so that consent is enforced during login.
-        <b>Scope(Permission) required:</b> `internal_consent_mgt_purpose_update`
-      parameters:
-        - $ref: '#/components/parameters/purposeId'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ApplicationObject'
-      responses:
-        '201':
-          description: Mapping created.
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '409':
-          $ref: '#/components/responses/Conflict'
-        '500':
-          $ref: '#/components/responses/ServerError'
-
-  /purposes/{purposeId}/applications/{applicationId}:
-    delete:
-      tags:
-        - Purpose Application Mappings
-      summary: Remove an application from a consent purpose mapping.
-      operationId: removeApplicationFromPurpose
-      description: |
-        Removes the association between the given application and consent purpose.
-        <b>Scope(Permission) required:</b> `internal_consent_mgt_purpose_update`
-      parameters:
-        - $ref: '#/components/parameters/purposeId'
-        - name: applicationId
-          in: path
-          description: Resource ID of the application.
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Mapping deleted.
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/ServerError'
-
 components:
   responses:
     BadRequest:
@@ -1113,7 +1020,7 @@ components:
           type: string
           minLength: 1
           maxLength: 255
-          description: Username of the user to whom the consent applies.
+          description: Username of the user giving consent.
           example: "alice@wso2.com"
         serviceId:
           type: string
@@ -1585,7 +1492,7 @@ components:
           example: "en"
         subjectId:
           type: string
-          description: Username of the user to whom the consent applies
+          description: Username of the user giving consent
           example: "alice@wso2.com"
         tenantDomain:
           type: string
@@ -1633,7 +1540,7 @@ components:
           example: "f83aa1a3-5d4d-4c0e-84db-c3a4f1e6c8b2"
         subjectId:
           type: string
-          description: Username of the user to whom the consent applies.
+          description: Username of the user giving consent.
           example: "alice@wso2.com"
         serviceId:
           type: string
@@ -1689,7 +1596,7 @@ components:
           example: "en"
         subjectId:
           type: string
-          description: Username of the user to whom the consent applies
+          description: Username of the user giving consent
           example: "alice@wso2.com"
         serviceId:
           type: string
@@ -1905,16 +1812,6 @@ components:
           description: Trace ID for correlating errors in server logs
           example: "abc123def456"
 
-    ApplicationObject:
-      type: object
-      required:
-        - id
-      properties:
-        id:
-          type: string
-          description: The application resource ID.
-          example: "74070bae-df8c-42bf-8754-5173c237c936"
-
   securitySchemes:
     BasicAuth:
       type: http
@@ -1923,6 +1820,6 @@ components:
       type: oauth2
       flows:
         authorizationCode:
-          authorizationUrl: 'https://api.asgardeo.io/t/{organization-name}/oauth2/authorize'
-          tokenUrl: 'https://api.asgardeo.io/t/{organization-name}/oauth2/token'
+          authorizationUrl: 'https://localhost:9443/oauth2/authorize'
+          tokenUrl: 'https://localhost:9443/oauth2/token'
           scopes: {}

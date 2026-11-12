@@ -2,10 +2,13 @@ openapi: 3.0.0
 info:
   version: "v1"
   title: 'Authenticators API'
-  description: 'This document specifies a **Organization level Authenticators RESTful API** for WSO2 Identity Platform.'
+  description: 'This document specifies a **Organization level Authenticators RESTful API** for **WSO2 Identity Server**'
 
 servers:
-  - url: 'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v1'
+  - url: 'https://localhost:9443/t/{tenant-domain}/o/api/server/v1'
+    variables:
+      tenant-domain:
+        default: carbon.super
 security:
   - OAuth2: []
 
@@ -45,7 +48,7 @@ paths:
       x-codeSamples:
         - lang: Curl
           source: |
-            curl --location 'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v1/authenticators' \
+            curl --location 'https://localhost:9443/o/api/server/v1/authenticators' \
             -H 'Accept: application/json' \
             -H 'Authorization: Bearer {bearer_token}'
   /authenticators/{authenticator-id}/connected-apps:
@@ -99,7 +102,7 @@ paths:
       x-codeSamples:
         - lang: Curl
           source: |
-            curl --location 'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v1/authenticators/meta/tags' \
+            curl --location 'https://localhost:9443/o/api/server/v1/authenticators/meta/tags' \
             -H 'Accept: application/json' \
             -H 'Authorization: Bearer {bearer_token}'
   /authenticators/meta/tags:
@@ -131,7 +134,7 @@ paths:
       x-codeSamples:
         - lang: Curl
           source: |
-            curl --location 'https://api.asgardeo.io/t/{root-organization-name}/o/api/server/v1/authenticators/{authenticator-id}/connected-apps' \
+            curl --location 'https://localhost:9443/o/api/server/v1/authenticators/{authenticator-id}/connected-apps' \
             -H 'Accept: application/json' \
             -H 'Authorization: Bearer {bearer_token}'
   /authenticators/custom:
@@ -351,12 +354,6 @@ components:
         isEnabled:
           type: boolean
           example: true
-        isShared:
-          type: boolean
-          example: true
-          description: Whether this authenticator belongs to a shared connection resolved from a parent organization.
-            Present (and true) only for shared connections; omitted otherwise.
-          readOnly: true
         definedBy:
           type: string
           enum:
@@ -497,30 +494,6 @@ components:
                   "accessToken": "0d6fed02-eac0-332b-8998-213a543139a0"
                 }
               }``
-
-            - CLIENT_CREDENTIAL: OAuth2 client credentials grant based authentication.<br/>
-              ``{
-                "type": "CLIENT_CREDENTIAL",
-                "properties": {
-                  "clientId": "auth_clientId",
-                  "clientSecret": "auth_clientSecret",
-                  "tokenEndpoint": "https://custom.idp.com/oauth2/token",
-                  "scopes": "send_scope"
-                }
-              }``
-
-            - PASSWORD_CREDENTIAL: OAuth2 resource owner password credentials grant based authentication.<br/>
-              ``{
-                "type": "PASSWORD_CREDENTIAL",
-                "properties": {
-                  "username": "auth_username",
-                  "password": "auth_password",
-                  "clientId": "auth_clientId",
-                  "clientSecret": "auth_clientSecret",
-                  "tokenEndpoint": "https://custom.idp.com/oauth2/token",
-                  "scopes": "send_scope"
-                }
-              }``
       required:
         - type
         - properties
@@ -532,8 +505,6 @@ components:
             - BEARER
             - API_KEY
             - BASIC
-            - CLIENT_CREDENTIAL
-            - PASSWORD_CREDENTIAL
           example: BASIC
         properties:
           type: object
@@ -633,8 +604,8 @@ components:
       type: oauth2
       flows:
         authorizationCode:
-          authorizationUrl: 'https://api.asgardeo.io/t/{root-organization-name}/oauth2/authorize'
-          tokenUrl: 'https://api.asgardeo.io/t/{root-organization-name}/oauth2/token'
+          authorizationUrl: 'https://localhost:9443/oauth2/authorize'
+          tokenUrl: 'https://localhost:9443/oauth2/token'
           scopes: {}
   examples:
     UserDefinedAuthenticatorExample:

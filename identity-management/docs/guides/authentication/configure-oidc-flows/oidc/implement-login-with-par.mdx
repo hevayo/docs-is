@@ -3,7 +3,7 @@ title: Implement login using Pushed Authorization Requests (PAR)
 description: OAuth 2.0 authorization requests, typically initiated from the front-channel (e.g., a web browser), have inherent issues.  # generated from the first paragraph; a writer should improve it
 type: how-to
 sidebar_label: Pushed Authorization Requests (PAR)
-sidebar_position: 4
+sidebar_position: 5
 slug: "/guides/authentication/oidc/implement-login-with-par"
 ---
 
@@ -25,43 +25,14 @@ To get started, you need to have an application registered in {edition.productNa
 
 The `request_uri` functions as a reference to your authorization payload. You can receive a `request_uri` by invoking the following endpoint in {edition.productName}.
 
-<Edition only="cloud">
-
-```text
-https://api.asgardeo.io/t/{organization_name}/oauth2/par
-```
-
-</Edition>
-
-<Edition only="self-hosted">
-
 ```text
 https://localhost:9443/oauth2/par
 ```
-
-</Edition>
 
 The following example shows how you can initiate an authorization code flow using the `/par` endpoint.
 
 **Request format**
 
-<Edition only="cloud">
-
-```bash
-curl --location 'https://api.asgardeo.io/t/{organization_name}/oauth2/par'
-    --header 'Content-Type: application/x-www-form-urlencoded'
-    --header 'accept: application/json'
-    --header 'Authorization: Basic <Base64Encoded(ClientID:ClientSecret)>'
-    --data-urlencode 'client_id={CLIENT_ID}'
-    --data-urlencode 'redirect_uri={REDIRECT_URI}'
-    --data-urlencode 'response_type=code'
-    --data-urlencode 'scope=<SCOPES>'
-```
-
-</Edition>
-
-<Edition only="self-hosted">
-
 ```bash
 curl --location 'https://localhost:9443/oauth2/par'
     --header 'Content-Type: application/x-www-form-urlencoded'
@@ -72,28 +43,9 @@ curl --location 'https://localhost:9443/oauth2/par'
     --data-urlencode 'response_type=code'
     --data-urlencode 'scope=<SCOPES>'
 ```
-
-</Edition>
 
 **Sample request**
 
-<Edition only="cloud">
-
-```bash
-curl --location 'https://api.asgardeo.io/t/{organization_name}/oauth2/par'
-    --header 'Content-Type: application/x-www-form-urlencoded'
-    --header 'accept: application/json'
-    --header 'Authorization: Basic YWRtaW46YWRtaW4='
-    --data-urlencode 'client_id=DUBCMGolTZQNg6mmE9GvfQ3qfq8a'
-    --data-urlencode 'redirect_uri=http://localhost:8080/playground2'
-    --data-urlencode 'response_type=code'
-    --data-urlencode 'scope=openid email'
-```
-
-</Edition>
-
-<Edition only="self-hosted">
-
 ```bash
 curl --location 'https://localhost:9443/oauth2/par'
     --header 'Content-Type: application/x-www-form-urlencoded'
@@ -104,8 +56,6 @@ curl --location 'https://localhost:9443/oauth2/par'
     --data-urlencode 'response_type=code'
     --data-urlencode 'scope=openid email'
 ```
-
-</Edition>
 
 You will receive a response with the request_uri and the time of expiry.
 
@@ -116,16 +66,6 @@ You will receive a response with the request_uri and the time of expiry.
 }
 ```
 
-<Edition only="cloud">
-
-:::note
-- {edition.productName} uses the prefix, `urn:ietf:params:oauth:par:request_uri:` for the request_uri. The `/authorize` endpoint processes the request as initiated with PAR, only if the request_uri is of this format.
-:::
-
-</Edition>
-
-<Edition only="self-hosted">
-
 :::note
 - {edition.productName} uses the prefix, `urn:ietf:params:oauth:par:request_uri:` for the request_uri. The `/authorize` endpoint processes the request as initiated with PAR, only if the request_uri is of this format.
 
@@ -135,8 +75,6 @@ You will receive a response with the request_uri and the time of expiry.
  expiry_time=90
 ```
 :::
-
-</Edition>
 
 ## Start the authorization flow
 
@@ -156,8 +94,6 @@ client_id={CLIENT_ID}&request_uri={request_uri}
 client_id=DUBCMGolTZQNg6mmE9GvfQ3qfq8a
 &request_uri=urn:ietf:params:oauth:par:request_uri:a0cf571e-fe97-411a-8f33-3c01913c0e5f
 ```
-
-<Edition only="self-hosted">
 
 ## Clean up stale PAR request records
 
@@ -180,6 +116,3 @@ Depending on your database, select the appropriate PAR request cleanup script fr
 :::note
 Once the cleanup is complete, you can schedule a periodic cleanup task to automate future runs.
 :::
-
-</Edition>
-

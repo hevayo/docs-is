@@ -1,2 +1,4 @@
 label: Connect App
 position: 3
+customProps:
+  export: single

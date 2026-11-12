@@ -1,17 +1,9 @@
 ---
 title: Session management
-description: Customize session timeout and remember me settings to maintain optimal security and user experience in WSO2 Identity Platform.  # generated from the first paragraph; a writer should improve it
+description: Customize session timeout and remember me settings to maintain optimal security and user experience in WSO2 Identity Server.  # generated from the first paragraph; a writer should improve it
 type: how-to
-sidebar_position: 5
+sidebar_position: 4
 ---
-
-<Edition only="cloud">
-
-:::note[Premium feature]
-Only customers on the enterprise tier can access this feature.
-:::
-
-</Edition>
 
 Customize session timeout and remember me settings to maintain optimal security and user experience in {edition.productName}.
 
@@ -30,8 +22,6 @@ To adjust session management settings, follow these steps:
 
 ## Parameters
 
-<Edition only="cloud">
-
 <table>
   <tbody>
     <tr>
@@ -60,50 +50,7 @@ To adjust session management settings, follow these steps:
 
         When enabled, the system does not terminate or revoke the current session and token when the user updates their password. This behavior applies when the password is updated via:
 
-        - [My Account](../../user-self-service/self-service-portal/change-password.mdx) portal.
-        - [Self Password Update API](../../../apis/self-password-update-rest-api/index.mdx) (using an OAuth2 access token).
-        - [SCIM 2.0 Me API](../../../apis/scim2-me/index.mdx#op-patchUserMe) (using an OAuth2 access token).
-
-        Password updates via the SCIM 2.0 Me endpoint using Basic Authentication bypass this configuration and terminate the active session and token. <br /><br /> **Note:** For self-service password management, WSO2 recommends using the [Self Password Update API](../../../apis/self-password-update-rest-api/index.mdx).
-
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-</Edition>
-
-<Edition only="self-hosted">
-
-<table>
-  <tbody>
-    <tr>
-      <th>Parameter</th>
-      <th>Description</th>
-    </tr>
-    <tr>
-      <td>`Idle Session Timeout`</td>
-      <td>Time in minutes before an inactive user session is automatically ended.</td>
-    </tr>
-    <tr>
-      <td>`Remember Me Period`</td>
-      <td>Duration in minutes that the system will remember a user's session.</td>
-    </tr>
-    <tr>
-      <td>`Enable Maximum Session Timeout`</td>
-      <td>When enabled, enforces an absolute maximum lifetime for user sessions regardless of user activity or a valid remember me token. This setting is disabled by default.</td>
-    </tr>
-    <tr>
-      <td>`Maximum Session Timeout`</td>
-      <td>The maximum duration in minutes a user session can remain active. The default value is `43200` minutes (30 days). This setting is applicable only when **Enable Maximum Session Timeout** is selected.</td>
-    </tr>
-    <tr>
-      <td>`Skip terminating current session and token on password update`</td>
-      <td>
-
-        When enabled, the system does not terminate or revoke the current session and token when the user updates their password. This behavior applies when the password is updated via:
-
-        - [My Account](../../user-self-service/self-service-portal/change-password.mdx) portal.
+        - [My Account](../../user-self-service/my-account-portal/explore-self-service-features/change-password.mdx) portal.
         - [Self Password Update API](../../../apis/self-password-update-rest-api/index.mdx) (using an OAuth2 access token).
         - [SCIM 2.0 Me API](../../../apis/scim2-me-rest-apis/index.mdx#op-patchUserMe) (using an OAuth2 access token).
 
@@ -113,8 +60,6 @@ To adjust session management settings, follow these steps:
     </tr>
   </tbody>
 </table>
-
-</Edition>
 
 ### Maximum session timeout
 
