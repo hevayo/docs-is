@@ -47,9 +47,7 @@ The parameters used in the authorization request are defined below.
 
         Specifies how the authorization information should be returned to the client. By default, the following response modes are supported in WSO2 Identity Server:
 
-        - `query`
-        - `fragment`
-        - `form_post`
+        `query`, `fragment`, `form_post`
 
         In the default authorization flow (for default response modes), the authorization response parameters, such as the authorization code and ID token, are sent as human-readable plain text to the redirect URL, as shown below.<br /><br /> `https://<CLIENT_HOST>/redirects/redirect1?code=<AUTH_CODE>&session_state=<SESSION_STATE>`<br /><br /> The JARM specification is used to send this response more securely by encoding the response parameters in a JWT.
 
