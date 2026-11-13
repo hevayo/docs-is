@@ -64,11 +64,11 @@ supports SAML metadata download for the resident identity provider.
 
             This value is needed only if you have to configure multiple SAML SSO inbound authentication configurations for the same Issuer value. When a Service Provider Qualifier is defined here, it will be appended to the end of the Issuer value when registering the SAML SP in the Identity Server.
 
-            For example, if you specify \`travelocity.com\` as the Issuer and **sp1** as the Service Provider Qualifier, the configuration will be registered in IS as ` travelocity.com\:urn:sp:qualifier:sp1 `
+            For example, if you specify `travelocity.com` as the Issuer and **sp1** as the Service Provider Qualifier, the configuration will be registered in IS as ` travelocity.com\:urn:sp:qualifier:sp1 `
 
             You can configure a number of SAML SPs with the same Issuer and different Service Provider Qualifiers.
 
-            When a Service Provider Qualifier is defined, the issuer of the SAML SSO authentication request is the value specified as the Issuer in the configuration (ex: \`travelocity.com\`). The service provider qualifier value should be sent as a query parameter, spQualifier with the HTTP request in the following format.
+            When a Service Provider Qualifier is defined, the issuer of the SAML SSO authentication request is the value specified as the Issuer in the configuration (ex: `travelocity.com`). The service provider qualifier value should be sent as a query parameter, spQualifier with the HTTP request in the following format.
 
             <Anchor id="cb1" />
 
@@ -78,7 +78,7 @@ supports SAML metadata download for the resident identity provider.
 
             In Travelocity sample SP, this query parameter can be set by modifying ` SAML2.IdPURL ` value mentioned in the \`
 
-            \<travelocity.com-home\>/WEB-INF/classes/travelocity.properties\` file as \`https://localhost:9443/samlsso?spQualifier=sp1\` .
+            \<travelocity.com-home\>/WEB-INF/classes/travelocity.properties\` file as `https://localhost:9443/samlsso?spQualifier=sp1` .
 
           </td>
           <td>` sp1 `</td>
@@ -119,24 +119,24 @@ supports SAML metadata download for the resident identity provider.
             :::info[About NameID formats]
             For SSO interactions, you can use the following types of NameID formats.
 
-            - \`urn:oasis:names:tc:SAML:2.0:nameid-format:persistent\`
-            - \`urn:oasis:names:tc:SAML:2.0:nameid-format:transient\`
-            - \`urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress\`
-            - \`urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified\`
-            - \`urn:oasis:names:tc:SAML:1.1:nameid-format:X509SubjectName\`
-            - \`urn:oasis:names:tc:SAML:1.1:nameid-format:WindowsDomainQualifiedName\`
-            - \`urn:oasis:names:tc:SAML:2.0:nameid-format:kerberos\`
-            - \`urn:oasis:names:tc:SAML:2.0:nameid-format:entity\`
+            - `urn:oasis:names:tc:SAML:2.0:nameid-format:persistent`
+            - `urn:oasis:names:tc:SAML:2.0:nameid-format:transient`
+            - `urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress`
+            - `urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified`
+            - `urn:oasis:names:tc:SAML:1.1:nameid-format:X509SubjectName`
+            - `urn:oasis:names:tc:SAML:1.1:nameid-format:WindowsDomainQualifiedName`
+            - `urn:oasis:names:tc:SAML:2.0:nameid-format:kerberos`
+            - `urn:oasis:names:tc:SAML:2.0:nameid-format:entity`
 
             This specifies the name identifier format that the Identity Server wants to receive in the subject of an assertion from a particular identity provider. The following is the default format used by the identity provider.
 
-            - \`urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress\`
+            - `urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress`
             :::
 
           </td>
           <td>
 
-            \`urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress\`
+            `urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress`
 
           </td>
         </tr>
@@ -159,7 +159,7 @@ supports SAML metadata download for the resident identity provider.
           <td>**Response Signing Algorithm**</td>
           <td>
 
-            Specifies the ‘SignatureMethod’ algorithm to be used in the ‘Signature’ element in POST binding. The default value can be configured through the ` <IS_HOME>/repository/deployment.toml` file by adding the following config. \`\`\`toml \[saml\] signing_alg="signing algorithm" \`\`\` If it is not provided the default algorithm is RSA­SHA 1, at URI ‘ http://www.w3.org/2000/09/xmldsig#rsa­sha1 ' .
+            Specifies the ‘SignatureMethod’ algorithm to be used in the ‘Signature’ element in POST binding. The default value can be configured through the ` <IS_HOME>/repository/deployment.toml` file by adding the following config. `[saml] signing_alg="signing algorithm"` If it is not provided the default algorithm is RSA­SHA 1, at URI ‘ http://www.w3.org/2000/09/xmldsig#rsa­sha1 ' .
 
           </td>
           <td>http://www.w3.org/2000/09/xmldsig#rsa­sha1</td>
@@ -168,19 +168,19 @@ supports SAML metadata download for the resident identity provider.
           <td>**Response Digest Algorithm**</td>
           <td>
 
-            Specifies the ‘DigestMethod’ algorithm to be used in the ‘Signature’ element in POST binding. The default value can be configured in the ` <IS_HOME>/repository/conf/deployment.toml` file by adding the following config. \`\`\`toml \[saml\] digest_alg="digest algorithm" \`\`\` If it is not provided the default algorithm is SHA 1, at URI ‘ http://www.w3.org/2000/09/xmldsig#sha1 ’ .
+            Specifies the ‘DigestMethod’ algorithm to be used in the ‘Signature’ element in POST binding. The default value can be configured in the ` <IS_HOME>/repository/conf/deployment.toml` file by adding the following config. `[saml] digest_alg="digest algorithm"` If it is not provided the default algorithm is SHA 1, at URI ‘ http://www.w3.org/2000/09/xmldsig#sha1 ’ .
 
           </td>
           <td>` http://www.w3.org/2000/09/xmldsig#sha1 `</td>
         </tr>
         <tr>
           <td>**Assertion Encryption Algorithm**</td>
-          <td>The algorithm that the SAML2 assertion is encrypted. The default value can be configured in the ` <IS_HOME>/repository/conf/deployment.toml` file by adding the following config. \`\`\`toml \[saml\] assertion_encryption_alg="assertion encryption algorithm" \`\`\` The default is ` http://www.w3.org/2001/04/xmlenc#aes256-cbc ` .</td>
+          <td>The algorithm that the SAML2 assertion is encrypted. The default value can be configured in the ` <IS_HOME>/repository/conf/deployment.toml` file by adding the following config. `[saml] assertion_encryption_alg="assertion encryption algorithm"` The default is ` http://www.w3.org/2001/04/xmlenc#aes256-cbc ` .</td>
           <td>` www.w3.org/2001/04/xmlenc#aes256-cbc `</td>
         </tr>
         <tr>
           <td>**Key Encryption Algorithm**</td>
-          <td>The algorithm that the SAML2 key is encrypted. The default value can be configured in the ` <IS_HOME>/repository/deployment.toml` file by adding the following config. \`\`\`toml \[saml\] key_encryption_alg="key encryption algorithm" \`\`\` The default algorithm is ` http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p `</td>
+          <td>The algorithm that the SAML2 key is encrypted. The default value can be configured in the ` <IS_HOME>/repository/deployment.toml` file by adding the following config. `[saml] key_encryption_alg="key encryption algorithm"` The default algorithm is ` http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p `</td>
           <td>` www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p `</td>
         </tr>
         <tr>
